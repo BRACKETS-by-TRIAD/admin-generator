@@ -1,4 +1,4 @@
-<?php namespace Brackets\Admingenerator;
+<?php namespace Brackets\AdminGenerator;
 
 use Illuminate\Console\Command;
 
@@ -26,7 +26,9 @@ class GenerateAdmin extends Command {
     public function fire()
     {
 
-        $this->info('Test');
+        $this->call('admin:generate:model');
+
+        $this->info('Generating whole Admin finished');
 
     }
 
