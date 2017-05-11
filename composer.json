@@ -1,5 +1,11 @@
 {
+    "name": "brackets/admin-generator",
+    "description": "CRUD generator for brackets/admin package",
+    "keywords": ["crud"],
+    "license": "MIT",
+    "type": "project",
     "require": {
+        "php": ">=5.6.4",
         "illuminate/console": "5.4.*"
     }
 }
