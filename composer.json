@@ -1,0 +1,5 @@
+{
+    "require": {
+        "illuminate/console": "5.4.*"
+    }
+}
