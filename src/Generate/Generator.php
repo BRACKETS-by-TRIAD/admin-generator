@@ -29,10 +29,11 @@ abstract class Generator extends Command {
 
     protected function readColumnsFromTable($tableName) {
         return collect(Schema::getColumnListing($tableName))->map(function($columnName) use ($tableName) {
+
             return [
                 'name' => $columnName,
                 'type' => Schema::getColumnType($tableName, $columnName),
-                // 'required' => TODO,
+                'required' => boolval(Schema::getConnection()->getDoctrineColumn($tableName, $columnName)->getNotnull()),
             ];
         });
     }

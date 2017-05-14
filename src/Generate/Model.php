@@ -33,6 +33,9 @@ class Model extends Generator {
         $modelPath = $this->getPath($modelFullName);
         $modelNamespace = Str::replaceLast("\\".$modelName, '', $modelFullName);
 
+        print_r($this->readColumnsFromTable($tableName));return ;
+
+
         if ($this->alreadyExists($modelPath)) {
             $this->error('File '.$modelPath.' already exists!');
             return false;

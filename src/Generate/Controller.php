@@ -33,6 +33,8 @@ class Controller extends Generator {
         $controllerPath = $this->getPath($controllerFullName);
         $controllerNamespace = Str::replaceLast("\\".$controllerName, '', $controllerFullName);
 
+        $modelName = class_basename($this->option('model')) ?: Str::studly(Str::singular($tableName));
+
         if ($this->alreadyExists($controllerPath)) {
             $this->error('File '.$controllerPath.' already exists!');
             return false;
@@ -40,7 +42,7 @@ class Controller extends Generator {
 
         $this->makeDirectory($controllerPath);
 
-        $this->files->put($controllerPath, $this->buildClass($tableName, $controllerName, $controllerNamespace, $this->option('model')));
+        $this->files->put($controllerPath, $this->buildClass($tableName, $controllerName, $controllerNamespace, $modelName));
 
         $this->info('Generating '.$controllerFullName.' finished');
 
@@ -52,16 +54,53 @@ class Controller extends Generator {
             'className' => $className,
             'namespace' => $namespace,
             'modelName' => class_basename($model),
+            'objectName' => $model ? lcfirst(Str::singular(class_basename($model))) : 'object',
             'modelFullName' => $model,
-            'TODO' => $this->readColumnsFromTable($tableName)->filter(function($column) {
-                return $column['type'] == "datetime" || $column['type'] == "date";
-            })->pluck('name'),
+            'columns' => $this->readColumnsFromTable($tableName)->filter(function($column) {
+                return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at");
+            })->map(function($column){
+                $rules = collect([]);
+                if ($column['required']) {
+                    $rules->push('required');
+                }
+
+                if ($column['name'] == 'email') {
+                    $rules->push('email');
+                }
+
+                switch ($column['type']) {
+                    case 'datetime':
+                    case 'date':
+                    case 'time':
+                        $rules->push('date');
+                        break;
+                    case 'integer':
+                        $rules->push('integer');
+                        break;
+                    case 'boolean':
+                        $rules->push('boolean');
+                        break;
+                    case 'float':
+                    case 'decimal':
+                        $rules->push('numeric');
+                        break;
+                    case 'string':
+                    case 'text':
+                    default:
+                        $rules->push('string');
+                }
+
+                return [
+                    'name' => $column['name'],
+                    'rules' => $rules->toArray(),
+                ];
+            }),
         ])->render();
     }
 
     protected function getOptions() {
         return [
-            ['model', 'm', InputOption::VALUE_OPTIONAL, 'Generates a controller for the given model'],
+            ['model', 'm', InputOption::VALUE_REQUIRED, 'Generates a controller for the given model'],
             ['controller', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
         ];
     }

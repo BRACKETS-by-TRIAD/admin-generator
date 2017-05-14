@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Redirect;
 @if($modelFullName)use App\Models\{{ $modelFullName }};
 @endif
 
@@ -16,7 +17,7 @@ class {{ $className }} extends Controller
     */
     public function index()
     {
-        //
+        // TODO add authorization
     }
 
     /**
@@ -26,7 +27,7 @@ class {{ $className }} extends Controller
     */
     public function create()
     {
-        //
+        // TODO add authorization
     }
 
     /**
@@ -37,16 +38,31 @@ class {{ $className }} extends Controller
     */
     public function store(Request $request)
     {
-        //
+        // TODO add authorization
+
+        $this->validate($request, [
+            @foreach($columns as $column)'{{ $column['name'] }}' => '{{ implode('|', (array) $column['rules']) }}',
+            @endforeach
+
+        ]);
+
+        ${{ $objectName }} = {{ $modelName }}::create($request->only([
+            @foreach($columns as $column)'{{ $column['name'] }}',
+            @endforeach
+
+        ]));
+
+        return Redirect::route('admin.${{ $objectName }}.index')
+            ->withSuccess(trans('admin.operation.succeed'));
     }
 
 @if($modelName)
     /**
     * Display the specified resource.
-    * @param  {{ $modelName }} $object
+    * @param  {{ $modelName }} ${{ $objectName }}
     * @return \Illuminate\Http\Response
     */
-    public function show({{ $modelName }} $object)
+    public function show({{ $modelName }} ${{ $objectName }})
 @else
     /**
     * Display the specified resource.
@@ -56,17 +72,17 @@ class {{ $className }} extends Controller
     public function show($id)
 @endif
     {
-        //
+        // TODO add authorization
     }
 
 @if($modelName)
     /**
     * Show the form for editing the specified resource.
     *
-    * @param  {{ $modelName }} $object
+    * @param  {{ $modelName }} ${{ $objectName }}
     * @return \Illuminate\Http\Response
     */
-    public function edit({{ $modelName }} $object)
+    public function edit({{ $modelName }} ${{ $objectName }})
 @else
     /**
     * Display the specified resource.
@@ -76,7 +92,7 @@ class {{ $className }} extends Controller
     public function edit($id)
 @endif
     {
-        //
+        // TODO add authorization
     }
 
 @if($modelName)
@@ -84,10 +100,10 @@ class {{ $className }} extends Controller
     * Update the specified resource in storage.
     *
     * @param  \Illuminate\Http\Request  $request
-    * @param  {{ $modelName }} $object
+    * @param  {{ $modelName }} ${{ $objectName }}
     * @return \Illuminate\Http\Response
     */
-    public function update(Request $request, {{ $modelName }} $object)
+    public function update(Request $request, {{ $modelName }} ${{ $objectName }})
 @else
     /**
     * Update the specified resource in storage.
@@ -99,17 +115,17 @@ class {{ $className }} extends Controller
     public function update(Request $request, $id)
 @endif
     {
-        //
+        // TODO add authorization
     }
 
 @if($modelName)
     /**
     * Remove the specified resource from storage.
     *
-    * @param  {{ $modelName }} $object
+    * @param  {{ $modelName }} ${{ $objectName }}
     * @return \Illuminate\Http\Response
     */
-    public function destroy({{ $modelName }} $object)
+    public function destroy({{ $modelName }} ${{ $objectName }})
 @else
     /**
     * Remove the specified resource from storage.
@@ -120,7 +136,7 @@ class {{ $className }} extends Controller
     public function destroy($id)
 @endif
     {
-        //
+        // TODO add authorization
     }
 
 }
