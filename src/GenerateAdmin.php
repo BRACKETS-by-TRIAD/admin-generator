@@ -1,6 +1,9 @@
 <?php namespace Brackets\AdminGenerator;
 
 use Illuminate\Console\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Support\Str;
 
 class GenerateAdmin extends Command {
 
@@ -26,10 +29,35 @@ class GenerateAdmin extends Command {
     public function fire()
     {
 
-        $this->call('admin:generate:model');
+        $tableName = $this->argument('table_name');
 
-        $this->info('Generating whole Admin finished');
+        $modelName = class_basename($this->option('model')) ?: Str::studly(Str::singular($tableName));
 
+        $this->call('admin:generate:model', [
+            'table_name' => $tableName,
+            '--model' => $modelName,
+        ]);
+        $this->call('admin:generate:controller', [
+            'table_name' => $tableName,
+            '--model' => $modelName,
+            '--controller' => $this->option('controller'),
+        ]);
+
+        $this->info('Generating whole admin finished');
+
+    }
+
+    protected function getArguments() {
+        return [
+            ['table_name', InputArgument::REQUIRED, 'Name of the existing table'],
+        ];
+    }
+
+    protected function getOptions() {
+        return [
+            ['model', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
+            ['controller', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
+        ];
     }
 
 }
