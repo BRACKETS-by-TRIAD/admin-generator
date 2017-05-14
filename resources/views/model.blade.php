@@ -3,7 +3,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class {{ $modelName }} extends Model
+class {{ $className }} extends Model
 {
 
     @if ($fillable)protected $fillable = [

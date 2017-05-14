@@ -30,7 +30,7 @@ class Model extends Generator {
         $tableName = $this->argument('table_name');
         $modelName = class_basename($this->option('model')) ?: Str::studly(Str::singular($tableName));
         $modelFullName = $this->qualifyClass("Models\\".($this->option('model') ?: Str::studly(Str::singular($tableName))));
-        $modelPath = $path = $this->getPath($modelFullName);
+        $modelPath = $this->getPath($modelFullName);
         $modelNamespace = Str::replaceLast("\\".$modelName, '', $modelFullName);
 
         if ($this->alreadyExists($modelPath)) {
@@ -38,21 +38,21 @@ class Model extends Generator {
             return false;
         }
 
-        $this->makeDirectory($path);
+        $this->makeDirectory($modelPath);
 
-        $this->files->put($path, $this->buildClass($tableName, $modelName, $modelNamespace));
+        $this->files->put($modelPath, $this->buildClass($tableName, $modelName, $modelNamespace));
 
         // TODO think if we should use ide-helper:models ?
 
-        $this->info('Generating model '.$modelName.' finished');
+        $this->info('Generating '.$modelFullName.' finished');
 
     }
 
-    protected function buildClass($tableName, $modelName, $modelNamespace) {
+    protected function buildClass($tableName, $class, $namespace) {
 
         return view('brackets/admin-generator::model', [
-            'modelName' => $modelName,
-            'namespace' => $modelNamespace,
+            'className' => $class,
+            'namespace' => $namespace,
             'dates' => $this->readColumnsFromTable($tableName)->filter(function($column) {
                 return $column['type'] == "datetime" || $column['type'] == "date";
             })->pluck('name'),
@@ -64,7 +64,7 @@ class Model extends Generator {
 
     protected function getOptions() {
         return [
-            ['model', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name (namespaced without App\Models prefix)'],
+            ['model', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
         ];
     }
 
