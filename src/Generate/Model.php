@@ -26,8 +26,17 @@ class Model extends Command {
     public function fire()
     {
 
+        $this->info($this->buildClass("Article"));
+
         $this->info('Generating a model finished');
 
+    }
+
+    protected function buildClass($modelName) {
+        return view('brackets/admin-generator::model', [
+            'modelName' => $modelName,
+            'namespace' => 'App\Models',
+        ])->render();
     }
 
 }
