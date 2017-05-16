@@ -18,6 +18,10 @@ class {{ $className }} extends Controller
     public function index()
     {
         // TODO add authorization
+
+        return view('admin.{{ $objectName }}.index', [
+            'data' => {{ $className }}::all(),
+        ]);
     }
 
     /**
@@ -52,7 +56,7 @@ class {{ $className }} extends Controller
 
         ]));
 
-        return Redirect::route('admin.${{ $objectName }}.index')
+        return redirect()->route('admin.{{ $objectName }}.index')
             ->withSuccess(trans('admin.operation.succeed'));
     }
 
