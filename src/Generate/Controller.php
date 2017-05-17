@@ -54,6 +54,7 @@ class Controller extends Generator {
             'className' => $className,
             'namespace' => $namespace,
             'modelName' => class_basename($model),
+            // TODO maybe we should use Snake case as objectName - think about it
             'objectName' => $model ? lcfirst(Str::singular(class_basename($model))) : 'object',
             'modelFullName' => $model,
             'columns' => $this->readColumnsFromTable($tableName)->filter(function($column) {

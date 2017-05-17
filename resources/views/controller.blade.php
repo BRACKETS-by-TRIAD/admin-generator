@@ -32,6 +32,8 @@ class {{ $className }} extends Controller
     public function create()
     {
         // TODO add authorization
+
+        return view('admin.{{ $objectName }}.create');
     }
 
     /**
@@ -44,19 +46,24 @@ class {{ $className }} extends Controller
     {
         // TODO add authorization
 
+        // Validate the request
         $this->validate($request, [
             @foreach($columns as $column)'{{ $column['name'] }}' => '{{ implode('|', (array) $column['rules']) }}',
             @endforeach
 
         ]);
 
-        ${{ $objectName }} = {{ $modelName }}::create($request->only([
+        // Sanitize input
+        $sanitized = $request->only([
             @foreach($columns as $column)'{{ $column['name'] }}',
             @endforeach
 
-        ]));
+        ]);
 
-        return redirect()->route('admin.{{ $objectName }}.index')
+        // Store the {{ $objectName }}
+        {{ $modelName }}::create($sanitized);
+
+        return redirect(('admin/{{ $objectName }}')
             ->withSuccess(trans('admin.operation.succeed'));
     }
 
@@ -97,6 +104,8 @@ class {{ $className }} extends Controller
 @endif
     {
         // TODO add authorization
+
+        return ${{ $objectName }};
     }
 
 @if($modelName)
