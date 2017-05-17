@@ -37,10 +37,21 @@ class GenerateAdmin extends Command {
             'table_name' => $tableName,
             '--model' => $modelName,
         ]);
+
         $this->call('admin:generate:controller', [
             'table_name' => $tableName,
             '--model' => $modelName,
             '--controller' => $this->option('controller'),
+        ]);
+
+        $this->call('admin:generate:index', [
+            'table_name' => $tableName,
+            '--model' => $modelName,
+        ]);
+
+        $this->call('admin:generate:create', [
+            'table_name' => $tableName,
+            '--model' => $modelName,
         ]);
 
         $this->info('Generating whole admin finished');

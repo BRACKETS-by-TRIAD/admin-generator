@@ -1,78 +1,74 @@
-@extends('admin.layout.form', ['action' => url('admin/article/store')])
+{{'@'}}extends('admin.layout.form', ['action' => url('admin/{{ $objectName }}/store')])
 
-@section('title')
-    <h1>Create article</h1>
-@endsection
+{{'@'}}section('title')
+    <h1>Create {{ $objectName }}</h1>
+{{'@'}}endsection
 
-@section('body')
-
-    <div class="form-group">
-        <label for="title" class="col-sm-2 control-label">Title</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="title" name="title" placeholder="Title">
-        </div>
-    </div>
+{{'@'}}section('body')
+@foreach($columns as $col)
+    @if($col['type'] == 'date')
 
     <div class="form-group">
-        <label for="slug" class="col-sm-2 control-label">Slug</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="slug" name="slug" placeholder="Slug">
+        <label for="{{ $col['name'] }}" class="col-sm-2 control-label">{{ ucfirst($col['name']) }}</label>
+        <div class="col-sm-6">
+            <input type="date" class="form-control" id="{{ $col['name'] }}" name="{{ $col['name'] }}">
         </div>
     </div>
+    @elseif($col['type'] == 'time')
 
     <div class="form-group">
-        <label for="perex" class="col-sm-2 control-label">Perex</label>
-        <div class="col-sm-10">
-            <textarea class="form-control" rows="3" id="perex" name="perex"></textarea>
+        <label for="{{ $col['name'] }}" class="col-sm-2 control-label">{{ ucfirst($col['name']) }}</label>
+        <div class="col-sm-4">
+            <input type="time" class="form-control" id="{{ $col['name'] }}" name="{{ $col['name'] }}">
         </div>
     </div>
+    @elseif($col['type'] == 'datetime')
 
     <div class="form-group">
-        <label for="published_at" class="col-sm-2 control-label">Published at</label>
-        <div class="col-sm-10">
-            <input type="date" class="form-control" id="published_at" name="published_at">
+        <label for="{{ $col['name'] }}_date" class="col-sm-2 control-label">{{ ucfirst($col['name']) }}</label>
+        <div class="col-sm-6">
+            <input type="date" class="form-control" id="{{ $col['name'] }}_date" name="{{ $col['name'] }}_date">
         </div>
+        <div class="col-sm-4">
+            <input type="time" class="form-control" id="{{ $col['name'] }}_time" name="{{ $col['name'] }}_time">
+        </div>
+        <!-- TODO concat date and time together into one field -->
+        <input type="hidden" name="{{ $col['name'] }}">
     </div>
+    @elseif($col['type'] == 'text')
 
     <div class="form-group">
-        <label for="time_at" class="col-sm-2 control-label">Time</label>
+        <label for="{{ $col['name'] }}" class="col-sm-2 control-label">{{ ucfirst($col['name']) }}</label>
         <div class="col-sm-10">
-            <input type="time" class="form-control" id="time_at" name="time_at">
+            <textarea class="form-control" rows="2" id="{{ $col['name'] }}" name="{{ $col['name'] }}" placeholder="Lorem ipsum dolor itum.."></textarea>
         </div>
     </div>
-
-    <div class="form-group">
-        <label for="reads" class="col-sm-2 control-label">Reads</label>
-        <div class="col-sm-10">
-            <input type="number" class="form-control" id="reads" name="reads" placeholder="10">
-        </div>
-    </div>
+    @elseif($col['type'] == 'boolean')
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" name="is_published" value="1"> Is published?
+                    <input type="checkbox" name="{{ $col['name'] }}" value="1"> {{ ucfirst($col['name']) }}
                 </label>
             </div>
         </div>
     </div>
+    @else
 
     <div class="form-group">
-        <label for="float_number" class="col-sm-2 control-label">Float number</label>
-        <div class="col-sm-4">
-            <input type="text" class="form-control" id="float_number" name="float_number" placeholder="8.15">
-        </div>
-
-        <label for="decimal_number" class="col-sm-2 control-label">Decimal number</label>
-        <div class="col-sm-4">
-            <input type="text" class="form-control" id="decimal_number" name="decimal_number" placeholder="87883.01">
+        <label for="{{ $col['name'] }}" class="col-sm-2 control-label">{{ ucfirst($col['name']) }}</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="{{ $col['name'] }}" name="{{ $col['name'] }}" placeholder="{{ ucfirst($col['name']) }}">
         </div>
     </div>
+    @endif
+@endforeach
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <button type="submit" class="btn btn-primary">Save</button>
         </div>
     </div>
-@endsection
+
+{{'@'}}endsection

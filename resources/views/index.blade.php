@@ -23,7 +23,11 @@
 
         <td>
             <a class="btn btn-info btn-xs" href="{{'{{'}} route('admin/{{ $objectName }}/edit', ['{{ $objectName }}' => ${{ $objectName }}]) }}" role="button">Edit</a>
-            <a class="btn btn-danger btn-xs" href="#" role="button">Delete</a>
+            <form method="post" action="{{'{{'}} route('admin/{{ $objectName }}/destroy', ['{{ $objectName }}' => ${{ $objectName }}]) }}" class="form-inline">
+                <input name="_method" type="hidden" value="DELETE">
+                {{'{'}}!! csrf_field() !!{{'}'}}
+                <button type="submit" class="btn btn-xs btn-danger">Delete</button>
+            </form>
         </td>
     </tr>
     {{'@'}}endforeach

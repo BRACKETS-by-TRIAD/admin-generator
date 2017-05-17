@@ -3,7 +3,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Redirect;
 @if($modelFullName)use App\Models\{{ $modelFullName }};
 @endif
 
@@ -20,7 +19,7 @@ class {{ $className }} extends Controller
         // TODO add authorization
 
         return view('admin.{{ $objectName }}.index', [
-            'data' => {{ $className }}::all(),
+            '{{ $objectNamePlural }}' => {{ $modelName }}::all(),
         ]);
     }
 
@@ -63,8 +62,8 @@ class {{ $className }} extends Controller
         // Store the {{ $objectName }}
         {{ $modelName }}::create($sanitized);
 
-        return redirect(('admin/{{ $objectName }}')
-            ->withSuccess(trans('admin.operation.succeed'));
+        return redirect('admin/{{ $objectName }}')
+            ->withSuccess("Created");
     }
 
 @if($modelName)
@@ -150,6 +149,11 @@ class {{ $className }} extends Controller
 @endif
     {
         // TODO add authorization
+
+        ${{ $objectName }}->delete();
+
+        return redirect()->back()
+            ->withSuccess("Deleted");
     }
 
 }

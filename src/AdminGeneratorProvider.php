@@ -16,6 +16,7 @@ class AdminGeneratorProvider extends ServiceProvider
             Generate\Model::class,
             Generate\Controller::class,
             Generate\ViewIndex::class,
+            Generate\ViewCreate::class,
         ]);
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'brackets/admin-generator');
