@@ -1,5 +1,6 @@
 <?php namespace Brackets\AdminGenerator;
 
+use Brackets\AdminGenerator\Generate\ModelFactory;
 use Illuminate\Support\ServiceProvider;
 
 class AdminGeneratorProvider extends ServiceProvider
@@ -18,6 +19,7 @@ class AdminGeneratorProvider extends ServiceProvider
             Generate\ViewIndex::class,
             Generate\ViewCreate::class,
             Generate\ViewEdit::class,
+            ModelFactory::class,
         ]);
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'brackets/admin-generator');

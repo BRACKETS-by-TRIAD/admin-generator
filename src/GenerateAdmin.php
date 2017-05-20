@@ -31,7 +31,8 @@ class GenerateAdmin extends Command {
 
         $tableName = $this->argument('table_name');
 
-        $modelName = class_basename($this->option('model')) ?: Str::studly(Str::singular($tableName));
+        $modelFullName = $this->option('model') ?: "App\\Models\\".Str::studly(Str::singular($tableName));
+        $modelName = class_basename($modelFullName);
 
         $this->call('admin:generate:model', [
             'table_name' => $tableName,
@@ -59,6 +60,16 @@ class GenerateAdmin extends Command {
             '--model' => $modelName,
         ]);
 
+        $this->call('admin:generate:factory', [
+            'table_name' => $tableName,
+            '--model' => $modelName,
+        ]);
+
+        if ($this->option('seed')) {
+            $this->info('Seeding testing data');
+            factory($modelFullName, 20)->create();
+        }
+
         $this->info('Generating whole admin finished');
 
     }
@@ -73,6 +84,7 @@ class GenerateAdmin extends Command {
         return [
             ['model', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
             ['controller', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
+            ['seed', 's', InputOption::VALUE_NONE, 'Seeds table with fake data'],
         ];
     }
 
