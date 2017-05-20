@@ -54,6 +54,11 @@ class GenerateAdmin extends Command {
             '--model' => $modelName,
         ]);
 
+        $this->call('admin:generate:edit', [
+            'table_name' => $tableName,
+            '--model' => $modelName,
+        ]);
+
         $this->info('Generating whole admin finished');
 
     }

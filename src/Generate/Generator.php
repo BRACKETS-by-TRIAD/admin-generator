@@ -1,6 +1,7 @@
 <?php namespace Brackets\AdminGenerator\Generate;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use Symfony\Component\Console\Input\InputArgument;
 use Schema;
 use Illuminate\Support\Str;
@@ -27,6 +28,10 @@ abstract class Generator extends Command {
         ];
     }
 
+    /**
+     * @param $tableName
+     * @return Collection
+     */
     protected function readColumnsFromTable($tableName) {
         return collect(Schema::getColumnListing($tableName))->map(function($columnName) use ($tableName) {
 
