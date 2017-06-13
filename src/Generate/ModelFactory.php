@@ -32,6 +32,8 @@ class ModelFactory extends Generator {
         $objectName = Str::snake($modelName);
         $path = base_path('database/factories/ModelFactory.php');
 
+        // FIXME add check, if file consists "App\Models\Article::class" and if yes, skip appending
+
         $this->files->append($path, $this->buildClass($tableName, $modelName, $objectName));
 
         $this->info('Generating Model Factory finished');
