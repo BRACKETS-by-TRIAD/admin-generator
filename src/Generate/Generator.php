@@ -33,6 +33,9 @@ abstract class Generator extends Command {
      * @return Collection
      */
     protected function readColumnsFromTable($tableName) {
+
+        // TODO process also "_translation" table when using i18n models
+
         return collect(Schema::getColumnListing($tableName))->map(function($columnName) use ($tableName) {
 
             return [
