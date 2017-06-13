@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Brackets\Admin\AdminListing;
 use App\Models\{{ $modelFullName }};
 
 class {{ $className }} extends Controller
@@ -11,15 +12,54 @@ class {{ $className }} extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response|array
      */
-    public function index()
+    public function index(Request $request)
     {
         // TODO add authorization
 
-        return view('admin.{{ $objectName }}.index', [
-            '{{ $objectNamePlural }}' => {{ $modelName }}::all(),
-        ]);
+        // TODO params validation (filter/search/pagination/ordering) - maybe extract as a Request?
+
+        // create and AdminListing instance for a specific model and
+        $data = AdminListing::instance({{ $modelName }}::class)->processRequestAndGet(
+            // pass the request with params
+            $request,
+
+            // set columns to query
+            ['{!! implode('\', \'', $columnsToQuery) !!}'],
+
+            // set columns to searchIn
+            ['{!! implode('\', \'', $columnsToSearchIn) !!}']@if(count($filters) > 0),
+
+            // optionally attach custom filters
+            function($query) use ($request) {
+                @foreach($filters as $filter)
+                    @if($filter['type'] == 'boolean')
+                        if ($request->has('{{ $filter['name'] }}')) {
+                            $query->where('{{ $filter['name'] }}', $request->input('{{ $filter['name'] }}'));
+                        }
+                    @elseif($filter['type'] == 'date')
+                        if ($request->has('{{ $filter['name'] }}_from')) {
+                            $query->where('{{ $filter['name'] }}', '>=', $request->input('{{ $filter['name'] }}_from'));
+                        }
+
+                        if ($request->has('{{ $filter['name'] }}_to')) {
+                            $query->where('{{ $filter['name'] }}', '<=', $request->input('{{ $filter['name'] }}_to'));
+                        }
+                    @endif
+                @endforeach
+            }
+            @endif
+
+        );
+
+        if ($request->ajax()) {
+            return ['data' => $data];
+        }
+
+        return view('admin.{{ $objectName }}.index', ['data' => $data]);
+
     }
 
     /**

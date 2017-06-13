@@ -57,7 +57,7 @@ class ViewIndex extends Generator {
             'objectName' => $objectName,
             'objectNamePlural' => Str::plural($objectName),
             'columns' => $this->readColumnsFromTable($tableName)->filter(function($column) {
-                return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at");
+                return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at");
             })->pluck('name'),
         ])->render();
     }

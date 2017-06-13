@@ -42,7 +42,12 @@ class ModelFactory extends Generator {
 
         return view('brackets/admin-generator::factory', [
             'modelFullName' => $modelName,
-            'columns' => $this->readColumnsFromTable($tableName)->map(function($col) {
+            'columns' => $this->readColumnsFromTable($tableName)
+                // we skip primary key
+                ->filter(function($col){
+                    return $col['name'] != 'id';
+                })
+                ->map(function($col) {
                 if ($col['type'] == 'date') {
                     $type = '$faker->date()';
                 } elseif ($col['type'] == 'time') {
@@ -53,8 +58,8 @@ class ModelFactory extends Generator {
                     $type = '$faker->text()';
                 } elseif ($col['type'] == 'boolean') {
                     $type = '$faker->boolean()';
-                } elseif ($col['type'] == 'integer' || $col['type'] == 'numeric') {
-                    $type = '$faker->randomNumber()';
+                } elseif ($col['type'] == 'integer' || $col['type'] == 'numeric' || $col['type'] == 'decimal') {
+                    $type = '$faker->randomNumber(5)';
                 } elseif ($col['type'] == 'float') {
                     $type = '$faker->randomFloat';
                 } elseif ($col['name'] == 'title') {
