@@ -1,4 +1,4 @@
-{{'@'}}extends('admin.layout.index')
+{{'@'}}extends('brackets/admin::admin.layout.index')
 
 {{'@'}}section('title')
     <h1>{{ ucfirst($objectNamePlural) }} listing</h1>

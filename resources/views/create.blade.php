@@ -1,4 +1,4 @@
-{{'@'}}extends('admin.layout.form', ['action' => url('admin/{{ $objectName }}/store')])
+{{'@'}}extends('brackets/admin::admin.layout.form', ['action' => url('admin/{{ $objectName }}/store')])
 
 {{'@'}}section('title')
     <h1>Create {{ $objectName }}</h1>

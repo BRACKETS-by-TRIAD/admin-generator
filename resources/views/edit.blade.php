@@ -1,4 +1,4 @@
-{{'@'}}extends('admin.layout.form', ['action' => route('admin/{{ $objectName }}/update', ['{{ $objectName }}' => ${{ $objectName }}])])
+{{'@'}}extends('brackets/admin::admin.layout.form', ['action' => route('admin/{{ $objectName }}/update', ['{{ $objectName }}' => ${{ $objectName }}])])
 
 {{'@'}}section('title')
     <h1>Edit {{ $objectName }} {{'{{'}} ${{ $objectName }}->{{ $titleColumn }} }}</h1>
