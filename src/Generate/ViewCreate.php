@@ -57,7 +57,7 @@ class ViewCreate extends Generator {
             'objectName' => $objectName,
             'objectNamePlural' => Str::plural($objectName),
             'columns' => $this->readColumnsFromTable($tableName)->filter(function($column) {
-                return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at");
+                return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
             }),
         ])->render();
     }

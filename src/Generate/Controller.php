@@ -61,7 +61,7 @@ class Controller extends Generator {
 
             // index
             'columnsToQuery' => $this->readColumnsFromTable($tableName)->filter(function($column) {
-                return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at");
+                return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
             })->pluck('name')->toArray(),
             'columnsToSearchIn' => $this->readColumnsFromTable($tableName)->filter(function($column) {
                 return $column['type'] == 'text' || $column['type'] == 'string' || $column['name'] == "id";
@@ -72,7 +72,7 @@ class Controller extends Generator {
 
             // validation in store/update
             'columns' => $this->readColumnsFromTable($tableName)->filter(function($column) {
-                return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at");
+                return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
             })->map(function($column){
                 $rules = collect([]);
                 if ($column['required']) {

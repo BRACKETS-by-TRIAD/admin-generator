@@ -60,7 +60,7 @@ class ViewEdit extends Generator {
             'objectNamePlural' => Str::plural($objectName),
             'titleColumn' => $cols->pluck('name')->contains('title') ? 'title' : ($cols->contains('name') ? 'name' : 'id'),
             'columns' => $cols->filter(function($column) {
-                return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at");
+                return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
             }),
         ])->render();
     }

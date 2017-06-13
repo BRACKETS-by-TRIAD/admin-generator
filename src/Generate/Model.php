@@ -57,7 +57,7 @@ class Model extends Generator {
                 return $column['type'] == "datetime" || $column['type'] == "date";
             })->pluck('name'),
             'fillable' => $this->readColumnsFromTable($tableName)->filter(function($column) {
-                return !in_array($column['name'], ['id', 'created_at', 'updated_at']);
+                return !in_array($column['name'], ['id', 'created_at', 'updated_at', 'deleted_at']);
             })->pluck('name'),
         ])->render();
     }
