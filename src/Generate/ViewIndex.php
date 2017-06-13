@@ -59,6 +59,9 @@ class ViewIndex extends Generator {
             'columns' => $this->readColumnsFromTable($tableName)->filter(function($column) {
                 return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at");
             })->pluck('name'),
+            'filters' => $this->readColumnsFromTable($tableName)->filter(function($column) {
+                return $column['type'] == 'boolean' || $column['type'] == 'date';
+            }),
         ])->render();
     }
 

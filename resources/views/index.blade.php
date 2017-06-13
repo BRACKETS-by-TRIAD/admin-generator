@@ -17,6 +17,19 @@
 
             <input @blur="props.filter('search', $event.target.value)" placeholder="Search" />
 
+            @foreach($filters as $filter)@if($filter['type'] == 'boolean'){{ ucfirst($filter['name']) }}?
+            <select @change="props.filter('{{ $filter['name'] }}', $event.target.value)">
+                <option value="">Any</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+            @elseif($filter['type'] == 'date')Filter {{ ucfirst($filter['name']) }}
+            <input type="date" @blur="props.filter('{{ $filter['name'] }}_from', $event.target.value)" />
+            <input type="date" @blur="props.filter('{{ $filter['name'] }}_to', $event.target.value)" />
+            @endif
+
+            @endforeach
+
         </template>
 
         <template slot="thead" scope="props">
