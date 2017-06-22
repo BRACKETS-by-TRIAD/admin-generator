@@ -104,7 +104,7 @@ class {{ $className }} extends Controller
     {
         // TODO add authorization
 
-        return view('admin.post.edit', [
+        return view('admin.{{ $objectName }}.edit', [
             '{{ $objectName }}' => ${{ $objectName }},
         ]);
     }
