@@ -44,6 +44,11 @@ class Controller extends Generator {
 
         $this->files->put($controllerPath, $this->buildClass($tableName, $controllerName, $controllerNamespace, $modelName));
 
+        // TODO refactor, ugly
+        $sidebarPath = resource_path('views/admin/layout/sidebar.blade.php');
+        $objectName = ($modelName ? lcfirst(Str::singular(class_basename($modelName))) : 'object');
+        $this->files->put($sidebarPath, str_replace("{{-- Do not delete me :) I'm used for auto-generation menu items --}}", "<a class=\"nav-link\" href=\"{{ url('admin/".$objectName."') }}\"><i class=\"icon-list\"></i> ".Str::plural(class_basename($modelName))."</a>\n                {{-- Do not delete me :) I'm used for auto-generation menu items --}}", $this->files->get($sidebarPath)));
+
         $this->info('Generating '.$controllerFullName.' finished');
 
     }
