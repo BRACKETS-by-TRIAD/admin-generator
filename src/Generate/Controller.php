@@ -66,9 +66,9 @@ class Controller extends Generator {
             'columnsToSearchIn' => $this->readColumnsFromTable($tableName)->filter(function($column) {
                 return $column['type'] == 'text' || $column['type'] == 'string' || $column['name'] == "id";
             })->pluck('name')->toArray(),
-            'filters' => $this->readColumnsFromTable($tableName)->filter(function($column) {
-                return $column['type'] == 'boolean' || $column['type'] == 'date';
-            }),
+//            'filters' => $this->readColumnsFromTable($tableName)->filter(function($column) {
+//                return $column['type'] == 'boolean' || $column['type'] == 'date';
+//            }),
 
             // validation in store/update
             'columns' => $this->readColumnsFromTable($tableName)->filter(function($column) {

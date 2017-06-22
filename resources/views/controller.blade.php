@@ -30,28 +30,7 @@ class {{ $className }} extends Controller
             ['{!! implode('\', \'', $columnsToQuery) !!}'],
 
             // set columns to searchIn
-            ['{!! implode('\', \'', $columnsToSearchIn) !!}']@if(count($filters) > 0),
-
-            // optionally attach custom filters
-            function($query) use ($request) {
-
-                @foreach($filters as $filter)@if($filter['type'] == 'boolean')if ($request->has('{{ $filter['name'] }}')) {
-                    $query->where('{{ $filter['name'] }}', $request->input('{{ $filter['name'] }}'));
-                }
-                @elseif($filter['type'] == 'date')if ($request->has('{{ $filter['name'] }}_from')) {
-                    $query->where('{{ $filter['name'] }}', '>=', $request->input('{{ $filter['name'] }}_from'));
-                }
-                if ($request->has('{{ $filter['name'] }}_to')) {
-                    $query->where('{{ $filter['name'] }}', '<=', $request->input('{{ $filter['name'] }}_to'));
-                }
-                @endif
-@endforeach
-
-                // TODO customize these filters to your needs
-
-            }
-            @endif
-
+            ['{!! implode('\', \'', $columnsToSearchIn) !!}']
         );
 
         if ($request->ajax()) {

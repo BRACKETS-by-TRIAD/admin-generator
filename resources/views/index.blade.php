@@ -1,11 +1,5 @@
 {{'@'}}extends('brackets/admin::admin.layout.index')
 
-{{'{{-- TODO remove @'}}section('title')
-    <h1>{{ ucfirst($objectNamePlural) }} listing</h1>
-
-    <a class="btn btn-primary" href="{{'{{'}} url('admin/{{ $objectName }}/create') }}" role="button">Add new {{ $objectName }}</a>
-{{'@'}}endsection{{'--'}}}}
-
 {{'@'}}section('body')
 
     <{{ $objectName }}-listing
@@ -18,6 +12,7 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-align-justify"></i> {{ ucfirst($objectNamePlural) }} listing
+                        <a class="btn btn-primary btn-sm pull-right m-b-0" href="{{'{{'}} url('admin/{{ $objectName }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; New {{ $objectName }}</a>
                     </div>
                     <div class="card-block">
                         <form @submit.prevent="">
@@ -26,7 +21,7 @@
                                     <div class="input-group">
                                         <input class="form-control" placeholder="Search" @keyup.enter="filter('search', $event.target.value)" />
                                         <span class="btn-group input-group-btn">
-                                            <button type="button" class="btn btn-primary" @click="filter('search', $event.target.value)"><i class="fa fa-search"></i></button>
+                                            <button type="button" class="btn btn-primary" @click="filter('search', $event.target.value)"><i class="fa fa-search"></i>&nbsp; Search</button>
                                         </span>
                                     </div>
                                 </div>
@@ -74,9 +69,9 @@
                             </tbody>
                         </table>
 
-                        <div class="row">
+                        <div class="row" v-if="pagination.state.total > 0">
                             <div class="col">
-                                <span v-if="collection">Displaying from @{{ pagination.state.from }} to @{{ pagination.state.to }} of total @{{ pagination.state.total }} items.</span>
+                                <span>Displaying from @{{ pagination.state.from }} to @{{ pagination.state.to }} of total @{{ pagination.state.total }} items.</span>
                             </div>
                             <div class="col-auto">
                                 <!-- TODO how to add push state to this pagination so the URL will actually change? we need JS router - do we want it? -->
