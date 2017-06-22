@@ -30,24 +30,32 @@ class ViewIndex extends Generator {
         $tableName = $this->argument('table_name');
         $modelName = class_basename($this->option('model')) ?: Str::studly(Str::singular($tableName));
         $objectName = Str::snake($modelName);
-        $viewPath = $this->getPath('views/admin/'.$objectName.'/index');
+        $viewPath = resource_path('views/admin/'.$objectName.'/index.blade.php');
+        $listingJsPath = resource_path('assets/js/admin/'.$objectName.'/Listing.js');
+        $bootstrapJsPath = resource_path('assets/js/admin/bootstrap.js');
 
         if ($this->alreadyExists($viewPath)) {
             $this->error('File '.$viewPath.' already exists!');
-            return false;
+        } else {
+            $this->makeDirectory($viewPath);
+
+            $this->files->put($viewPath, $this->buildClass($tableName, $modelName, $objectName));
+
+            $this->info('Generating '.$viewPath.' finished');
         }
 
-        $this->makeDirectory($viewPath);
+        if ($this->alreadyExists($listingJsPath)) {
+            $this->error('File '.$listingJsPath.' already exists!');
+        } else {
+            $this->makeDirectory($listingJsPath);
 
-        $this->files->put($viewPath, $this->buildClass($tableName, $modelName, $objectName));
+            $this->files->put($listingJsPath, $this->buildListingJs($objectName));
 
-        $this->info('Generating '.$viewPath.' finished');
+            $this->files->append($bootstrapJsPath, "\nrequire('./".$objectName."/Listing')");
 
-    }
+            $this->info('Generating '.$listingJsPath.' finished');
+        }
 
-    protected function getPath($path)
-    {
-        return resource_path($path.'.blade.php');
     }
 
     protected function buildClass($tableName, $modelName, $objectName) {
@@ -62,6 +70,12 @@ class ViewIndex extends Generator {
 //            'filters' => $this->readColumnsFromTable($tableName)->filter(function($column) {
 //                return $column['type'] == 'boolean' || $column['type'] == 'date';
 //            }),
+        ])->render();
+    }
+
+    protected function buildListingJs($objectName) {
+        return view('brackets/admin-generator::listing-js', [
+            'objectName' => $objectName,
         ])->render();
     }
 
