@@ -14,7 +14,7 @@
                         <i class="fa fa-align-justify"></i> {{ ucfirst($objectNamePlural) }} listing
                         <a class="btn btn-primary btn-sm pull-right m-b-0" href="{{'{{'}} url('admin/{{ $objectName }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; New {{ $objectName }}</a>
                     </div>
-                    <div class="card-block">
+                    <div class="card-block" v-cloak>
                         <form @submit.prevent="">
                             <div class="row">
                                 <div class="col-sm-12 col-md-7 col-xl-5 form-group small-right-gutter-md">
