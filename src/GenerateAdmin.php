@@ -45,6 +45,13 @@ class GenerateAdmin extends Command {
             '--controller' => $this->option('controller'),
         ]);
 
+
+        $this->call('admin:generate:routes', [
+            'table_name' => $tableName,
+            '--model' => $modelName,
+            '--controller' => $this->option('controller'),
+        ]);
+
         $this->call('admin:generate:index', [
             'table_name' => $tableName,
             '--model' => $modelName,
