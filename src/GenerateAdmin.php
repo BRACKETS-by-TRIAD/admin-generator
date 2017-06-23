@@ -1,11 +1,10 @@
 <?php namespace Brackets\AdminGenerator;
 
-use Illuminate\Console\Command;
+use Brackets\AdminGenerator\Generate\Generator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Illuminate\Support\Str;
 
-class GenerateAdmin extends Command {
+class GenerateAdmin extends Generator {
 
     /**
      * The name and signature of the console command.
@@ -29,52 +28,51 @@ class GenerateAdmin extends Command {
     public function fire()
     {
 
-        $tableName = $this->argument('table_name');
-
-        $modelFullName = $this->option('model') ?: "App\\Models\\".Str::studly(Str::singular($tableName));
-        $modelName = class_basename($modelFullName);
+        $tableNameArgument = $this->argument('table_name');
+        $modelOption = $this->option('model');
+        $controllerOption = $this->option('controller');
 
         $this->call('admin:generate:model', [
-            'table_name' => $tableName,
-            '--model' => $modelName,
+            'table_name' => $tableNameArgument,
+            '--model' => $modelOption,
         ]);
 
         $this->call('admin:generate:controller', [
-            'table_name' => $tableName,
-            '--model' => $modelName,
-            '--controller' => $this->option('controller'),
+            'table_name' => $tableNameArgument,
+            '--model' => $modelOption,
+            '--controller' => $controllerOption,
         ]);
 
 
         $this->call('admin:generate:routes', [
-            'table_name' => $tableName,
-            '--model' => $modelName,
-            '--controller' => $this->option('controller'),
+            'table_name' => $tableNameArgument,
+            '--model' => $modelOption,
+            '--controller' => $controllerOption,
         ]);
 
         $this->call('admin:generate:index', [
-            'table_name' => $tableName,
-            '--model' => $modelName,
+            'table_name' => $tableNameArgument,
+            '--model' => $modelOption,
         ]);
 
         $this->call('admin:generate:create', [
-            'table_name' => $tableName,
-            '--model' => $modelName,
+            'table_name' => $tableNameArgument,
+            '--model' => $modelOption,
         ]);
 
         $this->call('admin:generate:edit', [
-            'table_name' => $tableName,
-            '--model' => $modelName,
+            'table_name' => $tableNameArgument,
+            '--model' => $modelOption,
         ]);
 
         $this->call('admin:generate:factory', [
-            'table_name' => $tableName,
-            '--model' => $modelName,
+            'table_name' => $tableNameArgument,
+            '--model' => $modelOption,
         ]);
 
         if ($this->option('seed')) {
             $this->info('Seeding testing data');
-            factory($modelFullName, 20)->create();
+            factory($this->modelFullName, 20)->create();
         }
 
         $this->info('Generating whole admin finished');

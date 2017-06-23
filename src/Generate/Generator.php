@@ -124,7 +124,7 @@ abstract class Generator extends Command {
     protected function initNames() {
         $this->tableName = $this->argument('table_name');
 
-        $this->controllerBaseName = class_basename($this->option('controller2')) ?: (Str::studly($this->tableName) . "Controller");
+        $this->controllerBaseName = class_basename($this->option('controller')) ?: (Str::studly($this->tableName) . "Controller");
         $this->controllerPartiallyFullName = "Admin\\".($this->option('controller') ?: (Str::studly($this->tableName) . "Controller"));
         $this->controllerFullName = "App\\Http\\Controllers\\".$this->controllerPartiallyFullName;
         $this->controllerNamespace = Str::replaceLast("\\".$this->controllerBaseName, '', $this->controllerFullName);

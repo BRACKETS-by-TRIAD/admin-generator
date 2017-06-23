@@ -57,8 +57,6 @@ class ViewIndex extends Generator {
 
     protected function buildIndexView() {
 
-        var_dump($this->modelRouteAndViewName);
-
         return view('brackets/admin-generator::index', [
             'modelBaseName' => $this->modelBaseName,
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
