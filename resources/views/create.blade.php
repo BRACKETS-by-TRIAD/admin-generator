@@ -1,7 +1,7 @@
-{{'@'}}extends('brackets/admin::admin.layout.form', ['action' => url('admin/{{ $objectName }}/store')])
+{{'@'}}extends('brackets/admin::admin.layout.form', ['action' => url('admin/{{ $modelRouteAndViewName }}/store')])
 
 {{'@'}}section('title')
-    <h1>Create {{ $objectName }}</h1>
+    <h1>Create {{ $modelBaseName }}</h1>
 {{'@'}}endsection
 
 {{'@'}}section('body')

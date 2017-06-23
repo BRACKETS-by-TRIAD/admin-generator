@@ -27,36 +27,46 @@ class ViewCreate extends Generator {
     public function fire()
     {
 
-        $tableName = $this->argument('table_name');
-        $modelName = class_basename($this->option('model')) ?: Str::studly(Str::singular($tableName));
-        $objectName = Str::snake($modelName);
-        $viewPath = $this->getPath('views/admin/'.$objectName.'/create');
+        $viewPath = resource_path('views/admin/'.$this->modelRouteAndViewName.'/create.blade.php');
+//        $listingJsPath = resource_path('assets/js/admin/'.$this->modelRouteAndViewName.'/Listing.js');
+//        $bootstrapJsPath = resource_path('assets/js/admin/bootstrap.js');
 
         if ($this->alreadyExists($viewPath)) {
             $this->error('File '.$viewPath.' already exists!');
             return false;
         }
+        if ($this->alreadyExists($viewPath)) {
+            $this->error('File '.$viewPath.' already exists!');
+        } else {
+            $this->makeDirectory($viewPath);
 
-        $this->makeDirectory($viewPath);
+            $this->files->put($viewPath, $this->buildView());
 
-        $this->files->put($viewPath, $this->buildClass($tableName, $modelName, $objectName));
-
-        $this->info('Generating '.$viewPath.' finished');
+            $this->info('Generating '.$viewPath.' finished');
+        }
+//
+//        if ($this->alreadyExists($listingJsPath)) {
+//            $this->error('File '.$listingJsPath.' already exists!');
+//        } else {
+//            $this->makeDirectory($listingJsPath);
+//
+//            $this->files->put($listingJsPath, $this->buildListingJs());
+//
+//            $this->files->append($bootstrapJsPath, "\nrequire('./".$this->modelRouteAndViewName."/Listing')");
+//
+//            $this->info('Generating '.$listingJsPath.' finished');
+//        }
 
     }
 
-    protected function getPath($path)
-    {
-        return resource_path($path.'.blade.php');
-    }
-
-    protected function buildClass($tableName, $modelName, $objectName) {
+    protected function buildView() {
 
         return view('brackets/admin-generator::create', [
-            'modelName' => $modelName,
-            'objectName' => $objectName,
-            'objectNamePlural' => Str::plural($objectName),
-            'columns' => $this->readColumnsFromTable($tableName)->filter(function($column) {
+            'modelBaseName' => $this->modelBaseName,
+            'modelRouteAndViewName' => $this->modelRouteAndViewName,
+            'modelPlural' => $this->modelPlural,
+
+            'columns' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
             }),
         ])->render();

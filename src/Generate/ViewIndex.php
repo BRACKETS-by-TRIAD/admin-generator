@@ -36,7 +36,7 @@ class ViewIndex extends Generator {
         } else {
             $this->makeDirectory($viewPath);
 
-            $this->files->put($viewPath, $this->buildIndexView());
+            $this->files->put($viewPath, $this->buildView());
 
             $this->info('Generating '.$viewPath.' finished');
         }
@@ -55,7 +55,7 @@ class ViewIndex extends Generator {
 
     }
 
-    protected function buildIndexView() {
+    protected function buildView() {
 
         return view('brackets/admin-generator::index', [
             'modelBaseName' => $this->modelBaseName,
