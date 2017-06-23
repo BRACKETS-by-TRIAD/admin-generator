@@ -1,8 +1,8 @@
 
 /* Auto-generated admin routes */
-{!! str_pad("Route::get('/admin/".$objectName."',", 60) !!}'{{ $namespace }}\{{ $className }}@index');
-{!! str_pad("Route::get('/admin/".$objectName."/create',", 60) !!}'{{ $namespace }}\{{ $className }}@create');
-{!! str_pad("Route::post('/admin/".$objectName."/store',", 60) !!}'{{ $namespace }}\{{ $className }}@store');
-{!! str_pad("Route::get('/admin/".$objectName."/edit/{".$objectName."}',", 60) !!}'{{ $namespace }}\{{ $className }}@edit')->name('admin/{{ $objectName }}/edit');
-{!! str_pad("Route::put('/admin/".$objectName."/update/{".$objectName."}',", 60) !!}'{{ $namespace }}\{{ $className }}@update')->name('admin/{{ $objectName }}/update');
-{!! str_pad("Route::delete('/admin/".$objectName."/destroy/{".$objectName."}',", 60) !!}'{{ $namespace }}\{{ $className }}@destroy')->name('admin/{{ $objectName }}/destroy');
+{!! str_pad("Route::get('/admin/".$modelRouteAndViewName."',", 60) !!}'{{ $controllerPartiallyFullName }}@index');
+{!! str_pad("Route::get('/admin/".$modelRouteAndViewName."/create',", 60) !!}'{{ $controllerPartiallyFullName }}@create');
+{!! str_pad("Route::post('/admin/".$modelRouteAndViewName."/store',", 60) !!}'{{ $controllerPartiallyFullName }}@store');
+{!! str_pad("Route::get('/admin/".$modelRouteAndViewName."/edit/{".$modelRouteAndViewName."}',", 60) !!}'{{ $controllerPartiallyFullName }}@edit')->name('admin/{{ $modelRouteAndViewName }}/edit');
+{!! str_pad("Route::put('/admin/".$modelRouteAndViewName."/update/{".$modelRouteAndViewName."}',", 60) !!}'{{ $controllerPartiallyFullName }}@update')->name('admin/{{ $modelRouteAndViewName }}/update');
+{!! str_pad("Route::delete('/admin/".$modelRouteAndViewName."/destroy/{".$modelRouteAndViewName."}',", 60) !!}'{{ $controllerPartiallyFullName }}@destroy')->name('admin/{{ $modelRouteAndViewName }}/destroy');

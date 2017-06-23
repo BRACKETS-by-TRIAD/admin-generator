@@ -27,11 +27,8 @@ class ViewIndex extends Generator {
     public function fire()
     {
 
-        $tableName = $this->argument('table_name');
-        $modelName = class_basename($this->option('model')) ?: Str::studly(Str::singular($tableName));
-        $objectName = Str::snake($modelName);
-        $viewPath = resource_path('views/admin/'.$objectName.'/index.blade.php');
-        $listingJsPath = resource_path('assets/js/admin/'.$objectName.'/Listing.js');
+        $viewPath = resource_path('views/admin/'.$this->modelRouteAndViewName.'/index.blade.php');
+        $listingJsPath = resource_path('assets/js/admin/'.$this->modelRouteAndViewName.'/Listing.js');
         $bootstrapJsPath = resource_path('assets/js/admin/bootstrap.js');
 
         if ($this->alreadyExists($viewPath)) {
@@ -39,7 +36,7 @@ class ViewIndex extends Generator {
         } else {
             $this->makeDirectory($viewPath);
 
-            $this->files->put($viewPath, $this->buildClass($tableName, $modelName, $objectName));
+            $this->files->put($viewPath, $this->buildIndexView());
 
             $this->info('Generating '.$viewPath.' finished');
         }
@@ -49,22 +46,25 @@ class ViewIndex extends Generator {
         } else {
             $this->makeDirectory($listingJsPath);
 
-            $this->files->put($listingJsPath, $this->buildListingJs($objectName));
+            $this->files->put($listingJsPath, $this->buildListingJs());
 
-            $this->files->append($bootstrapJsPath, "\nrequire('./".$objectName."/Listing')");
+            $this->files->append($bootstrapJsPath, "\nrequire('./".$this->modelRouteAndViewName."/Listing')");
 
             $this->info('Generating '.$listingJsPath.' finished');
         }
 
     }
 
-    protected function buildClass($tableName, $modelName, $objectName) {
+    protected function buildIndexView() {
+
+        var_dump($this->modelRouteAndViewName);
 
         return view('brackets/admin-generator::index', [
-            'modelName' => $modelName,
-            'objectName' => $objectName,
-            'objectNamePlural' => Str::plural($objectName),
-            'columns' => $this->readColumnsFromTable($tableName)->filter(function($column) {
+            'modelBaseName' => $this->modelBaseName,
+            'modelRouteAndViewName' => $this->modelRouteAndViewName,
+            'modelPlural' => $this->modelPlural,
+
+            'columns' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
             })->pluck('name'),
 //            'filters' => $this->readColumnsFromTable($tableName)->filter(function($column) {
@@ -73,9 +73,9 @@ class ViewIndex extends Generator {
         ])->render();
     }
 
-    protected function buildListingJs($objectName) {
+    protected function buildListingJs() {
         return view('brackets/admin-generator::listing-js', [
-            'objectName' => $objectName,
+            'modelRouteAndViewName' => $this->modelRouteAndViewName,
         ])->render();
     }
 

@@ -27,26 +27,21 @@ class Routes extends Generator {
     public function fire()
     {
 
-        $tableName = $this->argument('table_name');
-        $controllerName = class_basename($this->option('controller')) ?: (Str::studly($tableName) . "Controller");
-        $controllerFullName = "Admin\\".($this->option('controller') ?: (Str::studly($tableName) . "Controller"));
         $routesPath = base_path('routes/web.php');
-        $controllerNamespace = Str::replaceLast("\\".$controllerName, '', $controllerFullName);
 
-        $modelName = class_basename($this->option('model')) ?: Str::studly(Str::singular($tableName));
+        // FIXME add check, if file already consists
 
-        $this->files->append($routesPath, "\n\n".$this->buildClass($controllerName, $controllerNamespace, $modelName));
+        $this->files->append($routesPath, "\n\n".$this->buildClass());
 
         $this->info('Appending routes finished');
 
     }
 
-    protected function buildClass($className, $namespace, $model) {
+    protected function buildClass() {
 
         return view('brackets/admin-generator::routes', [
-            'className' => $className,
-            'namespace' => $namespace,
-            'objectName' => $objectName = ($model ? lcfirst(Str::singular(class_basename($model))) : 'object'),
+            'controllerPartiallyFullName' => $this->controllerPartiallyFullName,
+            'modelRouteAndViewName' => $this->modelRouteAndViewName,
         ])->render();
     }
 

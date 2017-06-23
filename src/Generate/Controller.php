@@ -1,6 +1,5 @@
 <?php namespace Brackets\AdminGenerator\Generate;
 
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
 class Controller extends Generator {
@@ -26,14 +25,7 @@ class Controller extends Generator {
      */
     public function fire()
     {
-
-        $tableName = $this->argument('table_name');
-        $controllerName = class_basename($this->option('controller')) ?: (Str::studly($tableName) . "Controller");
-        $controllerFullName = $this->qualifyClass("Http\\Controllers\\Admin\\".($this->option('controller') ?: (Str::studly($tableName) . "Controller")));
-        $controllerPath = $this->getPath($controllerFullName);
-        $controllerNamespace = Str::replaceLast("\\".$controllerName, '', $controllerFullName);
-
-        $modelName = class_basename($this->option('model')) ?: Str::studly(Str::singular($tableName));
+        $controllerPath = base_path($this->getPathFromClassName($this->controllerFullName));
 
         if ($this->alreadyExists($controllerPath)) {
             $this->error('File '.$controllerPath.' already exists!');
@@ -42,33 +34,31 @@ class Controller extends Generator {
 
         $this->makeDirectory($controllerPath);
 
-        $this->files->put($controllerPath, $this->buildClass($tableName, $controllerName, $controllerNamespace, $modelName));
+        $this->files->put($controllerPath, $this->buildClass());
 
-        // TODO refactor, ugly
         $sidebarPath = resource_path('views/admin/layout/sidebar.blade.php');
-        $objectName = ($modelName ? lcfirst(Str::singular(class_basename($modelName))) : 'object');
-        $this->files->put($sidebarPath, str_replace("{{-- Do not delete me :) I'm used for auto-generation menu items --}}", "<a class=\"nav-link\" href=\"{{ url('admin/".$objectName."') }}\"><i class=\"icon-list\"></i> ".Str::plural(class_basename($modelName))."</a>\n                {{-- Do not delete me :) I'm used for auto-generation menu items --}}", $this->files->get($sidebarPath)));
+        $this->files->put($sidebarPath, str_replace("{{-- Do not delete me :) I'm used for auto-generation menu items --}}", "<a class=\"nav-link\" href=\"{{ url('admin/".$this->modelRouteAndViewName."') }}\"><i class=\"icon-list\"></i> ".$this->modelPlural."</a>\n                {{-- Do not delete me :) I'm used for auto-generation menu items --}}", $this->files->get($sidebarPath)));
 
-        $this->info('Generating '.$controllerFullName.' finished');
+        $this->info('Generating '.$this->controllerBaseName.' finished');
 
     }
 
-    protected function buildClass($tableName, $className, $namespace, $model) {
+    protected function buildClass() {
 
         return view('brackets/admin-generator::controller', [
-            'className' => $className,
-            'namespace' => $namespace,
-            'modelName' => class_basename($model),
-            // TODO maybe we should use Snake case as objectName - think about it
-            'objectName' => $objectName = ($model ? lcfirst(Str::singular(class_basename($model))) : 'object'),
-            'objectNamePlural' => Str::plural($objectName),
-            'modelFullName' => $model,
+            'controllerBaseName' => $this->controllerBaseName,
+            'controllerNamespace' => $this->controllerNamespace,
+            'modelBaseName' => $this->modelBaseName,
+            'modelFullName' => $this->modelFullName,
+            'modelPlural' => $this->modelPlural,
+            'modelVariableName' => $this->modelVariableName,
+            'modelRouteAndViewName' => $this->modelRouteAndViewName,
 
             // index
-            'columnsToQuery' => $this->readColumnsFromTable($tableName)->filter(function($column) {
+            'columnsToQuery' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
             })->pluck('name')->toArray(),
-            'columnsToSearchIn' => $this->readColumnsFromTable($tableName)->filter(function($column) {
+            'columnsToSearchIn' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return $column['type'] == 'text' || $column['type'] == 'string' || $column['name'] == "id";
             })->pluck('name')->toArray(),
 //            'filters' => $this->readColumnsFromTable($tableName)->filter(function($column) {
@@ -76,7 +66,7 @@ class Controller extends Generator {
 //            }),
 
             // validation in store/update
-            'columns' => $this->readColumnsFromTable($tableName)->filter(function($column) {
+            'columns' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
             })->map(function($column){
                 $rules = collect([]);
@@ -122,7 +112,7 @@ class Controller extends Generator {
 
     protected function getOptions() {
         return [
-            ['model', 'm', InputOption::VALUE_REQUIRED, 'Generates a controller for the given model'],
+            ['model', 'm', InputOption::VALUE_OPTIONAL, 'Generates a controller for the given model'],
             ['controller', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
         ];
     }

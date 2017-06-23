@@ -26,12 +26,7 @@ class Model extends Generator {
      */
     public function fire()
     {
-
-        $tableName = $this->argument('table_name');
-        $modelName = class_basename($this->option('model')) ?: Str::studly(Str::singular($tableName));
-        $modelFullName = $this->qualifyClass("Models\\".($this->option('model') ?: Str::studly(Str::singular($tableName))));
-        $modelPath = $this->getPath($modelFullName);
-        $modelNamespace = Str::replaceLast("\\".$modelName, '', $modelFullName);
+        $modelPath = base_path($this->getPathFromClassName($this->modelFullName));
 
         if ($this->alreadyExists($modelPath)) {
             $this->error('File '.$modelPath.' already exists!');
@@ -40,23 +35,24 @@ class Model extends Generator {
 
         $this->makeDirectory($modelPath);
 
-        $this->files->put($modelPath, $this->buildClass($tableName, $modelName, $modelNamespace));
+        $this->files->put($modelPath, $this->buildClass());
 
         // TODO think if we should use ide-helper:models ?
 
-        $this->info('Generating '.$modelFullName.' finished');
+        $this->info('Generating '.$this->modelBaseName.' finished');
 
     }
 
-    protected function buildClass($tableName, $class, $namespace) {
+    protected function buildClass() {
 
         return view('brackets/admin-generator::model', [
-            'className' => $class,
-            'namespace' => $namespace,
-            'dates' => $this->readColumnsFromTable($tableName)->filter(function($column) {
+            'modelBaseName' => $this->modelBaseName,
+            'modelNameSpace' => $this->modelNamespace,
+
+            'dates' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return $column['type'] == "datetime" || $column['type'] == "date";
             })->pluck('name'),
-            'fillable' => $this->readColumnsFromTable($tableName)->filter(function($column) {
+            'fillable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return !in_array($column['name'], ['id', 'created_at', 'updated_at', 'deleted_at']);
             })->pluck('name'),
         ])->render();

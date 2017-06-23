@@ -1,9 +1,9 @@
 @php echo "<?php"
-@endphp namespace {{ $namespace }};
+@endphp namespace {{ $modelNameSpace }};
 
 use Illuminate\Database\Eloquent\Model;
 
-class {{ $className }} extends Model
+class {{ $modelBaseName }} extends Model
 {
 
     @if ($fillable)protected $fillable = [

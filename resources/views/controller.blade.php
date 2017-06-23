@@ -1,12 +1,12 @@
 @php echo "<?php"
-@endphp namespace {{ $namespace }};
+@endphp namespace {{ $controllerNamespace }};
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Brackets\Admin\AdminListing;
-use App\Models\{{ $modelFullName }};
+use {{ $modelFullName }};
 
-class {{ $className }} extends Controller
+class {{ $controllerBaseName }} extends Controller
 {
 
     /**
@@ -22,7 +22,7 @@ class {{ $className }} extends Controller
         // TODO params validation (filter/search/pagination/ordering) - maybe extract as a Request?
 
         // create and AdminListing instance for a specific model and
-        $data = AdminListing::instance({{ $modelName }}::class)->processRequestAndGet(
+        $data = AdminListing::instance({{ $modelBaseName }}::class)->processRequestAndGet(
             // pass the request with params
             $request,
 
@@ -37,7 +37,7 @@ class {{ $className }} extends Controller
             return ['data' => $data];
         }
 
-        return view('admin.{{ $objectName }}.index', ['data' => $data]);
+        return view('admin.{{ $modelRouteAndViewName }}.index', ['data' => $data]);
 
     }
 
@@ -50,7 +50,7 @@ class {{ $className }} extends Controller
     {
         // TODO add authorization
 
-        return view('admin.{{ $objectName }}.create');
+        return view('admin.{{ $modelRouteAndViewName }}.create');
     }
 
     /**
@@ -77,19 +77,19 @@ class {{ $className }} extends Controller
 
         ]);
 
-        // Store the {{ $objectName }}
-        {{ $modelName }}::create($sanitized);
+        // Store the {{ $modelBaseName }}
+        {{ $modelBaseName }}::create($sanitized);
 
-        return redirect('admin/{{ $objectName }}')
+        return redirect('admin/{{ $modelRouteAndViewName }}')
             ->withSuccess("Created");
     }
 
     /**
      * Display the specified resource.
-     * @param  {{ $modelName }} ${{ $objectName }}
+     * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
      * @return \Illuminate\Http\Response
      */
-    public function show({{ $modelName }} ${{ $objectName }})
+    public function show({{ $modelBaseName }} ${{ $modelVariableName }})
     {
         // TODO add authorization
     }
@@ -97,15 +97,15 @@ class {{ $className }} extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  {{ $modelName }} ${{ $objectName }}
+     * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
      * @return \Illuminate\Http\Response
      */
-    public function edit({{ $modelName }} ${{ $objectName }})
+    public function edit({{ $modelBaseName }} ${{ $modelVariableName }})
     {
         // TODO add authorization
 
-        return view('admin.{{ $objectName }}.edit', [
-            '{{ $objectName }}' => ${{ $objectName }},
+        return view('admin.{{ $modelRouteAndViewName }}.edit', [
+            '{{ $modelRouteAndViewName }}' => ${{ $modelVariableName }},
         ]);
     }
 
@@ -113,10 +113,10 @@ class {{ $className }} extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  {{ $modelName }} ${{ $objectName }}
+     * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, {{ $modelName }} ${{ $objectName }})
+    public function update(Request $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
         // TODO add authorization
 
@@ -134,24 +134,24 @@ class {{ $className }} extends Controller
 
         ]);
 
-        // Update changed values {{ $objectName }}
-        ${{ $objectName }}->update($sanitized);
+        // Update changed values {{ $modelBaseName }}
+        ${{ $modelVariableName }}->update($sanitized);
 
-        return redirect('admin/{{ $objectName }}')
+        return redirect('admin/{{ $modelRouteAndViewName }}')
             ->withSuccess("Updated");
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  {{ $modelName }} ${{ $objectName }}
+     * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
      * @return \Illuminate\Http\Response
      */
-    public function destroy({{ $modelName }} ${{ $objectName }})
+    public function destroy({{ $modelBaseName }} ${{ $modelVariableName }})
     {
         // TODO add authorization
 
-        ${{ $objectName }}->delete();
+        ${{ $modelVariableName }}->delete();
 
         return redirect()->back()
             ->withSuccess("Deleted");

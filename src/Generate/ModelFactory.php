@@ -27,24 +27,22 @@ class ModelFactory extends Generator {
     public function fire()
     {
 
-        $tableName = $this->argument('table_name');
-        $modelName = class_basename($this->option('model')) ?: Str::studly(Str::singular($tableName));
-        $objectName = Str::snake($modelName);
         $path = base_path('database/factories/ModelFactory.php');
 
         // FIXME add check, if file consists "App\Models\Article::class" and if yes, skip appending
 
-        $this->files->append($path, $this->buildClass($tableName, $modelName, $objectName));
+        $this->files->append($path, $this->buildClass());
 
-        $this->info('Generating Model Factory finished');
+        $this->info('Appending to Model Factory finished');
 
     }
 
-    protected function buildClass($tableName, $modelName, $objectName) {
+    protected function buildClass() {
 
         return view('brackets/admin-generator::factory', [
-            'modelFullName' => $modelName,
-            'columns' => $this->readColumnsFromTable($tableName)
+            'modelFullName' => $this->modelFullName,
+
+            'columns' => $this->readColumnsFromTable($this->tableName)
                 // we skip primary key
                 ->filter(function($col){
                     return $col['name'] != 'id';

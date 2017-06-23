@@ -1,5 +1,5 @@
 var base = require('../components/Listing/Listing');
 
-Vue.component('{{ $objectName }}-listing', {
+Vue.component('{{ $modelRouteAndViewName }}-listing', {
     mixins: [base]
 });
