@@ -47,7 +47,7 @@ class Routes extends Generator {
 
     protected function getOptions() {
         return [
-            ['model', 'm', InputOption::VALUE_REQUIRED, 'Generates a controller for the given model'],
+            ['model', 'm', InputOption::VALUE_OPTIONAL, 'Generates a controller for the given model'],
             ['controller', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
         ];
     }
