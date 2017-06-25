@@ -66,9 +66,7 @@ class ViewCreate extends Generator {
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
             'modelPlural' => $this->modelPlural,
 
-            'columns' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
-                return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
-            }),
+            'columns' => $this->getVisibleColumns($this->tableName),
         ])->render();
     }
 

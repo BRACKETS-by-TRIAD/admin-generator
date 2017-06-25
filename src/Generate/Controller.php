@@ -66,47 +66,7 @@ class Controller extends Generator {
 //            }),
 
             // validation in store/update
-            'columns' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
-                return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
-            })->map(function($column){
-                $rules = collect([]);
-                if ($column['required']) {
-                    $rules->push('required');
-                }
-
-                if ($column['name'] == 'email') {
-                    $rules->push('email');
-                }
-
-                switch ($column['type']) {
-                    case 'datetime':
-                    case 'date':
-                        $rules->push('date');
-                        break;
-                    case 'time':
-                        $rules->push('date_format:H:s');
-                        break;
-                    case 'integer':
-                        $rules->push('integer');
-                        break;
-                    case 'boolean':
-                        $rules->push('boolean');
-                        break;
-                    case 'float':
-                    case 'decimal':
-                        $rules->push('numeric');
-                        break;
-                    case 'string':
-                    case 'text':
-                    default:
-                        $rules->push('string');
-                }
-
-                return [
-                    'name' => $column['name'],
-                    'rules' => $rules->toArray(),
-                ];
-            }),
+            'columns' => $this->getVisibleColumns($this->tableName),
         ])->render();
     }
 

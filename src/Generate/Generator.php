@@ -61,6 +61,70 @@ abstract class Generator extends Command {
         });
     }
 
+    protected function getVisibleColumns($tableName) {
+        return $this->readColumnsFromTable($tableName)->filter(function($column) {
+            return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
+        })->map(function($column){
+            $serverRules = collect([]);
+            $frontendRules = collect([]);
+            if ($column['required']) {
+                $serverRules->push('required');
+                $frontendRules->push('required');
+            }
+
+            if ($column['name'] == 'email') {
+                $serverRules->push('email');
+                $frontendRules->push('email');
+            }
+
+            switch ($column['type']) {
+                case 'datetime':
+                    $serverRules->push('date');
+                    $frontendRules->push('date_format:YYYY-MM-DD hh:mm:ss');
+                    break;
+                case 'date':
+                    $serverRules->push('date');
+                    $frontendRules->push('date_format:YYYY-MM-DD');
+                    break;
+                case 'time':
+                    $serverRules->push('date_format:H:i:s');
+                    $frontendRules->push('date_format:hh:mm:ss');
+                    break;
+                case 'integer':
+                    $serverRules->push('integer');
+                    $frontendRules->push('numeric');
+                    break;
+                case 'boolean':
+                    $serverRules->push('boolean');
+                    $frontendRules->push('');
+                    break;
+                case 'float':
+                    $serverRules->push('numeric');
+                    $frontendRules->push('decimal');
+                    break;
+                case 'decimal':
+                    $serverRules->push('numeric');
+                    $frontendRules->push('decimal'); // FIXME?? I'm not sure about this one
+                    break;
+                case 'string':
+                    $serverRules->push('string');
+                    break;
+                case 'text':
+                    $serverRules->push('string');
+                    break;
+                default:
+                    $serverRules->push('string');
+            }
+
+            return [
+                'name' => $column['name'],
+                'type' => $column['type'],
+                'serverRules' => $serverRules->toArray(),
+                'frontendRules' => $frontendRules->toArray(),
+            ];
+        });
+    }
+
     /**
      * Determine if the class already exists.
      *
