@@ -1,76 +1,40 @@
-{{'@'}}extends('brackets/admin::admin.layout.form', ['action' => route('admin/{{ $objectName }}/update', ['{{ $objectName }}' => ${{ $objectName }}])])
-
-{{'@'}}section('title')
-    <h1>Edit {{ $objectName }} {{'{{'}} ${{ $objectName }}->{{ $titleColumn }} }}</h1>
-{{'@'}}endsection
+{{'@'}}extends('brackets/admin::admin.layout.form')
 
 {{'@'}}section('body')
-@foreach($columns as $col)
-    @if($col['type'] == 'date')
 
-    <div class="form-group">
-        <label for="{{ $col['name'] }}" class="col-sm-2 control-label">{{ ucfirst($col['name']) }}</label>
-        <div class="col-sm-6">
-            <input type="date" class="form-control" id="{{ $col['name'] }}" name="{{ $col['name'] }}" value="{{'{{'}} old('{{ $col['name'] }}', ${{ $objectName }}->{{ $col['name'] }}->toDateString()) }}">
-        </div>
-    </div>
-    @elseif($col['type'] == 'time')
+    <div class="container-xl">
 
-    <div class="form-group">
-        <label for="{{ $col['name'] }}" class="col-sm-2 control-label">{{ ucfirst($col['name']) }}</label>
-        <div class="col-sm-4">
-            <input type="time" class="form-control" id="{{ $col['name'] }}" name="{{ $col['name'] }}" value="{{'{{'}} old('{{ $col['name'] }}', ${{ $objectName }}->{{ $col['name'] }}->toTimeString()) }}">
-        </div>
-    </div>
-    @elseif($col['type'] == 'datetime')
+        <div class="card">
 
-    <div class="form-group">
-        <label for="{{ $col['name'] }}_date" class="col-sm-2 control-label">{{ ucfirst($col['name']) }}</label>
-        <div class="col-sm-6">
-            <input type="date" class="form-control" id="{{ $col['name'] }}_date" name="{{ $col['name'] }}_date" value="{{'{{'}} old('{{ $col['name'] }}_date', ${{ $objectName }}->{{ $col['name'] }}->toDateString()) }}">
-        </div>
-        <div class="col-sm-4">
-            <input type="time" class="form-control" id="{{ $col['name'] }}_time" name="{{ $col['name'] }}_time" value="{{'{{'}} old('{{ $col['name'] }}_time', ${{ $objectName }}->{{ $col['name'] }}->toTimeString()) }}">
-        </div>
-        <!-- TODO concat date and time together into one field -->
-        <input type="hidden" name="{{ $col['name'] }}">
-    </div>
-    @elseif($col['type'] == 'text')
+            <{{ $modelRouteAndViewName }}-form
+                :action="'{{'{{'}} route('admin/{{ $modelRouteAndViewName }}/update', ['{{ $modelRouteAndViewName }}' => ${{ $modelRouteAndViewName }}]) }}'"
+                :default="{{'{{'}} ${{ $modelRouteAndViewName }}->toJson() }}"
+                inline-template>
 
-    <div class="form-group">
-        <label for="{{ $col['name'] }}" class="col-sm-2 control-label">{{ ucfirst($col['name']) }}</label>
-        <div class="col-sm-10">
-            <textarea class="form-control" rows="2" id="{{ $col['name'] }}" name="{{ $col['name'] }}" placeholder="Lorem ipsum dolor itum..">{{'{{'}} old('{{ $col['name'] }}', ${{ $objectName }}->{{ $col['name'] }}) }}</textarea>
-        </div>
-    </div>
-    @elseif($col['type'] == 'boolean')
+                <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
 
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" name="{{ $col['name'] }}" value="1"{{'@'}}if(old('{{ $col['name'] }}', ${{ $objectName }}->{{ $col['name'] }})) checked="checked"{{'@'}}endif> {{ ucfirst($col['name']) }}
-                </label>
-            </div>
-        </div>
-    </div>
-    @else
+                    <div class="card-header">
+                        <i class="fa fa-plus"></i> Edit the {{ $modelBaseName }}
+                    </div>
 
-    <div class="form-group">
-        <label for="{{ $col['name'] }}" class="col-sm-2 control-label">{{ ucfirst($col['name']) }}</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="{{ $col['name'] }}" name="{{ $col['name'] }}" placeholder="{{ ucfirst($col['name']) }}" value="{{'{{'}} old('{{ $col['name'] }}', ${{ $objectName }}->{{ $col['name'] }}) }}">
-        </div>
-    </div>
-    @endif
-@endforeach
+                    <div class="card-block">
 
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-primary">Save</button>
-        </div>
+                        {{'@'}}include('admin.{{ $modelRouteAndViewName }}.components.form-elements')
+
+                        {{'{{'}} csrf_field() }}
+
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+
+                </form>
+
+        </{{ $modelRouteAndViewName }}-form>
+
     </div>
 
-    {{'{{'}} method_field('PUT') }}
+</div>
 
 {{'@'}}endsection

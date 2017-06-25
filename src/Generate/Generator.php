@@ -64,12 +64,14 @@ abstract class Generator extends Command {
     protected function getVisibleColumns($tableName) {
         return $this->readColumnsFromTable($tableName)->filter(function($column) {
             return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
-        })->map(function($column){
+        })->map(function($column) use ($tableName){
             $serverRules = collect([]);
             $frontendRules = collect([]);
             if ($column['required']) {
                 $serverRules->push('required');
                 $frontendRules->push('required');
+            } else {
+                $serverRules->push('nullable');
             }
 
             if ($column['name'] == 'email') {
@@ -77,10 +79,14 @@ abstract class Generator extends Command {
                 $frontendRules->push('email');
             }
 
+            if ($column['name'] == 'slug') {
+                $serverRules->push('unique:'.$tableName);
+            }
+
             switch ($column['type']) {
                 case 'datetime':
                     $serverRules->push('date');
-                    $frontendRules->push('date_format:YYYY-MM-DD hh:mm:ss');
+                    $frontendRules->push('date_format:YYYY-MM-DD kk:mm:ss');
                     break;
                 case 'date':
                     $serverRules->push('date');
@@ -88,7 +94,7 @@ abstract class Generator extends Command {
                     break;
                 case 'time':
                     $serverRules->push('date_format:H:i:s');
-                    $frontendRules->push('date_format:hh:mm:ss');
+                    $frontendRules->push('date_format:kk:mm:ss');
                     break;
                 case 'integer':
                     $serverRules->push('integer');

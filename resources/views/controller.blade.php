@@ -65,7 +65,7 @@ class {{ $controllerBaseName }} extends Controller
 
         // Validate the request
         $this->validate($request, [
-            @foreach($columns as $column)'{{ $column['name'] }}' => '{{ implode('|', (array) $column['rules']) }}',
+            @foreach($columns as $column)'{{ $column['name'] }}' => '{{ implode('|', (array) $column['serverRules']) }}',
             @endforeach
 
         ]);
@@ -79,6 +79,10 @@ class {{ $controllerBaseName }} extends Controller
 
         // Store the {{ $modelBaseName }}
         {{ $modelBaseName }}::create($sanitized);
+
+        if ($request->ajax()) {
+            return ['redirect' => url('admin/{{ $modelRouteAndViewName }}')];
+        }
 
         return redirect('admin/{{ $modelRouteAndViewName }}')
             ->withSuccess("Created");
@@ -122,7 +126,7 @@ class {{ $controllerBaseName }} extends Controller
 
         // Validate the request
         $this->validate($request, [
-            @foreach($columns as $column)'{{ $column['name'] }}' => '{{ implode('|', (array) $column['rules']) }}',
+            @foreach($columns as $column)'{{ $column['name'] }}' => '{{ implode('|', (array) $column['serverRules']) }}',
             @endforeach
 
         ]);
@@ -136,6 +140,10 @@ class {{ $controllerBaseName }} extends Controller
 
         // Update changed values {{ $modelBaseName }}
         ${{ $modelVariableName }}->update($sanitized);
+
+        if ($request->ajax()) {
+            return ['redirect' => url('admin/{{ $modelRouteAndViewName }}')];
+        }
 
         return redirect('admin/{{ $modelRouteAndViewName }}')
             ->withSuccess("Updated");

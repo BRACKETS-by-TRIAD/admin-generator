@@ -55,15 +55,10 @@ class GenerateAdmin extends Generator {
             '--model' => $modelOption,
         ]);
 
-        $this->call('admin:generate:create', [
+        $this->call('admin:generate:form', [
             'table_name' => $tableNameArgument,
             '--model' => $modelOption,
         ]);
-//
-//        $this->call('admin:generate:edit', [
-//            'table_name' => $tableNameArgument,
-//            '--model' => $modelOption,
-//        ]);
 
         $this->call('admin:generate:factory', [
             'table_name' => $tableNameArgument,
