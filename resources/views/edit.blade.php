@@ -21,8 +21,6 @@
 
                         {{'@'}}include('admin.{{ $modelRouteAndViewName }}.components.form-elements')
 
-                        {{'{{'}} csrf_field() }}
-
                     </div>
 
                     <div class="card-footer">
