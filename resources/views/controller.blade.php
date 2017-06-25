@@ -57,7 +57,7 @@ class {{ $controllerBaseName }} extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|array
      */
     public function store(Request $request)
     {
@@ -96,6 +96,8 @@ class {{ $controllerBaseName }} extends Controller
     public function show({{ $modelBaseName }} ${{ $modelVariableName }})
     {
         // TODO add authorization
+
+        // TODO your code goes here
     }
 
     /**
@@ -118,7 +120,7 @@ class {{ $controllerBaseName }} extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|array
      */
     public function update(Request $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -152,14 +154,19 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|bool
      */
     public function destroy({{ $modelBaseName }} ${{ $modelVariableName }})
     {
         // TODO add authorization
 
         ${{ $modelVariableName }}->delete();
+
+        if ($request->ajax()) {
+            return true;
+        }
 
         return redirect()->back()
             ->withSuccess("Deleted");
