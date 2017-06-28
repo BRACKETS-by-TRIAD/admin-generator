@@ -97,7 +97,7 @@ class ViewForm extends Generator {
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
             'modelPlural' => $this->modelPlural,
 
-            'columns' => $this->getVisibleColumns($this->tableName),
+            'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
         ])->render();
     }
 
@@ -108,7 +108,7 @@ class ViewForm extends Generator {
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
             'modelPlural' => $this->modelPlural,
 
-            'columns' => $this->getVisibleColumns($this->tableName),
+            'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
         ])->render();
     }
 
@@ -119,7 +119,7 @@ class ViewForm extends Generator {
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
             'modelPlural' => $this->modelPlural,
 
-            'columns' => $this->getVisibleColumns($this->tableName),
+            'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
         ])->render();
     }
 

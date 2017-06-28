@@ -65,7 +65,7 @@ class {{ $controllerBaseName }} extends Controller
 
         // Validate the request
         $this->validate($request, [
-            @foreach($columns as $column)'{{ $column['name'] }}' => '{{ implode('|', (array) $column['serverRules']) }}',
+            @foreach($columns as $column)'{{ $column['name'] }}' => '{{ implode('|', (array) $column['serverStoreRules']) }}',
             @endforeach
 
         ]);
@@ -128,7 +128,7 @@ class {{ $controllerBaseName }} extends Controller
 
         // Validate the request
         $this->validate($request, [
-            @foreach($columns as $column)'{{ $column['name'] }}' => '{{ implode('|', (array) $column['serverRules']) }}',
+            @foreach($columns as $column)'{{ $column['name'] }}' => '{!! implode('|', (array) $column['serverUpdateRules']) !!}',
             @endforeach
 
         ]);

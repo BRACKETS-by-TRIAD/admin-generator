@@ -66,7 +66,7 @@ class Controller extends Generator {
 //            }),
 
             // validation in store/update
-            'columns' => $this->getVisibleColumns($this->tableName),
+            'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
         ])->render();
     }
 

@@ -61,71 +61,97 @@ abstract class Generator extends Command {
         });
     }
 
-    protected function getVisibleColumns($tableName) {
-        return $this->readColumnsFromTable($tableName)->filter(function($column) {
+    protected function getVisibleColumns($tableName, $modelVariableName) {
+        $columns = $this->readColumnsFromTable($tableName);
+        $hasSoftDelete = ($columns->filter(function($column) {
+            return $column['name'] == "deleted_at";
+        })->count() > 0);
+        return $columns->filter(function($column) {
             return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
-        })->map(function($column) use ($tableName){
-            $serverRules = collect([]);
+        })->map(function($column) use ($tableName, $hasSoftDelete, $modelVariableName){
+            $serverStoreRules = collect([]);
+            $serverUpdateRules = collect([]);
             $frontendRules = collect([]);
             if ($column['required']) {
-                $serverRules->push('required');
+                $serverStoreRules->push('required');
+                $serverUpdateRules->push('required');
                 $frontendRules->push('required');
             } else {
-                $serverRules->push('nullable');
+                $serverStoreRules->push('nullable');
+                $serverUpdateRules->push('nullable');
             }
 
             if ($column['name'] == 'email') {
-                $serverRules->push('email');
+                $serverStoreRules->push('email');
+                $serverUpdateRules->push('email');
                 $frontendRules->push('email');
             }
 
             if ($column['name'] == 'slug') {
-                $serverRules->push('unique:'.$tableName);
+                $storeRule = 'unique:'.$tableName;
+                $updateRule = 'unique:'.$tableName.','.$column['name'].',\'.$'.$modelVariableName.'->getKey().\',\'.$'.$modelVariableName.'->getKeyName().\'';
+                if($hasSoftDelete) {
+                    $storeRule .= ','.$column['name'].',NULL,id,deleted_at,NULL';
+                    $updateRule .= ',deleted_at,NULL';
+                }
+                $serverStoreRules->push($storeRule);
+                $serverUpdateRules->push($updateRule);
             }
 
             switch ($column['type']) {
                 case 'datetime':
-                    $serverRules->push('date');
+                    $serverStoreRules->push('date');
+                    $serverUpdateRules->push('date');
                     $frontendRules->push('date_format:YYYY-MM-DD kk:mm:ss');
                     break;
                 case 'date':
-                    $serverRules->push('date');
+                    $serverStoreRules->push('date');
+                    $serverUpdateRules->push('date');
                     $frontendRules->push('date_format:YYYY-MM-DD');
                     break;
                 case 'time':
-                    $serverRules->push('date_format:H:i:s');
+                    $serverStoreRules->push('date_format:H:i:s');
+                    $serverUpdateRules->push('date_format:H:i:s');
                     $frontendRules->push('date_format:kk:mm:ss');
                     break;
                 case 'integer':
-                    $serverRules->push('integer');
+                    $serverStoreRules->push('integer');
+                    $serverUpdateRules->push('integer');
                     $frontendRules->push('numeric');
                     break;
                 case 'boolean':
-                    $serverRules->push('boolean');
+                    $serverStoreRules->push('boolean');
+                    $serverUpdateRules->push('boolean');
                     $frontendRules->push('');
                     break;
                 case 'float':
-                    $serverRules->push('numeric');
+                    $serverStoreRules->push('numeric');
+                    $serverUpdateRules->push('numeric');
                     $frontendRules->push('decimal');
                     break;
                 case 'decimal':
-                    $serverRules->push('numeric');
+                    $serverStoreRules->push('numeric');
+                    $serverUpdateRules->push('numeric');
                     $frontendRules->push('decimal'); // FIXME?? I'm not sure about this one
                     break;
                 case 'string':
-                    $serverRules->push('string');
+                    $serverStoreRules->push('string');
+                    $serverUpdateRules->push('string');
                     break;
                 case 'text':
-                    $serverRules->push('string');
+                    $serverStoreRules->push('string');
+                    $serverUpdateRules->push('string');
                     break;
                 default:
-                    $serverRules->push('string');
+                    $serverStoreRules->push('string');
+                    $serverUpdateRules->push('string');
             }
 
             return [
                 'name' => $column['name'],
                 'type' => $column['type'],
-                'serverRules' => $serverRules->toArray(),
+                'serverStoreRules' => $serverStoreRules->toArray(),
+                'serverUpdateRules' => $serverUpdateRules->toArray(),
                 'frontendRules' => $frontendRules->toArray(),
             ];
         });
