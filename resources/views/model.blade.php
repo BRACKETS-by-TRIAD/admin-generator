@@ -5,6 +5,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class {{ $modelBaseName }} extends Model
 {
+    @if (!is_null($tableName))protected $table = '{{ $tableName }}';
+    @endif
 
     @if ($fillable)protected $fillable = [
     @foreach($fillable as $f)

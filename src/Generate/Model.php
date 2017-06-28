@@ -58,6 +58,7 @@ class Model extends Generator {
             'timestamps' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return in_array($column['name'], ['created_at', 'updated_at']);
             })->count() > 0,
+            'tableName' => (!empty($this->option('model')) && $this->option('model') !== Str::studly(Str::singular($this->tableName))) ? $this->tableName : null,
         ])->render();
     }
 
