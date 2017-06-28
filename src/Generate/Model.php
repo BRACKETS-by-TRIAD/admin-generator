@@ -55,6 +55,9 @@ class Model extends Generator {
             'fillable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return !in_array($column['name'], ['id', 'created_at', 'updated_at', 'deleted_at']);
             })->pluck('name'),
+            'timestamps' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return in_array($column['name'], ['created_at', 'updated_at']);
+            })->count() > 0,
         ])->render();
     }
 

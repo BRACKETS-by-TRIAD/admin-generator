@@ -22,4 +22,7 @@ class {{ $modelBaseName }} extends Model
     ];
     @endif
 
+    @if (!$timestamps)public $timestamps = false;
+    @endif
+
 }
