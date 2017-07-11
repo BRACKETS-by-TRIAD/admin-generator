@@ -165,7 +165,7 @@ class {{ $controllerBaseName }} extends Controller
         ${{ $modelVariableName }}->delete();
 
         if ($request->ajax()) {
-            return true;
+            return response(['success' => true]);
         }
 
         return redirect()->back()

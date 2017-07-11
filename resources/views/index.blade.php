@@ -58,7 +58,7 @@
                                             <div class="col-auto">
                                                 <a class="btn btn-sm btn-info" :href="'{{'{{'}} url('admin/{{ $modelRouteAndViewName }}/edit') }}/' + item.id" title="Edit" role="button"><i class="fa fa-edit"></i></a>
                                             </div>
-                                            <form class="col" :action="'{{'{{'}} url('admin/{{ $modelRouteAndViewName }}/destroy') }}/' + item.id" method="post">
+                                            <form class="col" :action="'{{'{{'}} url('admin/{{ $modelRouteAndViewName }}/destroy') }}/' + item.id" method="post" @submit="deleteItem(item.id, $event)">
                                                 <input name="_method" type="hidden" value="DELETE">
                                                 {{'{'}}!! csrf_field() !!{{'}'}}
                                                 <button type="submit" class="btn btn-sm btn-danger" title="Delete"><i class="fa fa-trash-o"></i></button>
