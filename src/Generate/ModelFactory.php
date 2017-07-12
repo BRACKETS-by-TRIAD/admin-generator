@@ -29,9 +29,7 @@ class ModelFactory extends Generator {
 
         $path = base_path('database/factories/ModelFactory.php');
 
-        // FIXME add check, if file consists "App\Models\Article::class" and if yes, skip appending
-
-        $this->files->append($path, $this->buildClass());
+        $this->appendIfNotAlreadyAppended($path, $this->buildClass());
 
         $this->info('Appending to Model Factory finished');
 

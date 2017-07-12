@@ -31,7 +31,7 @@ class Routes extends Generator {
 
         // FIXME add check, if file already consists
 
-        $this->files->append($routesPath, "\n\n".$this->buildClass());
+        $this->appendIfNotAlreadyAppended($routesPath, "\n\n".$this->buildClass());
 
         $this->info('Appending routes finished');
 

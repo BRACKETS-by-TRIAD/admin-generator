@@ -48,7 +48,7 @@ class ViewIndex extends Generator {
 
             $this->files->put($listingJsPath, $this->buildListingJs());
 
-            $this->files->append($bootstrapJsPath, "\nrequire('./".$this->modelRouteAndViewName."/Listing')");
+            $this->appendIfNotAlreadyAppended($bootstrapJsPath, "\nrequire('./".$this->modelRouteAndViewName."/Listing')");
 
             $this->info('Generating '.$listingJsPath.' finished');
         }

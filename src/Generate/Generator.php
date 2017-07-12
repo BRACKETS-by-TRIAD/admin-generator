@@ -172,12 +172,29 @@ abstract class Generator extends Command {
     /**
      * Determine if the content is already present in the file
      *
+     * @param $path
+     * @param $content
      * @return bool
      */
-    protected function alreadyAppended()
+    protected function alreadyAppended($path, $content)
     {
-        // TODO
+        if (strpos($this->files->get($path), $content) !== false) {
+            return true;
+        }
         return false;
+    }
+
+    /**
+     * Append content to file only if if the content is not present in the file
+     *
+     * @param $path
+     * @param $content
+     */
+    protected function appendIfNotAlreadyAppended($path, $content)
+    {
+        if (!$this->alreadyAppended($path, $content)) {
+            $this->files->append($path, $content);
+        }
     }
 
     public function option($key = null) {
