@@ -158,14 +158,14 @@ class {{ $controllerBaseName }} extends Controller
      * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
      * @return \Illuminate\Http\Response|bool
      */
-    public function destroy({{ $modelBaseName }} ${{ $modelVariableName }})
+    public function destroy(Request $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
         // TODO add authorization
 
         ${{ $modelVariableName }}->delete();
 
         if ($request->ajax()) {
-            return response(['success' => true]);
+            return response([]);
         }
 
         return redirect()->back()
