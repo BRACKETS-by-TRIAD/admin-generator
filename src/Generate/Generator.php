@@ -51,12 +51,25 @@ abstract class Generator extends Command {
 
         // TODO process also "_translation" table when using i18n models
 
-        return collect(Schema::getColumnListing($tableName))->map(function($columnName) use ($tableName) {
+        $indexes = collect(Schema::getConnection()->getDoctrineSchemaManager()->listTableIndexes($tableName));
+        return collect(Schema::getColumnListing($tableName))->map(function($columnName) use ($tableName, $indexes) {
+
+            //Checked unique index
+            $columnUniqueIndexes = $indexes->filter(function($index) use ($columnName) {
+                return in_array($columnName, $index->getColumns()) && ($index->isUnique() && !$index->isPrimary());
+            });
+            $columnUniqueDeleteAtCondition = $columnUniqueIndexes->filter(function($index) {
+                return $this->hasOption('where') ? $index->getOption('where') == '(deleted_at IS NULL)' : false;
+            });
+
+            //TODO add foreign key
 
             return [
                 'name' => $columnName,
                 'type' => Schema::getColumnType($tableName, $columnName),
                 'required' => boolval(Schema::getConnection()->getDoctrineColumn($tableName, $columnName)->getNotnull()),
+                'unique' => $columnUniqueIndexes->count() > 0,
+                'unique_deleted_at_condition' => $columnUniqueDeleteAtCondition->count() > 0,
             ];
         });
     }
@@ -67,7 +80,7 @@ abstract class Generator extends Command {
             return $column['name'] == "deleted_at";
         })->count() > 0);
         return $columns->filter(function($column) {
-            return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
+            return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at" || $column['name'] == "remember_token");
         })->map(function($column) use ($tableName, $hasSoftDelete, $modelVariableName){
             $serverStoreRules = collect([]);
             $serverUpdateRules = collect([]);
@@ -75,7 +88,9 @@ abstract class Generator extends Command {
             if ($column['required']) {
                 $serverStoreRules->push('required');
                 $serverUpdateRules->push('required');
-                $frontendRules->push('required');
+                if($column['type'] != 'boolean' && $column['name'] != 'password') {
+                    $frontendRules->push('required');
+                }
             } else {
                 $serverStoreRules->push('nullable');
                 $serverUpdateRules->push('nullable');
@@ -87,10 +102,26 @@ abstract class Generator extends Command {
                 $frontendRules->push('email');
             }
 
-            if ($column['name'] == 'slug') {
+            if ($column['name'] == 'password') {
+                $serverStoreRules->push('confirmed');
+                $serverUpdateRules->push('sometimes');
+                $serverUpdateRules->push('confirmed');
+                $frontendRules->push('confirmed:password_confirmation');
+
+                $serverStoreRules->push('min:7');
+                $serverUpdateRules->push('min:7');
+                $frontendRules->push('min:7');
+
+                $serverStoreRules->push('regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9]).*$/');
+                $serverUpdateRules->push('regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9]).*$/');
+                //TODO not working, need fixing
+//                $frontendRules->push('regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!$#%]).*$/g');
+            }
+
+            if ($column['unique']) {
                 $storeRule = 'unique:'.$tableName;
                 $updateRule = 'unique:'.$tableName.','.$column['name'].',\'.$'.$modelVariableName.'->getKey().\',\'.$'.$modelVariableName.'->getKeyName().\'';
-                if($hasSoftDelete) {
+                if($hasSoftDelete && $column['unique_deleted_at_condition']) {
                     $storeRule .= ','.$column['name'].',NULL,id,deleted_at,NULL';
                     $updateRule .= ',deleted_at,NULL';
                 }

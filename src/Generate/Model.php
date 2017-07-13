@@ -53,10 +53,16 @@ class Model extends Generator {
                 return $column['type'] == "datetime" || $column['type'] == "date";
             })->pluck('name'),
             'fillable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
-                return !in_array($column['name'], ['id', 'created_at', 'updated_at', 'deleted_at']);
+                return !in_array($column['name'], ['id', 'created_at', 'updated_at', 'deleted_at', 'remember_token']);
+            })->pluck('name'),
+            'hidden' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return in_array($column['name'], ['password', 'remember_token']);
             })->pluck('name'),
             'timestamps' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return in_array($column['name'], ['created_at', 'updated_at']);
+            })->count() > 0,
+            'hasSoftDelete' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return $column['name'] == "deleted_at";
             })->count() > 0,
             'tableName' => (!empty($this->option('model')) && $this->option('model') !== Str::studly(Str::singular($this->tableName))) ? $this->tableName : null,
         ])->render();

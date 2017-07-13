@@ -8,7 +8,7 @@
 
             <{{ $modelRouteAndViewName }}-form
                 :action="'{{'{{'}} route('admin/{{ $modelRouteAndViewName }}/update', ['{{ $modelRouteAndViewName }}' => ${{ $modelRouteAndViewName }}]) }}'"
-                :default="{{'{{'}} ${{ $modelRouteAndViewName }}->toJson() }}"
+                :data="{{'{{'}} ${{ $modelRouteAndViewName }}->toJson() }}"
                 inline-template>
 
                 <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">

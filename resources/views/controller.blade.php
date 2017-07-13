@@ -5,6 +5,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Brackets\Admin\AdminListing;
 use {{ $modelFullName }};
+@if($userGeneration)use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
+@endif
 
 class {{ $controllerBaseName }} extends Controller
 {
@@ -77,6 +80,12 @@ class {{ $controllerBaseName }} extends Controller
 
         ]);
 
+        @if($userGeneration)
+
+        //Modify input, set activated if needed and set hashed password
+        $sanitized = $this->modifyInputData($sanitized, false);
+        @endif
+
         // Store the {{ $modelBaseName }}
         {{ $modelBaseName }}::create($sanitized);
 
@@ -139,6 +148,11 @@ class {{ $controllerBaseName }} extends Controller
             @endforeach
 
         ]);
+        @if($userGeneration)
+
+        //Modify input, set activated if needed and set hashed password
+        $sanitized = $this->modifyInputData($sanitized, true);
+        @endif
 
         // Update changed values {{ $modelBaseName }}
         ${{ $modelVariableName }}->update($sanitized);
@@ -171,5 +185,34 @@ class {{ $controllerBaseName }} extends Controller
         return redirect()->back()
             ->withSuccess("Deleted");
     }
+
+    @if($userGeneration)
+    /**
+    * Modify input data for save
+    *
+    * @param  array $data
+    * @param  bool $edit
+    * @return array
+    */
+    protected function modifyInputData($data, $edit = false)
+    {
+@if($columns->search(function ($item, $key) {
+    return $item['name'] == 'activated';
+}))
+        if(!Config::get('activation.activationRequired')) {
+            $data['activated'] = true;
+        } else {
+            $data['activated'] = false;
+        }
+@endif
+        if (array_key_exists('password', $data) && empty($data['password']) && $edit) {
+            unset($data['password']);
+        }
+        if(!empty($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+        return $data;
+    }
+    @endif
 
 }

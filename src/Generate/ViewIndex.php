@@ -48,7 +48,7 @@ class ViewIndex extends Generator {
 
             $this->files->put($listingJsPath, $this->buildListingJs());
 
-            $this->appendIfNotAlreadyAppended($bootstrapJsPath, "\nrequire('./".$this->modelRouteAndViewName."/Listing')");
+            $this->appendIfNotAlreadyAppended($bootstrapJsPath, "require('./".$this->modelRouteAndViewName."/Listing')\n");
 
             $this->info('Generating '.$listingJsPath.' finished');
         }
@@ -63,7 +63,7 @@ class ViewIndex extends Generator {
             'modelPlural' => $this->modelPlural,
 
             'columns' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
-                return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
+                return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "remember_token" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
             })->pluck('name'),
 //            'filters' => $this->readColumnsFromTable($tableName)->filter(function($column) {
 //                return $column['type'] == 'boolean' || $column['type'] == 'date';

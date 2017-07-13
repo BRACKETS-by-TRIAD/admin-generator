@@ -83,7 +83,7 @@ class ViewForm extends Generator {
 
             $this->files->put($formJsPath, $this->buildFormJs());
 
-            $this->appendIfNotAlreadyAppended($bootstrapJsPath, "\nrequire('./".$this->modelRouteAndViewName."/Form')");
+            $this->appendIfNotAlreadyAppended($bootstrapJsPath, "require('./".$this->modelRouteAndViewName."/Form')\n");
 
             $this->info('Generating '.$formJsPath.' finished');
         }
