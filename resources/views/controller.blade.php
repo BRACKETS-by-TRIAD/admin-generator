@@ -196,15 +196,6 @@ class {{ $controllerBaseName }} extends Controller
     */
     protected function modifyInputData($data, $edit = false)
     {
-@if($columns->search(function ($item, $key) {
-    return $item['name'] == 'activated';
-}))
-        if(!Config::get('activation.activationRequired')) {
-            $data['activated'] = true;
-        } else {
-            $data['activated'] = false;
-        }
-@endif
         if (array_key_exists('password', $data) && empty($data['password']) && $edit) {
             unset($data['password']);
         }
