@@ -59,7 +59,7 @@ abstract class Generator extends Command {
                 return in_array($columnName, $index->getColumns()) && ($index->isUnique() && !$index->isPrimary());
             });
             $columnUniqueDeleteAtCondition = $columnUniqueIndexes->filter(function($index) {
-                return $this->hasOption('where') ? $index->getOption('where') == '(deleted_at IS NULL)' : false;
+                return $index->hasOption('where') ? $index->getOption('where') == '(deleted_at IS NULL)' : false;
             });
 
             //TODO add foreign key
