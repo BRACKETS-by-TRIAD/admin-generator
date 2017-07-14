@@ -51,7 +51,7 @@
                             <tbody>
                                 <tr v-for="(item, index) in collection">
                                     @foreach($columns as $col)@if($col['switch'])<td>
-                                        <label class="switch switch-3d switch-primary">
+                                        <label class="switch switch-3d switch-success">
                                             <input type="checkbox" class="switch-input" v-model="collection[index].{{ $col['name'] }}" @change="toggleSwitch('{{'{{'}} url('admin/{{ $modelRouteAndViewName }}/update') }}/' + item.id, '{{ $col['name'] }}', collection[index])">
                                             <span class="switch-label"></span>
                                             <span class="switch-handle"></span>
