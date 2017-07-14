@@ -42,15 +42,23 @@
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    @foreach($columns as $col)<th is='sortable' :column="'{{ $col }}'">{{ ucfirst($col) }}</th>
+                                    @foreach($columns as $col)<th is='sortable' :column="'{{ $col['name'] }}'">{{ ucfirst($col['name']) }}</th>
                                     @endforeach
 
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="item in collection">
-                                    @foreach($columns as $col)<td>{{'@{{'}} item.{{ $col }} }}</td>
+                                <tr v-for="(item, index) in collection">
+                                    @foreach($columns as $col)@if($col['switch'])<td>
+                                        <label class="switch switch-3d switch-primary">
+                                            <input type="checkbox" class="switch-input" v-model="collection[index].{{ $col['name'] }}" @change="toggleSwitch('{{'{{'}} url('admin/{{ $modelRouteAndViewName }}/update') }}/' + item.id, '{{ $col['name'] }}', collection[index])">
+                                            <span class="switch-label"></span>
+                                            <span class="switch-handle"></span>
+                                        </label>
+                                    </td>
+                                    @else<td>{{'@{{'}} item.{{ $col['name'] }}{{ $col['filters'] }} }}</td>@endif
+
                                     @endforeach
 
                                     <td>

@@ -64,7 +64,23 @@ class ViewIndex extends Generator {
 
             'columns' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
-            })->pluck('name'),
+            })->map(function($col){
+
+                $filters = collect([]);
+                $col['switch'] = false;
+
+                if ($col['type'] == 'date' || $col['type'] == 'time' || $col['type'] == 'datetime') {
+                    $filters->push($col['type']);
+                }
+
+                if ($col['name'] == 'enabled' || $col['name'] == 'activated') {
+                    $col['switch'] = true;
+                }
+
+                $col['filters'] = $filters->isNotEmpty() ? ' | '.implode(' | ', $filters->toArray()) : '';
+
+                return $col;
+            }),
 //            'filters' => $this->readColumnsFromTable($tableName)->filter(function($column) {
 //                return $column['type'] == 'boolean' || $column['type'] == 'date';
 //            }),
