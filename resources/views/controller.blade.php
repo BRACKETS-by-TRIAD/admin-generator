@@ -18,14 +18,14 @@ class {{ $controllerBaseName }} extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response|array
      */
-    public function index(Request $request)
+    public function index(Request $request, AdminListing $listing)
     {
         // TODO add authorization
 
         // TODO params validation (filter/search/pagination/ordering) - maybe extract as a Request?
 
         // create and AdminListing instance for a specific model and
-        $data = AdminListing::instance({{ $modelBaseName }}::class)->processRequestAndGet(
+        $data = $listing->setModel({{ $modelBaseName }}::class)->processRequestAndGet(
             // pass the request with params
             $request,
 
