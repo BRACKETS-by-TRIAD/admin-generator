@@ -138,7 +138,7 @@ abstract class Generator extends Command {
                 case 'date':
                     $serverStoreRules->push('date');
                     $serverUpdateRules->push('date');
-                    $frontendRules->push('date_format:YYYY-MM-DD');
+                    $frontendRules->push('date_format:YYYY-MM-DD kk:mm:ss');
                     break;
                 case 'time':
                     $serverStoreRules->push('date_format:H:i:s');
