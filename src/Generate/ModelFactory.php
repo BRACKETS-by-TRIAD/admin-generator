@@ -46,32 +46,38 @@ class ModelFactory extends Generator {
                     return $col['name'] != 'id';
                 })
                 ->map(function($col) {
-                if ($col['type'] == 'date') {
-                    $type = '$faker->date()';
-                } elseif ($col['type'] == 'time') {
-                    $type = '$faker->time()';
-                } elseif ($col['type'] == 'datetime') {
-                    $type = '$faker->dateTime';
-                } elseif ($col['type'] == 'text') {
-                    $type = '$faker->text()';
-                } elseif ($col['type'] == 'boolean') {
-                    $type = '$faker->boolean()';
-                } elseif ($col['type'] == 'integer' || $col['type'] == 'numeric' || $col['type'] == 'decimal') {
-                    $type = '$faker->randomNumber(5)';
-                } elseif ($col['type'] == 'float') {
-                    $type = '$faker->randomFloat';
-                } elseif ($col['name'] == 'title') {
-                    $type = '$faker->sentence';
-                } elseif ($col['name'] == 'name' || $col['name'] == 'first_name') {
-                    $type = '$faker->firstName';
-                } elseif ($col['name'] == 'surname' || $col['name'] == 'last_name') {
-                    $type = '$faker->lastName';
-                } elseif ($col['name'] == 'slug') {
-                    $type = '$faker->unique()->slug';
-                } elseif ($col['name'] == 'password') {
-                    $type = 'bcrypt($faker->password)';
+                if($col['name'] == 'deleted_at') {
+                    $type = 'null';
+                } else if($col['name'] == 'remember_token') {
+                    $type = 'null';
                 } else {
-                    $type = '$faker->words';
+                    if ($col['type'] == 'date') {
+                        $type = '$faker->date()';
+                    } elseif ($col['type'] == 'time') {
+                        $type = '$faker->time()';
+                    } elseif ($col['type'] == 'datetime') {
+                        $type = '$faker->dateTime';
+                    } elseif ($col['type'] == 'text') {
+                        $type = '$faker->text()';
+                    } elseif ($col['type'] == 'boolean') {
+                        $type = '$faker->boolean()';
+                    } elseif ($col['type'] == 'integer' || $col['type'] == 'numeric' || $col['type'] == 'decimal') {
+                        $type = '$faker->randomNumber(5)';
+                    } elseif ($col['type'] == 'float') {
+                        $type = '$faker->randomFloat';
+                    } elseif ($col['name'] == 'title') {
+                        $type = '$faker->sentence';
+                    } elseif ($col['name'] == 'name' || $col['name'] == 'first_name') {
+                        $type = '$faker->firstName';
+                    } elseif ($col['name'] == 'surname' || $col['name'] == 'last_name') {
+                        $type = '$faker->lastName';
+                    } elseif ($col['name'] == 'slug') {
+                        $type = '$faker->unique()->slug';
+                    } elseif ($col['name'] == 'password') {
+                        $type = 'bcrypt($faker->password)';
+                    } else {
+                        $type = '$faker->words';
+                    }
                 }
                 return [
                     'name' => $col['name'],

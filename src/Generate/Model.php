@@ -20,12 +20,26 @@ class Model extends Generator {
     protected $description = 'Generate a model class';
 
     /**
+     * Path for view
+     *
+     * @var string
+     */
+    protected $view = 'model';
+
+    /**
      * Execute the console command.
      *
      * @return mixed
      */
     public function fire()
     {
+        //TODO check if exists
+        //TODO make global for all generator
+        //TODO also with prefix
+        if(!empty($template = $this->option('template'))) {
+            $this->view = 'templates.'.$template.'.model';
+        }
+
         $modelPath = base_path($this->getPathFromClassName($this->modelFullName));
 
         if ($this->alreadyExists($modelPath)) {
@@ -45,7 +59,7 @@ class Model extends Generator {
 
     protected function buildClass() {
 
-        return view('brackets/admin-generator::model', [
+        return view('brackets/admin-generator::'.$this->view, [
             'modelBaseName' => $this->modelBaseName,
             'modelNameSpace' => $this->modelNamespace,
 
@@ -71,6 +85,7 @@ class Model extends Generator {
     protected function getOptions() {
         return [
             ['model', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
+            ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
         ];
     }
 

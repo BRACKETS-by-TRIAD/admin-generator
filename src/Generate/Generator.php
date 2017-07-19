@@ -268,6 +268,7 @@ abstract class Generator extends Command {
     protected function initNames() {
         $this->tableName = $this->argument('table_name');
 
+        //FIXME need get full paths, do not prepend namespace
         $this->controllerBaseName = class_basename($this->option('controller')) ?: (Str::studly($this->tableName) . "Controller");
         $this->controllerPartiallyFullName = "Admin\\".($this->option('controller') ?: (Str::studly($this->tableName) . "Controller"));
         $this->controllerFullName = "App\\Http\\Controllers\\".$this->controllerPartiallyFullName;
