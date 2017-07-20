@@ -2,8 +2,8 @@
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Console\Input\InputArgument;
-use Schema;
 use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputInterface;
