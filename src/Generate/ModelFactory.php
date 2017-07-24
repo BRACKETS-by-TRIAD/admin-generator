@@ -71,7 +71,7 @@ class ModelFactory extends Generator {
                 } elseif ($col['name'] == 'password') {
                     $type = 'bcrypt($faker->password)';
                 } else {
-                    $type = '$faker->word';
+                    $type = '$faker->sentence';
                 }
                 return [
                     'name' => $col['name'],
