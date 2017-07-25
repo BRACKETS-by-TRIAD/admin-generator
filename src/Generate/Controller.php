@@ -1,5 +1,6 @@
 <?php namespace Brackets\AdminGenerator\Generate;
 
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
 class Controller extends Generator {
@@ -37,6 +38,10 @@ class Controller extends Generator {
         //TODO also with prefix
         if(!empty($template = $this->option('template'))) {
             $this->view = 'templates.'.$template.'.controller';
+        }
+
+        if(!empty($belongsToMany = $this->option('belongsToMany'))) {
+            $this->setBelongToManyRelation($belongsToMany);
         }
 
         $controllerPath = base_path($this->getPathFromClassName($this->controllerFullName));
@@ -85,6 +90,7 @@ class Controller extends Generator {
 
             // validation in store/update
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
+            'relations' => $this->relations,
         ])->render();
     }
 
@@ -93,6 +99,7 @@ class Controller extends Generator {
             ['model', 'm', InputOption::VALUE_OPTIONAL, 'Generates a controller for the given model'],
             ['controller', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
+            ['belongsToMany', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
         ];
     }
 

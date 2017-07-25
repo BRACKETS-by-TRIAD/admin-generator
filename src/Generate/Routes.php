@@ -24,7 +24,7 @@ class Routes extends Generator {
      *
      * @var string
      */
-    protected $view = 'controller';
+    protected $view = 'routes';
 
     /**
      * Execute the console command.

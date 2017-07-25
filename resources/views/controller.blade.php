@@ -1,4 +1,4 @@
-@php echo "<?php"
+@php echo "<?php";
 @endphp namespace {{ $controllerNamespace }};
 
 use App\Http\Controllers\Controller;
@@ -7,6 +7,13 @@ use Brackets\Admin\AdminListing;
 use {{ $modelFullName }};
 @if($userGeneration)use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
+@endif
+@if (count($relations))
+@if (count($relations['belongsToMany']))
+@foreach($relations['belongsToMany'] as $belongsToMany)
+use {{ $belongsToMany['related_model'] }};
+@endforeach
+@endif
 @endif
 
 class {{ $controllerBaseName }} extends Controller
@@ -53,7 +60,15 @@ class {{ $controllerBaseName }} extends Controller
     {
         // TODO add authorization
 
-        return view('admin.{{ $modelRouteAndViewName }}.create');
+        return view('admin.{{ $modelRouteAndViewName }}.create',[
+@if (count($relations))
+@if (count($relations['belongsToMany']))
+@foreach($relations['belongsToMany'] as $belongsToMany)
+            '{{ $belongsToMany['related_table'] }}' => {{ $belongsToMany['related_model_name'] }}::all(),
+@endforeach
+@endif
+@endif
+        ]);
     }
 
     /**
@@ -87,7 +102,16 @@ class {{ $controllerBaseName }} extends Controller
         @endif
 
         // Store the {{ $modelBaseName }}
-        {{ $modelBaseName }}::create($sanitized);
+        ${{ $modelVariableName }} = {{ $modelBaseName }}::create($sanitized);
+
+@if (count($relations))
+@if (count($relations['belongsToMany']))
+@foreach($relations['belongsToMany'] as $belongsToMany)
+        // But we do have a {{ $belongsToMany['related_table'] }}, so we need to attach the {{ $belongsToMany['related_table'] }} to the {{ $modelVariableName }}
+        ${{ $modelVariableName }}->{{ $belongsToMany['related_table'] }}()->sync($request->input('{{ $belongsToMany['related_table'] }}', []));
+@endforeach
+@endif
+@endif
 
         if ($request->ajax()) {
             return ['redirect' => url('admin/{{ $modelRouteAndViewName }}')];
@@ -119,8 +143,23 @@ class {{ $controllerBaseName }} extends Controller
     {
         // TODO add authorization
 
+@if (count($relations))
+@if (count($relations['belongsToMany']))
+@foreach($relations['belongsToMany'] as $belongsToMany)
+        ${{ $modelVariableName }}->load('{{ $belongsToMany['related_table'] }}');
+@endforeach
+@endif
+@endif
+
         return view('admin.{{ $modelRouteAndViewName }}.edit', [
             '{{ $modelRouteAndViewName }}' => ${{ $modelVariableName }},
+@if (count($relations))
+@if (count($relations['belongsToMany']))
+@foreach($relations['belongsToMany'] as $belongsToMany)
+            '{{ $belongsToMany['related_table'] }}' => {{ $belongsToMany['related_model_name'] }}::all(),
+@endforeach
+@endif
+@endif
         ]);
     }
 
@@ -156,6 +195,15 @@ class {{ $controllerBaseName }} extends Controller
 
         // Update changed values {{ $modelBaseName }}
         ${{ $modelVariableName }}->update($sanitized);
+
+@if (count($relations))
+@if (count($relations['belongsToMany']))
+@foreach($relations['belongsToMany'] as $belongsToMany)
+        // But we do have a {{ $belongsToMany['related_table'] }}, so we need to attach the {{ $belongsToMany['related_table'] }} to the {{ $modelVariableName }}
+        ${{ $modelVariableName }}->{{ $belongsToMany['related_table'] }}()->sync($request->input('{{ $belongsToMany['related_table'] }}', []));
+@endforeach
+@endif
+@endif
 
         if ($request->ajax()) {
             return ['redirect' => url('admin/{{ $modelRouteAndViewName }}')];

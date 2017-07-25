@@ -26,6 +26,9 @@ class ViewForm extends Generator {
      */
     public function fire()
     {
+        if(!empty($belongsToMany = $this->option('belongsToMany'))) {
+            $this->setBelongToManyRelation($belongsToMany);
+        }
 
         $viewPath = resource_path('views/admin/'.$this->modelRouteAndViewName.'/components/form-elements.blade.php');
         if ($this->alreadyExists($viewPath)) {
@@ -98,6 +101,7 @@ class ViewForm extends Generator {
             'modelPlural' => $this->modelPlural,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
+            'relations' => $this->relations,
         ])->render();
     }
 
@@ -132,6 +136,7 @@ class ViewForm extends Generator {
     protected function getOptions() {
         return [
             ['model', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
+            ['belongsToMany', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
         ];
     }
 
