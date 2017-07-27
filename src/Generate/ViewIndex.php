@@ -20,12 +20,34 @@ class ViewIndex extends Generator {
     protected $description = 'Generate an index view template';
 
     /**
+     * Path for view
+     *
+     * @var string
+     */
+    protected $view = 'index';
+
+    /**
+     * Path for js view
+     *
+     * @var string
+     */
+    protected $viewJs = 'listing-js';
+
+    /**
      * Execute the console command.
      *
      * @return mixed
      */
     public function fire()
     {
+
+        //TODO check if exists
+        //TODO make global for all generator
+        //TODO also with prefix
+        if(!empty($template = $this->option('template'))) {
+            $this->view = 'templates.'.$template.'.index';
+            $this->viewJs = 'templates.'.$template.'.listing-js';
+        }
 
         $viewPath = resource_path('views/admin/'.$this->modelRouteAndViewName.'/index.blade.php');
         $listingJsPath = resource_path('assets/js/admin/'.$this->modelRouteAndViewName.'/Listing.js');
@@ -57,7 +79,7 @@ class ViewIndex extends Generator {
 
     protected function buildView() {
 
-        return view('brackets/admin-generator::index', [
+        return view('brackets/admin-generator::'.$this->view, [
             'modelBaseName' => $this->modelBaseName,
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
             'modelPlural' => $this->modelPlural,
@@ -88,7 +110,7 @@ class ViewIndex extends Generator {
     }
 
     protected function buildListingJs() {
-        return view('brackets/admin-generator::listing-js', [
+        return view('brackets/admin-generator::'.$this->viewJs, [
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
         ])->render();
     }
@@ -96,6 +118,7 @@ class ViewIndex extends Generator {
     protected function getOptions() {
         return [
             ['model', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
+            ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
         ];
     }
 

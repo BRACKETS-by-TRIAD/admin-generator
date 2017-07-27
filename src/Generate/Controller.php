@@ -85,9 +85,6 @@ class Controller extends Generator {
 //            'filters' => $this->readColumnsFromTable($tableName)->filter(function($column) {
 //                return $column['type'] == 'boolean' || $column['type'] == 'date';
 //            }),
-            //TODO change to better check
-            'userGeneration' => $this->tableName == 'users',
-
             // validation in store/update
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
             'relations' => $this->relations,
