@@ -39,7 +39,7 @@
                             </div>
                         </form>
 
-                        <table class="table table-striped table-hover">
+                        <table class="table table-hover">
                             <thead>
                                 <tr>
                                     @foreach($columns as $col)<th is='sortable' :column="'{{ $col['name'] }}'">{{ ucfirst($col['name']) }}</th>
