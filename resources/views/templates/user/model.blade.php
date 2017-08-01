@@ -12,14 +12,20 @@
     }
 @endphp
 
-use Illuminate\Database\Eloquent\Model;
+use Brackets\AdminAuth\Auth\Activations\CanActivate;
+use Brackets\AdminAuth\Contracts\Auth\CanActivate as CanActivateContract;
+use Brackets\AdminAuth\Notifications\ResetPassword;
 @if($hasSoftDelete)use Illuminate\Database\Eloquent\SoftDeletes;
 @endif
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 @if($hasRoles)use Spatie\Permission\Traits\HasRoles;
 @endif
 
-class {{ $modelBaseName }} extends Model
+class {{ $modelBaseName }} extends Authenticatable implements CanActivateContract
 {
+    use Notifiable;
+    use CanActivate;
     @if($hasSoftDelete)use SoftDeletes;
     @endif
 @if($hasRoles)use HasRoles;
@@ -54,6 +60,18 @@ class {{ $modelBaseName }} extends Model
 
     @if (!$timestamps)public $timestamps = false;
     @endif
+
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(app( ResetPassword::class, ['token' => $token]));
+    }
 
     @if (count($relations))/* ************************ RELATIONS ************************ */
 

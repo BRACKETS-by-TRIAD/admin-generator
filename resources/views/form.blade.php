@@ -64,3 +64,21 @@
 @endif
 
 @endforeach
+
+@if (count($relations))
+@if (count($relations['belongsToMany']))
+@foreach($relations['belongsToMany'] as $belongsToMany)<div class="form-group row" :class="{'has-danger': errors.has('{{ $belongsToMany['related_table'] }}'), 'has-success': this.fields.{{ $belongsToMany['related_table'] }} && this.fields.{{ $belongsToMany['related_table'] }}.valid }">
+    <label for="roles" class="col-md-3 col-form-label text-md-right">{{ $belongsToMany['related_model_name_plural'] }}</label>
+    <div class="col-md-9 col-xl-8">
+        <select v-model="form.{{ $belongsToMany['related_table'] }}" v-validate="'required'" class="form-control" :class="{'form-control-danger': errors.has('{{ $belongsToMany['related_table'] }}'), 'form-control-success': this.fields.{{ $belongsToMany['related_table'] }} && this.fields.{{ $belongsToMany['related_table'] }}.valid}" id="{{ $belongsToMany['related_table'] }}" name="{{ $belongsToMany['related_table'] }}[]" multiple>
+            @@foreach  (${{ $belongsToMany['related_table'] }} as ${{ $belongsToMany['related_model_variable_name'] }})
+                @php echo '<option value="@{{ $'.$belongsToMany['related_model_variable_name'].'->id }}"@{{ array_key_exists($'.$belongsToMany['related_model_variable_name'].'->id, old(\''.$belongsToMany['related_table'].'\', [])) ? \' selected="selected"\' : null }}>@{{ $'.$belongsToMany['related_model_variable_name'].'->name }}</option>'; @endphp
+
+            @@endforeach
+        </select>
+        <div v-if="errors.has('{{ $belongsToMany['related_table'] }}')" class="form-control-feedback" v-cloak>@@{{ errors.first('@php echo $belongsToMany['related_table']; @endphp') }}</div>
+    </div>
+</div>
+@endforeach
+@endif
+@endif

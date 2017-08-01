@@ -17,6 +17,7 @@ class AdminGeneratorProvider extends ServiceProvider
             Generate\Controller::class,
             Generate\ViewIndex::class,
             Generate\ViewForm::class,
+            Generate\ViewFullForm::class,
             Generate\ModelFactory::class,
             Generate\Routes::class,
         ]);

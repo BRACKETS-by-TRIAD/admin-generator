@@ -2,8 +2,8 @@
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Console\Input\InputArgument;
-use Schema;
 use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,6 +24,13 @@ abstract class Generator extends Command {
     protected $modelVariableName;
     protected $modelRouteAndViewName;
     protected $modelNamespace;
+
+    /**
+     * Relations
+     *
+     * @var string
+     */
+    protected $relations = [];
 
     /**
      * Create a new controller creator command instance.
@@ -253,6 +260,48 @@ abstract class Generator extends Command {
     }
 
     /**
+     * Check if provided relation has a table
+     *
+     * @param $relationTable
+     * @return mixed
+     */
+    public function checkRelationTable($relationTable)
+    {
+        return Schema::hasTable($relationTable);
+    }
+
+    /**
+     * sets Relation of Belongs To Many type
+     *
+     * @param $belongsToMany
+     * @return mixed
+     */
+    //TODO add other relation types
+    public function setBelongToManyRelation($belongsToMany)
+    {
+        $this->relations['belongsToMany'] = collect(explode(',', $belongsToMany))->filter(function($belongToManyRelation) {
+            return $this->checkRelationTable($belongToManyRelation);
+        })->map(function($belongsToMany) {
+            return [
+                'current_table' => $this->tableName,
+                'related_table' => $belongsToMany,
+                'related_model' => ($belongsToMany == 'roles') ? "Spatie\\Permission\\Models\\Role" : "App\\Models\\". Str::studly(Str::singular($belongsToMany)),
+                'related_model_class' => ($belongsToMany == 'roles') ? "Spatie\\Permission\\Models\\Role::class" : "App\\Models\\". Str::studly(Str::singular($belongsToMany)).'::class',
+                'related_model_name' => Str::studly(Str::singular($belongsToMany)),
+                'related_model_name_plural' => Str::studly($belongsToMany),
+                'related_model_variable_name' => lcfirst(Str::singular(class_basename($belongsToMany))),
+                'relation_table' => trim(collect([$this->tableName, $belongsToMany])->sortBy(function($table) {
+                    return $table;
+                })->reduce(function($relationTable, $table) {
+                    return $relationTable.'_'.$table;
+                }), '_'),
+                'foreign_key' => Str::singular($this->tableName).'_id',
+                'related_key' => Str::singular($belongsToMany).'_id',
+            ];
+        })->keyBy('related_table');
+    }
+
+    /**
      * Execute the console command.
      *
      * @param  \Symfony\Component\Console\Input\InputInterface  $input
@@ -268,6 +317,7 @@ abstract class Generator extends Command {
     protected function initNames() {
         $this->tableName = $this->argument('table_name');
 
+        //FIXME need get full paths, do not prepend namespace
         $this->controllerBaseName = class_basename($this->option('controller')) ?: (Str::studly($this->tableName) . "Controller");
         $this->controllerPartiallyFullName = "Admin\\".($this->option('controller') ?: (Str::studly($this->tableName) . "Controller"));
         $this->controllerFullName = "App\\Http\\Controllers\\".$this->controllerPartiallyFullName;

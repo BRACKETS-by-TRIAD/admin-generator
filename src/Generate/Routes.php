@@ -20,12 +20,25 @@ class Routes extends Generator {
     protected $description = 'Append admin routes into a web routes file';
 
     /**
+     * Path for view
+     *
+     * @var string
+     */
+    protected $view = 'routes';
+
+    /**
      * Execute the console command.
      *
      * @return mixed
      */
     public function fire()
     {
+        //TODO check if exists
+        //TODO make global for all generator
+        //TODO also with prefix
+        if(!empty($template = $this->option('template'))) {
+            $this->view = 'templates.'.$template.'.routes';
+        }
 
         $routesPath = base_path('routes/web.php');
 
@@ -39,7 +52,7 @@ class Routes extends Generator {
 
     protected function buildClass() {
 
-        return view('brackets/admin-generator::routes', [
+        return view('brackets/admin-generator::'.$this->view, [
             'controllerPartiallyFullName' => $this->controllerPartiallyFullName,
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
         ])->render();
@@ -49,6 +62,7 @@ class Routes extends Generator {
         return [
             ['model', 'm', InputOption::VALUE_OPTIONAL, 'Generates a controller for the given model'],
             ['controller', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
+            ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
         ];
     }
 

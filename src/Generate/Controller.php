@@ -1,5 +1,6 @@
 <?php namespace Brackets\AdminGenerator\Generate;
 
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
 class Controller extends Generator {
@@ -19,12 +20,30 @@ class Controller extends Generator {
     protected $description = 'Generate a controller class';
 
     /**
+     * Path for view
+     *
+     * @var string
+     */
+    protected $view = 'controller';
+
+    /**
      * Execute the console command.
      *
      * @return mixed
      */
     public function fire()
     {
+        //TODO check if exists
+        //TODO make global for all generator
+        //TODO also with prefix
+        if(!empty($template = $this->option('template'))) {
+            $this->view = 'templates.'.$template.'.controller';
+        }
+
+        if(!empty($belongsToMany = $this->option('belongsToMany'))) {
+            $this->setBelongToManyRelation($belongsToMany);
+        }
+
         $controllerPath = base_path($this->getPathFromClassName($this->controllerFullName));
 
         if ($this->alreadyExists($controllerPath)) {
@@ -47,7 +66,7 @@ class Controller extends Generator {
 
     protected function buildClass() {
 
-        return view('brackets/admin-generator::controller', [
+        return view('brackets/admin-generator::'.$this->view, [
             'controllerBaseName' => $this->controllerBaseName,
             'controllerNamespace' => $this->controllerNamespace,
             'modelBaseName' => $this->modelBaseName,
@@ -66,11 +85,9 @@ class Controller extends Generator {
 //            'filters' => $this->readColumnsFromTable($tableName)->filter(function($column) {
 //                return $column['type'] == 'boolean' || $column['type'] == 'date';
 //            }),
-            //TODO change to better check
-            'userGeneration' => $this->tableName == 'users',
-
             // validation in store/update
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
+            'relations' => $this->relations,
         ])->render();
     }
 
@@ -78,6 +95,8 @@ class Controller extends Generator {
         return [
             ['model', 'm', InputOption::VALUE_OPTIONAL, 'Generates a controller for the given model'],
             ['controller', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
+            ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
+            ['belongsToMany', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
         ];
     }
 
