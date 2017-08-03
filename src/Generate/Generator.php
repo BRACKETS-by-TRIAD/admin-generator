@@ -49,7 +49,7 @@ abstract class Generator extends Command {
      */
     protected function readColumnsFromTable($tableName) {
 
-        // TODO process also "_translation" table when using i18n models
+        // TODO how to process jsonb & json translatable columns? need to figure it out
 
         $indexes = collect(Schema::getConnection()->getDoctrineSchemaManager()->listTableIndexes($tableName));
         return collect(Schema::getColumnListing($tableName))->map(function($columnName) use ($tableName, $indexes) {
@@ -62,7 +62,7 @@ abstract class Generator extends Command {
                 return $index->hasOption('where') ? $index->getOption('where') == '(deleted_at IS NULL)' : false;
             });
 
-            //TODO add foreign key
+            // TODO add foreign key
 
             return [
                 'name' => $columnName,
@@ -189,7 +189,7 @@ abstract class Generator extends Command {
     }
 
     /**
-     * Determine if the class already exists.
+     * Determine if the file already exists.
      *
      * @param $path
      * @return bool
