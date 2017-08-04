@@ -2,14 +2,14 @@
 
 use Symfony\Component\Console\Input\InputOption;
 
-class Request extends Generator {
+class UpdateRequest extends Generator {
 
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'admin:generate:request';
+    protected $name = 'admin:generate:request:update';
 
     /**
      * The console command description.
@@ -25,7 +25,7 @@ class Request extends Generator {
      */
     public function fire()
     {
-        $fileName = 'App\Http\Requests\Admin\Save'.$this->modelBaseName.'Request';
+        $fileName = 'App\Http\Requests\Admin\Update'.$this->modelBaseName;
 
         $path = base_path($this->getPathFromClassName($fileName));
 
@@ -44,8 +44,9 @@ class Request extends Generator {
 
     protected function buildClass() {
 
-        return view('brackets/admin-generator::request', [
+        return view('brackets/admin-generator::update-request', [
             'modelBaseName' => $this->modelBaseName,
+            'modelRouteAndViewName' => $this->modelRouteAndViewName,
 
             //TODO change to better check
             'userGeneration' => $this->tableName == 'users',

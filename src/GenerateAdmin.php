@@ -43,7 +43,13 @@ class GenerateAdmin extends Generator {
             '--controller' => $controllerOption,
         ]);
 
-        $this->call('admin:generate:request', [
+        $this->call('admin:generate:request:store', [
+            'table_name' => $tableNameArgument,
+            '--model' => $modelOption,
+            '--controller' => $controllerOption,
+        ]);
+
+        $this->call('admin:generate:request:update', [
             'table_name' => $tableNameArgument,
             '--model' => $modelOption,
             '--controller' => $controllerOption,

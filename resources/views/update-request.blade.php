@@ -2,8 +2,9 @@
 @endphp namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Gate;
 
-class Save{{ $modelBaseName }}Request extends FormRequest
+class Update{{ $modelBaseName }} extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -12,8 +13,7 @@ class Save{{ $modelBaseName }}Request extends FormRequest
      */
     public function authorize()
     {
-        // TODO
-        return true;
+        return Gate::allows('update-{{ $modelRouteAndViewName }}', $this->{{ $modelRouteAndViewName }});
     }
 
     /**
@@ -24,7 +24,7 @@ class Save{{ $modelBaseName }}Request extends FormRequest
     public function rules()
     {
         return [
-            @foreach($columns as $column)'{{ $column['name'] }}' => '{{ implode('|', (array) $column['serverStoreRules']) }}',
+            @foreach($columns as $column)'{{ $column['name'] }}' => '{{ implode('|', (array) $column['serverUpdateRules']) }}',
             @endforeach
 
         ];

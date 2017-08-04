@@ -3,7 +3,9 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\Admin\Save{{ $modelBaseName }}Request;
+use \Illuminate\Http\Response;
+use App\Http\Requests\Admin\Store{{ $modelBaseName }};
+use App\Http\Requests\Admin\Update{{ $modelBaseName }};
 use Brackets\Admin\AdminListing;
 use {{ $modelFullName }};
 @if($userGeneration)use Illuminate\Support\Facades\Config;
@@ -16,8 +18,8 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response|array
+     * {{'@'}}param  Request $request
+     * {{'@'}}return Response|array
      */
     public function index(Request $request)
     {
@@ -48,7 +50,7 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * {{'@'}}return Response
      */
     public function create()
     {
@@ -60,10 +62,10 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\Admin\Save{{ $modelBaseName }}Request $request
-     * @return \Illuminate\Http\Response|array
+     * {{'@'}}param  Store{{ $modelBaseName }} $request
+     * {{'@'}}return Response|array
      */
-    public function store(Save{{ $modelBaseName }}Request $request)
+    public function store(Store{{ $modelBaseName }} $request)
     {
         // Sanitize input
         $sanitized = $request->only([
@@ -90,8 +92,9 @@ class {{ $controllerBaseName }} extends Controller
 
     /**
      * Display the specified resource.
-     * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
-     * @return \Illuminate\Http\Response
+     *
+     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
+     * {{'@'}}return Response
      */
     public function show({{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -103,8 +106,8 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
-     * @return \Illuminate\Http\Response
+     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
+     * {{'@'}}return Response
      */
     public function edit({{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -118,11 +121,11 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\Admin\Save{{ $modelBaseName }}Request $request
-     * @param {{ $modelBaseName }} ${{ $modelVariableName }}
-     * @return \Illuminate\Http\Response|array
+     * {{'@'}}param  Update{{ $modelBaseName }} $request
+     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
+     * {{'@'}}return Response|array
      */
-    public function update(Save{{ $modelBaseName }}Request $request, {{ $modelBaseName }} ${{ $modelVariableName }})
+    public function update(Update{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
         // Sanitize input
         $sanitized = $request->only([
@@ -150,9 +153,9 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \Illuminate\Http\Request  $request
-     * @param {{ $modelBaseName }} ${{ $modelVariableName }}
-     * @return \Illuminate\Http\Response|bool
+     * {{'@'}}param  Request $request
+     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
+     * {{'@'}}return Response|bool
      */
     public function destroy(Request $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -167,14 +170,14 @@ class {{ $controllerBaseName }} extends Controller
         return redirect()->back()
             ->withSuccess("Deleted");
     }
-
     @if($userGeneration)
+
     /**
     * Modify input data for save
     *
-    * @param  array $data
-    * @param  bool $edit
-    * @return array
+    * {{'@'}}param  array $data
+    * {{'@'}}param  bool $edit
+    * {{'@'}}return array
     */
     protected function modifyInputData($data, $edit = false)
     {
@@ -187,5 +190,4 @@ class {{ $controllerBaseName }} extends Controller
         return $data;
     }
     @endif
-
 }
