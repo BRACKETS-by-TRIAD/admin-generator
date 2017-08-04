@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\Admin\Save{{ $modelBaseName }}Request;
 use Brackets\Admin\AdminListing;
 use {{ $modelFullName }};
 @if($userGeneration)use Illuminate\Support\Facades\Config;
@@ -59,27 +60,17 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \App\Http\Requests\Admin\Save{{ $modelBaseName }}Request $request
      * @return \Illuminate\Http\Response|array
      */
-    public function store(Request $request)
+    public function store(Save{{ $modelBaseName }}Request $request)
     {
-        // TODO add authorization
-
-        // Validate the request
-        $this->validate($request, [
-            @foreach($columns as $column)'{{ $column['name'] }}' => '{{ implode('|', (array) $column['serverStoreRules']) }}',
-            @endforeach
-
-        ]);
-
         // Sanitize input
         $sanitized = $request->only([
             @foreach($columns as $column)'{{ $column['name'] }}',
             @endforeach
 
         ]);
-
         @if($userGeneration)
 
         //Modify input, set activated if needed and set hashed password
@@ -127,21 +118,12 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
+     * @param \App\Http\Requests\Admin\Save{{ $modelBaseName }}Request $request
+     * @param {{ $modelBaseName }} ${{ $modelVariableName }}
      * @return \Illuminate\Http\Response|array
      */
-    public function update(Request $request, {{ $modelBaseName }} ${{ $modelVariableName }})
+    public function update(Save{{ $modelBaseName }}Request $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
-        // TODO add authorization
-
-        // Validate the request
-        $this->validate($request, [
-            @foreach($columns as $column)'{{ $column['name'] }}' => '{!! implode('|', (array) $column['serverUpdateRules']) !!}',
-            @endforeach
-
-        ]);
-
         // Sanitize input
         $sanitized = $request->only([
             @foreach($columns as $column)'{{ $column['name'] }}',
@@ -168,8 +150,8 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
+     * @param \Illuminate\Http\Request  $request
+     * @param {{ $modelBaseName }} ${{ $modelVariableName }}
      * @return \Illuminate\Http\Response|bool
      */
     public function destroy(Request $request, {{ $modelBaseName }} ${{ $modelVariableName }})

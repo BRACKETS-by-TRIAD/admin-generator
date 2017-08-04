@@ -43,6 +43,11 @@ class GenerateAdmin extends Generator {
             '--controller' => $controllerOption,
         ]);
 
+        $this->call('admin:generate:request', [
+            'table_name' => $tableNameArgument,
+            '--model' => $modelOption,
+            '--controller' => $controllerOption,
+        ]);
 
         $this->call('admin:generate:routes', [
             'table_name' => $tableNameArgument,
