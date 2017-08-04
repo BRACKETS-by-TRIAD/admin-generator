@@ -104,9 +104,12 @@ class GenerateAdmin extends Generator {
 
 /**
  *
- * ClassGenerators: (For every class_name, if it does start with "App\" then no namespace is applied. Else "(..)" is applied)
+ * - napis skelet tried
+ * - napis test, pre scenare: Category, App\Category, Billing\Category a skontrolovat vsetky ClassGenerator-y
  *
- * Admin: seed, prefix = Billing, controller_name, model_name
+ * ClassGenerator: (For every class_name, if it does start with "App\" then no namespace is applied. Else "(..)" is applied)
+ *
+ * Admin: seed, controller_name, model_name (mozno neskor priame prefix)
  *
  * Model: class_name (App\Models), template, belongs_to_many
  *
@@ -119,14 +122,14 @@ class GenerateAdmin extends Generator {
  * DestroyRequest: class_name (App\Http\Requests\Admin\{model_name}), model_name
  *
  *
- * Appendors:
+ * Appendor:
  *
  * ModelFactory: model_name
  *
  * Routes: model_name, controller_name, template
  *
  *
- * ViewGenerators:
+ * ViewGenerator:
  *
  * ViewForm: file_name, model_name, belongs_to_many
  *
