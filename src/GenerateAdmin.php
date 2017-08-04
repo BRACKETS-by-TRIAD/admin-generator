@@ -89,3 +89,39 @@ class GenerateAdmin extends Generator {
     }
 
 }
+
+
+/**
+ *
+ * ClassGenerators: (For every class_name, if it does start with "App\" then no namespace is applied. Else "(..)" is applied)
+ *
+ * Admin: seed, prefix = Billing, controller_name, model_name
+ *
+ * Model: class_name (App\Models), template, belongs_to_many
+ *
+ * Controller: class_name (App\Http\Controllers\Admin), model_name, template, belongs_to_many
+ *
+ * StoreRequest: class_name (App\Http\Requests\Admin\{model_name})
+ *
+ * UpdateRequest: class_name (App\Http\Requests\Admin\{model_name}), model_name
+ *
+ * DestroyRequest: class_name (App\Http\Requests\Admin\{model_name}), model_name
+ *
+ *
+ * Appendors:
+ *
+ * ModelFactory: model_name
+ *
+ * Routes: model_name, controller_name, template
+ *
+ *
+ * ViewGenerators:
+ *
+ * ViewForm: file_name, model_name, belongs_to_many
+ *
+ * ViewFullForm: file_name, model_name, template, name, view_name, route
+ *
+ * ViewIndex: file_name, model_name, template
+ *
+ *
+ */

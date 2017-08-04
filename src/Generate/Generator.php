@@ -330,4 +330,5 @@ abstract class Generator extends Command {
         $this->modelRouteAndViewName = Str::lower(Str::kebab($this->modelBaseName));
         $this->modelNamespace = Str::replaceLast("\\".$this->modelBaseName, '', $this->modelFullName);
     }
+
 }
