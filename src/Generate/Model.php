@@ -53,10 +53,12 @@ class Model extends ClassGenerator {
     }
 
     protected function buildClass() {
-
         return view('brackets/admin-generator::'.$this->view, [
-            'modelBaseName' => $this->modelBaseName,
-            'modelNameSpace' => $this->modelNamespace,
+            'modelBaseName' => $this->classBaseName,
+            'modelNameSpace' => $this->classNamespace,
+
+            // if table name differs from model name, then we need to specify the table name
+            'tableName' => ($this->classBaseName !== Str::studly(Str::singular($this->tableName))) ? $this->tableName : null,
 
             'dates' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return $column['type'] == "datetime" || $column['type'] == "date";
@@ -73,7 +75,7 @@ class Model extends ClassGenerator {
             'hasSoftDelete' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return $column['name'] == "deleted_at";
             })->count() > 0,
-            'tableName' => (!empty($this->option('model')) && $this->option('model') !== Str::studly(Str::singular($this->tableName))) ? $this->tableName : null,
+
             'relations' => $this->relations,
         ])->render();
     }

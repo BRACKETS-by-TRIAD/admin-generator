@@ -11,19 +11,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class ClassGenerator extends Command {
 
-    protected $tableName;
-
-    protected $classBaseName;
-    protected $classPartialName;
-    protected $classFullName;
-    protected $classNamespace;
-
-    protected $modelBaseName;
-    protected $modelFullName;
-    protected $modelPlural;
-    protected $modelVariableName;
-    protected $modelRouteAndViewName;
-    protected $modelNamespace;
+    public $tableName;
+    public $classBaseName;
+    public $classPartialName;
+    public $classFullName;
+    public $classNamespace;
+    public $modelBaseName;
+    public $modelFullName;
+    public $modelPlural;
+    public $modelVariableName;
+    public $modelRouteAndViewName;
+    public $modelNamespace;
 
     /**
      * @var Filesystem
@@ -55,6 +53,21 @@ abstract class ClassGenerator extends Command {
             ['class_name', InputArgument::OPTIONAL, 'Name of the generated class'],
         ];
     }
+
+    /**
+     * Generate default class name (for case if not passed as argument) from table name
+     *
+     * @param $tableName
+     * @return mixed
+     */
+    abstract protected function generateClassNameFromTable($tableName);
+
+    /**
+     * Build the class with the given name.
+     *
+     * @return string
+     */
+    abstract protected function buildClass();
 
     /**
      * @param $tableName
@@ -373,8 +386,6 @@ abstract class ClassGenerator extends Command {
         $this->files->put($path, $this->buildClass());
     }
 
-    abstract protected function buildClass();
-
     /**
      * Execute the console command.
      *
@@ -384,18 +395,12 @@ abstract class ClassGenerator extends Command {
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->initNames($this->argument('table_name'), $this->argument('class_name'));
+        $this->initNames($this->argument('table_name'), $this->argument('class_name'), $this->option('model_name'));
         return parent::execute($input, $output);
     }
 
-    protected function initNames($tableName, $className = null) {
+    protected function initNames($tableName, $className = null, $modelName = null) {
         $this->tableName = $tableName;
-
-        if ($this->hasOption('model')) {
-            $this->initModelName($this->option('model'));
-        } else {
-            $this->initModelName(Str::studly(Str::singular($this->tableName)));
-        }
 
         if (empty($className)) {
             $className = $this->generateClassNameFromTable($this->tableName);
@@ -404,14 +409,24 @@ abstract class ClassGenerator extends Command {
         $this->classFullName = $this->qualifyClass($className);
         $this->classBaseName = class_basename($this->classFullName);
         $this->classNamespace = Str::replaceLast("\\".$this->classBaseName, '', $this->classFullName);
+
+        if ($this instanceof Model) {
+            $this->initModelName($className);
+        } else {
+            $this->initModelName(is_null($modelName) ? Str::studly(Str::singular($this->tableName)) : $modelName);
+        }
     }
 
-    abstract protected function generateClassNameFromTable($tableName);
-
-    protected function initModelName($modelFullName) {
-        $this->modelBaseName = class_basename($modelFullName);
-        $this->modelFullName = "App\\Models\\" . ($modelFullName ?: Str::studly(Str::singular($this->tableName)));
-        $this->modelPlural = Str::plural(class_basename($modelFullName)) ?: Str::studly($this->tableName);
+    protected function initModelName($modelName) {
+        if ($this instanceof Model) {
+            $this->modelFullName = $this->qualifyClass($modelName);
+        } else {
+            $modelGenerator = app(Model::class);
+            $modelGenerator->setLaravel($this->laravel);
+            $this->modelFullName = $modelGenerator->qualifyClass($modelName);
+        }
+        $this->modelBaseName = class_basename($modelName);
+        $this->modelPlural = Str::plural(class_basename($modelName));
         $this->modelVariableName = lcfirst(Str::singular(class_basename($this->modelBaseName)));
         $this->modelRouteAndViewName = Str::lower(Str::kebab($this->modelBaseName));
         $this->modelNamespace = Str::replaceLast("\\" . $this->modelBaseName, '', $this->modelFullName);

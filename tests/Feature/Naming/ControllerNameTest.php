@@ -2,8 +2,6 @@
 
 namespace Brackets\AdminGenerator\Tests\Feature\Naming;
 
-use Artisan;
-use Brackets\AdminGenerator\Generate\Model;
 use Brackets\AdminGenerator\Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
