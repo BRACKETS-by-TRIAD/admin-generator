@@ -396,11 +396,22 @@ abstract class ClassGenerator extends Command {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->initNames($this->argument('table_name'), $this->argument('class_name'), $this->option('model-name'));
-        return parent::execute($input, $output);
+
+        $output = parent::execute($input, $output);
+
+        $this->info('Generating '.$this->classBaseName.' finished');
+
+        return $output;
     }
 
     protected function initNames($tableName, $className = null, $modelName = null) {
         $this->tableName = $tableName;
+
+        if ($this instanceof Model) {
+            $this->initModelName($className);
+        } else {
+            $this->initModelName(is_null($modelName) ? Str::studly(Str::singular($this->tableName)) : $modelName);
+        }
 
         if (empty($className)) {
             $className = $this->generateClassNameFromTable($this->tableName);
@@ -409,12 +420,6 @@ abstract class ClassGenerator extends Command {
         $this->classFullName = $this->qualifyClass($className);
         $this->classBaseName = class_basename($this->classFullName);
         $this->classNamespace = Str::replaceLast("\\".$this->classBaseName, '', $this->classFullName);
-
-        if ($this instanceof Model) {
-            $this->initModelName($className);
-        } else {
-            $this->initModelName(is_null($modelName) ? Str::studly(Str::singular($this->tableName)) : $modelName);
-        }
     }
 
     protected function initModelName($modelName) {

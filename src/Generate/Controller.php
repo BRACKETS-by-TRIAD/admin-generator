@@ -55,9 +55,6 @@ class Controller extends ClassGenerator {
         if($this->files->exists($sidebarPath) && !$this->alreadyAppended($sidebarPath, "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->modelRouteAndViewName."') }}\"><i class=\"icon-list\"></i> ".$this->modelPlural."</a></li>")) {
             $this->files->put($sidebarPath, str_replace("{{-- Do not delete me :) I'm used for auto-generation menu items --}}", "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->modelRouteAndViewName."') }}\"><i class=\"icon-list\"></i> ".$this->modelPlural."</a></li>\n            {{-- Do not delete me :) I'm used for auto-generation menu items --}}", $this->files->get($sidebarPath)));
         }
-
-        $this->info('Generating '.$this->classBaseName.' finished');
-
     }
 
     protected function buildClass() {

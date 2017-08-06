@@ -116,7 +116,7 @@ class GenerateAdmin extends Command {
  *
  * Controller: class_name (App\Http\Controllers\Admin), model_name, template, belongs_to_many
  *
- * StoreRequest: class_name (App\Http\Requests\Admin\{model_name})
+ * StoreRequest: class_name (App\Http\Requests\Admin\{model_name}), model_name
  *
  * UpdateRequest: class_name (App\Http\Requests\Admin\{model_name}), model_name
  *

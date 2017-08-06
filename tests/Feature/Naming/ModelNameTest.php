@@ -11,7 +11,7 @@ class ModelNameTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    function testing_correct_name_for_standard_naming(){
+    function model_name_should_auto_generate_from_table_name(){
         $filePath = base_path('App/Models/Category.php');
 
         $this->assertFileNotExists($filePath);
@@ -29,7 +29,7 @@ class Category extends Model', File::get($filePath));
     }
 
     /** @test */
-    function testing_correct_name_for_namespaced_naming(){
+    function you_can_pass_custom_class_name_for_the_model(){
         $filePath = base_path('App/Models/Billing/Category.php');
 
         $this->assertFileNotExists($filePath);
@@ -48,7 +48,7 @@ class Category extends Model', File::get($filePath));
     }
 
     /** @test */
-    function testing_correct_name_for_name_outside_default_folder(){
+    function class_name_can_be_outside_default_folder(){
         $filePath = base_path('App/Billing/Category.php');
 
         $this->assertFileNotExists($filePath);

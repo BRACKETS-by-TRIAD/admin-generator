@@ -47,9 +47,6 @@ class Model extends ClassGenerator {
         $this->generateClass();
 
         // TODO think if we should use ide-helper:models ?
-
-        $this->info('Generating '.$this->modelBaseName.' finished');
-
     }
 
     protected function buildClass() {
