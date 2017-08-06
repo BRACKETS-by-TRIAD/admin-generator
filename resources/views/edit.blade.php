@@ -6,7 +6,7 @@
 
         <div class="card">
 
-            <{{ $modelViewsDirectory }}-form
+            <{{ $modelJSName }}-form
                 :action="'{{'{{'}} route('admin/{{ $modelViewsDirectory }}/update', ['{{ $modelVariableName }}' => ${{ $modelVariableName }}]) }}'"
                 :data="{{'{{'}} ${{ $modelVariableName }}->toJson() }}"
                 inline-template>
@@ -29,7 +29,7 @@
 
                 </form>
 
-        </{{ $modelViewsDirectory }}-form>
+        </{{ $modelJSName }}-form>
 
     </div>
 

@@ -2,7 +2,7 @@
 
 {{'@'}}section('body')
 
-    <{{ $modelViewsDirectory }}-listing
+    <{{ $modelJSName }}-listing
         :data="{{'{{'}} $data->toJson() }}"
         :url="'{{'{{'}} url('admin/{{ $modelViewsDirectory }}') }}'"
         inline-template>
@@ -88,6 +88,6 @@
                 </div>
             </div>
         </div>
-    </{{ $modelViewsDirectory }}-listing>
+    </{{ $modelJSName }}-listing>
 
 {{'@'}}endsection

@@ -1,5 +1,5 @@
 var base = require('../components/Listing/Listing');
 
-Vue.component('{{ $modelViewsDirectory }}-listing', {
+Vue.component('{{ $modelJSName }}-listing', {
     mixins: [base]
 });

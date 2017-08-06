@@ -1,5 +1,5 @@
 var base = require('../components/Form/Form');
 
-Vue.component('{{ $modelViewsDirectory }}-form', {
+Vue.component('{{ $modelJSName }}-form', {
     mixins: [base]
 });

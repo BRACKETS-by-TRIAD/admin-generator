@@ -36,7 +36,7 @@ Vue.component(\'category-listing\', {
     /** @test */
     function index_listing_should_get_auto_generated_with_custom_model(){
         $indexPath = resource_path('views/admin/billing/my-article/index.blade.php');
-        $indexJsPath = resource_path('assets/js/admin/billing/my-article/Listing.js');
+        $indexJsPath = resource_path('assets/js/admin/billing-my-article/Listing.js');
 
         $this->assertFileNotExists($indexPath);
         $this->assertFileNotExists($indexJsPath);
@@ -51,7 +51,7 @@ Vue.component(\'category-listing\', {
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.index\')', File::get($indexPath));
         $this->assertStringStartsWith('var base = require(\'../components/Listing/Listing\');
 
-Vue.component(\'billing/my-article-listing\', {
+Vue.component(\'billing-my-article-listing\', {
     mixins: [base]
 });', File::get($indexJsPath));
     }

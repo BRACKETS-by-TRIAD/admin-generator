@@ -50,7 +50,7 @@ class ViewIndex extends ViewGenerator {
         }
 
         $viewPath = resource_path('views/admin/'.$this->modelViewsDirectory.'/index.blade.php');
-        $listingJsPath = resource_path('assets/js/admin/'.$this->modelViewsDirectory.'/Listing.js');
+        $listingJsPath = resource_path('assets/js/admin/'.$this->modelJSName.'/Listing.js');
         $bootstrapJsPath = resource_path('assets/js/admin/bootstrap.js');
 
         if ($this->alreadyExists($viewPath)) {
@@ -72,7 +72,7 @@ class ViewIndex extends ViewGenerator {
             $this->files->put($listingJsPath, $this->buildListingJs());
             $this->info('Generating '.$listingJsPath.' finished');
 
-            if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "require('./".$this->modelViewsDirectory."/Listing')\n")){
+            if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "require('./".$this->modelJSName."/Listing')\n")){
                 $this->info('Appending Listing to '.$bootstrapJsPath.' finished');
             };
         }
@@ -86,6 +86,7 @@ class ViewIndex extends ViewGenerator {
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
             'modelPlural' => $this->modelPlural,
             'modelViewsDirectory' => $this->modelViewsDirectory,
+            'modelJSName' => $this->modelJSName,
 
             'columns' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "remember_token" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
@@ -115,6 +116,7 @@ class ViewIndex extends ViewGenerator {
     protected function buildListingJs() {
         return view('brackets/admin-generator::'.$this->viewJs, [
             'modelViewsDirectory' => $this->modelViewsDirectory,
+            'modelJSName' => $this->modelJSName,
         ])->render();
     }
 

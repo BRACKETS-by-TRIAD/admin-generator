@@ -138,7 +138,7 @@ class {{ $controllerBaseName }} extends Controller
 @endif
 
         return view('admin.{{ $modelDotNotation }}.edit', [
-            '{{ $modelRouteAndViewName }}' => ${{ $modelVariableName }},
+            '{{ $modelVariableName }}' => ${{ $modelVariableName }},
 @if (count($relations))
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)

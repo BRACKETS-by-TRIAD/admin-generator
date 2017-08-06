@@ -104,12 +104,7 @@ class GenerateAdmin extends Command {
 
 /**
  *
- * - napis skelet tried
- * - napis test, pre scenare: Category, App\Category, Billing\Category a skontrolovat vsetky ClassGenerator-y
- *
- * ClassGenerator: (For every class_name, if it does start with "App\" then no namespace is applied. Else "(..)" is applied)
- *
- * Admin: seed, controller_name, model_name (mozno neskor priame prefix)
+ * Admin: seed, controller_name, model_name (TODO add prefix option)
  *
  * Model: class_name (App\Models), template, belongs_to_many
  *
@@ -119,6 +114,7 @@ class GenerateAdmin extends Command {
  *
  * UpdateRequest: class_name (App\Http\Requests\Admin\{model_name}), model_name
  *
+ * TODO add DestroyRequest
  * DestroyRequest: class_name (App\Http\Requests\Admin\{model_name}), model_name
  *
  *
@@ -133,6 +129,7 @@ class GenerateAdmin extends Command {
  *
  * ViewForm: file_name, model_name, belongs_to_many
  *
+ * TODO refactor ViewFullForm generator
  * ViewFullForm: file_name, model_name, template, name, view_name, route
  *
  * ViewIndex: file_name, model_name, template

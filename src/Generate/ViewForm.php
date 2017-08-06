@@ -64,7 +64,7 @@ class ViewForm extends ViewGenerator {
             $this->info('Generating '.$viewPath.' finished');
         }
 
-        $formJsPath = resource_path('assets/js/admin/'.$this->modelViewsDirectory.'/Form.js');
+        $formJsPath = resource_path('assets/js/admin/'.$this->modelJSName.'/Form.js');
         $bootstrapJsPath = resource_path('assets/js/admin/bootstrap.js');
 
         if ($this->alreadyExists($formJsPath)) {
@@ -75,7 +75,7 @@ class ViewForm extends ViewGenerator {
             $this->files->put($formJsPath, $this->buildFormJs());
             $this->info('Generating '.$formJsPath.' finished');
 
-            if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "\nrequire('./".$this->modelViewsDirectory."/Form')\n")){
+            if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "\nrequire('./".$this->modelJSName."/Form')\n")){
                 $this->info('Appending Form to '.$bootstrapJsPath.' finished');
             };
         }
@@ -103,6 +103,7 @@ class ViewForm extends ViewGenerator {
             'modelPlural' => $this->modelPlural,
             'modelViewsDirectory' => $this->modelViewsDirectory,
             'modelDotNotation' => $this->modelDotNotation,
+            'modelJSName' => $this->modelJSName,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
         ])->render();
@@ -117,6 +118,7 @@ class ViewForm extends ViewGenerator {
             'modelPlural' => $this->modelPlural,
             'modelViewsDirectory' => $this->modelViewsDirectory,
             'modelDotNotation' => $this->modelDotNotation,
+            'modelJSName' => $this->modelJSName,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
         ])->render();
@@ -125,6 +127,7 @@ class ViewForm extends ViewGenerator {
     protected function buildFormJs() {
         return view('brackets/admin-generator::form-js', [
             'modelViewsDirectory' => $this->modelViewsDirectory,
+            'modelJSName' => $this->modelJSName,
         ])->render();
     }
 

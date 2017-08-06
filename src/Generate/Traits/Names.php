@@ -17,6 +17,7 @@ trait Names {
     public $modelWithNamespaceFromDefault;
     public $modelViewsDirectory;
     public $modelDotNotation;
+    public $modelJSName;
 
     public $controllerWithNamespaceFromDefault;
 
@@ -49,6 +50,7 @@ trait Names {
             return lcfirst($part);
         })->toArray())));
         $this->modelDotNotation = str_replace('/', '.', $this->modelViewsDirectory);
+        $this->modelJSName = str_replace('/', '-', $this->modelViewsDirectory);
 
         if ($this instanceof Controller) {
             $controllerGenerator = $this;

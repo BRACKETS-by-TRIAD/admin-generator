@@ -46,7 +46,7 @@ Vue.component(\'category-form\', {
         $elementsPath = resource_path('views/admin/billing/my-article/components/form-elements.blade.php');
         $createPath = resource_path('views/admin/billing/my-article/create.blade.php');
         $editPath = resource_path('views/admin/billing/my-article/edit.blade.php');
-        $formJsPath = resource_path('assets/js/admin/billing/my-article/Form.js');
+        $formJsPath = resource_path('assets/js/admin/billing-my-article/Form.js');
 
         $this->assertFileNotExists($elementsPath);
         $this->assertFileNotExists($createPath);
@@ -67,7 +67,7 @@ Vue.component(\'category-form\', {
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')', File::get($editPath));
         $this->assertStringStartsWith('var base = require(\'../components/Form/Form\');
 
-Vue.component(\'billing/my-article-form\', {
+Vue.component(\'billing-my-article-form\', {
     mixins: [base]
 });', File::get($formJsPath));
     }
