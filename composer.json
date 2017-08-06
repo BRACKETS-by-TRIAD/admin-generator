@@ -18,10 +18,19 @@
         "illuminate/console": "5.4.*",
         "doctrine/dbal": "^2.5"
     },
+    "require-dev": {
+        "orchestra/testbench": "~3.0",
+        "phpunit/phpunit": "~5.7"
+    },
     "autoload": {
         "classmap": [],
         "psr-4": {
             "Brackets\\AdminGenerator\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Brackets\\AdminGenerator\\Tests\\": "tests/"
         }
     }
 }
