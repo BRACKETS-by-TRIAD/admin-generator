@@ -1,22 +1,22 @@
 <?php
 
-namespace Brackets\AdminGenerator\Tests\Feature\Naming;
+namespace Brackets\AdminGenerator\Tests\Feature\Classes;
 
 use Brackets\AdminGenerator\Tests\TestCase;
 use File;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class UpdateRequestNameTest extends TestCase
+class StoreRequestNameTest extends TestCase
 {
     use DatabaseMigrations;
 
     /** @test */
-    function update_request_generation_should_generate_an_update_request_name(){
-        $filePath = base_path('App/Http/Requests/Admin/Category/UpdateCategory.php');
+    function store_request_generation_should_generate_a_store_request_name(){
+        $filePath = base_path('App/Http/Requests/Admin/Category/StoreCategory.php');
 
         $this->assertFileNotExists($filePath);
 
-        $this->artisan('admin:generate:request:update', [
+        $this->artisan('admin:generate:request:store', [
             'table_name' => 'categories'
         ]);
 
@@ -26,16 +26,16 @@ class UpdateRequestNameTest extends TestCase
 use Illuminate\Foundation\Http\FormRequest;
 use Gate;
 
-class UpdateCategory extends FormRequest', File::get($filePath));
+class StoreCategory extends FormRequest', File::get($filePath));
     }
 
     /** @test */
     function testing_correct_name_for_custom_model_name(){
-        $filePath = base_path('App/Http/Requests/Admin/Cat/UpdateCat.php');
+        $filePath = base_path('App/Http/Requests/Admin/Cat/StoreCat.php');
 
         $this->assertFileNotExists($filePath);
 
-        $this->artisan('admin:generate:request:update', [
+        $this->artisan('admin:generate:request:store', [
             'table_name' => 'categories',
             '--model-name' => 'Billing\\Cat',
         ]);
@@ -46,7 +46,7 @@ class UpdateCategory extends FormRequest', File::get($filePath));
 use Illuminate\Foundation\Http\FormRequest;
 use Gate;
 
-class UpdateCat extends FormRequest', File::get($filePath));
+class StoreCat extends FormRequest', File::get($filePath));
     }
 
 }

@@ -4,12 +4,14 @@ use Brackets\AdminGenerator\Generate\Traits\Helpers;
 use Brackets\AdminGenerator\Generate\Traits\Names;
 use Brackets\AdminGenerator\Generate\Traits\Columns;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Console\Input\InputArgument;
+use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-abstract class FileAppender extends Command {
+abstract class ViewGenerator extends Command {
 
     use Helpers, Columns, Names;
 
@@ -40,8 +42,10 @@ abstract class FileAppender extends Command {
     protected function getArguments() {
         return [
             ['table_name', InputArgument::REQUIRED, 'Name of the existing table'],
+            // FIXME add OPTIONAL file_name argument
         ];
     }
+
 
     /**
      * Append content to file only if if the content is not present in the file
@@ -53,7 +57,7 @@ abstract class FileAppender extends Command {
     {
         if (!$this->files->exists($path)) {
             $this->makeDirectory($path);
-            $this->files->put($path, "<?php\n\n".$content);
+            $this->files->put($path, $content);
         } else if (!$this->alreadyAppended($path, $content)) {
             $this->files->append($path, $content);
         }
@@ -68,10 +72,11 @@ abstract class FileAppender extends Command {
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->initCommonNames($this->argument('table_name'), $this->option('model-name'), $this->option('controller-name'));
+        $this->initCommonNames($this->argument('table_name'), $this->option('model-name'));
 
         $output = parent::execute($input, $output);
 
         return $output;
     }
+
 }

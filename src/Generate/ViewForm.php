@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class ViewForm extends ClassGenerator {
+class ViewForm extends ViewGenerator {
 
     /**
      * The name and signature of the console command.
@@ -33,10 +33,6 @@ class ViewForm extends ClassGenerator {
         $viewPath = resource_path('views/admin/'.$this->modelRouteAndViewName.'/components/form-elements.blade.php');
         if ($this->alreadyExists($viewPath)) {
             $this->error('File '.$viewPath.' already exists!');
-            return false;
-        }
-        if ($this->alreadyExists($viewPath)) {
-            $this->error('File '.$viewPath.' already exists!');
         } else {
             $this->makeDirectory($viewPath);
 
@@ -46,10 +42,6 @@ class ViewForm extends ClassGenerator {
         }
 
         $viewPath = resource_path('views/admin/'.$this->modelRouteAndViewName.'/create.blade.php');
-        if ($this->alreadyExists($viewPath)) {
-            $this->error('File '.$viewPath.' already exists!');
-            return false;
-        }
         if ($this->alreadyExists($viewPath)) {
             $this->error('File '.$viewPath.' already exists!');
         } else {
@@ -62,10 +54,6 @@ class ViewForm extends ClassGenerator {
 
 
         $viewPath = resource_path('views/admin/'.$this->modelRouteAndViewName.'/edit.blade.php');
-        if ($this->alreadyExists($viewPath)) {
-            $this->error('File '.$viewPath.' already exists!');
-            return false;
-        }
         if ($this->alreadyExists($viewPath)) {
             $this->error('File '.$viewPath.' already exists!');
         } else {
@@ -86,7 +74,7 @@ class ViewForm extends ClassGenerator {
 
             $this->files->put($formJsPath, $this->buildFormJs());
 
-            $this->appendIfNotAlreadyAppended($bootstrapJsPath, "require('./".$this->modelRouteAndViewName."/Form')\n");
+            $this->appendIfNotAlreadyAppended($bootstrapJsPath, "\nrequire('./".$this->modelRouteAndViewName."/Form')\n");
 
             $this->info('Generating '.$formJsPath.' finished');
         }
@@ -135,8 +123,8 @@ class ViewForm extends ClassGenerator {
 
     protected function getOptions() {
         return [
-            ['model', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
-            ['belongsToMany', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
+            ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
+            ['belongs-to-many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
         ];
     }
 

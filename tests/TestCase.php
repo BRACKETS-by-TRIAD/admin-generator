@@ -23,6 +23,7 @@ abstract class TestCase extends Orchestra
     {
         $app['db']->connection()->getSchemaBuilder()->create('categories', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('title');
         });
 
     }
