@@ -7,17 +7,17 @@ use Brackets\AdminGenerator\Generate\Model;
 use Brackets\AdminGenerator\Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class ModelNameTest extends TestCase
+class ControllerNameTest extends TestCase
 {
     use DatabaseMigrations;
 
     /** @test */
     function testing_correct_name_for_standard_naming(){
-        $filePath = 'App/Models/Category.php';
+        $filePath = 'App/Http/Controllers/Admin/CategoriesController.php';
 
         $this->assertFileNotExists(base_path($filePath));
 
-        $this->artisan('admin:generate:model', [
+        $this->artisan('admin:generate:controller', [
             'table_name' => 'categories'
         ]);
 
@@ -26,13 +26,13 @@ class ModelNameTest extends TestCase
 
     /** @test */
     function testing_correct_name_for_namespaced_naming(){
-        $filePath = 'App/Models/Billing/Category.php';
+        $filePath = 'App/Http/Controllers/Admin/Billing/MyNameController.php';
 
         $this->assertFileNotExists(base_path($filePath));
 
-        $this->artisan('admin:generate:model', [
+        $this->artisan('admin:generate:controller', [
             'table_name' => 'categories',
-            'class_name' => 'Billing\\Category',
+            'class_name' => 'Billing\\MyNameController',
         ]);
 
         $this->assertFileExists(base_path($filePath));
@@ -40,13 +40,13 @@ class ModelNameTest extends TestCase
 
     /** @test */
     function testing_correct_name_for_name_outside_default_folder(){
-        $filePath = 'App/Billing/Category.php';
+        $filePath = 'App/Http/Controllers/Billing/CategoriesController.php';
 
         $this->assertFileNotExists(base_path($filePath));
 
-        $this->artisan('admin:generate:model', [
+        $this->artisan('admin:generate:controller', [
             'table_name' => 'categories',
-            'class_name' => 'App\\Billing\\Category',
+            'class_name' => 'App\\Http\\Controllers\\Billing\\CategoriesController',
         ]);
 
         $this->assertFileExists(base_path($filePath));

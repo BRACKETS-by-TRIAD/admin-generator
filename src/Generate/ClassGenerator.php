@@ -26,6 +26,11 @@ abstract class ClassGenerator extends Command {
     protected $modelNamespace;
 
     /**
+     * @var Filesystem
+     */
+    protected $files;
+
+    /**
      * Relations
      *
      * @var string
@@ -47,7 +52,7 @@ abstract class ClassGenerator extends Command {
     protected function getArguments() {
         return [
             ['table_name', InputArgument::REQUIRED, 'Name of the existing table'],
-            ['class_name', InputArgument::OPTIONAL, 'Name of the existing table'],
+            ['class_name', InputArgument::OPTIONAL, 'Name of the generated class'],
         ];
     }
 
@@ -354,6 +359,21 @@ abstract class ClassGenerator extends Command {
     {
         return $rootNamespace;
     }
+
+    protected function generateClass() {
+        $path = base_path($this->getPathFromClassName($this->classFullName));
+
+        if ($this->alreadyExists($path)) {
+            $this->error('File '.$path.' already exists!');
+            return false;
+        }
+
+        $this->makeDirectory($path);
+
+        $this->files->put($path, $this->buildClass());
+    }
+
+    abstract protected function buildClass();
 
     /**
      * Execute the console command.

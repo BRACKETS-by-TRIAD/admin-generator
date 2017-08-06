@@ -49,19 +49,10 @@ class Controller extends ClassGenerator {
             $this->setBelongToManyRelation($belongsToMany);
         }
 
-        $controllerPath = base_path($this->getPathFromClassName($this->classFullName));
-
-        if ($this->alreadyExists($controllerPath)) {
-            $this->error('File '.$controllerPath.' already exists!');
-            return false;
-        }
-
-        $this->makeDirectory($controllerPath);
-
-        $this->files->put($controllerPath, $this->buildClass());
+        $this->generateClass();
 
         $sidebarPath = resource_path('views/admin/layout/sidebar.blade.php');
-        if(!$this->alreadyAppended($sidebarPath, "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->modelRouteAndViewName."') }}\"><i class=\"icon-list\"></i> ".$this->modelPlural."</a></li>")) {
+        if($this->files->exists($sidebarPath) && !$this->alreadyAppended($sidebarPath, "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->modelRouteAndViewName."') }}\"><i class=\"icon-list\"></i> ".$this->modelPlural."</a></li>")) {
             $this->files->put($sidebarPath, str_replace("{{-- Do not delete me :) I'm used for auto-generation menu items --}}", "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->modelRouteAndViewName."') }}\"><i class=\"icon-list\"></i> ".$this->modelPlural."</a></li>\n            {{-- Do not delete me :) I'm used for auto-generation menu items --}}", $this->files->get($sidebarPath)));
         }
 
@@ -99,14 +90,13 @@ class Controller extends ClassGenerator {
     protected function getOptions() {
         return [
             ['model_name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a controller for the given model'],
-            ['controller', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
-            ['belongsToMany', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
+            ['belongs_to_many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
         ];
     }
 
     protected function generateClassNameFromTable($tableName) {
-
+        return Str::studly($tableName).'Controller';
     }
 
     /**

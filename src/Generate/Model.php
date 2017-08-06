@@ -44,16 +44,7 @@ class Model extends ClassGenerator {
             $this->setBelongToManyRelation($belongsToMany);
         }
 
-        $modelPath = base_path($this->getPathFromClassName($this->classFullName));
-
-        if ($this->alreadyExists($modelPath)) {
-            $this->error('File '.$modelPath.' already exists!');
-            return false;
-        }
-
-        $this->makeDirectory($modelPath);
-
-        $this->files->put($modelPath, $this->buildClass());
+        $this->generateClass();
 
         // TODO think if we should use ide-helper:models ?
 
