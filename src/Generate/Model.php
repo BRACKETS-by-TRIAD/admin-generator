@@ -83,7 +83,7 @@ class Model extends ClassGenerator {
     protected function getOptions() {
         return [
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
-            ['belongs_to_many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
+            ['belongs-to-many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
         ];
     }
 

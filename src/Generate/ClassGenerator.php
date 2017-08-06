@@ -395,7 +395,7 @@ abstract class ClassGenerator extends Command {
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->initNames($this->argument('table_name'), $this->argument('class_name'), $this->option('model_name'));
+        $this->initNames($this->argument('table_name'), $this->argument('class_name'), $this->option('model-name'));
         return parent::execute($input, $output);
     }
 

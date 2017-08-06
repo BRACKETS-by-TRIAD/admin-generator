@@ -89,9 +89,9 @@ class Controller extends ClassGenerator {
 
     protected function getOptions() {
         return [
-            ['model_name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a controller for the given model'],
+            ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a controller for the given model'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
-            ['belongs_to_many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
+            ['belongs-to-many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
         ];
     }
 
