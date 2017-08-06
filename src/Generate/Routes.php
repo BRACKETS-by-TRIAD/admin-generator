@@ -51,6 +51,7 @@ class Routes extends FileAppender {
         return view('brackets/admin-generator::'.$this->view, [
             'controllerPartiallyFullName' => $this->controllerNameInRoutes,
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
+            'modelVariableName' => $this->modelVariableName,
         ])->render();
     }
 

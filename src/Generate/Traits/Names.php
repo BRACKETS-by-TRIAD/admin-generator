@@ -50,7 +50,7 @@ trait Names {
         }
 
         $controllerFullName = $controllerGenerator->qualifyClass($controllerName);
-        $this->controllerNameInRoutes = Str::replaceFirst($controllerGenerator->rootNamespace().'\\Http\\Controllers', '', $controllerFullName);
+        $this->controllerNameInRoutes = Str::replaceFirst(trim($controllerGenerator->rootNamespace(), '\\').'\Http\\Controllers\\', '', $controllerFullName);
     }
 
 }
