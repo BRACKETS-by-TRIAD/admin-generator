@@ -1,5 +1,5 @@
 @php echo "<?php"
-@endphp namespace App\Http\Requests\Admin;
+@endphp namespace App\Http\Requests\Admin\{{ $modelBaseName }};
 
 use Illuminate\Foundation\Http\FormRequest;
 use Gate;

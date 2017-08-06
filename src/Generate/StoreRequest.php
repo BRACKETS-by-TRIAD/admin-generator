@@ -1,6 +1,5 @@
 <?php namespace Brackets\AdminGenerator\Generate;
 
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
 class StoreRequest extends ClassGenerator {
