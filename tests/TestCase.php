@@ -34,6 +34,7 @@ abstract class TestCase extends Orchestra
     {
 
         $newBasePath = $app->basePath().DIRECTORY_SEPARATOR.'testing_folder';
+        $app->getNamespace();
         $app->setBasePath($newBasePath);
         $this->initializeDirectory($newBasePath);
 

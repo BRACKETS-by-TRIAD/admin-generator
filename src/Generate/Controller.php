@@ -33,6 +33,11 @@ class Controller extends ClassGenerator {
      */
     public function fire()
     {
+
+        // FIXME finish this
+        // $this->controllerPartialname;
+        // TODO test and if error, then add check, if class name is outside default location, then prompt error because routes could not load such controller
+
         //TODO check if exists
         //TODO make global for all generator
         //TODO also with prefix
@@ -44,7 +49,7 @@ class Controller extends ClassGenerator {
             $this->setBelongToManyRelation($belongsToMany);
         }
 
-        $controllerPath = base_path($this->getPathFromClassName($this->controllerFullName));
+        $controllerPath = base_path($this->getPathFromClassName($this->classFullName));
 
         if ($this->alreadyExists($controllerPath)) {
             $this->error('File '.$controllerPath.' already exists!');
@@ -60,15 +65,15 @@ class Controller extends ClassGenerator {
             $this->files->put($sidebarPath, str_replace("{{-- Do not delete me :) I'm used for auto-generation menu items --}}", "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->modelRouteAndViewName."') }}\"><i class=\"icon-list\"></i> ".$this->modelPlural."</a></li>\n            {{-- Do not delete me :) I'm used for auto-generation menu items --}}", $this->files->get($sidebarPath)));
         }
 
-        $this->info('Generating '.$this->controllerBaseName.' finished');
+        $this->info('Generating '.$this->classBaseName.' finished');
 
     }
 
     protected function buildClass() {
 
         return view('brackets/admin-generator::'.$this->view, [
-            'controllerBaseName' => $this->controllerBaseName,
-            'controllerNamespace' => $this->controllerNamespace,
+            'controllerBaseName' => $this->classBaseName,
+            'controllerNamespace' => $this->classNamespace,
             'modelBaseName' => $this->modelBaseName,
             'modelFullName' => $this->modelFullName,
             'modelPlural' => $this->modelPlural,
@@ -82,9 +87,9 @@ class Controller extends ClassGenerator {
             'columnsToSearchIn' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return ($column['type'] == 'text' || $column['type'] == 'string' || $column['name'] == "id") && !($column['name'] == "password" || $column['name'] == "remember_token");
             })->pluck('name')->toArray(),
-//            'filters' => $this->readColumnsFromTable($tableName)->filter(function($column) {
-//                return $column['type'] == 'boolean' || $column['type'] == 'date';
-//            }),
+            //            'filters' => $this->readColumnsFromTable($tableName)->filter(function($column) {
+            //                return $column['type'] == 'boolean' || $column['type'] == 'date';
+            //            }),
             // validation in store/update
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
             'relations' => $this->relations,
@@ -93,11 +98,25 @@ class Controller extends ClassGenerator {
 
     protected function getOptions() {
         return [
-            ['model', 'm', InputOption::VALUE_OPTIONAL, 'Generates a controller for the given model'],
+            ['model_name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a controller for the given model'],
             ['controller', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
             ['belongsToMany', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
         ];
     }
 
+    protected function generateClassNameFromTable($tableName) {
+
+    }
+
+    /**
+     * Get the default namespace for the class.
+     *
+     * @param  string  $rootNamespace
+     * @return string
+     */
+    protected function getDefaultNamespace($rootNamespace)
+    {
+        return $rootNamespace.'\Http\Controllers\Admin';
+    }
 }

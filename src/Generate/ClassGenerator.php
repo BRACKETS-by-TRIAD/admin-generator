@@ -13,10 +13,10 @@ abstract class ClassGenerator extends Command {
 
     protected $tableName;
 
-    protected $controllerBaseName;
-    protected $controllerPartiallyFullName;
-    protected $controllerFullName;
-    protected $controllerNamespace;
+    protected $classBaseName;
+    protected $classPartialName;
+    protected $classFullName;
+    protected $classNamespace;
 
     protected $modelBaseName;
     protected $modelFullName;
@@ -303,6 +303,59 @@ abstract class ClassGenerator extends Command {
     }
 
     /**
+     * Get the full namespace for a given class, without the class name.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    protected function getNamespace($name)
+    {
+        return trim(implode('\\', array_slice(explode('\\', $name), 0, -1)), '\\');
+    }
+
+    /**
+     * Get the root namespace for the class.
+     *
+     * @return string
+     */
+    protected function rootNamespace()
+    {
+        return $this->laravel->getNamespace();
+    }
+
+    /**
+     * Parse the class name and format according to the root namespace.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    protected function qualifyClass($name)
+    {
+        $name = str_replace('/', '\\', $name);
+
+        $rootNamespace = $this->rootNamespace();
+
+        if (Str::startsWith($name, $rootNamespace)) {
+            return $name;
+        }
+
+        return $this->qualifyClass(
+            $this->getDefaultNamespace(trim($rootNamespace, '\\')).'\\'.$name
+        );
+    }
+
+    /**
+     * Get the default namespace for the class.
+     *
+     * @param  string  $rootNamespace
+     * @return string
+     */
+    protected function getDefaultNamespace($rootNamespace)
+    {
+        return $rootNamespace;
+    }
+
+    /**
      * Execute the console command.
      *
      * @param  \Symfony\Component\Console\Input\InputInterface  $input
@@ -311,25 +364,37 @@ abstract class ClassGenerator extends Command {
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->initNames($this->argument('table_name'), $this->argument('class_name'), $this->option('controller'));
+        $this->initNames($this->argument('table_name'), $this->argument('class_name'));
         return parent::execute($input, $output);
     }
 
-    protected function initNames($table_name, $model_name = null, $controller_name = null) {
-        $this->tableName = $table_name;
+    protected function initNames($tableName, $className = null) {
+        $this->tableName = $tableName;
 
-        //FIXME need get full paths, do not prepend namespace
-        $this->controllerBaseName = class_basename($controller_name) ?: (Str::studly($this->tableName) . "Controller");
-        $this->controllerPartiallyFullName = "Admin\\".($controller_name ?: (Str::studly($this->tableName) . "Controller"));
-        $this->controllerFullName = "App\\Http\\Controllers\\".$this->controllerPartiallyFullName;
-        $this->controllerNamespace = Str::replaceLast("\\".$this->controllerBaseName, '', $this->controllerFullName);
+        if ($this->hasOption('model')) {
+            $this->initModelName($this->option('model'));
+        } else {
+            $this->initModelName(Str::studly(Str::singular($this->tableName)));
+        }
 
-        $this->modelBaseName = class_basename($model_name) ?: Str::studly(Str::singular($this->tableName));
-        $this->modelFullName = "App\\Models\\".($model_name ?: Str::studly(Str::singular($this->tableName)));
-        $this->modelPlural = Str::plural(class_basename($model_name)) ?: Str::studly($this->tableName);
+        if (empty($className)) {
+            $className = $this->generateClassNameFromTable($this->tableName);
+        }
+
+        $this->classFullName = $this->qualifyClass($className);
+        $this->classBaseName = class_basename($this->classFullName);
+        $this->classNamespace = Str::replaceLast("\\".$this->classBaseName, '', $this->classFullName);
+    }
+
+    abstract protected function generateClassNameFromTable($tableName);
+
+    protected function initModelName($modelFullName) {
+        $this->modelBaseName = class_basename($modelFullName);
+        $this->modelFullName = "App\\Models\\" . ($modelFullName ?: Str::studly(Str::singular($this->tableName)));
+        $this->modelPlural = Str::plural(class_basename($modelFullName)) ?: Str::studly($this->tableName);
         $this->modelVariableName = lcfirst(Str::singular(class_basename($this->modelBaseName)));
         $this->modelRouteAndViewName = Str::lower(Str::kebab($this->modelBaseName));
-        $this->modelNamespace = Str::replaceLast("\\".$this->modelBaseName, '', $this->modelFullName);
+        $this->modelNamespace = Str::replaceLast("\\" . $this->modelBaseName, '', $this->modelFullName);
     }
 
 }

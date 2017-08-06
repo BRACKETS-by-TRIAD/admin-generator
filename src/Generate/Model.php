@@ -40,11 +40,11 @@ class Model extends ClassGenerator {
             $this->view = 'templates.'.$template.'.model';
         }
 
-        if(!empty($belongsToMany = $this->option('belongsToMany'))) {
+        if(!empty($belongsToMany = $this->option('belongs_to_many'))) {
             $this->setBelongToManyRelation($belongsToMany);
         }
 
-        $modelPath = base_path($this->getPathFromClassName($this->modelFullName));
+        $modelPath = base_path($this->getPathFromClassName($this->classFullName));
 
         if ($this->alreadyExists($modelPath)) {
             $this->error('File '.$modelPath.' already exists!');
@@ -89,10 +89,23 @@ class Model extends ClassGenerator {
 
     protected function getOptions() {
         return [
-            ['class_name', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
             ['belongs_to_many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
         ];
     }
 
+    protected function generateClassNameFromTable($tableName) {
+        return Str::studly(Str::singular($tableName));
+    }
+
+    /**
+     * Get the default namespace for the class.
+     *
+     * @param  string  $rootNamespace
+     * @return string
+     */
+    protected function getDefaultNamespace($rootNamespace)
+    {
+        return $rootNamespace.'\Models';
+    }
 }

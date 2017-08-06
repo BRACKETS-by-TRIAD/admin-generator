@@ -15,13 +15,13 @@ class AdminGeneratorProvider extends ServiceProvider
             GenerateAdmin::class,
             Generate\Model::class,
             Generate\Controller::class,
-            Generate\ViewIndex::class,
-            Generate\ViewForm::class,
-            Generate\ViewFullForm::class,
-            Generate\ModelFactory::class,
-            Generate\Routes::class,
-            Generate\StoreRequest::class,
-            Generate\UpdateRequest::class,
+//            Generate\ViewIndex::class,
+//            Generate\ViewForm::class,
+//            Generate\ViewFullForm::class,
+//            Generate\ModelFactory::class,
+//            Generate\Routes::class,
+//            Generate\StoreRequest::class,
+//            Generate\UpdateRequest::class,
         ]);
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'brackets/admin-generator');

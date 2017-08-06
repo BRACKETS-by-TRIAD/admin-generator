@@ -1,10 +1,11 @@
 <?php namespace Brackets\AdminGenerator;
 
 use Brackets\AdminGenerator\Generate\ClassGenerator;
+use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class GenerateAdmin extends ClassGenerator {
+class GenerateAdmin extends Command {
 
     /**
      * The name and signature of the console command.

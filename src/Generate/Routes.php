@@ -53,7 +53,7 @@ class Routes extends ClassGenerator {
     protected function buildClass() {
 
         return view('brackets/admin-generator::'.$this->view, [
-            'controllerPartiallyFullName' => $this->controllerPartiallyFullName,
+            'controllerPartiallyFullName' => $this->classPartialName,
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
         ])->render();
     }
