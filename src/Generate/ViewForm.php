@@ -26,7 +26,7 @@ class ViewForm extends ViewGenerator {
      */
     public function fire()
     {
-        if(!empty($belongsToMany = $this->option('belongsToMany'))) {
+        if(!empty($belongsToMany = $this->option('belongs-to-many'))) {
             $this->setBelongToManyRelation($belongsToMany);
         }
 
@@ -98,7 +98,10 @@ class ViewForm extends ViewGenerator {
         return view('brackets/admin-generator::create', [
             'modelBaseName' => $this->modelBaseName,
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
+            'modelVariableName' => $this->modelVariableName,
             'modelPlural' => $this->modelPlural,
+            'modelViewsDirectory' => $this->modelViewsDirectory,
+            'modelDotNotation' => $this->modelDotNotation,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
         ])->render();
@@ -109,7 +112,10 @@ class ViewForm extends ViewGenerator {
         return view('brackets/admin-generator::edit', [
             'modelBaseName' => $this->modelBaseName,
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
+            'modelVariableName' => $this->modelVariableName,
             'modelPlural' => $this->modelPlural,
+            'modelViewsDirectory' => $this->modelViewsDirectory,
+            'modelDotNotation' => $this->modelDotNotation,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
         ])->render();
@@ -117,7 +123,7 @@ class ViewForm extends ViewGenerator {
 
     protected function buildFormJs() {
         return view('brackets/admin-generator::form-js', [
-            'modelRouteAndViewName' => $this->modelRouteAndViewName,
+            'modelViewsDirectory' => $this->modelViewsDirectory,
         ])->render();
     }
 

@@ -2,9 +2,9 @@
 
 {{'@'}}section('body')
 
-    <{{ $modelRouteAndViewName }}-listing
+    <{{ $modelViewsDirectory }}-listing
         :data="{{'{{'}} $data->toJson() }}"
-        :url="'{{'{{'}} url('admin/{{ $modelRouteAndViewName }}') }}'"
+        :url="'{{'{{'}} url('admin/{{ $modelViewsDirectory }}') }}'"
         inline-template>
 
         <div class="row">
@@ -12,7 +12,7 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-align-justify"></i> {{ $modelPlural }} listing
-                        <a class="btn btn-primary btn-sm pull-right m-b-0" href="{{'{{'}} url('admin/{{ $modelRouteAndViewName }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; New {{ $modelBaseName }}</a>
+                        <a class="btn btn-primary btn-sm pull-right m-b-0" href="{{'{{'}} url('admin/{{ $modelViewsDirectory }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; New {{ $modelBaseName }}</a>
                     </div>
                     <div class="card-block" v-cloak>
                         <form @submit.prevent="">
@@ -52,7 +52,7 @@
                                 <tr v-for="(item, index) in collection">
                                     @foreach($columns as $col)@if($col['switch'])<td>
                                         <label class="switch switch-3d switch-success">
-                                            <input type="checkbox" class="switch-input" v-model="collection[index].{{ $col['name'] }}" @change="toggleSwitch('{{'{{'}} url('admin/{{ $modelRouteAndViewName }}/update') }}/' + item.id, '{{ $col['name'] }}', collection[index])">
+                                            <input type="checkbox" class="switch-input" v-model="collection[index].{{ $col['name'] }}" @change="toggleSwitch('{{'{{'}} url('admin/{{ $modelViewsDirectory }}/update') }}/' + item.id, '{{ $col['name'] }}', collection[index])">
                                             <span class="switch-label"></span>
                                             <span class="switch-handle"></span>
                                         </label>
@@ -64,9 +64,9 @@
                                     <td>
                                         <div class="row no-gutters">
                                             <div class="col-auto">
-                                                <a class="btn btn-sm btn-info" :href="'{{'{{'}} url('admin/{{ $modelRouteAndViewName }}/edit') }}/' + item.id" title="Edit" role="button"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-sm btn-info" :href="'{{'{{'}} url('admin/{{ $modelViewsDirectory }}/edit') }}/' + item.id" title="Edit" role="button"><i class="fa fa-edit"></i></a>
                                             </div>
-                                            <form class="col" @submit.prevent="deleteItem('{{'{{'}} url('admin/{{ $modelRouteAndViewName }}/destroy') }}/' + item.id)">
+                                            <form class="col" @submit.prevent="deleteItem('{{'{{'}} url('admin/{{ $modelViewsDirectory }}/destroy') }}/' + item.id)">
                                                 <button type="submit" class="btn btn-sm btn-danger" title="Delete"><i class="fa fa-trash-o"></i></button>
                                             </form>
                                         </div>
@@ -88,6 +88,6 @@
                 </div>
             </div>
         </div>
-    </{{ $modelRouteAndViewName }}-listing>
+    </{{ $modelViewsDirectory }}-listing>
 
 {{'@'}}endsection

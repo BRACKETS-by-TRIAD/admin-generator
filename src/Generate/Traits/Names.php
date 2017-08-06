@@ -16,6 +16,7 @@ trait Names {
     public $modelNamespace;
     public $modelWithNamespaceFromDefault;
     public $modelViewsDirectory;
+    public $modelDotNotation;
 
     public $controllerWithNamespaceFromDefault;
 
@@ -47,6 +48,7 @@ trait Names {
         $this->modelViewsDirectory = Str::lower(Str::kebab(implode('/', collect(explode( '\\', $this->modelWithNamespaceFromDefault))->map(function($part){
             return lcfirst($part);
         })->toArray())));
+        $this->modelDotNotation = str_replace('/', '.', $this->modelViewsDirectory);
 
         if ($this instanceof Controller) {
             $controllerGenerator = $this;

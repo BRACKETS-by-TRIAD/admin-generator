@@ -6,8 +6,8 @@
 
         <div class="card">
 
-            <{{ $modelRouteAndViewName }}-form
-                :action="'{{'{{'}} url('admin/{{ $modelRouteAndViewName }}/store') }}'"
+            <{{ $modelViewsDirectory }}-form
+                :action="'{{'{{'}} url('admin/{{ $modelViewsDirectory }}/store') }}'"
                 inline-template>
 
                 <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
@@ -18,7 +18,7 @@
 
                     <div class="card-block">
 
-                        {{'@'}}include('admin.{{ $modelRouteAndViewName }}.components.form-elements')
+                        {{'@'}}include('admin.{{ $modelDotNotation }}.components.form-elements')
 
                     </div>
 
@@ -28,7 +28,7 @@
 
                 </form>
 
-            </{{ $modelRouteAndViewName }}-form>
+            </{{ $modelViewsDirectory }}-form>
 
         </div>
 

@@ -66,6 +66,8 @@ class Controller extends ClassGenerator {
             'modelPlural' => $this->modelPlural,
             'modelVariableName' => $this->modelVariableName,
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
+            'modelViewsDirectory' => $this->modelViewsDirectory,
+            'modelDotNotation' => $this->modelDotNotation,
 
             // index
             'columnsToQuery' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {

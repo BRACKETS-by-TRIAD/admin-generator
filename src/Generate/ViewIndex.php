@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class ViewIndex extends ClassGenerator {
+class ViewIndex extends ViewGenerator {
 
     /**
      * The name and signature of the console command.
@@ -49,8 +49,8 @@ class ViewIndex extends ClassGenerator {
             $this->viewJs = 'templates.'.$template.'.listing-js';
         }
 
-        $viewPath = resource_path('views/admin/'.$this->modelRouteAndViewName.'/index.blade.php');
-        $listingJsPath = resource_path('assets/js/admin/'.$this->modelRouteAndViewName.'/Listing.js');
+        $viewPath = resource_path('views/admin/'.$this->modelViewsDirectory.'/index.blade.php');
+        $listingJsPath = resource_path('assets/js/admin/'.$this->modelViewsDirectory.'/Listing.js');
         $bootstrapJsPath = resource_path('assets/js/admin/bootstrap.js');
 
         if ($this->alreadyExists($viewPath)) {
@@ -63,6 +63,7 @@ class ViewIndex extends ClassGenerator {
             $this->info('Generating '.$viewPath.' finished');
         }
 
+
         if ($this->alreadyExists($listingJsPath)) {
             $this->error('File '.$listingJsPath.' already exists!');
         } else {
@@ -70,7 +71,7 @@ class ViewIndex extends ClassGenerator {
 
             $this->files->put($listingJsPath, $this->buildListingJs());
 
-            $this->appendIfNotAlreadyAppended($bootstrapJsPath, "require('./".$this->modelRouteAndViewName."/Listing')\n");
+            $this->appendIfNotAlreadyAppended($bootstrapJsPath, "require('./".$this->modelViewsDirectory."/Listing')\n");
 
             $this->info('Generating '.$listingJsPath.' finished');
         }
@@ -83,6 +84,7 @@ class ViewIndex extends ClassGenerator {
             'modelBaseName' => $this->modelBaseName,
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
             'modelPlural' => $this->modelPlural,
+            'modelViewsDirectory' => $this->modelViewsDirectory,
 
             'columns' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "remember_token" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
@@ -111,13 +113,13 @@ class ViewIndex extends ClassGenerator {
 
     protected function buildListingJs() {
         return view('brackets/admin-generator::'.$this->viewJs, [
-            'modelRouteAndViewName' => $this->modelRouteAndViewName,
+            'modelViewsDirectory' => $this->modelViewsDirectory,
         ])->render();
     }
 
     protected function getOptions() {
         return [
-            ['model', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
+            ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
         ];
     }

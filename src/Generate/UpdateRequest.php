@@ -33,8 +33,9 @@ class UpdateRequest extends ClassGenerator {
 
         return view('brackets/admin-generator::update-request', [
             'modelBaseName' => $this->modelBaseName,
-            'modelRouteAndViewName' => $this->modelRouteAndViewName,
+            'modelDotNotation' => $this->modelDotNotation,
             'modelWithNamespaceFromDefault' => $this->modelWithNamespaceFromDefault,
+            'modelVariableName' => $this->modelVariableName,
 
             // validation in store/update
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),

@@ -6,9 +6,9 @@
 
         <div class="card">
 
-            <{{ $modelRouteAndViewName }}-form
-                :action="'{{'{{'}} route('admin/{{ $modelRouteAndViewName }}/update', ['{{ $modelRouteAndViewName }}' => ${{ $modelRouteAndViewName }}]) }}'"
-                :data="{{'{{'}} ${{ $modelRouteAndViewName }}->toJson() }}"
+            <{{ $modelViewsDirectory }}-form
+                :action="'{{'{{'}} route('admin/{{ $modelViewsDirectory }}/update', ['{{ $modelVariableName }}' => ${{ $modelVariableName }}]) }}'"
+                :data="{{'{{'}} ${{ $modelVariableName }}->toJson() }}"
                 inline-template>
 
                 <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
@@ -19,7 +19,7 @@
 
                     <div class="card-block">
 
-                        {{'@'}}include('admin.{{ $modelRouteAndViewName }}.components.form-elements')
+                        {{'@'}}include('admin.{{ $modelDotNotation }}.components.form-elements')
 
                     </div>
 
@@ -29,7 +29,7 @@
 
                 </form>
 
-        </{{ $modelRouteAndViewName }}-form>
+        </{{ $modelViewsDirectory }}-form>
 
     </div>
 

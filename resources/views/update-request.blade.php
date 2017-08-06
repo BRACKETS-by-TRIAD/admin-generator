@@ -13,7 +13,7 @@ class Update{{ $modelBaseName }} extends FormRequest
      */
     public function authorize()
     {
-        return Gate::allows('update-{{ $modelRouteAndViewName }}', $this->{{ $modelRouteAndViewName }});
+        return Gate::allows('update-{{ $modelDotNotation }}', $this->{{ $modelVariableName }});
     }
 
     /**

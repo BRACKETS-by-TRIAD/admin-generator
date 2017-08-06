@@ -47,7 +47,7 @@ class {{ $controllerBaseName }} extends Controller
             return ['data' => $data];
         }
 
-        return view('admin.{{ $modelRouteAndViewName }}.index', ['data' => $data]);
+        return view('admin.{{ $modelDotNotation }}.index', ['data' => $data]);
 
     }
 
@@ -60,7 +60,7 @@ class {{ $controllerBaseName }} extends Controller
     {
         // TODO add authorization
 
-        return view('admin.{{ $modelRouteAndViewName }}.create',[
+        return view('admin.{{ $modelDotNotation }}.create',[
 @if (count($relations))
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
@@ -99,10 +99,10 @@ class {{ $controllerBaseName }} extends Controller
 @endif
 
         if ($request->ajax()) {
-            return ['redirect' => url('admin/{{ $modelRouteAndViewName }}')];
+            return ['redirect' => url('admin/{{ $modelViewsDirectory }}')];
         }
 
-        return redirect('admin/{{ $modelRouteAndViewName }}')
+        return redirect('admin/{{ $modelViewsDirectory }}')
             ->withSuccess("Created");
     }
 
@@ -137,7 +137,7 @@ class {{ $controllerBaseName }} extends Controller
 @endif
 @endif
 
-        return view('admin.{{ $modelRouteAndViewName }}.edit', [
+        return view('admin.{{ $modelDotNotation }}.edit', [
             '{{ $modelRouteAndViewName }}' => ${{ $modelVariableName }},
 @if (count($relations))
 @if (count($relations['belongsToMany']))
@@ -178,10 +178,10 @@ class {{ $controllerBaseName }} extends Controller
 @endif
 
         if ($request->ajax()) {
-            return ['redirect' => url('admin/{{ $modelRouteAndViewName }}')];
+            return ['redirect' => url('admin/{{ $modelViewsDirectory }}')];
         }
 
-        return redirect('admin/{{ $modelRouteAndViewName }}')
+        return redirect('admin/{{ $modelViewsDirectory }}')
             ->withSuccess("Updated");
     }
 

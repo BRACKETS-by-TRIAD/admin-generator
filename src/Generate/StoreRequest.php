@@ -32,7 +32,7 @@ class StoreRequest extends ClassGenerator {
 
         return view('brackets/admin-generator::store-request', [
             'modelBaseName' => $this->modelBaseName,
-            'modelRouteAndViewName' => $this->modelRouteAndViewName,
+            'modelDotNotation' => $this->modelDotNotation,
             'modelWithNamespaceFromDefault' => $this->modelWithNamespaceFromDefault,
 
             // validation in store/update
