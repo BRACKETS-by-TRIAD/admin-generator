@@ -42,11 +42,11 @@ class UpdateRequest extends ClassGenerator {
 
     protected function getOptions() {
         return [
-            ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a controller for the given model'],
+            ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
         ];
     }
 
-    protected function generateClassNameFromTable($tableName) {
+    public function generateClassNameFromTable($tableName) {
         return 'Update'.$this->modelBaseName;
     }
 

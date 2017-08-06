@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class ModelFactory extends ClassGenerator {
+class ModelFactory extends FileAppender {
 
     /**
      * The name and signature of the console command.
@@ -17,7 +17,7 @@ class ModelFactory extends ClassGenerator {
      *
      * @var string
      */
-    protected $description = 'Generate a factory';
+    protected $description = 'Append a new factory';
 
     /**
      * Execute the console command.
@@ -27,11 +27,9 @@ class ModelFactory extends ClassGenerator {
     public function fire()
     {
 
-        $path = base_path('database/factories/ModelFactory.php');
+        $this->appendIfNotAlreadyAppended(base_path('database/factories/ModelFactory.php'), $this->buildClass());
 
-        $this->appendIfNotAlreadyAppended($path, $this->buildClass());
-
-        $this->info('Appending to Model Factory finished');
+        $this->info('Appending '.$this->modelBaseName.' model to ModelFactory finished');
 
     }
 
@@ -89,7 +87,7 @@ class ModelFactory extends ClassGenerator {
 
     protected function getOptions() {
         return [
-            ['model', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
+            ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
         ];
     }
 

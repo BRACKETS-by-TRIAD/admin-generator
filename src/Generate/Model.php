@@ -84,7 +84,7 @@ class Model extends ClassGenerator {
         ];
     }
 
-    protected function generateClassNameFromTable($tableName) {
+    public function generateClassNameFromTable($tableName) {
         return Str::studly(Str::singular($tableName));
     }
 

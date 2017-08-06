@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class Routes extends ClassGenerator {
+class Routes extends FileAppender {
 
     /**
      * The name and signature of the console command.
@@ -40,11 +40,7 @@ class Routes extends ClassGenerator {
             $this->view = 'templates.'.$template.'.routes';
         }
 
-        $routesPath = base_path('routes/web.php');
-
-        // FIXME add check, if file already consists
-
-        $this->appendIfNotAlreadyAppended($routesPath, "\n\n".$this->buildClass());
+        $this->appendIfNotAlreadyAppended(base_path('routes/web.php'), "\n\n".$this->buildClass());
 
         $this->info('Appending routes finished');
 
@@ -53,15 +49,15 @@ class Routes extends ClassGenerator {
     protected function buildClass() {
 
         return view('brackets/admin-generator::'.$this->view, [
-            'controllerPartiallyFullName' => $this->classPartialName,
+            'controllerPartiallyFullName' => $this->controllerNameInRoutes,
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
         ])->render();
     }
 
     protected function getOptions() {
         return [
-            ['model', 'm', InputOption::VALUE_OPTIONAL, 'Generates a controller for the given model'],
-            ['controller', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
+            ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a controller for the given model'],
+            ['controller-name', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
         ];
     }

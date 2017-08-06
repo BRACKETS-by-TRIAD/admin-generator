@@ -34,9 +34,7 @@ class Controller extends ClassGenerator {
     public function fire()
     {
 
-        // FIXME finish this
-        // $this->controllerPartialname;
-        // TODO test and if error, then add check, if class name is outside default location, then prompt error because routes could not load such controller
+        // TODO test the case, if someone passes a class_name outside Laravel's default App\Http\Controllers folder, if it's going to work
 
         //TODO check if exists
         //TODO make global for all generator
@@ -51,10 +49,11 @@ class Controller extends ClassGenerator {
 
         $this->generateClass();
 
-        $sidebarPath = resource_path('views/admin/layout/sidebar.blade.php');
-        if($this->files->exists($sidebarPath) && !$this->alreadyAppended($sidebarPath, "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->modelRouteAndViewName."') }}\"><i class=\"icon-list\"></i> ".$this->modelPlural."</a></li>")) {
-            $this->files->put($sidebarPath, str_replace("{{-- Do not delete me :) I'm used for auto-generation menu items --}}", "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->modelRouteAndViewName."') }}\"><i class=\"icon-list\"></i> ".$this->modelPlural."</a></li>\n            {{-- Do not delete me :) I'm used for auto-generation menu items --}}", $this->files->get($sidebarPath)));
-        }
+        // FIXME extract into own appender
+//        $sidebarPath = resource_path('views/admin/layout/sidebar.blade.php');
+//        if($this->files->exists($sidebarPath) && !$this->alreadyAppended($sidebarPath, "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->modelRouteAndViewName."') }}\"><i class=\"icon-list\"></i> ".$this->modelPlural."</a></li>")) {
+//            $this->files->put($sidebarPath, str_replace("{{-- Do not delete me :) I'm used for auto-generation menu items --}}", "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->modelRouteAndViewName."') }}\"><i class=\"icon-list\"></i> ".$this->modelPlural."</a></li>\n            {{-- Do not delete me :) I'm used for auto-generation menu items --}}", $this->files->get($sidebarPath)));
+//        }
     }
 
     protected function buildClass() {
@@ -86,13 +85,13 @@ class Controller extends ClassGenerator {
 
     protected function getOptions() {
         return [
-            ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a controller for the given model'],
+            ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
             ['belongs-to-many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
         ];
     }
 
-    protected function generateClassNameFromTable($tableName) {
+    public function generateClassNameFromTable($tableName) {
         return Str::studly($tableName).'Controller';
     }
 

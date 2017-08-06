@@ -1,7 +1,9 @@
 <?php namespace Brackets\AdminGenerator\Generate;
 
+use Brackets\AdminGenerator\Generate\Traits\Helpers;
+use Brackets\AdminGenerator\Generate\Traits\Names;
+use Brackets\AdminGenerator\Generate\Traits\Columns;
 use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Support\Str;
@@ -11,17 +13,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class ClassGenerator extends Command {
 
-    public $tableName;
+    use Helpers, Columns, Names;
+
     public $classBaseName;
     public $classPartialName;
     public $classFullName;
     public $classNamespace;
-    public $modelBaseName;
-    public $modelFullName;
-    public $modelPlural;
-    public $modelVariableName;
-    public $modelRouteAndViewName;
-    public $modelNamespace;
 
     /**
      * @var Filesystem
@@ -60,7 +57,7 @@ abstract class ClassGenerator extends Command {
      * @param $tableName
      * @return mixed
      */
-    abstract protected function generateClassNameFromTable($tableName);
+    abstract public function generateClassNameFromTable($tableName);
 
     /**
      * Build the class with the given name.
@@ -68,151 +65,6 @@ abstract class ClassGenerator extends Command {
      * @return string
      */
     abstract protected function buildClass();
-
-    /**
-     * @param $tableName
-     * @return Collection
-     */
-    protected function readColumnsFromTable($tableName) {
-
-        // TODO how to process jsonb & json translatable columns? need to figure it out
-
-        $indexes = collect(Schema::getConnection()->getDoctrineSchemaManager()->listTableIndexes($tableName));
-        return collect(Schema::getColumnListing($tableName))->map(function($columnName) use ($tableName, $indexes) {
-
-            //Checked unique index
-            $columnUniqueIndexes = $indexes->filter(function($index) use ($columnName) {
-                return in_array($columnName, $index->getColumns()) && ($index->isUnique() && !$index->isPrimary());
-            });
-            $columnUniqueDeleteAtCondition = $columnUniqueIndexes->filter(function($index) {
-                return $index->hasOption('where') ? $index->getOption('where') == '(deleted_at IS NULL)' : false;
-            });
-
-            // TODO add foreign key
-
-            return [
-                'name' => $columnName,
-                'type' => Schema::getColumnType($tableName, $columnName),
-                'required' => boolval(Schema::getConnection()->getDoctrineColumn($tableName, $columnName)->getNotnull()),
-                'unique' => $columnUniqueIndexes->count() > 0,
-                'unique_deleted_at_condition' => $columnUniqueDeleteAtCondition->count() > 0,
-            ];
-        });
-    }
-
-    protected function getVisibleColumns($tableName, $modelVariableName) {
-        $columns = $this->readColumnsFromTable($tableName);
-        $hasSoftDelete = ($columns->filter(function($column) {
-            return $column['name'] == "deleted_at";
-        })->count() > 0);
-        return $columns->filter(function($column) {
-            return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at" || $column['name'] == "remember_token");
-        })->map(function($column) use ($tableName, $hasSoftDelete, $modelVariableName){
-            $serverStoreRules = collect([]);
-            $serverUpdateRules = collect([]);
-            $frontendRules = collect([]);
-            if ($column['required']) {
-                $serverStoreRules->push('required');
-                $serverUpdateRules->push('required');
-                if($column['type'] != 'boolean' && $column['name'] != 'password') {
-                    $frontendRules->push('required');
-                }
-            } else {
-                $serverStoreRules->push('nullable');
-                $serverUpdateRules->push('nullable');
-            }
-
-            if ($column['name'] == 'email') {
-                $serverStoreRules->push('email');
-                $serverUpdateRules->push('email');
-                $frontendRules->push('email');
-            }
-
-            if ($column['name'] == 'password') {
-                $serverStoreRules->push('confirmed');
-                $serverUpdateRules->push('sometimes');
-                $serverUpdateRules->push('confirmed');
-                $frontendRules->push('confirmed:password_confirmation');
-
-                $serverStoreRules->push('min:7');
-                $serverUpdateRules->push('min:7');
-                $frontendRules->push('min:7');
-
-                $serverStoreRules->push('regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9]).*$/');
-                $serverUpdateRules->push('regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9]).*$/');
-                //TODO not working, need fixing
-//                $frontendRules->push('regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!$#%]).*$/g');
-            }
-
-            if ($column['unique']) {
-                $storeRule = 'unique:'.$tableName;
-                $updateRule = 'unique:'.$tableName.','.$column['name'].',\'.$'.$modelVariableName.'->getKey().\',\'.$'.$modelVariableName.'->getKeyName().\'';
-                if($hasSoftDelete && $column['unique_deleted_at_condition']) {
-                    $storeRule .= ','.$column['name'].',NULL,id,deleted_at,NULL';
-                    $updateRule .= ',deleted_at,NULL';
-                }
-                $serverStoreRules->push($storeRule);
-                $serverUpdateRules->push($updateRule);
-            }
-
-            switch ($column['type']) {
-                case 'datetime':
-                    $serverStoreRules->push('date');
-                    $serverUpdateRules->push('date');
-                    $frontendRules->push('date_format:YYYY-MM-DD kk:mm:ss');
-                    break;
-                case 'date':
-                    $serverStoreRules->push('date');
-                    $serverUpdateRules->push('date');
-                    $frontendRules->push('date_format:YYYY-MM-DD kk:mm:ss');
-                    break;
-                case 'time':
-                    $serverStoreRules->push('date_format:H:i:s');
-                    $serverUpdateRules->push('date_format:H:i:s');
-                    $frontendRules->push('date_format:kk:mm:ss');
-                    break;
-                case 'integer':
-                    $serverStoreRules->push('integer');
-                    $serverUpdateRules->push('integer');
-                    $frontendRules->push('numeric');
-                    break;
-                case 'boolean':
-                    $serverStoreRules->push('boolean');
-                    $serverUpdateRules->push('boolean');
-                    $frontendRules->push('');
-                    break;
-                case 'float':
-                    $serverStoreRules->push('numeric');
-                    $serverUpdateRules->push('numeric');
-                    $frontendRules->push('decimal');
-                    break;
-                case 'decimal':
-                    $serverStoreRules->push('numeric');
-                    $serverUpdateRules->push('numeric');
-                    $frontendRules->push('decimal'); // FIXME?? I'm not sure about this one
-                    break;
-                case 'string':
-                    $serverStoreRules->push('string');
-                    $serverUpdateRules->push('string');
-                    break;
-                case 'text':
-                    $serverStoreRules->push('string');
-                    $serverUpdateRules->push('string');
-                    break;
-                default:
-                    $serverStoreRules->push('string');
-                    $serverUpdateRules->push('string');
-            }
-
-            return [
-                'name' => $column['name'],
-                'type' => $column['type'],
-                'serverStoreRules' => $serverStoreRules->toArray(),
-                'serverUpdateRules' => $serverUpdateRules->toArray(),
-                'frontendRules' => $frontendRules->toArray(),
-            ];
-        });
-    }
 
     /**
      * Determine if the file already exists.
@@ -223,55 +75,6 @@ abstract class ClassGenerator extends Command {
     protected function alreadyExists($path)
     {
         return $this->files->exists($path);
-    }
-
-
-    /**
-     * Determine if the content is already present in the file
-     *
-     * @param $path
-     * @param $content
-     * @return bool
-     */
-    protected function alreadyAppended($path, $content)
-    {
-        if (strpos($this->files->get($path), $content) !== false) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Append content to file only if if the content is not present in the file
-     *
-     * @param $path
-     * @param $content
-     */
-    protected function appendIfNotAlreadyAppended($path, $content)
-    {
-        if (!$this->alreadyAppended($path, $content)) {
-            $this->files->append($path, $content);
-        }
-    }
-
-    public function option($key = null) {
-        return ($key === null || $this->hasOption($key)) ? parent::option($key) : null;
-    }
-
-
-    /**
-     * Build the directory for the class if necessary.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    protected function makeDirectory($path)
-    {
-        if (! $this->files->isDirectory(dirname($path))) {
-            $this->files->makeDirectory(dirname($path), 0777, true, true);
-        }
-
-        return $path;
     }
 
     public function getPathFromClassName($name) {
@@ -336,7 +139,7 @@ abstract class ClassGenerator extends Command {
      *
      * @return string
      */
-    protected function rootNamespace()
+    public function rootNamespace()
     {
         return $this->laravel->getNamespace();
     }
@@ -347,7 +150,7 @@ abstract class ClassGenerator extends Command {
      * @param  string  $name
      * @return string
      */
-    protected function qualifyClass($name)
+    public function qualifyClass($name)
     {
         $name = str_replace('/', '\\', $name);
 
@@ -395,7 +198,13 @@ abstract class ClassGenerator extends Command {
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->initNames($this->argument('table_name'), $this->argument('class_name'), $this->option('model-name'));
+        if ($this instanceof Model) {
+            $this->initCommonNames($this->argument('table_name'), $this->argument('class_name'));
+        } else {
+            $this->initCommonNames($this->argument('table_name'), $this->option('model-name'));
+        }
+
+        $this->initClassNames($this->argument('class_name'));
 
         $output = parent::execute($input, $output);
 
@@ -404,15 +213,7 @@ abstract class ClassGenerator extends Command {
         return $output;
     }
 
-    protected function initNames($tableName, $className = null, $modelName = null) {
-        $this->tableName = $tableName;
-
-        if ($this instanceof Model) {
-            $this->initModelName($className);
-        } else {
-            $this->initModelName(is_null($modelName) ? Str::studly(Str::singular($this->tableName)) : $modelName);
-        }
-
+    protected function initClassNames($className = null) {
         if (empty($className)) {
             $className = $this->generateClassNameFromTable($this->tableName);
         }
@@ -420,21 +221,6 @@ abstract class ClassGenerator extends Command {
         $this->classFullName = $this->qualifyClass($className);
         $this->classBaseName = class_basename($this->classFullName);
         $this->classNamespace = Str::replaceLast("\\".$this->classBaseName, '', $this->classFullName);
-    }
-
-    protected function initModelName($modelName) {
-        if ($this instanceof Model) {
-            $this->modelFullName = $this->qualifyClass($modelName);
-        } else {
-            $modelGenerator = app(Model::class);
-            $modelGenerator->setLaravel($this->laravel);
-            $this->modelFullName = $modelGenerator->qualifyClass($modelName);
-        }
-        $this->modelBaseName = class_basename($modelName);
-        $this->modelPlural = Str::plural(class_basename($modelName));
-        $this->modelVariableName = lcfirst(Str::singular(class_basename($this->modelBaseName)));
-        $this->modelRouteAndViewName = Str::lower(Str::kebab($this->modelBaseName));
-        $this->modelNamespace = Str::replaceLast("\\" . $this->modelBaseName, '', $this->modelFullName);
     }
 
 }
