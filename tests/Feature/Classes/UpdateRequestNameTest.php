@@ -31,7 +31,7 @@ class UpdateCategory extends FormRequest', File::get($filePath));
 
     /** @test */
     function testing_correct_name_for_custom_model_name(){
-        $filePath = base_path('App/Http/Requests/Admin/Cat/UpdateCat.php');
+        $filePath = base_path('App/Http/Requests/Admin/Billing/Cat/UpdateCat.php');
 
         $this->assertFileNotExists($filePath);
 
@@ -41,7 +41,7 @@ class UpdateCategory extends FormRequest', File::get($filePath));
         ]);
 
         $this->assertFileExists($filePath);
-        $this->assertStringStartsWith('<?php namespace App\Http\Requests\Admin\Cat;
+        $this->assertStringStartsWith('<?php namespace App\Http\Requests\Admin\Billing\Cat;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Gate;

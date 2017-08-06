@@ -35,9 +35,9 @@ class FormTest extends TestCase
 
     /** @test */
     function view_form_should_get_generated_with_custom_model(){
-        $elementsPath = resource_path('views/admin/article/components/form-elements.blade.php');
-        $createPath = resource_path('views/admin/article/create.blade.php');
-        $editPath = resource_path('views/admin/article/edit.blade.php');
+        $elementsPath = resource_path('views/admin/billing/my-article/components/form-elements.blade.php');
+        $createPath = resource_path('views/admin/billing/my-article/create.blade.php');
+        $editPath = resource_path('views/admin/billing/my-article/edit.blade.php');
 
         $this->assertFileNotExists($elementsPath);
         $this->assertFileNotExists($createPath);
@@ -45,7 +45,7 @@ class FormTest extends TestCase
 
         $this->artisan('admin:generate:form', [
             'table_name' => 'categories',
-            '--model-name' => 'Billing\\Article'
+            '--model-name' => 'Billing\\MyArticle'
         ]);
 
         $this->assertFileExists($elementsPath);

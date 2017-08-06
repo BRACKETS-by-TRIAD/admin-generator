@@ -46,13 +46,13 @@ $factory->define(App\Models\Billing\Cat::class', File::get($filePath));
 
         $this->artisan('admin:generate:factory', [
             'table_name' => 'categories',
-            '--model-name' => 'App\\Billing\\Cat',
+            '--model-name' => 'App\\Billing\\MyCat',
         ]);
 
         $this->assertStringStartsWith('<?php
 
 /** @var  \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Billing\Cat::class', File::get($filePath));
+$factory->define(App\Billing\MyCat::class', File::get($filePath));
     }
 
 }

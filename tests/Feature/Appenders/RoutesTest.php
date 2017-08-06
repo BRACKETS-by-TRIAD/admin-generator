@@ -38,7 +38,7 @@ Route::delete(\'/admin/category/destroy/{category}\',         \'Admin\Categories
 
         $this->artisan('admin:generate:routes', [
             'table_name' => 'categories',
-            '--model-name' => 'App\\Billing\\CategOry',
+            '--model-name' => 'Billing\\CategOry',
             '--controller-name' => 'Billing\\CategOryController',
         ]);
 
@@ -47,12 +47,12 @@ Route::delete(\'/admin/category/destroy/{category}\',         \'Admin\Categories
 
 
 /* Auto-generated admin routes */
-Route::get(\'/admin/categ-ory\',                              \'Admin\Billing\CategOryController@index\');
-Route::get(\'/admin/categ-ory/create\',                       \'Admin\Billing\CategOryController@create\');
-Route::post(\'/admin/categ-ory/store\',                       \'Admin\Billing\CategOryController@store\');
-Route::get(\'/admin/categ-ory/edit/{categOry}\',              \'Admin\Billing\CategOryController@edit\')->name(\'admin/categ-ory/edit\');
-Route::post(\'/admin/categ-ory/update/{categOry}\',           \'Admin\Billing\CategOryController@update\')->name(\'admin/categ-ory/update\');
-Route::delete(\'/admin/categ-ory/destroy/{categOry}\',        \'Admin\Billing\CategOryController@destroy\')->name(\'admin/categ-ory/destroy\');', File::get($filePath));
+Route::get(\'/admin/billing/categ-ory\',                      \'Admin\Billing\CategOryController@index\');
+Route::get(\'/admin/billing/categ-ory/create\',               \'Admin\Billing\CategOryController@create\');
+Route::post(\'/admin/billing/categ-ory/store\',               \'Admin\Billing\CategOryController@store\');
+Route::get(\'/admin/billing/categ-ory/edit/{categOry}\',      \'Admin\Billing\CategOryController@edit\')->name(\'admin/billing/categ-ory/edit\');
+Route::post(\'/admin/billing/categ-ory/update/{categOry}\',   \'Admin\Billing\CategOryController@update\')->name(\'admin/billing/categ-ory/update\');
+Route::delete(\'/admin/billing/categ-ory/destroy/{categOry}\',\'Admin\Billing\CategOryController@destroy\')->name(\'admin/billing/categ-ory/destroy\');', File::get($filePath));
     }
 
 }

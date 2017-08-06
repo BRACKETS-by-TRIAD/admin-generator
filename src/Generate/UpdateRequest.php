@@ -34,6 +34,7 @@ class UpdateRequest extends ClassGenerator {
         return view('brackets/admin-generator::update-request', [
             'modelBaseName' => $this->modelBaseName,
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
+            'modelWithNamespaceFromDefault' => $this->modelWithNamespaceFromDefault,
 
             // validation in store/update
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
@@ -58,7 +59,7 @@ class UpdateRequest extends ClassGenerator {
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Http\Requests\Admin\\'.$this->modelBaseName;
+        return $rootNamespace.'\Http\Requests\Admin\\'.$this->modelWithNamespaceFromDefault;
     }
 
 }

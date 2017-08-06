@@ -33,6 +33,7 @@ class StoreRequest extends ClassGenerator {
         return view('brackets/admin-generator::store-request', [
             'modelBaseName' => $this->modelBaseName,
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
+            'modelWithNamespaceFromDefault' => $this->modelWithNamespaceFromDefault,
 
             // validation in store/update
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
@@ -57,6 +58,6 @@ class StoreRequest extends ClassGenerator {
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Http\Requests\Admin\\'.$this->modelBaseName;
+        return $rootNamespace.'\Http\Requests\Admin\\'.$this->modelWithNamespaceFromDefault;
     }
 }

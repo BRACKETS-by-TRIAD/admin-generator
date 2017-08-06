@@ -14,8 +14,10 @@ trait Names {
     public $modelVariableName;
     public $modelRouteAndViewName;
     public $modelNamespace;
+    public $modelWithNamespaceFromDefault;
+    public $modelViewsDirectory;
 
-    public $controllerNameInRoutes;
+    public $controllerWithNamespaceFromDefault;
 
     protected function initCommonNames($tableName, $modelName = null, $controllerName = null) {
         $this->tableName = $tableName;
@@ -37,6 +39,14 @@ trait Names {
         $this->modelVariableName = lcfirst(Str::singular(class_basename($this->modelBaseName)));
         $this->modelRouteAndViewName = Str::lower(Str::kebab($this->modelBaseName));
         $this->modelNamespace = Str::replaceLast("\\" . $this->modelBaseName, '', $this->modelFullName);
+        if (!Str::startsWith($this->modelFullName, $startsWith = trim($modelGenerator->rootNamespace(), '\\').'\Models\\')) {
+            $this->modelWithNamespaceFromDefault = $this->modelBaseName;
+        } else {
+            $this->modelWithNamespaceFromDefault = Str::replaceFirst($startsWith, '', $this->modelFullName);
+        }
+        $this->modelViewsDirectory = Str::lower(Str::kebab(implode('/', collect(explode( '\\', $this->modelWithNamespaceFromDefault))->map(function($part){
+            return lcfirst($part);
+        })->toArray())));
 
         if ($this instanceof Controller) {
             $controllerGenerator = $this;
@@ -50,7 +60,11 @@ trait Names {
         }
 
         $controllerFullName = $controllerGenerator->qualifyClass($controllerName);
-        $this->controllerNameInRoutes = Str::replaceFirst(trim($controllerGenerator->rootNamespace(), '\\').'\Http\\Controllers\\', '', $controllerFullName);
+        if (!Str::startsWith($controllerFullName, $startsWith = trim($controllerGenerator->rootNamespace(), '\\').'\Http\\Controllers\\')) {
+            $this->controllerWithNamespaceFromDefault = $controllerFullName;
+        } else {
+            $this->controllerWithNamespaceFromDefault = Str::replaceFirst($startsWith, '', $controllerFullName);
+        }
     }
 
 }

@@ -30,7 +30,7 @@ class ViewForm extends ViewGenerator {
             $this->setBelongToManyRelation($belongsToMany);
         }
 
-        $viewPath = resource_path('views/admin/'.$this->modelRouteAndViewName.'/components/form-elements.blade.php');
+        $viewPath = resource_path('views/admin/'.$this->modelViewsDirectory.'/components/form-elements.blade.php');
         if ($this->alreadyExists($viewPath)) {
             $this->error('File '.$viewPath.' already exists!');
         } else {
@@ -41,7 +41,7 @@ class ViewForm extends ViewGenerator {
             $this->info('Generating '.$viewPath.' finished');
         }
 
-        $viewPath = resource_path('views/admin/'.$this->modelRouteAndViewName.'/create.blade.php');
+        $viewPath = resource_path('views/admin/'.$this->modelViewsDirectory.'/create.blade.php');
         if ($this->alreadyExists($viewPath)) {
             $this->error('File '.$viewPath.' already exists!');
         } else {
@@ -53,7 +53,7 @@ class ViewForm extends ViewGenerator {
         }
 
 
-        $viewPath = resource_path('views/admin/'.$this->modelRouteAndViewName.'/edit.blade.php');
+        $viewPath = resource_path('views/admin/'.$this->modelViewsDirectory.'/edit.blade.php');
         if ($this->alreadyExists($viewPath)) {
             $this->error('File '.$viewPath.' already exists!');
         } else {
@@ -64,7 +64,7 @@ class ViewForm extends ViewGenerator {
             $this->info('Generating '.$viewPath.' finished');
         }
 
-        $formJsPath = resource_path('assets/js/admin/'.$this->modelRouteAndViewName.'/Form.js');
+        $formJsPath = resource_path('assets/js/admin/'.$this->modelViewsDirectory.'/Form.js');
         $bootstrapJsPath = resource_path('assets/js/admin/bootstrap.js');
 
         if ($this->alreadyExists($formJsPath)) {
@@ -74,7 +74,7 @@ class ViewForm extends ViewGenerator {
 
             $this->files->put($formJsPath, $this->buildFormJs());
 
-            $this->appendIfNotAlreadyAppended($bootstrapJsPath, "\nrequire('./".$this->modelRouteAndViewName."/Form')\n");
+            $this->appendIfNotAlreadyAppended($bootstrapJsPath, "\nrequire('./".$this->modelViewsDirectory."/Form')\n");
 
             $this->info('Generating '.$formJsPath.' finished');
         }
