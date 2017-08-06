@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class Controller extends Generator {
+class Controller extends ClassGenerator {
 
     /**
      * The name and signature of the console command.

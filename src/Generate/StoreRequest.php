@@ -2,7 +2,7 @@
 
 use Symfony\Component\Console\Input\InputOption;
 
-class StoreRequest extends Generator {
+class StoreRequest extends ClassGenerator {
 
     /**
      * The name and signature of the console command.

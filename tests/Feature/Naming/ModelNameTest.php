@@ -28,7 +28,7 @@ class ModelNameTest extends TestCase
 
         $this->artisan('admin:generate:model', [
             'table_name' => 'categories',
-            '-m' => 'Billing\\Category',
+            'class_name' => 'Billing\\Category',
         ]);
 
         $this->assertFileExists(base_path('App/Models/Billing/Category.php'));
@@ -40,9 +40,10 @@ class ModelNameTest extends TestCase
 
         $this->artisan('admin:generate:model', [
             'table_name' => 'categories',
-            '-m' => 'App\\Billing\\Category',
+            'class_name' => 'App\\Billing\\Category',
         ]);
 
+        // FIXME
         $this->assertFileExists(base_path('App/Billing/Category.php'));
     }
 

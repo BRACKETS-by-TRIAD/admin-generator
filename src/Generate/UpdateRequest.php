@@ -2,7 +2,7 @@
 
 use Symfony\Component\Console\Input\InputOption;
 
-class UpdateRequest extends Generator {
+class UpdateRequest extends ClassGenerator {
 
     /**
      * The name and signature of the console command.

@@ -9,7 +9,7 @@ use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-abstract class Generator extends Command {
+abstract class ClassGenerator extends Command {
 
     protected $tableName;
 
@@ -47,6 +47,7 @@ abstract class Generator extends Command {
     protected function getArguments() {
         return [
             ['table_name', InputArgument::REQUIRED, 'Name of the existing table'],
+            ['class_name', InputArgument::OPTIONAL, 'Name of the existing table'],
         ];
     }
 
@@ -310,22 +311,22 @@ abstract class Generator extends Command {
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->initNames();
+        $this->initNames($this->argument('table_name'), $this->argument('class_name'), $this->option('controller'));
         return parent::execute($input, $output);
     }
 
-    protected function initNames() {
-        $this->tableName = $this->argument('table_name');
+    protected function initNames($table_name, $model_name = null, $controller_name = null) {
+        $this->tableName = $table_name;
 
         //FIXME need get full paths, do not prepend namespace
-        $this->controllerBaseName = class_basename($this->option('controller')) ?: (Str::studly($this->tableName) . "Controller");
-        $this->controllerPartiallyFullName = "Admin\\".($this->option('controller') ?: (Str::studly($this->tableName) . "Controller"));
+        $this->controllerBaseName = class_basename($controller_name) ?: (Str::studly($this->tableName) . "Controller");
+        $this->controllerPartiallyFullName = "Admin\\".($controller_name ?: (Str::studly($this->tableName) . "Controller"));
         $this->controllerFullName = "App\\Http\\Controllers\\".$this->controllerPartiallyFullName;
         $this->controllerNamespace = Str::replaceLast("\\".$this->controllerBaseName, '', $this->controllerFullName);
 
-        $this->modelBaseName = class_basename($this->option('model')) ?: Str::studly(Str::singular($this->tableName));
-        $this->modelFullName = "App\\Models\\".($this->option('model') ?: Str::studly(Str::singular($this->tableName)));
-        $this->modelPlural = Str::plural(class_basename($this->option('model'))) ?: Str::studly($this->tableName);
+        $this->modelBaseName = class_basename($model_name) ?: Str::studly(Str::singular($this->tableName));
+        $this->modelFullName = "App\\Models\\".($model_name ?: Str::studly(Str::singular($this->tableName)));
+        $this->modelPlural = Str::plural(class_basename($model_name)) ?: Str::studly($this->tableName);
         $this->modelVariableName = lcfirst(Str::singular(class_basename($this->modelBaseName)));
         $this->modelRouteAndViewName = Str::lower(Str::kebab($this->modelBaseName));
         $this->modelNamespace = Str::replaceLast("\\".$this->modelBaseName, '', $this->modelFullName);

@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class Model extends Generator {
+class Model extends ClassGenerator {
 
     /**
      * The name and signature of the console command.
@@ -89,9 +89,9 @@ class Model extends Generator {
 
     protected function getOptions() {
         return [
-            ['model', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
+            ['class_name', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
-            ['belongsToMany', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
+            ['belongs_to_many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
         ];
     }
 
