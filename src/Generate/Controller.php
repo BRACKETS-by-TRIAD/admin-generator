@@ -49,14 +49,14 @@ class Controller extends ClassGenerator {
 
         if ($this->generateClass()){
 
+            $this->info('Generating '.$this->classFullName.' finished');
+
             $sidebarPath = resource_path('views/admin/layout/sidebar.blade.php');
             if($this->files->exists($sidebarPath) && !$this->alreadyAppended($sidebarPath, "<a class=\"nav-link\" href=\"{{ url('admin/".$this->modelViewsDirectory."') }}\">")) {
                 $icon = array_random(['icon-graduation', 'icon-puzzle', 'icon-compass', 'icon-drop', 'icon-globe', 'icon-ghost', 'icon-book-open', 'icon-flag', 'icon-star', 'icon-umbrella', 'icon-energy', 'icon-plane', 'icon-magnet', 'icon-diamond']);
                 $this->files->put($sidebarPath, str_replace("{{-- Do not delete me :) I'm used for auto-generation menu items --}}", "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->modelViewsDirectory."') }}\"><i class=\"".$icon."\"></i> ".$this->modelPlural."</a></li>\n            {{-- Do not delete me :) I'm used for auto-generation menu items --}}", $this->files->get($sidebarPath)));
                 $this->info('Updating sidebar');
             }
-
-            $this->info('Generating '.$this->classFullName.' finished');
         }
 
     }

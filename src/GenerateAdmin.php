@@ -92,7 +92,6 @@ class GenerateAdmin extends Command {
 
     protected function getOptions() {
         return [
-            // FIXME add OPTIONAL prexix option
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
             ['controller-name', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
             ['seed', 's', InputOption::VALUE_NONE, 'Seeds table with fake data'],
@@ -104,7 +103,7 @@ class GenerateAdmin extends Command {
 
 /**
  *
- * Admin: seed, controller_name, model_name (TODO add prefix option)
+ * Admin: seed, controller_name, model_name
  *
  * Model: class_name (App\Models), template, belongs_to_many
  *
