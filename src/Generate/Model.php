@@ -44,7 +44,9 @@ class Model extends ClassGenerator {
             $this->setBelongToManyRelation($belongsToMany);
         }
 
-        $this->generateClass();
+        if ($this->generateClass()){
+            $this->info('Generating '.$this->classFullName.' finished');
+        }
 
         // TODO think if we should use ide-helper:models ?
     }

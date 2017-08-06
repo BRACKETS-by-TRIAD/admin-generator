@@ -25,7 +25,9 @@ class StoreRequest extends ClassGenerator {
      */
     public function fire()
     {
-        $this->generateClass();
+        if ($this->generateClass()){
+            $this->info('Generating '.$this->classFullName.' finished');
+        }
     }
 
     protected function buildClass() {

@@ -40,10 +40,9 @@ class Routes extends FileAppender {
             $this->view = 'templates.'.$template.'.routes';
         }
 
-        $this->appendIfNotAlreadyAppended(base_path('routes/web.php'), "\n\n".$this->buildClass());
-
-        $this->info('Appending routes finished');
-
+        if ($this->appendIfNotAlreadyAppended(base_path('routes/web.php'), "\n\n".$this->buildClass())){
+            $this->info('Appending routes finished');
+        }
     }
 
     protected function buildClass() {

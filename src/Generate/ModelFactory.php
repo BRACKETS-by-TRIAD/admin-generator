@@ -27,10 +27,9 @@ class ModelFactory extends FileAppender {
     public function fire()
     {
 
-        $this->appendIfNotAlreadyAppended(base_path('database/factories/ModelFactory.php'), $this->buildClass());
-
-        $this->info('Appending '.$this->modelBaseName.' model to ModelFactory finished');
-
+        if ($this->appendIfNotAlreadyAppended(base_path('database/factories/ModelFactory.php'), $this->buildClass())){
+            $this->info('Appending '.$this->modelBaseName.' model to ModelFactory finished');
+        }
     }
 
     protected function buildClass() {

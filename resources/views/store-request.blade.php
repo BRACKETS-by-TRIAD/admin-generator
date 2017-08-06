@@ -13,7 +13,7 @@ class Store{{ $modelBaseName }} extends FormRequest
      */
     public function authorize()
     {
-        return Gate::allows('store-{{ $modelDotNotation }}');
+        return Gate::allows('admin.store.{{ $modelDotNotation }}');
     }
 
     /**

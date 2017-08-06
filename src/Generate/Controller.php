@@ -47,7 +47,9 @@ class Controller extends ClassGenerator {
             $this->setBelongToManyRelation($belongsToMany);
         }
 
-        $this->generateClass();
+        if ($this->generateClass()){
+            $this->info('Generating '.$this->classFullName.' finished');
+        }
 
         // FIXME extract into own appender
 //        $sidebarPath = resource_path('views/admin/layout/sidebar.blade.php');
@@ -68,6 +70,7 @@ class Controller extends ClassGenerator {
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
             'modelViewsDirectory' => $this->modelViewsDirectory,
             'modelDotNotation' => $this->modelDotNotation,
+            'modelWithNamespaceFromDefault' => $this->modelWithNamespaceFromDefault,
 
             // index
             'columnsToQuery' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {

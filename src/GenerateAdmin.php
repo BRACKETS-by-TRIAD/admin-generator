@@ -30,51 +30,49 @@ class GenerateAdmin extends Command {
     {
 
         $tableNameArgument = $this->argument('table_name');
-        $modelOption = $this->option('model');
-        $controllerOption = $this->option('controller');
+        $modelOption = $this->option('model-name');
+        $controllerOption = $this->option('controller-name');
 
         $this->call('admin:generate:model', [
             'table_name' => $tableNameArgument,
-            '--model' => $modelOption,
-        ]);
-
-        $this->call('admin:generate:controller', [
-            'table_name' => $tableNameArgument,
-            '--model' => $modelOption,
-            '--controller' => $controllerOption,
-        ]);
-
-        $this->call('admin:generate:request:store', [
-            'table_name' => $tableNameArgument,
-            '--model' => $modelOption,
-            '--controller' => $controllerOption,
-        ]);
-
-        $this->call('admin:generate:request:update', [
-            'table_name' => $tableNameArgument,
-            '--model' => $modelOption,
-            '--controller' => $controllerOption,
-        ]);
-
-        $this->call('admin:generate:routes', [
-            'table_name' => $tableNameArgument,
-            '--model' => $modelOption,
-            '--controller' => $controllerOption,
-        ]);
-
-        $this->call('admin:generate:index', [
-            'table_name' => $tableNameArgument,
-            '--model' => $modelOption,
-        ]);
-
-        $this->call('admin:generate:form', [
-            'table_name' => $tableNameArgument,
-            '--model' => $modelOption,
+            'class_name' => $modelOption,
         ]);
 
         $this->call('admin:generate:factory', [
             'table_name' => $tableNameArgument,
-            '--model' => $modelOption,
+            '--model-name' => $modelOption,
+        ]);
+
+        $this->call('admin:generate:controller', [
+            'table_name' => $tableNameArgument,
+            'class_name' => $controllerOption,
+            '--model-name' => $modelOption,
+        ]);
+
+        $this->call('admin:generate:request:store', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+        ]);
+
+        $this->call('admin:generate:request:update', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+        ]);
+
+        $this->call('admin:generate:routes', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+            '--controller-name' => $controllerOption,
+        ]);
+
+        $this->call('admin:generate:index', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+        ]);
+
+        $this->call('admin:generate:form', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
         ]);
 
         if ($this->option('seed')) {
@@ -94,8 +92,9 @@ class GenerateAdmin extends Command {
 
     protected function getOptions() {
         return [
-            ['model', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
-            ['controller', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
+            // FIXME add OPTIONAL prexix option
+            ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
+            ['controller-name', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
             ['seed', 's', InputOption::VALUE_NONE, 'Seeds table with fake data'],
         ];
     }

@@ -73,10 +73,11 @@ class ViewForm extends ViewGenerator {
             $this->makeDirectory($formJsPath);
 
             $this->files->put($formJsPath, $this->buildFormJs());
-
-            $this->appendIfNotAlreadyAppended($bootstrapJsPath, "\nrequire('./".$this->modelViewsDirectory."/Form')\n");
-
             $this->info('Generating '.$formJsPath.' finished');
+
+            if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "\nrequire('./".$this->modelViewsDirectory."/Form')\n")){
+                $this->info('Appending Form to '.$bootstrapJsPath.' finished');
+            };
         }
 
     }

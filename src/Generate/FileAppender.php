@@ -48,6 +48,7 @@ abstract class FileAppender extends Command {
      *
      * @param $path
      * @param $content
+     * @return bool
      */
     protected function appendIfNotAlreadyAppended($path, $content)
     {
@@ -56,7 +57,11 @@ abstract class FileAppender extends Command {
             $this->files->put($path, "<?php\n\n".$content);
         } else if (!$this->alreadyAppended($path, $content)) {
             $this->files->append($path, $content);
+        } else {
+            return false;
         }
+
+        return true;
     }
 
     /**

@@ -4,8 +4,8 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \Illuminate\Http\Response;
-use App\Http\Requests\Admin\Store{{ $modelBaseName }};
-use App\Http\Requests\Admin\Update{{ $modelBaseName }};
+use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
+use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};
 use Brackets\Admin\AdminListing;
 use {{ $modelFullName }};
 @if (count($relations))

@@ -52,6 +52,7 @@ abstract class ViewGenerator extends Command {
      *
      * @param $path
      * @param $content
+     * @return bool
      */
     protected function appendIfNotAlreadyAppended($path, $content)
     {
@@ -60,7 +61,12 @@ abstract class ViewGenerator extends Command {
             $this->files->put($path, $content);
         } else if (!$this->alreadyAppended($path, $content)) {
             $this->files->append($path, $content);
+        } else {
+            return false;
         }
+
+        return true;
+
     }
 
     /**

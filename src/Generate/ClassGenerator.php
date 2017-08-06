@@ -16,7 +16,6 @@ abstract class ClassGenerator extends Command {
     use Helpers, Columns, Names;
 
     public $classBaseName;
-    public $classPartialName;
     public $classFullName;
     public $classNamespace;
 
@@ -134,6 +133,7 @@ abstract class ClassGenerator extends Command {
         $this->makeDirectory($path);
 
         $this->files->put($path, $this->buildClass());
+        return true;
     }
 
     /**
@@ -154,8 +154,6 @@ abstract class ClassGenerator extends Command {
         $this->initClassNames($this->argument('class_name'));
 
         $output = parent::execute($input, $output);
-
-        $this->info('Generating '.$this->classBaseName.' finished');
 
         return $output;
     }
