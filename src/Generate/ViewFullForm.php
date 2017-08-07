@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class ViewFullForm extends ClassGenerator {
+class ViewFullForm extends ViewGenerator {
 
     /**
      * The name and signature of the console command.
@@ -17,7 +17,7 @@ class ViewFullForm extends ClassGenerator {
      *
      * @var string
      */
-    protected $description = 'Generate form view template';
+    protected $description = 'Generate a full-form view template';
 
     /**
      * Path for view
@@ -38,14 +38,7 @@ class ViewFullForm extends ClassGenerator {
      *
      * @var string
      */
-    protected $viewName;
-
-    /**
-     * Name of generated form
-     *
-     * @var string
-     */
-    protected $formName = 'form';
+    protected $fileName;
 
     /**
      * Route to process form
@@ -53,6 +46,11 @@ class ViewFullForm extends ClassGenerator {
      * @var string
      */
     protected $route;
+
+    /**
+     * @var string
+     */
+    protected $formJsRelativePath;
 
     /**
      * Execute the console command.
@@ -70,27 +68,22 @@ class ViewFullForm extends ClassGenerator {
             $this->viewJs = 'templates.'.$template.'.form-js';
         }
 
-        if(!empty($formName = $this->option('name'))) {
-            $this->formName = $formName;
+        $this->fileName = $this->option('file-name') ?: $this->modelViewsDirectory;
+        $this->formJsRelativePath = str_replace(DIRECTORY_SEPARATOR, '-', $this->fileName);
+        if (!$this->option('file-name')) {
+            $this->fileName = $this->fileName . DIRECTORY_SEPARATOR . 'form';
         }
 
-        if(!empty($viewName = $this->option('view-name'))) {
-            $this->viewName = $viewName;
-        } else {
-            $this->viewName = $this->modelRouteAndViewName;
+        $this->route = $this->option('route');
+        if (!$this->route){
+            if ($this->option('file-name')){
+                $this->route = 'admin/'.$this->fileName;
+            } else {
+                $this->route = 'admin/'.$this->modelViewsDirectory.'/update';
+            }
         }
 
-        if(!empty($route = $this->option('route'))) {
-            $this->route = $route;
-        } else {
-            $this->route = 'admin/'.$this->viewName.'/update';
-        }
-
-        $viewPath = resource_path('views/admin/'.$this->viewName.'/'.$this->formName.'.blade.php');
-        if ($this->alreadyExists($viewPath)) {
-            $this->error('File '.$viewPath.' already exists!');
-            return false;
-        }
+        $viewPath = resource_path('views/admin/'.$this->fileName.'.blade.php');
         if ($this->alreadyExists($viewPath)) {
             $this->error('File '.$viewPath.' already exists!');
         } else {
@@ -101,7 +94,7 @@ class ViewFullForm extends ClassGenerator {
             $this->info('Generating '.$viewPath.' finished');
         }
 
-        $formJsPath = resource_path('assets/js/admin/'.$this->viewName.'/Form.js');
+        $formJsPath = resource_path('assets/js/admin/'.$this->formJsRelativePath.'/Form.js');
         $bootstrapJsPath = resource_path('assets/js/admin/bootstrap.js');
 
         if ($this->alreadyExists($formJsPath)) {
@@ -110,10 +103,11 @@ class ViewFullForm extends ClassGenerator {
             $this->makeDirectory($formJsPath);
 
             $this->files->put($formJsPath, $this->buildFormJs());
-
-            $this->appendIfNotAlreadyAppended($bootstrapJsPath, "require('./".$this->viewName."/Form')\n");
-
             $this->info('Generating '.$formJsPath.' finished');
+
+            if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "require('./".$this->formJsRelativePath."/Form')\n")){
+                $this->info('Appending Form to '.$bootstrapJsPath.' finished');
+            }
         }
 
     }
@@ -122,28 +116,26 @@ class ViewFullForm extends ClassGenerator {
 
         return view('brackets/admin-generator::'.$this->view, [
             'modelBaseName' => $this->modelBaseName,
-            'viewName' => $this->viewName,
-            'modelRouteAndViewName' => $this->modelRouteAndViewName,
-            'modelPlural' => $this->modelPlural,
+            'modelVariableName' => $this->modelVariableName,
             'route' => $this->route,
+            'modelJSName' => $this->formJsRelativePath,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
+            'relations' => $this->relations,
         ])->render();
     }
 
     protected function buildFormJs() {
         return view('brackets/admin-generator::'.$this->viewJs, [
-            'viewName' => $this->viewName,
-            'modelRouteAndViewName' => $this->modelRouteAndViewName,
+            'modelJSName' => $this->formJsRelativePath,
         ])->render();
     }
 
     protected function getOptions() {
         return [
-            ['model', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
+            ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
-            ['name', 'nm', InputOption::VALUE_OPTIONAL, 'Specify custom form name'],
-            ['view-name', 'vn', InputOption::VALUE_OPTIONAL, 'Specify custom name for view'],
+            ['file-name', 'nm', InputOption::VALUE_OPTIONAL, 'Specify a blade file path'],
             ['route', 'r', InputOption::VALUE_OPTIONAL, 'Specify custom route for form'],
         ];
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Brackets\AdminGenerator\Tests\Feature\Classes;
+namespace Brackets\AdminGenerator\Tests\Feature\Views;
 
 use Brackets\AdminGenerator\Tests\TestCase;
 use File;

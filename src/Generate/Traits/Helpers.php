@@ -5,7 +5,6 @@ use Schema;
 
 trait Helpers {
 
-    // FIXME this does not belong here
     public function option($key = null) {
         return ($key === null || $this->hasOption($key)) ? parent::option($key) : null;
     }
