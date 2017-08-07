@@ -104,6 +104,7 @@ class GenerateAdmin extends Command {
 /**
  * TODO test belongs_to_many in all generators
  *
+ * TODO add template to all + it can be relative or absolute path
  *
  * Admin: seed, controller_name, model_name
  *
