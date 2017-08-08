@@ -6,9 +6,9 @@
 
         <div class="card">
 
-            <{{ $viewName }}-form
+            <{{ $modelJSName }}-form
                 :action="'{{'{{'}} route('{{ $route }}') }}'"
-                :data="{{'{{'}} ${{ $modelRouteAndViewName }}->toJson() }}"
+                :data="{{'{{'}} ${{ $modelVariableName }}->toJson() }}"
                 inline-template>
 
                 <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
@@ -34,7 +34,7 @@
 
                 </form>
 
-            </{{ $viewName }}-form>
+            </{{ $modelJSName }}-form>
 
         </div>
 

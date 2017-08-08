@@ -1,6 +1,6 @@
 var base = require('../components/Form/Form');
 
-Vue.component('{{ $viewName }}-form', {
+Vue.component('{{ $modelJSName }}-form', {
     mixins: [base],
     methods: {
         onSuccess(data) {

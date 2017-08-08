@@ -47,7 +47,8 @@ class GenerateProfile extends Command {
         if($force) {
             //remove all files
             $this->files->delete(app_path('Http/Controllers/Admin/ProfileController.php'));
-            $this->files->deleteDirectory(resource_path('assets/js/admin/profile'));
+            $this->files->deleteDirectory(resource_path('assets/js/admin/profile-edit-profile'));
+            $this->files->deleteDirectory(resource_path('assets/js/admin/profile-edit-password'));
             $this->files->deleteDirectory(resource_path('views/admin/profile'));
         }
 
@@ -69,7 +70,7 @@ class GenerateProfile extends Command {
         $this->call('admin:generate:full-form', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
-            '--file-name' => 'edit-profile',
+            '--file-name' => 'profile/edit-profile',
             '--route' => 'admin/profile/update',
             '--template' => 'profile',
         ]);
@@ -77,7 +78,7 @@ class GenerateProfile extends Command {
         $this->call('admin:generate:full-form', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
-            '--file-name' => 'edit-password',
+            '--file-name' => 'profile/edit-password',
             '--route' => 'admin/password/update',
             '--template' => 'profile.password',
         ]);
