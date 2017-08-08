@@ -42,7 +42,7 @@ Route::delete(\'/admin/category/destroy/{category}\',         \'Admin\Categories
             '--controller-name' => 'Billing\\CategOryController',
         ]);
 
-        $this->assertStringStartsWith('<?php
+        $this->assertStringMatchesFormat('<?php
 
 
 
