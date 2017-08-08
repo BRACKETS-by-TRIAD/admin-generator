@@ -66,9 +66,9 @@ class ProfileController extends Controller
 
 /* Auto-generated profile routes */
 Route::get(\'/admin/profile\',                                \'Admin\Auth\ProfileController@editProfile\')->name(\'admin/profile/edit\');
-Route::post(\'/admin/profile/update\',                        \'Admin\Auth\ProfileController@updateProfile\')->name(\'admin/profile/update\');
-Route::get(\'/admin/profile/password\',                       \'Admin\Auth\ProfileController@editPassword\')->name(\'admin/password/edit\');
-Route::post(\'/admin/profile/password/update\',               \'Admin\Auth\ProfileController@updatePassword\')->name(\'admin/password/update\');', File::get($filePath));
+Route::post(\'/admin/profile\',                               \'Admin\Auth\ProfileController@updateProfile\')->name(\'admin/profile/update\');
+Route::get(\'/admin/password\',                               \'Admin\Auth\ProfileController@editPassword\')->name(\'admin/password/edit\');
+Route::post(\'/admin/password\',                              \'Admin\Auth\ProfileController@updatePassword\')->name(\'admin/password/update\');', File::get($filePath));
     }
 
 }
