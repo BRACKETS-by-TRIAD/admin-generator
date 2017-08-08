@@ -43,7 +43,7 @@ class Controller extends ClassGenerator {
             $this->view = 'templates.'.$template.'.controller';
         }
 
-        if(!empty($belongsToMany = $this->option('belongsToMany'))) {
+        if(!empty($belongsToMany = $this->option('belongs-to-many'))) {
             $this->setBelongToManyRelation($belongsToMany);
         }
 

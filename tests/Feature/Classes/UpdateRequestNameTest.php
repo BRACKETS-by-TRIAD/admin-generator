@@ -25,6 +25,7 @@ class UpdateRequestNameTest extends TestCase
 
 use Illuminate\Foundation\Http\FormRequest;
 use Gate;
+use App\Models\Category;
 
 class UpdateCategory extends FormRequest', File::get($filePath));
     }
@@ -45,6 +46,7 @@ class UpdateCategory extends FormRequest', File::get($filePath));
 
 use Illuminate\Foundation\Http\FormRequest;
 use Gate;
+use App\Models\Billing\Cat;
 
 class UpdateCat extends FormRequest', File::get($filePath));
     }

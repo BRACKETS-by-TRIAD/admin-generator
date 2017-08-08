@@ -13,6 +13,8 @@ class AdminGeneratorProvider extends ServiceProvider
     {
         $this->commands([
             GenerateAdmin::class,
+            GenerateUser::class,
+            GenerateProfile::class,
             Generate\Model::class,
             Generate\Controller::class,
             Generate\ViewIndex::class,

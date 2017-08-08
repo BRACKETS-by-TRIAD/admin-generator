@@ -1,6 +1,6 @@
 var base = require('../components/Listing/Listing');
 
-Vue.component('{{ $modelRouteAndViewName }}-listing', {
+Vue.component('{{ $modelJSName }}-listing', {
     mixins: [base],
     methods: {
         resendActivation(url) {

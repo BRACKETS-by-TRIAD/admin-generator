@@ -8,6 +8,9 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use \Illuminate\Http\Response;
+use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
+use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};
 use Brackets\Admin\AdminListing;
 use {{ $modelFullName }};
 use Illuminate\Support\Facades\Config;
@@ -29,8 +32,8 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response|array
+     * {{'@'}}param  Request $request
+     * {{'@'}}return Response|array
      */
     public function index(Request $request)
     {
@@ -54,20 +57,20 @@ class {{ $controllerBaseName }} extends Controller
             return ['data' => $data];
         }
 
-        return view('admin.{{ $modelRouteAndViewName }}.index', ['data' => $data]);
+        return view('admin.{{ $modelDotNotation }}.index', ['data' => $data]);
 
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * {{'@'}}return Response
      */
     public function create()
     {
         // TODO add authorization
 
-        return view('admin.{{ $modelRouteAndViewName }}.create',[
+        return view('admin.{{ $modelDotNotation }}.create',[
 @if (count($relations))
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
@@ -81,20 +84,11 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response|array
+     * {{'@'}}param  Store{{ $modelBaseName }} $request
+     * {{'@'}}return Response|array
      */
-    public function store(Request $request)
+    public function store(Store{{ $modelBaseName }} $request)
     {
-        // TODO add authorization
-
-        // Validate the request
-        $this->validate($request, [
-            @foreach($columns as $column)'{{ $column['name'] }}' => '{!! implode('|', (array) $column['serverStoreRules']) !!}',
-            @endforeach
-
-        ]);
-
         // Sanitize input
         $sanitized = $request->only([
             @foreach($columns as $column)'{{ $column['name'] }}',
@@ -118,17 +112,18 @@ class {{ $controllerBaseName }} extends Controller
 @endif
 
         if ($request->ajax()) {
-            return ['redirect' => url('admin/{{ $modelRouteAndViewName }}')];
+            return ['redirect' => url('admin/{{ $modelViewsDirectory }}')];
         }
 
-        return redirect('admin/{{ $modelRouteAndViewName }}')
+        return redirect('admin/{{ $modelViewsDirectory }}')
             ->withSuccess("Created");
     }
 
     /**
      * Display the specified resource.
-     * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
-     * @return \Illuminate\Http\Response
+     *
+     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
+     * {{'@'}}return Response
      */
     public function show({{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -140,8 +135,8 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
-     * @return \Illuminate\Http\Response
+     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
+     * {{'@'}}return Response
      */
     public function edit({{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -155,8 +150,8 @@ class {{ $controllerBaseName }} extends Controller
 @endif
 @endif
 
-        return view('admin.{{ $modelRouteAndViewName }}.edit', [
-            '{{ $modelRouteAndViewName }}' => ${{ $modelVariableName }},
+        return view('admin.{{ $modelDotNotation }}.edit', [
+            '{{ $modelVariableName }}' => ${{ $modelVariableName }},
 @if (count($relations))
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
@@ -170,21 +165,12 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
-     * @return \Illuminate\Http\Response|array
+     * {{'@'}}param  Update{{ $modelBaseName }} $request
+     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
+     * {{'@'}}return Response|array
      */
-    public function update(Request $request, {{ $modelBaseName }} ${{ $modelVariableName }})
+    public function update(Update{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
-        // TODO add authorization
-
-        // Validate the request
-        $this->validate($request, [
-            @foreach($columns as $column)'{{ $column['name'] }}' => '{!! implode('|', (array) $column['serverUpdateRules']) !!}',
-            @endforeach
-
-        ]);
-
         // Sanitize input
         $sanitized = $request->only([
             @foreach($columns as $column)'{{ $column['name'] }}',
@@ -208,19 +194,19 @@ class {{ $controllerBaseName }} extends Controller
 @endif
 
         if ($request->ajax()) {
-            return ['redirect' => url('admin/{{ $modelRouteAndViewName }}')];
+            return ['redirect' => url('admin/{{ $modelViewsDirectory }}')];
         }
 
-        return redirect('admin/{{ $modelRouteAndViewName }}')
+        return redirect('admin/{{ $modelViewsDirectory }}')
             ->withSuccess("Updated");
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
-     * @return \Illuminate\Http\Response|bool
+     * {{'@'}}param  Request $request
+     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
+     * {{'@'}}return Response|bool
      */
     public function destroy(Request $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {

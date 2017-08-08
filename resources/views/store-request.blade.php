@@ -24,7 +24,7 @@ class Store{{ $modelBaseName }} extends FormRequest
     public function rules()
     {
         return [
-            @foreach($columns as $column)'{{ $column['name'] }}' => '{{ implode('|', (array) $column['serverStoreRules']) }}',
+            @foreach($columns as $column)'{{ $column['name'] }}' => '{!! implode('|', (array) $column['serverStoreRules']) !!}',
             @endforeach
 
         ];

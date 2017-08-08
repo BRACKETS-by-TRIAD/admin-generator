@@ -40,7 +40,7 @@ class Model extends ClassGenerator {
             $this->view = 'templates.'.$template.'.model';
         }
 
-        if(!empty($belongsToMany = $this->option('belongs_to_many'))) {
+        if(!empty($belongsToMany = $this->option('belongs-to-many'))) {
             $this->setBelongToManyRelation($belongsToMany);
         }
 

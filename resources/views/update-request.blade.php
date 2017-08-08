@@ -3,6 +3,7 @@
 
 use Illuminate\Foundation\Http\FormRequest;
 use Gate;
+use {{ $modelFullName }};
 
 class Update{{ $modelBaseName }} extends FormRequest
 {
@@ -23,8 +24,9 @@ class Update{{ $modelBaseName }} extends FormRequest
      */
     public function rules()
     {
+        ${{ $modelVariableName }} = $this->{{ $modelVariableName }};
         return [
-            @foreach($columns as $column)'{{ $column['name'] }}' => '{{ implode('|', (array) $column['serverUpdateRules']) }}',
+            @foreach($columns as $column)'{{ $column['name'] }}' => '{!! implode('|', (array) $column['serverUpdateRules']) !!}',
             @endforeach
 
         ];
