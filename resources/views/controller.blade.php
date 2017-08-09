@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use \Illuminate\Http\Response;
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};
+use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
 use Brackets\Admin\AdminListing;
 use {{ $modelFullName }};
 @if (count($relations))
