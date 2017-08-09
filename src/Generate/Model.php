@@ -33,6 +33,8 @@ class Model extends ClassGenerator {
      */
     public function fire()
     {
+        $force = $this->option('force');
+
         //TODO check if exists
         //TODO make global for all generator
         //TODO also with prefix
@@ -44,7 +46,7 @@ class Model extends ClassGenerator {
             $this->setBelongToManyRelation($belongsToMany);
         }
 
-        if ($this->generateClass()){
+        if ($this->generateClass($force)){
             $this->info('Generating '.$this->classFullName.' finished');
         }
 
@@ -68,6 +70,9 @@ class Model extends ClassGenerator {
             'hidden' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return in_array($column['name'], ['password', 'remember_token']);
             })->pluck('name'),
+            'translatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return $column['type'] == "json";
+            })->pluck('name'),
             'timestamps' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return in_array($column['name'], ['created_at', 'updated_at']);
             })->count() > 0,
@@ -83,6 +88,7 @@ class Model extends ClassGenerator {
         return [
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
             ['belongs-to-many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
+            ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating model'],
         ];
     }
 

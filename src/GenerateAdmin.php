@@ -32,48 +32,55 @@ class GenerateAdmin extends Command {
         $tableNameArgument = $this->argument('table_name');
         $modelOption = $this->option('model-name');
         $controllerOption = $this->option('controller-name');
+        $force = $this->option('force');
 
-        $this->call('admin:generate:model', [
-            'table_name' => $tableNameArgument,
-            'class_name' => $modelOption,
-        ]);
-
-        $this->call('admin:generate:factory', [
-            'table_name' => $tableNameArgument,
-            '--model-name' => $modelOption,
-        ]);
-
-        $this->call('admin:generate:controller', [
-            'table_name' => $tableNameArgument,
-            'class_name' => $controllerOption,
-            '--model-name' => $modelOption,
-        ]);
-
-        $this->call('admin:generate:request:store', [
-            'table_name' => $tableNameArgument,
-            '--model-name' => $modelOption,
-        ]);
-
-        $this->call('admin:generate:request:update', [
-            'table_name' => $tableNameArgument,
-            '--model-name' => $modelOption,
-        ]);
-
-        $this->call('admin:generate:routes', [
-            'table_name' => $tableNameArgument,
-            '--model-name' => $modelOption,
-            '--controller-name' => $controllerOption,
-        ]);
-
+//        $this->call('admin:generate:model', [
+//            'table_name' => $tableNameArgument,
+//            'class_name' => $modelOption,
+//            '--force' => $force,
+//        ]);
+//
+//        $this->call('admin:generate:factory', [
+//            'table_name' => $tableNameArgument,
+//            '--model-name' => $modelOption,
+//        ]);
+//
+//        $this->call('admin:generate:controller', [
+//            'table_name' => $tableNameArgument,
+//            'class_name' => $controllerOption,
+//            '--model-name' => $modelOption,
+//            '--force' => $force,
+//        ]);
+//
+//        $this->call('admin:generate:request:store', [
+//            'table_name' => $tableNameArgument,
+//            '--model-name' => $modelOption,
+//            '--force' => $force,
+//        ]);
+//
+//        $this->call('admin:generate:request:update', [
+//            'table_name' => $tableNameArgument,
+//            '--model-name' => $modelOption,
+//            '--force' => $force,
+//        ]);
+//
+//        $this->call('admin:generate:routes', [
+//            'table_name' => $tableNameArgument,
+//            '--model-name' => $modelOption,
+//            '--controller-name' => $controllerOption,
+//        ]);
+//
         $this->call('admin:generate:index', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
+            '--force' => $force,
         ]);
-
-        $this->call('admin:generate:form', [
-            'table_name' => $tableNameArgument,
-            '--model-name' => $modelOption,
-        ]);
+//
+//        $this->call('admin:generate:form', [
+//            'table_name' => $tableNameArgument,
+//            '--model-name' => $modelOption,
+//            '--force' => $force,
+//        ]);
 
         if ($this->option('seed')) {
             $this->info('Seeding testing data');
@@ -94,6 +101,7 @@ class GenerateAdmin extends Command {
         return [
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
             ['controller-name', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
+            ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating admin'],
             ['seed', 's', InputOption::VALUE_NONE, 'Seeds table with fake data'],
         ];
     }

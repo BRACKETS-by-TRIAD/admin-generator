@@ -33,6 +33,7 @@ class Controller extends ClassGenerator {
      */
     public function fire()
     {
+        $force = $this->option('force');
 
         // TODO test the case, if someone passes a class_name outside Laravel's default App\Http\Controllers folder, if it's going to work
 
@@ -47,7 +48,7 @@ class Controller extends ClassGenerator {
             $this->setBelongToManyRelation($belongsToMany);
         }
 
-        if ($this->generateClass()){
+        if ($this->generateClass($force)){
 
             $this->info('Generating '.$this->classFullName.' finished');
 
@@ -80,7 +81,7 @@ class Controller extends ClassGenerator {
                 return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "remember_token" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
             })->pluck('name')->toArray(),
             'columnsToSearchIn' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
-                return ($column['type'] == 'text' || $column['type'] == 'string' || $column['name'] == "id") && !($column['name'] == "password" || $column['name'] == "remember_token");
+                return ($column['type'] == 'json' || $column['type'] == 'text' || $column['type'] == 'string' || $column['name'] == "id") && !($column['name'] == "password" || $column['name'] == "remember_token");
             })->pluck('name')->toArray(),
             //            'filters' => $this->readColumnsFromTable($tableName)->filter(function($column) {
             //                return $column['type'] == 'boolean' || $column['type'] == 'date';
@@ -96,6 +97,7 @@ class Controller extends ClassGenerator {
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
             ['belongs-to-many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
+            ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating controller'],
         ];
     }
 

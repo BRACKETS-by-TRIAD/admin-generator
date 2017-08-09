@@ -59,6 +59,7 @@ class ViewFullForm extends ViewGenerator {
      */
     public function fire()
     {
+        $force = $this->option('force');
 
         //TODO check if exists
         //TODO make global for all generator
@@ -84,9 +85,14 @@ class ViewFullForm extends ViewGenerator {
         }
 
         $viewPath = resource_path('views/admin/'.$this->fileName.'.blade.php');
-        if ($this->alreadyExists($viewPath)) {
+        if ($this->alreadyExists($viewPath) && !$force) {
             $this->error('File '.$viewPath.' already exists!');
         } else {
+            if ($this->alreadyExists($viewPath) && $force) {
+                $this->warn('File '.$viewPath.' already exists! File will be deleted.');
+                $this->files->delete($viewPath);
+            }
+
             $this->makeDirectory($viewPath);
 
             $this->files->put($viewPath, $this->buildForm());
@@ -97,9 +103,14 @@ class ViewFullForm extends ViewGenerator {
         $formJsPath = resource_path('assets/js/admin/'.$this->formJsRelativePath.'/Form.js');
         $bootstrapJsPath = resource_path('assets/js/admin/bootstrap.js');
 
-        if ($this->alreadyExists($formJsPath)) {
+        if ($this->alreadyExists($formJsPath) && !$force) {
             $this->error('File '.$formJsPath.' already exists!');
         } else {
+            if ($this->alreadyExists($formJsPath) && $force) {
+                $this->warn('File '.$formJsPath.' already exists! File will be deleted.');
+                $this->files->delete($formJsPath);
+            }
+
             $this->makeDirectory($formJsPath);
 
             $this->files->put($formJsPath, $this->buildFormJs());
@@ -137,6 +148,7 @@ class ViewFullForm extends ViewGenerator {
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
             ['file-name', 'nm', InputOption::VALUE_OPTIONAL, 'Specify a blade file path'],
             ['route', 'r', InputOption::VALUE_OPTIONAL, 'Specify custom route for form'],
+            ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating full form'],
         ];
     }
 

@@ -80,11 +80,7 @@ class {{ $controllerBaseName }} extends Controller
     public function store(Store{{ $modelBaseName }} $request)
     {
         // Sanitize input
-        $sanitized = $request->only([
-            @foreach($columns as $column)'{{ $column['name'] }}',
-            @endforeach
-
-        ]);
+        $sanitized = $request->only(collect($request->rules())->keys()->all());
 
         // Store the {{ $modelBaseName }}
         ${{ $modelVariableName }} = {{ $modelBaseName }}::create($sanitized);
@@ -159,11 +155,7 @@ class {{ $controllerBaseName }} extends Controller
     public function update(Update{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
         // Sanitize input
-        $sanitized = $request->only([
-            @foreach($columns as $column)'{{ $column['name'] }}',
-            @endforeach
-
-        ]);
+        $sanitized = $request->only(collect($request->rules())->keys()->all());
 
         // Update changed values {{ $modelBaseName }}
         ${{ $modelVariableName }}->update($sanitized);

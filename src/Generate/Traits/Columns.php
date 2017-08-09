@@ -91,6 +91,11 @@ trait Columns {
                 $serverUpdateRules->push($updateRule);
             }
 
+            if ($column['name'] == 'slug' && $column['type'] == 'json' && !$column['unique']) {
+                $serverStoreRules->push('uniqueTranslatable');
+                $serverUpdateRules->push('uniqueTranslatable');
+            }
+
             switch ($column['type']) {
                 case 'datetime':
                     $serverStoreRules->push('date');

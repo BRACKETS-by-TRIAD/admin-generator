@@ -26,14 +26,21 @@ class ViewForm extends ViewGenerator {
      */
     public function fire()
     {
+        $force = $this->option('force');
+
         if(!empty($belongsToMany = $this->option('belongs-to-many'))) {
             $this->setBelongToManyRelation($belongsToMany);
         }
 
         $viewPath = resource_path('views/admin/'.$this->modelViewsDirectory.'/components/form-elements.blade.php');
-        if ($this->alreadyExists($viewPath)) {
+        if ($this->alreadyExists($viewPath) && !$force) {
             $this->error('File '.$viewPath.' already exists!');
         } else {
+            if ($this->alreadyExists($viewPath) && $force) {
+                $this->warn('File '.$viewPath.' already exists! File will be deleted.');
+                $this->files->delete($viewPath);
+            }
+
             $this->makeDirectory($viewPath);
 
             $this->files->put($viewPath, $this->buildForm());
@@ -42,9 +49,14 @@ class ViewForm extends ViewGenerator {
         }
 
         $viewPath = resource_path('views/admin/'.$this->modelViewsDirectory.'/create.blade.php');
-        if ($this->alreadyExists($viewPath)) {
+        if ($this->alreadyExists($viewPath) && !$force) {
             $this->error('File '.$viewPath.' already exists!');
         } else {
+            if ($this->alreadyExists($viewPath) && $force) {
+                $this->warn('File '.$viewPath.' already exists! File will be deleted.');
+                $this->files->delete($viewPath);
+            }
+
             $this->makeDirectory($viewPath);
 
             $this->files->put($viewPath, $this->buildCreate());
@@ -54,9 +66,14 @@ class ViewForm extends ViewGenerator {
 
 
         $viewPath = resource_path('views/admin/'.$this->modelViewsDirectory.'/edit.blade.php');
-        if ($this->alreadyExists($viewPath)) {
+        if ($this->alreadyExists($viewPath) && !$force) {
             $this->error('File '.$viewPath.' already exists!');
         } else {
+            if ($this->alreadyExists($viewPath) && $force) {
+                $this->warn('File '.$viewPath.' already exists! File will be deleted.');
+                $this->files->delete($viewPath);
+            }
+
             $this->makeDirectory($viewPath);
 
             $this->files->put($viewPath, $this->buildEdit());
@@ -67,9 +84,14 @@ class ViewForm extends ViewGenerator {
         $formJsPath = resource_path('assets/js/admin/'.$this->modelJSName.'/Form.js');
         $bootstrapJsPath = resource_path('assets/js/admin/bootstrap.js');
 
-        if ($this->alreadyExists($formJsPath)) {
+        if ($this->alreadyExists($formJsPath) && !$force) {
             $this->error('File '.$formJsPath.' already exists!');
         } else {
+            if ($this->alreadyExists($formJsPath) && $force) {
+                $this->warn('File '.$formJsPath.' already exists! File will be deleted.');
+                $this->files->delete($formJsPath);
+            }
+
             $this->makeDirectory($formJsPath);
 
             $this->files->put($formJsPath, $this->buildFormJs());
@@ -135,6 +157,7 @@ class ViewForm extends ViewGenerator {
         return [
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
             ['belongs-to-many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
+            ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating form'],
         ];
     }
 

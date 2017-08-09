@@ -90,11 +90,7 @@ class {{ $controllerBaseName }} extends Controller
     public function store(Store{{ $modelBaseName }} $request)
     {
         // Sanitize input
-        $sanitized = $request->only([
-            @foreach($columns as $column)'{{ $column['name'] }}',
-            @endforeach
-
-        ]);
+        $sanitized = $request->only(collect($request->rules())->keys()->all());
 
         //Modify input, set activated if needed and set hashed password
         $sanitized = $this->modifyInputData($sanitized, false);

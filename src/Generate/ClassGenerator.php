@@ -122,12 +122,17 @@ abstract class ClassGenerator extends Command {
         return $rootNamespace;
     }
 
-    protected function generateClass() {
+    protected function generateClass($force = false) {
         $path = base_path($this->getPathFromClassName($this->classFullName));
 
         if ($this->alreadyExists($path)) {
-            $this->error('File '.$path.' already exists!');
-            return false;
+            if($force) {
+                $this->warn('File '.$path.' already exists! File will be deleted.');
+                $this->files->delete($path);
+            } else {
+                $this->error('File '.$path.' already exists!');
+                return false;
+            }
         }
 
         $this->makeDirectory($path);
