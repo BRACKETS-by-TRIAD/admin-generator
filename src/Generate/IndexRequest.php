@@ -2,21 +2,21 @@
 
 use Symfony\Component\Console\Input\InputOption;
 
-class DestroyRequest extends ClassGenerator {
+class IndexRequest extends ClassGenerator {
 
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'admin:generate:request:destroy';
+    protected $name = 'admin:generate:request:index';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Generate a Destroy request class';
+    protected $description = 'Generate an Index request class';
 
     /**
      * Execute the console command.
@@ -32,11 +32,15 @@ class DestroyRequest extends ClassGenerator {
 
     protected function buildClass() {
 
-        return view('brackets/admin-generator::destroy-request', [
+        return view('brackets/admin-generator::index-request', [
             'modelBaseName' => $this->modelBaseName,
             'modelDotNotation' => $this->modelDotNotation,
             'modelWithNamespaceFromDefault' => $this->modelWithNamespaceFromDefault,
             'modelVariableName' => $this->modelVariableName,
+
+            'columnsToQuery' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "remember_token" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
+            })->pluck('name')->toArray(),
         ])->render();
     }
 
@@ -47,7 +51,7 @@ class DestroyRequest extends ClassGenerator {
     }
 
     public function generateClassNameFromTable($tableName) {
-        return 'Destroy'.$this->modelBaseName;
+        return 'Index'.$this->modelBaseName;
     }
 
     /**

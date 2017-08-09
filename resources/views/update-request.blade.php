@@ -14,7 +14,7 @@ class Update{{ $modelBaseName }} extends FormRequest
      */
     public function authorize()
     {
-        return Gate::allows('admin.update.{{ $modelDotNotation }}', $this->{{ $modelVariableName }});
+        return Gate::allows('admin.{{ $modelDotNotation }}.edit', ['{{ $modelVariableName }}' => $this->{{ $modelVariableName }}]);
     }
 
     /**

@@ -4,7 +4,7 @@
 use Illuminate\Foundation\Http\FormRequest;
 use Gate;
 
-class Store{{ $modelBaseName }} extends FormRequest
+class Index{{ $modelBaseName }} extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class Store{{ $modelBaseName }} extends FormRequest
      */
     public function authorize()
     {
-        return Gate::allows('admin.{{ $modelDotNotation }}.create');
+        return Gate::allows('admin.{{ $modelDotNotation }}.index');
     }
 
     /**
@@ -24,8 +24,11 @@ class Store{{ $modelBaseName }} extends FormRequest
     public function rules()
     {
         return [
-            @foreach($columns as $column)'{{ $column['name'] }}' => '{!! implode('|', (array) $column['serverStoreRules']) !!}',
-            @endforeach
+            'orderBy' => 'in:{{ implode(',', $columnsToQuery) }}|nullable',
+            'orderDirection' => 'in:asc,desc|nullable',
+            'search' => 'string|nullable',
+            'page' => 'integer|nullable',
+            'per_page' => 'integer|nullable',
 
         ];
     }

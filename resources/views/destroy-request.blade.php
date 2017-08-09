@@ -13,7 +13,7 @@ class Destroy{{ $modelBaseName }} extends FormRequest
      */
     public function authorize()
     {
-        return Gate::allows('admin.destroy.{{ $modelDotNotation }}', $this->{{ $modelVariableName }});
+        return Gate::allows('admin.{{ $modelDotNotation }}.delete', ['{{ $modelVariableName }}' => $this->{{ $modelVariableName }}]);
     }
 
     /**

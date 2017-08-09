@@ -4,6 +4,7 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \Illuminate\Http\Response;
+use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
@@ -23,13 +24,11 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Display a listing of the resource.
      *
-     * {{'@'}}param  Request $request
+     * {{'@'}}param  Index{{ $modelBaseName }} $request
      * {{'@'}}return Response|array
      */
-    public function index(Request $request)
+    public function index(Index{{ $modelBaseName }} $request)
     {
-        // TODO add authorization
-
         // TODO params validation (filter/search/pagination/ordering) - maybe extract as a Request?
 
         // create and AdminListing instance for a specific model and
@@ -59,7 +58,7 @@ class {{ $controllerBaseName }} extends Controller
      */
     public function create()
     {
-        // TODO add authorization
+        $this->authorize('admin.{{ $modelDotNotation }}.create', ['{{ $modelVariableName }}' => $this->{{ $modelVariableName }}]);
 
         return view('admin.{{ $modelDotNotation }}.create',[
 @if (count($relations))
@@ -115,7 +114,7 @@ class {{ $controllerBaseName }} extends Controller
      */
     public function show({{ $modelBaseName }} ${{ $modelVariableName }})
     {
-        // TODO add authorization
+        $this->authorize('admin.{{ $modelDotNotation }}.show', ['{{ $modelVariableName }}' => $this->{{ $modelVariableName }}]);
 
         // TODO your code goes here
     }
@@ -128,7 +127,7 @@ class {{ $controllerBaseName }} extends Controller
      */
     public function edit({{ $modelBaseName }} ${{ $modelVariableName }})
     {
-        // TODO add authorization
+        $this->authorize('admin.{{ $modelDotNotation }}.edit', ['{{ $modelVariableName }}' => $this->{{ $modelVariableName }}]);
 
 @if (count($relations))
 @if (count($relations['belongsToMany']))
@@ -190,13 +189,11 @@ class {{ $controllerBaseName }} extends Controller
      * Remove the specified resource from storage.
      *
      * {{'@'}}param  Destroy{{ $modelBaseName }} $request
-     * {{'@'}}param  int $id
+     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}return Response|bool
      */
-    public function destroy(Destroy{{ $modelBaseName }} $request, $id)
+    public function destroy(Destroy{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
-        ${{ $modelVariableName }} = {{ $modelBaseName }}::findOrFail($id);
-
         ${{ $modelVariableName }}->delete();
 
         if ($request->ajax()) {
