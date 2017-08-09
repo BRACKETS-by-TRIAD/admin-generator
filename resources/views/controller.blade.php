@@ -188,13 +188,13 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * {{'@'}}param  Request $request
-     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
+     * {{'@'}}param  Destroy{{ $modelBaseName }} $request
+     * {{'@'}}param  int $id
      * {{'@'}}return Response|bool
      */
-    public function destroy(Request $request, {{ $modelBaseName }} ${{ $modelVariableName }})
+    public function destroy(Destroy{{ $modelBaseName }} $request, $id)
     {
-        // TODO add authorization
+        ${{ $modelVariableName }} = {{ $modelBaseName }}::findOrFail($id);
 
         ${{ $modelVariableName }}->delete();
 
