@@ -52,17 +52,17 @@ class GenerateAdmin extends Command {
 //            '--force' => $force,
 //        ]);
 //
-//        $this->call('admin:generate:request:store', [
-//            'table_name' => $tableNameArgument,
-//            '--model-name' => $modelOption,
-//            '--force' => $force,
-//        ]);
-//
-//        $this->call('admin:generate:request:update', [
-//            'table_name' => $tableNameArgument,
-//            '--model-name' => $modelOption,
-//            '--force' => $force,
-//        ]);
+        $this->call('admin:generate:request:store', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+            '--force' => $force,
+        ]);
+
+        $this->call('admin:generate:request:update', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+            '--force' => $force,
+        ]);
 //
 //        $this->call('admin:generate:routes', [
 //            'table_name' => $tableNameArgument,
@@ -70,11 +70,11 @@ class GenerateAdmin extends Command {
 //            '--controller-name' => $controllerOption,
 //        ]);
 //
-        $this->call('admin:generate:index', [
-            'table_name' => $tableNameArgument,
-            '--model-name' => $modelOption,
-            '--force' => $force,
-        ]);
+//        $this->call('admin:generate:index', [
+//            'table_name' => $tableNameArgument,
+//            '--model-name' => $modelOption,
+//            '--force' => $force,
+//        ]);
 //
 //        $this->call('admin:generate:form', [
 //            'table_name' => $tableNameArgument,

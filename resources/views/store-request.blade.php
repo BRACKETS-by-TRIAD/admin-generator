@@ -30,47 +30,43 @@ class Store{{ $modelBaseName }} extends @if($translatable)TranslatableFormReques
         return Gate::allows('admin.store.{{ $modelDotNotation }}');
     }
 
+@if($translatable)/**
+     * Get the validation rules that apply to the requests untranslatable fields.
+     *
+     * @return  array
+     */
+    public function untranslatableRules() {
+        return [
+            @foreach($standardColumn as $column)'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverStoreRules']) !!}],
+            @endforeach
+
+        ];
+    }
+
     /**
+     * Get the validation rules that apply to the requests translatable fields.
+     *
+     * @return  array
+     */
+    public function translatableRules($locale) {
+        return [
+            @foreach($translatableColumns as $column)'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverStoreRules']) !!}],
+            @endforeach
+
+        ];
+    }
+@else/**
      * Get the validation rules that apply to the request.
      *
      * @return array
      */
     public function rules()
     {
-@if($translatable)
-        $standardRules = collect([
-            @foreach($standardColumn as $column)'{{ $column['name'] }}' => '{!! implode('|', (array) $column['serverStoreRules']) !!}',
-            @endforeach
-
-        ]);
-
-        $rules = $this->getRequiredLocales()->flatMap(function($locale){
-            return collect([
-                @foreach($translatableColumns as $column)'{{ $column['name'] }}' => ['{!! implode('\', \'', (array) $column['serverStoreRules']) !!}'],
-                @endforeach
-
-            ])->mapWithKeys(function($rule, $ruleKey) use ($locale) {
-                //TODO refactor
-                if(!$locale['required']) {
-                    if(($key = array_search('required', $rule)) !== false) {
-                        unset($rule[$key]);
-                        array_push($rule, 'nullable');
-                    }
-                }
-                if(($key = array_search('uniqueTranslatable', $rule)) !== false) {
-                    $rule[$key] = Rule::unique('{{$tableName}}', $ruleKey.'->'.$locale['locale']);
-                }
-                return [$ruleKey.'.'.$locale['locale'] => $rule];
-            });
-        })->merge($standardRules);
-
-        return $rules->toArray();
-@else
         return [
             @foreach($columns as $column)'{{ $column['name'] }}' => '{!! implode('|', (array) $column['serverStoreRules']) !!}',
             @endforeach
 
         ];
-@endif
     }
+@endif
 }

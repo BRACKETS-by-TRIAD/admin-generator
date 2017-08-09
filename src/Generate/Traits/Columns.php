@@ -48,36 +48,36 @@ trait Columns {
             $serverUpdateRules = collect([]);
             $frontendRules = collect([]);
             if ($column['required']) {
-                $serverStoreRules->push('required');
-                $serverUpdateRules->push('required');
+                $serverStoreRules->push('\'required\'');
+                $serverUpdateRules->push('\'required\'');
                 if($column['type'] != 'boolean' && $column['name'] != 'password') {
-                    $frontendRules->push('required');
+                    $frontendRules->push('\'required\'');
                 }
             } else {
-                $serverStoreRules->push('nullable');
-                $serverUpdateRules->push('nullable');
+                $serverStoreRules->push('\'nullable\'');
+                $serverUpdateRules->push('\'nullable\'');
             }
 
             if ($column['name'] == 'email') {
-                $serverStoreRules->push('email');
-                $serverUpdateRules->push('email');
-                $frontendRules->push('email');
+                $serverStoreRules->push('\'email\'');
+                $serverUpdateRules->push('\'email\'');
+                $frontendRules->push('\'email\'');
             }
 
             if ($column['name'] == 'password') {
-                $serverStoreRules->push('confirmed');
-                $serverUpdateRules->push('sometimes');
-                $serverUpdateRules->push('confirmed');
-                $frontendRules->push('confirmed:password_confirmation');
+                $serverStoreRules->push('\'confirmed\'');
+                $serverUpdateRules->push('\'sometimes\'');
+                $serverUpdateRules->push('\'confirmed\'');
+                $frontendRules->push('\'confirmed:password_confirmation\'');
 
-                $serverStoreRules->push('min:7');
-                $serverUpdateRules->push('min:7');
-                $frontendRules->push('min:7');
+                $serverStoreRules->push('\'min:7\'');
+                $serverUpdateRules->push('\'min:7\'');
+                $frontendRules->push('\'min:7\'');
 
-                $serverStoreRules->push('regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9]).*$/');
-                $serverUpdateRules->push('regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9]).*$/');
+                $serverStoreRules->push('\'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9]).*$/\'');
+                $serverUpdateRules->push('\'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9]).*$/\'');
                 //TODO not working, need fixing
-//                $frontendRules->push('regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!$#%]).*$/g');
+//                $frontendRules->push(''regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!$#%]).*$/g'');
             }
 
             if ($column['unique']) {
@@ -87,62 +87,68 @@ trait Columns {
                     $storeRule .= ','.$column['name'].',NULL,id,deleted_at,NULL';
                     $updateRule .= ',deleted_at,NULL';
                 }
+                $serverStoreRules->push('\''.$storeRule.'\'');
+                $serverUpdateRules->push('\''.$updateRule.'\'');
+            }
+
+            if ($column['name'] == 'slug' && $column['type'] == 'json' && !$column['unique']) {
+                $storeRule = 'Rule::unique(\''.$tableName.'\', \''.$column['name'].'->\'.$locale)';
+                $updateRule = 'Rule::unique(\''.$tableName.'\', \''.$column['name'].'->\'.$locale)->ignore($this->'.$modelVariableName.'->getKey(), $this->'.$modelVariableName.'->getKeyName())';
+                if($hasSoftDelete && $column['unique_deleted_at_condition']) {
+                    $storeRule .= '->whereNull(\'deleted_at\')';
+                    $updateRule .= '->whereNull(\'deleted_at\')';
+                }
                 $serverStoreRules->push($storeRule);
                 $serverUpdateRules->push($updateRule);
             }
 
-            if ($column['name'] == 'slug' && $column['type'] == 'json' && !$column['unique']) {
-                $serverStoreRules->push('uniqueTranslatable');
-                $serverUpdateRules->push('uniqueTranslatable');
-            }
-
             switch ($column['type']) {
                 case 'datetime':
-                    $serverStoreRules->push('date');
-                    $serverUpdateRules->push('date');
-                    $frontendRules->push('date_format:YYYY-MM-DD kk:mm:ss');
+                    $serverStoreRules->push('\'date\'');
+                    $serverUpdateRules->push('\'date\'');
+                    $frontendRules->push('\'date_format:YYYY-MM-DD kk:mm:ss\'');
                     break;
                 case 'date':
-                    $serverStoreRules->push('date');
-                    $serverUpdateRules->push('date');
-                    $frontendRules->push('date_format:YYYY-MM-DD kk:mm:ss');
+                    $serverStoreRules->push('\'date\'');
+                    $serverUpdateRules->push('\'date\'');
+                    $frontendRules->push('\'date_format:YYYY-MM-DD kk:mm:ss\'');
                     break;
                 case 'time':
-                    $serverStoreRules->push('date_format:H:i:s');
-                    $serverUpdateRules->push('date_format:H:i:s');
-                    $frontendRules->push('date_format:kk:mm:ss');
+                    $serverStoreRules->push('\'date_format:H:i:s\'');
+                    $serverUpdateRules->push('\'date_format:H:i:s\'');
+                    $frontendRules->push('\'date_format:kk:mm:ss\'');
                     break;
                 case 'integer':
-                    $serverStoreRules->push('integer');
-                    $serverUpdateRules->push('integer');
-                    $frontendRules->push('numeric');
+                    $serverStoreRules->push('\'integer\'');
+                    $serverUpdateRules->push('\'integer\'');
+                    $frontendRules->push('\'numeric\'');
                     break;
                 case 'boolean':
-                    $serverStoreRules->push('boolean');
-                    $serverUpdateRules->push('boolean');
+                    $serverStoreRules->push('\'boolean\'');
+                    $serverUpdateRules->push('\'boolean\'');
                     $frontendRules->push('');
                     break;
                 case 'float':
-                    $serverStoreRules->push('numeric');
-                    $serverUpdateRules->push('numeric');
-                    $frontendRules->push('decimal');
+                    $serverStoreRules->push('\'numeric\'');
+                    $serverUpdateRules->push('\'numeric\'');
+                    $frontendRules->push('\'decimal\'');
                     break;
                 case 'decimal':
-                    $serverStoreRules->push('numeric');
-                    $serverUpdateRules->push('numeric');
-                    $frontendRules->push('decimal'); // FIXME?? I'm not sure about this one
+                    $serverStoreRules->push('\'numeric\'');
+                    $serverUpdateRules->push('\'numeric\'');
+                    $frontendRules->push('\'decimal\''); // FIXME?? I'm not sure about this one
                     break;
                 case 'string':
-                    $serverStoreRules->push('string');
-                    $serverUpdateRules->push('string');
+                    $serverStoreRules->push('\'string\'');
+                    $serverUpdateRules->push('\'string\'');
                     break;
                 case 'text':
-                    $serverStoreRules->push('string');
-                    $serverUpdateRules->push('string');
+                    $serverStoreRules->push('\'string\'');
+                    $serverUpdateRules->push('\'string\'');
                     break;
                 default:
-                    $serverStoreRules->push('string');
-                    $serverUpdateRules->push('string');
+                    $serverStoreRules->push('\'string\'');
+                    $serverUpdateRules->push('\'string\'');
             }
 
             return [
