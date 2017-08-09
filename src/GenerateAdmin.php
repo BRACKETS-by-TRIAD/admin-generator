@@ -59,6 +59,11 @@ class GenerateAdmin extends Command {
             '--model-name' => $modelOption,
         ]);
 
+        $this->call('admin:generate:request:destroy', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+        ]);
+
         $this->call('admin:generate:routes', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
