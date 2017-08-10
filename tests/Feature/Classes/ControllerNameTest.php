@@ -26,8 +26,10 @@ class ControllerNameTest extends TestCase
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \Illuminate\Http\Response;
+use App\Http\Requests\Admin\Category\IndexCategory;
 use App\Http\Requests\Admin\Category\StoreCategory;
 use App\Http\Requests\Admin\Category\UpdateCategory;
+use App\Http\Requests\Admin\Category\DestroyCategory;
 use Brackets\Admin\AdminListing;
 use App\Models\Category;
 
@@ -51,8 +53,10 @@ class CategoriesController extends Controller', File::get($filePath));
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \Illuminate\Http\Response;
+use App\Http\Requests\Admin\Category\IndexCategory;
 use App\Http\Requests\Admin\Category\StoreCategory;
 use App\Http\Requests\Admin\Category\UpdateCategory;
+use App\Http\Requests\Admin\Category\DestroyCategory;
 use Brackets\Admin\AdminListing;
 use App\Models\Category;
 
@@ -76,8 +80,10 @@ class MyNameController extends Controller', File::get($filePath));
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \Illuminate\Http\Response;
+use App\Http\Requests\Admin\Category\IndexCategory;
 use App\Http\Requests\Admin\Category\StoreCategory;
 use App\Http\Requests\Admin\Category\UpdateCategory;
+use App\Http\Requests\Admin\Category\DestroyCategory;
 use Brackets\Admin\AdminListing;
 use App\Models\Category;
 
@@ -103,8 +109,10 @@ class CategoriesController extends Controller', File::get($filePath));
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \Illuminate\Http\Response;
+use App\Http\Requests\Admin\Cat\IndexCat;
 use App\Http\Requests\Admin\Cat\StoreCat;
 use App\Http\Requests\Admin\Cat\UpdateCat;
+use App\Http\Requests\Admin\Cat\DestroyCat;
 use Brackets\Admin\AdminListing;
 use App\Billing\Cat;
 

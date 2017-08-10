@@ -49,12 +49,22 @@ class GenerateAdmin extends Command {
             '--model-name' => $modelOption,
         ]);
 
+        $this->call('admin:generate:request:index', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+        ]);
+
         $this->call('admin:generate:request:store', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
         ]);
 
         $this->call('admin:generate:request:update', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+        ]);
+
+        $this->call('admin:generate:request:destroy', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
         ]);
