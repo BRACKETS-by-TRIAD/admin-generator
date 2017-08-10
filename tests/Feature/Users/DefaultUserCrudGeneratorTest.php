@@ -52,6 +52,7 @@ class UsersController extends Controller', File::get($filePath));
 
 use Illuminate\Foundation\Http\FormRequest;
 use Gate;
+use Illuminate\Validation\Rule;
 
 class StoreUser extends FormRequest
 {', File::get($filePath));
@@ -71,7 +72,7 @@ class StoreUser extends FormRequest
 
 use Illuminate\Foundation\Http\FormRequest;
 use Gate;
-use App\Models\User;
+use Illuminate\Validation\Rule;
 
 class UpdateUser extends FormRequest
 {', File::get($filePath));

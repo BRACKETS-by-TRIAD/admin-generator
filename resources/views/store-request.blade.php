@@ -12,12 +12,15 @@
 @endphp
 
 @if($translatable->count() > 0)use Brackets\Admin\TranslatableFormRequest;
-@else use Illuminate\Foundation\Http\FormRequest;
+@else
+use Illuminate\Foundation\Http\FormRequest;
 @endif
 use Gate;
 use Illuminate\Validation\Rule;
 
-class Store{{ $modelBaseName }} extends @if($translatable->count() > 0)TranslatableFormRequest @else FormRequest
+@if($translatable->count() > 0)class Store{{ $modelBaseName }} extends TranslatableFormRequest
+@else
+class Store{{ $modelBaseName }} extends FormRequest
 @endif
 {
     /**

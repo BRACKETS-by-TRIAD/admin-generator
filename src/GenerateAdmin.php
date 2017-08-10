@@ -34,48 +34,48 @@ class GenerateAdmin extends Command {
         $controllerOption = $this->option('controller-name');
         $force = $this->option('force');
 
-//        $this->call('admin:generate:model', [
-//            'table_name' => $tableNameArgument,
-//            'class_name' => $modelOption,
-//            '--force' => $force,
-//        ]);
-//
-//        $this->call('admin:generate:factory', [
-//            'table_name' => $tableNameArgument,
-//            '--model-name' => $modelOption,
-//        ]);
-//
-//        $this->call('admin:generate:controller', [
-//            'table_name' => $tableNameArgument,
-//            'class_name' => $controllerOption,
-//            '--model-name' => $modelOption,
-//            '--force' => $force,
-//        ]);
-//
-//        $this->call('admin:generate:request:store', [
-//            'table_name' => $tableNameArgument,
-//            '--model-name' => $modelOption,
-//            '--force' => $force,
-//        ]);
-//
-//        $this->call('admin:generate:request:update', [
-//            'table_name' => $tableNameArgument,
-//            '--model-name' => $modelOption,
-//            '--force' => $force,
-//        ]);
-//
-//        $this->call('admin:generate:routes', [
-//            'table_name' => $tableNameArgument,
-//            '--model-name' => $modelOption,
-//            '--controller-name' => $controllerOption,
-//        ]);
-//
-//        $this->call('admin:generate:index', [
-//            'table_name' => $tableNameArgument,
-//            '--model-name' => $modelOption,
-//            '--force' => $force,
-//        ]);
-//
+        $this->call('admin:generate:model', [
+            'table_name' => $tableNameArgument,
+            'class_name' => $modelOption,
+            '--force' => $force,
+        ]);
+
+        $this->call('admin:generate:factory', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+        ]);
+
+        $this->call('admin:generate:controller', [
+            'table_name' => $tableNameArgument,
+            'class_name' => $controllerOption,
+            '--model-name' => $modelOption,
+            '--force' => $force,
+        ]);
+
+        $this->call('admin:generate:request:store', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+            '--force' => $force,
+        ]);
+
+        $this->call('admin:generate:request:update', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+            '--force' => $force,
+        ]);
+
+        $this->call('admin:generate:routes', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+            '--controller-name' => $controllerOption,
+        ]);
+
+        $this->call('admin:generate:index', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+            '--force' => $force,
+        ]);
+
         $this->call('admin:generate:form', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,

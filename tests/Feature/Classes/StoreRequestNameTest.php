@@ -25,6 +25,7 @@ class StoreRequestNameTest extends TestCase
 
 use Illuminate\Foundation\Http\FormRequest;
 use Gate;
+use Illuminate\Validation\Rule;
 
 class StoreCategory extends FormRequest', File::get($filePath));
     }
@@ -45,6 +46,7 @@ class StoreCategory extends FormRequest', File::get($filePath));
 
 use Illuminate\Foundation\Http\FormRequest;
 use Gate;
+use Illuminate\Validation\Rule;
 
 class StoreCat extends FormRequest', File::get($filePath));
     }
@@ -66,6 +68,7 @@ class StoreCat extends FormRequest', File::get($filePath));
 
 use Illuminate\Foundation\Http\FormRequest;
 use Gate;
+use Illuminate\Validation\Rule;
 
 class StoreCat extends FormRequest', File::get($filePath));
     }
