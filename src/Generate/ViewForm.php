@@ -111,7 +111,13 @@ class ViewForm extends ViewGenerator {
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
             'modelPlural' => $this->modelPlural,
 
-            'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
+            'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName)->sortByDesc(function($column) {
+                return $column['type'] == "json";
+            }),
+            'hasTranslatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return $column['type'] == "json";
+            })->count() > 0,
+            'translatableTextarea' => ['perex', 'text'],
             'relations' => $this->relations,
         ])->render();
     }
@@ -128,6 +134,9 @@ class ViewForm extends ViewGenerator {
             'modelJSName' => $this->modelJSName,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
+            'hasTranslatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return $column['type'] == "json";
+            })->count() > 0,
         ])->render();
     }
 
@@ -143,6 +152,9 @@ class ViewForm extends ViewGenerator {
             'modelJSName' => $this->modelJSName,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
+            'hasTranslatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return $column['type'] == "json";
+            })->count() > 0,
         ])->render();
     }
 
@@ -150,6 +162,10 @@ class ViewForm extends ViewGenerator {
         return view('brackets/admin-generator::form-js', [
             'modelViewsDirectory' => $this->modelViewsDirectory,
             'modelJSName' => $this->modelJSName,
+
+            'translatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return $column['type'] == "json";
+            })->pluck('name'),
         ])->render();
     }
 

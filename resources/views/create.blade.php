@@ -8,6 +8,9 @@
 
             <{{ $modelJSName }}-form
                 :action="'{{'{{'}} url('admin/{{ $modelViewsDirectory }}/store') }}'"
+                @if($hasTranslatable):locales="@{{ json_encode($locales) }}"
+                :send-empty-locales="false"@endif
+
                 inline-template>
 
                 <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">

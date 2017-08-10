@@ -51,7 +51,7 @@ trait Columns {
                 $serverStoreRules->push('\'required\'');
                 $serverUpdateRules->push('\'required\'');
                 if($column['type'] != 'boolean' && $column['name'] != 'password') {
-                    $frontendRules->push('\'required\'');
+                    $frontendRules->push('required');
                 }
             } else {
                 $serverStoreRules->push('\'nullable\'');
@@ -61,18 +61,18 @@ trait Columns {
             if ($column['name'] == 'email') {
                 $serverStoreRules->push('\'email\'');
                 $serverUpdateRules->push('\'email\'');
-                $frontendRules->push('\'email\'');
+                $frontendRules->push('email');
             }
 
             if ($column['name'] == 'password') {
                 $serverStoreRules->push('\'confirmed\'');
                 $serverUpdateRules->push('\'sometimes\'');
                 $serverUpdateRules->push('\'confirmed\'');
-                $frontendRules->push('\'confirmed:password_confirmation\'');
+                $frontendRules->push('confirmed:password_confirmation');
 
                 $serverStoreRules->push('\'min:7\'');
                 $serverUpdateRules->push('\'min:7\'');
-                $frontendRules->push('\'min:7\'');
+                $frontendRules->push('min:7');
 
                 $serverStoreRules->push('\'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9]).*$/\'');
                 $serverUpdateRules->push('\'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9]).*$/\'');
@@ -106,22 +106,22 @@ trait Columns {
                 case 'datetime':
                     $serverStoreRules->push('\'date\'');
                     $serverUpdateRules->push('\'date\'');
-                    $frontendRules->push('\'date_format:YYYY-MM-DD kk:mm:ss\'');
+                    $frontendRules->push('date_format:YYYY-MM-DD kk:mm:ss');
                     break;
                 case 'date':
                     $serverStoreRules->push('\'date\'');
                     $serverUpdateRules->push('\'date\'');
-                    $frontendRules->push('\'date_format:YYYY-MM-DD kk:mm:ss\'');
+                    $frontendRules->push('date_format:YYYY-MM-DD kk:mm:ss');
                     break;
                 case 'time':
                     $serverStoreRules->push('\'date_format:H:i:s\'');
                     $serverUpdateRules->push('\'date_format:H:i:s\'');
-                    $frontendRules->push('\'date_format:kk:mm:ss\'');
+                    $frontendRules->push('date_format:kk:mm:ss');
                     break;
                 case 'integer':
                     $serverStoreRules->push('\'integer\'');
                     $serverUpdateRules->push('\'integer\'');
-                    $frontendRules->push('\'numeric\'');
+                    $frontendRules->push('numeric');
                     break;
                 case 'boolean':
                     $serverStoreRules->push('\'boolean\'');
@@ -131,12 +131,12 @@ trait Columns {
                 case 'float':
                     $serverStoreRules->push('\'numeric\'');
                     $serverUpdateRules->push('\'numeric\'');
-                    $frontendRules->push('\'decimal\'');
+                    $frontendRules->push('decimal');
                     break;
                 case 'decimal':
                     $serverStoreRules->push('\'numeric\'');
                     $serverUpdateRules->push('\'numeric\'');
-                    $frontendRules->push('\'decimal\''); // FIXME?? I'm not sure about this one
+                    $frontendRules->push('decimal'); // FIXME?? I'm not sure about this one
                     break;
                 case 'string':
                     $serverStoreRules->push('\'string\'');

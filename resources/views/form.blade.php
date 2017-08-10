@@ -1,3 +1,18 @@
+@if($hasTranslatable)<div class="row form-inline" style="padding-bottom: 10px;" v-cloak>
+    <div :class="{'col-11 text-right': !isFormLocalized, 'col text-center': isFormLocalized }">
+        <small>Currently editing <strong>@@{{ this.defaultLocale.toUpperCase() }} (default)</strong> translation<span v-if="!isFormLocalized && otherLocales.length > 1"> (@@{{ otherLocales.length }} more can be managed)</span><span v-if="!isFormLocalized"> | <a href="#" @click.prevent="showLocalization">manage translations</a></span></small>
+    </div>
+    <div class="col text-center" v-if="isFormLocalized" v-cloak>
+        <small>Choose translation to edit:
+            <select class="form-control" v-model="currentLocale">
+                <option v-for="locale in otherLocales" :value="locale">@@{{ locale.toUpperCase() }}</option>
+            </select> |
+            <a href="#" @click.prevent="hideLocalization">hide</a>
+        </small>
+    </div>
+</div>
+@endif
+
 @foreach($columns as $col)@if($col['name'] == 'password')<div class="form-group row" :class="{'has-danger': errors.has('{{ $col['name'] }}'), 'has-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid }">
     <label for="{{ $col['name'] }}" class="col-md-3 col-form-label text-md-right">{{ ucfirst($col['name']) }}</label>
     <div class="col-md-9 col-xl-8">
@@ -53,6 +68,23 @@
             <div v-if="errors.has('{{ $col['name'] }}')" class="form-control-feedback" v-cloak>{{'@{{'}} errors.first('{{ $col['name'] }}') }}</div>
         </label>
     </div>
+</div>
+@elseif($col['type'] == 'json')<div class="row">
+    @@foreach($locales as $locale)
+        <div class="col"@@if(!$loop->first) v-show="isFormLocalized && currentLocale == '@{{ $locale }}'" v-cloak @@endif>
+            <div class="form-group row" :class="{'has-danger': errors.has('@{{ $locale }}_{{ $col['name'] }}'), 'has-success': this.fields.@{{ $locale }}_{{ $col['name'] }} && this.fields.@{{ $locale }}_{{ $col['name'] }}.valid }">
+                <label for="@{{ $locale }}_{{ $col['name'] }}" class="col-md-3 col-form-label text-md-right">{{ ucfirst($col['name']) }}</label>
+                <div class="col-md-9" :class="{'col-xl-8': !isFormLocalized }">
+                    @if(in_array($col['name'], $translatableTextarea))<div>
+                        <textarea v-model="form.{{ $col['name'] }}.@{{ $locale }}" @@if($loop->first) v-validate="'{!! implode('|', $col['frontendRules']) !!}'" @@endif class="hidden-xs-up" id="@{{ $locale }}_{{ $col['name'] }}" name="@{{ $locale }}_{{ $col['name'] }}"></textarea>
+                        <quill-editor v-model="form.{{ $col['name'] }}.@{{ $locale }}" :options="wysiwygConfig" />
+                    </div>
+                    @else<input type="text" v-model="form.{{ $col['name'] }}.@{{ $locale }}" @@if($loop->first) v-validate="'{!! implode('|', $col['frontendRules']) !!}'" @@endif class="form-control" :class="{'form-control-danger': errors.has('@{{ $locale }}_{{ $col['name'] }}'), 'form-control-success': this.fields.@{{ $locale }}_{{ $col['name'] }} && this.fields.@{{ $locale }}_{{ $col['name'] }}.valid }" id="@{{ $locale }}_{{ $col['name'] }}" name="@{{ $locale }}_{{ $col['name'] }}" placeholder="{{ ucfirst($col['name']) }}">
+                    @endif<div v-if="errors.has('@{{ $locale }}_{{ $col['name'] }}')" class="form-control-feedback" v-cloak>@{{'{{'}} errors.first('@{{ $locale }}_{{ $col['name'] }}') }}</div>
+                </div>
+            </div>
+        </div>
+    @@endforeach
 </div>
 @else<div class="form-group row" :class="{'has-danger': errors.has('{{ $col['name'] }}'), 'has-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid }">
     <label for="{{ $col['name'] }}" class="col-md-3 col-form-label text-md-right">{{ ucfirst($col['name']) }}</label>

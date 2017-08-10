@@ -131,7 +131,13 @@ class ViewFullForm extends ViewGenerator {
             'route' => $this->route,
             'modelJSName' => $this->formJsRelativePath,
 
-            'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
+            'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName)->sortByDesc(function($column) {
+                return $column['type'] == "json";
+            }),
+            'hasTranslatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return $column['type'] == "json";
+            })->count() > 0,
+            'translatableTextarea' => ['perex', 'text'],
             'relations' => $this->relations,
         ])->render();
     }
@@ -139,6 +145,10 @@ class ViewFullForm extends ViewGenerator {
     protected function buildFormJs() {
         return view('brackets/admin-generator::'.$this->viewJs, [
             'modelJSName' => $this->formJsRelativePath,
+
+            'translatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return $column['type'] == "json";
+            })->pluck('name'),
         ])->render();
     }
 
