@@ -1,7 +1,7 @@
 @php echo "<?php"
 @endphp namespace App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }};
 @php
-    if($translatable) {
+    if($translatable->count() > 0) {
         $translatableColumns = $columns->filter(function($column) use ($translatable) {
             return in_array($column['name'], $translatable->toArray());
         });
@@ -11,14 +11,13 @@
     }
 @endphp
 
-@if($translatable)use Brackets\Admin\TranslatableFormRequest;
+@if($translatable->count() > 0)use Brackets\Admin\TranslatableFormRequest;
 @else use Illuminate\Foundation\Http\FormRequest;
 @endif
 use Gate;
 use Illuminate\Validation\Rule;
-use {{ $modelFullName }};
 
-class Update{{ $modelBaseName }} extends @if($translatable)TranslatableFormRequest @else FormRequest
+class Update{{ $modelBaseName }} extends @if($translatable->count() > 0)TranslatableFormRequest @else FormRequest
 @endif
 {
     /**
@@ -31,7 +30,7 @@ class Update{{ $modelBaseName }} extends @if($translatable)TranslatableFormReque
         return Gate::allows('admin.update.{{ $modelDotNotation }}', $this->{{ $modelVariableName }});
     }
 
-@if($translatable)/**
+@if($translatable->count() > 0)/**
      * Get the validation rules that apply to the requests untranslatable fields.
      *
      * @return  array
@@ -64,7 +63,7 @@ class Update{{ $modelBaseName }} extends @if($translatable)TranslatableFormReque
     public function rules()
     {
         return [
-            @foreach($columns as $column)'{{ $column['name'] }}' => '{!! implode('|', (array) $column['serverUpdateRules']) !!}',
+            @foreach($columns as $column)'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverUpdateRules']) !!}],
             @endforeach
 
         ];

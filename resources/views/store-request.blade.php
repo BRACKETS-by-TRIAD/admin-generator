@@ -1,7 +1,7 @@
 @php echo "<?php"
 @endphp namespace App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }};
 @php
-    if($translatable) {
+    if($translatable->count() > 0) {
         $translatableColumns = $columns->filter(function($column) use ($translatable) {
             return in_array($column['name'], $translatable->toArray());
         });
@@ -11,13 +11,13 @@
     }
 @endphp
 
-@if($translatable)use Brackets\Admin\TranslatableFormRequest;
+@if($translatable->count() > 0)use Brackets\Admin\TranslatableFormRequest;
 @else use Illuminate\Foundation\Http\FormRequest;
 @endif
 use Gate;
 use Illuminate\Validation\Rule;
 
-class Store{{ $modelBaseName }} extends @if($translatable)TranslatableFormRequest @else FormRequest
+class Store{{ $modelBaseName }} extends @if($translatable->count() > 0)TranslatableFormRequest @else FormRequest
 @endif
 {
     /**
@@ -30,7 +30,7 @@ class Store{{ $modelBaseName }} extends @if($translatable)TranslatableFormReques
         return Gate::allows('admin.store.{{ $modelDotNotation }}');
     }
 
-@if($translatable)/**
+@if($translatable->count() > 0)/**
      * Get the validation rules that apply to the requests untranslatable fields.
      *
      * @return  array
@@ -63,7 +63,7 @@ class Store{{ $modelBaseName }} extends @if($translatable)TranslatableFormReques
     public function rules()
     {
         return [
-            @foreach($columns as $column)'{{ $column['name'] }}' => '{!! implode('|', (array) $column['serverStoreRules']) !!}',
+            @foreach($columns as $column)'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverStoreRules']) !!}],
             @endforeach
 
         ];

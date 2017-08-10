@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 @endif
 @if($hasRoles)use Spatie\Permission\Traits\HasRoles;
 @endif
-@if($translatable)use Spatie\Translatable\HasTranslations;
+@if($translatable->count() > 0)use Spatie\Translatable\HasTranslations;
 @endif
 
 class {{ $modelBaseName }} extends Model
@@ -26,7 +26,7 @@ class {{ $modelBaseName }} extends Model
     @endif
 @if($hasRoles)use HasRoles;
 @endif
-@if($translatable)use HasTranslations;
+@if($translatable->count() > 0)use HasTranslations;
 @endif
 
     @if (!is_null($tableName))protected $table = '{{ $tableName }}';
@@ -56,7 +56,7 @@ class {{ $modelBaseName }} extends Model
     ];
     @endif
 
-    @if ($translatable)// these attributes are translatable
+    @if ($translatable->count() > 0)// these attributes are translatable
     public $translatable = [
     @foreach($translatable as $translatableField)
     "{{ $translatableField }}",

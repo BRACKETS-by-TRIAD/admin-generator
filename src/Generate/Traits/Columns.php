@@ -82,7 +82,7 @@ trait Columns {
 
             if ($column['unique']) {
                 $storeRule = 'unique:'.$tableName;
-                $updateRule = 'unique:'.$tableName.','.$column['name'].',\'.$'.$modelVariableName.'->getKey().\',\'.$'.$modelVariableName.'->getKeyName().\'';
+                $updateRule = 'unique:'.$tableName.','.$column['name'].',\'.$this->'.$modelVariableName.'->getKey().\',\'.$this->'.$modelVariableName.'->getKeyName().\'';
                 if($hasSoftDelete && $column['unique_deleted_at_condition']) {
                     $storeRule .= ','.$column['name'].',NULL,id,deleted_at,NULL';
                     $updateRule .= ',deleted_at,NULL';
