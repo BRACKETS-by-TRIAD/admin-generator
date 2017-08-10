@@ -52,6 +52,11 @@ class GenerateAdmin extends Command {
             '--force' => $force,
         ]);
 
+        $this->call('admin:generate:request:index', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+        ]);
+
         $this->call('admin:generate:request:store', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
@@ -62,6 +67,11 @@ class GenerateAdmin extends Command {
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
             '--force' => $force,
+        ]);
+
+        $this->call('admin:generate:request:destroy', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
         ]);
 
         $this->call('admin:generate:routes', [

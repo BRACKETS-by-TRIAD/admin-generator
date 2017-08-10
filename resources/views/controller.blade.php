@@ -4,8 +4,10 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \Illuminate\Http\Response;
+use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};
+use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
 use Brackets\Admin\AdminListing;
 use {{ $modelFullName }};
 @if (count($relations))
@@ -22,15 +24,11 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Display a listing of the resource.
      *
-     * {{'@'}}param  Request $request
+     * {{'@'}}param  Index{{ $modelBaseName }} $request
      * {{'@'}}return Response|array
      */
-    public function index(Request $request)
+    public function index(Index{{ $modelBaseName }} $request)
     {
-        // TODO add authorization
-
-        // TODO params validation (filter/search/pagination/ordering) - maybe extract as a Request?
-
         // create and AdminListing instance for a specific model and
         $data = AdminListing::instance({{ $modelBaseName }}::class)->processRequestAndGet(
             // pass the request with params
@@ -58,17 +56,17 @@ class {{ $controllerBaseName }} extends Controller
      */
     public function create()
     {
-        // TODO add authorization
+        $this->authorize('admin.{{ $modelDotNotation }}.create');
 
+@if (count($relations) && count($relations['belongsToMany']))
         return view('admin.{{ $modelDotNotation }}.create',[
-@if (count($relations))
-@if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
             '{{ $belongsToMany['related_table'] }}' => {{ $belongsToMany['related_model_name'] }}::all(),
 @endforeach
-@endif
-@endif
         ]);
+@else
+        return view('admin.{{ $modelDotNotation }}.create');
+@endif
     }
 
     /**
@@ -91,9 +89,9 @@ class {{ $controllerBaseName }} extends Controller
         // But we do have a {{ $belongsToMany['related_table'] }}, so we need to attach the {{ $belongsToMany['related_table'] }} to the {{ $modelVariableName }}
         ${{ $modelVariableName }}->{{ $belongsToMany['related_table'] }}()->sync($request->input('{{ $belongsToMany['related_table'] }}', []));
 @endforeach
-@endif
-@endif
 
+@endif
+@endif
         if ($request->ajax()) {
             return ['redirect' => url('admin/{{ $modelViewsDirectory }}')];
         }
@@ -110,7 +108,7 @@ class {{ $controllerBaseName }} extends Controller
      */
     public function show({{ $modelBaseName }} ${{ $modelVariableName }})
     {
-        // TODO add authorization
+        $this->authorize('admin.{{ $modelDotNotation }}.show', ['{{ $modelVariableName }}' => ${{ $modelVariableName }}]);
 
         // TODO your code goes here
     }
@@ -123,16 +121,16 @@ class {{ $controllerBaseName }} extends Controller
      */
     public function edit({{ $modelBaseName }} ${{ $modelVariableName }})
     {
-        // TODO add authorization
+        $this->authorize('admin.{{ $modelDotNotation }}.edit', ['{{ $modelVariableName }}' => ${{ $modelVariableName }}]);
 
 @if (count($relations))
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
         ${{ $modelVariableName }}->load('{{ $belongsToMany['related_table'] }}');
 @endforeach
-@endif
-@endif
 
+@endif
+@endif
         return view('admin.{{ $modelDotNotation }}.edit', [
             '{{ $modelVariableName }}' => ${{ $modelVariableName }},
 @if (count($relations))
@@ -166,9 +164,9 @@ class {{ $controllerBaseName }} extends Controller
         // But we do have a {{ $belongsToMany['related_table'] }}, so we need to attach the {{ $belongsToMany['related_table'] }} to the {{ $modelVariableName }}
         ${{ $modelVariableName }}->{{ $belongsToMany['related_table'] }}()->sync($request->input('{{ $belongsToMany['related_table'] }}', []));
 @endforeach
-@endif
-@endif
 
+@endif
+@endif
         if ($request->ajax()) {
             return ['redirect' => url('admin/{{ $modelViewsDirectory }}')];
         }
@@ -180,14 +178,12 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * {{'@'}}param  Request $request
+     * {{'@'}}param  Destroy{{ $modelBaseName }} $request
      * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}return Response|bool
      */
-    public function destroy(Request $request, {{ $modelBaseName }} ${{ $modelVariableName }})
+    public function destroy(Destroy{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
-        // TODO add authorization
-
         ${{ $modelVariableName }}->delete();
 
         if ($request->ajax()) {

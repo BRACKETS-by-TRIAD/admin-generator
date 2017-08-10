@@ -30,7 +30,7 @@ class Store{{ $modelBaseName }} extends FormRequest
      */
     public function authorize()
     {
-        return Gate::allows('admin.store.{{ $modelDotNotation }}');
+        return Gate::allows('admin.{{ $modelDotNotation }}.create');
     }
 
 @if($translatable->count() > 0)/**
