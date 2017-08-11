@@ -21,7 +21,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 @if($hasRoles)use Spatie\Permission\Traits\HasRoles;
 @endif
-@if($translatable->count() > 0)use Spatie\Translatable\HasTranslations;
+@if($translatable->count() > 0)use Brackets\Admin\Traits\HasTranslations;
 @endif
 
 class {{ $modelBaseName }} extends Authenticatable implements CanActivateContract

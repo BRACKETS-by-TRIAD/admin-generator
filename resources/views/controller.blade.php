@@ -108,7 +108,7 @@ class {{ $controllerBaseName }} extends Controller
      */
     public function show({{ $modelBaseName }} ${{ $modelVariableName }})
     {
-        $this->authorize('admin.{{ $modelDotNotation }}.show', ['{{ $modelVariableName }}' => ${{ $modelVariableName }}]);
+        $this->authorize('admin.{{ $modelDotNotation }}.show', ${{ $modelVariableName }});
 
         // TODO your code goes here
     }
@@ -121,7 +121,7 @@ class {{ $controllerBaseName }} extends Controller
      */
     public function edit({{ $modelBaseName }} ${{ $modelVariableName }})
     {
-        $this->authorize('admin.{{ $modelDotNotation }}.edit', ['{{ $modelVariableName }}' => ${{ $modelVariableName }}]);
+        $this->authorize('admin.{{ $modelDotNotation }}.edit', ${{ $modelVariableName }});
 
 @if (count($relations))
 @if (count($relations['belongsToMany']))

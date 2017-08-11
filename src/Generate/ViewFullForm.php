@@ -116,7 +116,7 @@ class ViewFullForm extends ViewGenerator {
             $this->files->put($formJsPath, $this->buildFormJs());
             $this->info('Generating '.$formJsPath.' finished');
 
-            if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "require('./".$this->formJsRelativePath."/Form')\n")){
+            if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "\nrequire('./".$this->formJsRelativePath."/Form')\n")){
                 $this->info('Appending Form to '.$bootstrapJsPath.' finished');
             }
         }

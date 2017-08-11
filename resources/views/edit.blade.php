@@ -6,13 +6,17 @@
 
         <div class="card">
 
-            <{{ $modelJSName }}-form
+            @if($hasTranslatable)<{{ $modelJSName }}-form
+                :action="'{{'{{'}} route('admin/{{ $modelViewsDirectory }}/update', ['{{ $modelVariableName }}' => ${{ $modelVariableName }}]) }}'"
+                :data="{{'{{'}} ${{ $modelVariableName }}->toJsonAllLocales() }}"
+                :locales="@{{ json_encode($locales) }}"
+                :send-empty-locales="false"
+                inline-template>
+            @else<{{ $modelJSName }}-form
                 :action="'{{'{{'}} route('admin/{{ $modelViewsDirectory }}/update', ['{{ $modelVariableName }}' => ${{ $modelVariableName }}]) }}'"
                 :data="{{'{{'}} ${{ $modelVariableName }}->toJson() }}"
-                @if($hasTranslatable):locales="@{{ json_encode($locales) }}"
-                :send-empty-locales="false"@endif
-
                 inline-template>
+            @endif
 
                 <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
 
