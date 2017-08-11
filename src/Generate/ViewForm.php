@@ -20,20 +20,65 @@ class ViewForm extends ViewGenerator {
     protected $description = 'Generate create and edit view templates';
 
     /**
+     * Path for create view
+     *
+     * @var string
+     */
+    protected $create = 'create';
+
+    /**
+     * Path for edit view
+     *
+     * @var string
+     */
+    protected $edit = 'edit';
+
+    /**
+     * Path for form view
+     *
+     * @var string
+     */
+    protected $form = 'form';
+
+    /**
+     * Path for js view
+     *
+     * @var string
+     */
+    protected $formJs = 'form-js';
+
+    /**
      * Execute the console command.
      *
      * @return mixed
      */
     public function fire()
     {
+        $force = $this->option('force');
+
+        //TODO check if exists
+        //TODO make global for all generator
+        //TODO also with prefix
+        if(!empty($template = $this->option('template'))) {
+            $this->create = 'templates.'.$template.'.create';
+            $this->edit = 'templates.'.$template.'.edit';
+            $this->form = 'templates.'.$template.'.form';
+            $this->formJs = 'templates.'.$template.'.form-js';
+        }
+
         if(!empty($belongsToMany = $this->option('belongs-to-many'))) {
             $this->setBelongToManyRelation($belongsToMany);
         }
 
         $viewPath = resource_path('views/admin/'.$this->modelViewsDirectory.'/components/form-elements.blade.php');
-        if ($this->alreadyExists($viewPath)) {
+        if ($this->alreadyExists($viewPath) && !$force) {
             $this->error('File '.$viewPath.' already exists!');
         } else {
+            if ($this->alreadyExists($viewPath) && $force) {
+                $this->warn('File '.$viewPath.' already exists! File will be deleted.');
+                $this->files->delete($viewPath);
+            }
+
             $this->makeDirectory($viewPath);
 
             $this->files->put($viewPath, $this->buildForm());
@@ -42,9 +87,14 @@ class ViewForm extends ViewGenerator {
         }
 
         $viewPath = resource_path('views/admin/'.$this->modelViewsDirectory.'/create.blade.php');
-        if ($this->alreadyExists($viewPath)) {
+        if ($this->alreadyExists($viewPath) && !$force) {
             $this->error('File '.$viewPath.' already exists!');
         } else {
+            if ($this->alreadyExists($viewPath) && $force) {
+                $this->warn('File '.$viewPath.' already exists! File will be deleted.');
+                $this->files->delete($viewPath);
+            }
+
             $this->makeDirectory($viewPath);
 
             $this->files->put($viewPath, $this->buildCreate());
@@ -54,9 +104,14 @@ class ViewForm extends ViewGenerator {
 
 
         $viewPath = resource_path('views/admin/'.$this->modelViewsDirectory.'/edit.blade.php');
-        if ($this->alreadyExists($viewPath)) {
+        if ($this->alreadyExists($viewPath) && !$force) {
             $this->error('File '.$viewPath.' already exists!');
         } else {
+            if ($this->alreadyExists($viewPath) && $force) {
+                $this->warn('File '.$viewPath.' already exists! File will be deleted.');
+                $this->files->delete($viewPath);
+            }
+
             $this->makeDirectory($viewPath);
 
             $this->files->put($viewPath, $this->buildEdit());
@@ -67,9 +122,14 @@ class ViewForm extends ViewGenerator {
         $formJsPath = resource_path('assets/js/admin/'.$this->modelJSName.'/Form.js');
         $bootstrapJsPath = resource_path('assets/js/admin/bootstrap.js');
 
-        if ($this->alreadyExists($formJsPath)) {
+        if ($this->alreadyExists($formJsPath) && !$force) {
             $this->error('File '.$formJsPath.' already exists!');
         } else {
+            if ($this->alreadyExists($formJsPath) && $force) {
+                $this->warn('File '.$formJsPath.' already exists! File will be deleted.');
+                $this->files->delete($formJsPath);
+            }
+
             $this->makeDirectory($formJsPath);
 
             $this->files->put($formJsPath, $this->buildFormJs());
@@ -84,19 +144,25 @@ class ViewForm extends ViewGenerator {
 
     protected function buildForm() {
 
-        return view('brackets/admin-generator::form', [
+        return view('brackets/admin-generator::'.$this->form, [
             'modelBaseName' => $this->modelBaseName,
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
             'modelPlural' => $this->modelPlural,
 
-            'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
+            'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName)->sortByDesc(function($column) {
+                return $column['type'] == "json";
+            }),
+            'hasTranslatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return $column['type'] == "json";
+            })->count() > 0,
+            'translatableTextarea' => ['perex', 'text'],
             'relations' => $this->relations,
         ])->render();
     }
 
     protected function buildCreate() {
 
-        return view('brackets/admin-generator::create', [
+        return view('brackets/admin-generator::'.$this->create, [
             'modelBaseName' => $this->modelBaseName,
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
             'modelVariableName' => $this->modelVariableName,
@@ -106,12 +172,15 @@ class ViewForm extends ViewGenerator {
             'modelJSName' => $this->modelJSName,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
+            'hasTranslatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return $column['type'] == "json";
+            })->count() > 0,
         ])->render();
     }
 
     protected function buildEdit() {
 
-        return view('brackets/admin-generator::edit', [
+        return view('brackets/admin-generator::'.$this->edit, [
             'modelBaseName' => $this->modelBaseName,
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
             'modelVariableName' => $this->modelVariableName,
@@ -121,13 +190,20 @@ class ViewForm extends ViewGenerator {
             'modelJSName' => $this->modelJSName,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
+            'hasTranslatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return $column['type'] == "json";
+            })->count() > 0,
         ])->render();
     }
 
     protected function buildFormJs() {
-        return view('brackets/admin-generator::form-js', [
+        return view('brackets/admin-generator::'.$this->formJs, [
             'modelViewsDirectory' => $this->modelViewsDirectory,
             'modelJSName' => $this->modelJSName,
+
+            'translatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return $column['type'] == "json";
+            })->pluck('name'),
         ])->render();
     }
 
@@ -135,6 +211,8 @@ class ViewForm extends ViewGenerator {
         return [
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
             ['belongs-to-many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
+            ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
+            ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating form'],
         ];
     }
 

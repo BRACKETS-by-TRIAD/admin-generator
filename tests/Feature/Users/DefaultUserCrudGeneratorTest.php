@@ -13,8 +13,10 @@ class DefaultUserCrudGeneratorTest extends UserTestCase
     /** @test */
     function all_files_should_be_generated_under_default_namespace(){
         $controllerPath = base_path('App/Http/Controllers/Admin/UsersController.php');
+        $indexRequestPath = base_path('App/Http/Requests/Admin/User/IndexUser.php');
         $storePath = base_path('App/Http/Requests/Admin/User/StoreUser.php');
         $updatePath = base_path('App/Http/Requests/Admin/User/UpdateUser.php');
+        $destroyPath = base_path('App/Http/Requests/Admin/User/DestroyUser.php');
         $routesPath = base_path('routes/web.php');
         $indexPath = resource_path('views/admin/user/index.blade.php');
         $indexJsPath = resource_path('assets/js/admin/user/Listing.js');
@@ -25,8 +27,10 @@ class DefaultUserCrudGeneratorTest extends UserTestCase
         $factoryPath = base_path('database/factories/ModelFactory.php');
 
         $this->assertFileNotExists($controllerPath);
+        $this->assertFileNotExists($indexRequestPath);
         $this->assertFileNotExists($storePath);
         $this->assertFileNotExists($updatePath);
+        $this->assertFileNotExists($destroyPath);
         $this->assertFileNotExists($indexPath);
         $this->assertFileNotExists($indexJsPath);
         $this->assertFileNotExists($elementsPath);
@@ -38,8 +42,10 @@ class DefaultUserCrudGeneratorTest extends UserTestCase
         $this->artisan('admin:generate:user');
 
         $this->assertFileExists($controllerPath);
+        $this->assertFileExists($indexRequestPath);
         $this->assertFileExists($storePath);
         $this->assertFileExists($updatePath);
+        $this->assertFileExists($destroyPath);
         $this->assertFileExists($indexPath);
         $this->assertFileExists($indexJsPath);
         $this->assertFileExists($elementsPath);
@@ -51,8 +57,10 @@ class DefaultUserCrudGeneratorTest extends UserTestCase
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \Illuminate\Http\Response;
+use App\Http\Requests\Admin\User\IndexUser;
 use App\Http\Requests\Admin\User\StoreUser;
 use App\Http\Requests\Admin\User\UpdateUser;
+use App\Http\Requests\Admin\User\DestroyUser;
 use Brackets\Admin\AdminListing;
 use App\Models\User;
 use Illuminate\Support\Facades\Config;
@@ -67,16 +75,31 @@ class UsersController extends Controller', File::get($controllerPath));
 use Illuminate\Foundation\Http\FormRequest;
 use Gate;
 
+class IndexUser extends FormRequest
+{', File::get($indexRequestPath));
+        $this->assertStringStartsWith('<?php namespace App\Http\Requests\Admin\User;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Gate;
+use Illuminate\Validation\Rule;
+
 class StoreUser extends FormRequest
 {', File::get($storePath));
         $this->assertStringStartsWith('<?php namespace App\Http\Requests\Admin\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Gate;
-use App\Models\User;
+use Illuminate\Validation\Rule;
 
 class UpdateUser extends FormRequest
 {', File::get($updatePath));
+        $this->assertStringStartsWith('<?php namespace App\Http\Requests\Admin\User;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Gate;
+
+class DestroyUser extends FormRequest
+{', File::get($destroyPath));
         $this->assertStringStartsWith('<?php
 
 

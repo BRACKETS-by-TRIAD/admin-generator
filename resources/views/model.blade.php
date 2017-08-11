@@ -17,12 +17,16 @@ use Illuminate\Database\Eloquent\Model;
 @endif
 @if($hasRoles)use Spatie\Permission\Traits\HasRoles;
 @endif
+@if($translatable->count() > 0)use Brackets\Admin\Traits\HasTranslations;
+@endif
 
 class {{ $modelBaseName }} extends Model
 {
     @if($hasSoftDelete)use SoftDeletes;
     @endif
 @if($hasRoles)use HasRoles;
+@endif
+@if($translatable->count() > 0)use HasTranslations;
 @endif
 
     @if (!is_null($tableName))protected $table = '{{ $tableName }}';
@@ -47,6 +51,15 @@ class {{ $modelBaseName }} extends Model
     @if ($dates)protected $dates = [
     @foreach($dates as $date)
     "{{ $date }}",
+    @endforeach
+
+    ];
+    @endif
+
+    @if ($translatable->count() > 0)// these attributes are translatable
+    public $translatable = [
+    @foreach($translatable as $translatableField)
+    "{{ $translatableField }}",
     @endforeach
 
     ];

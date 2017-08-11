@@ -60,7 +60,7 @@ class ProfileController extends Controller
 
         // Validate the request
         $this->validate($request, [
-            @foreach($columnsProfile as $column)'{{ $column['name'] }}' => '{!! implode('|', (array) $column['serverUpdateRules']) !!}',
+            @foreach($columnsProfile as $column)'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverUpdateRules']) !!}],
             @endforeach
 
         ]);
@@ -117,7 +117,7 @@ class ProfileController extends Controller
 
         // Validate the request
         $this->validate($request, [
-            @foreach($columnsPassword as $column)'{{ $column['name'] }}' => '{!! implode('|', (array) $column['serverUpdateRules']) !!}',
+            @foreach($columnsPassword as $column)'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverUpdateRules']) !!}],
             @endforeach
 
         ]);

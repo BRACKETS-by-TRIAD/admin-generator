@@ -9,6 +9,9 @@
             <{{ $modelJSName }}-form
                 :action="'{{'{{'}} route('{{ $route }}') }}'"
                 :data="{{'{{'}} ${{ $modelVariableName }}->toJson() }}"
+                @if($hasTranslatable):locales="@{{ json_encode($locales) }}"
+                :send-empty-locales="false"@endif
+
                 inline-template>
 
                 <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">

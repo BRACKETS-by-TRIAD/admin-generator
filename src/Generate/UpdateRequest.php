@@ -25,7 +25,9 @@ class UpdateRequest extends ClassGenerator {
      */
     public function fire()
     {
-        if ($this->generateClass()){
+        $force = $this->option('force');
+
+        if ($this->generateClass($force)){
             $this->info('Generating '.$this->classFullName.' finished');
         }
     }
@@ -38,15 +40,23 @@ class UpdateRequest extends ClassGenerator {
             'modelWithNamespaceFromDefault' => $this->modelWithNamespaceFromDefault,
             'modelVariableName' => $this->modelVariableName,
             'modelFullName' => $this->modelFullName,
+            'tableName' => $this->tableName,
 
             // validation in store/update
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
+            'translatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return $column['type'] == "json";
+            })->pluck('name'),
+            'hasSoftDelete' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return $column['name'] == "deleted_at";
+            })->count() > 0,
         ])->render();
     }
 
     protected function getOptions() {
         return [
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
+            ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating request'],
         ];
     }
 

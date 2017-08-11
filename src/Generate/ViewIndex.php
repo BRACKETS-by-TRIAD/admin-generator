@@ -40,6 +40,7 @@ class ViewIndex extends ViewGenerator {
      */
     public function fire()
     {
+        $force = $this->option('force');
 
         //TODO check if exists
         //TODO make global for all generator
@@ -53,9 +54,14 @@ class ViewIndex extends ViewGenerator {
         $listingJsPath = resource_path('assets/js/admin/'.$this->modelJSName.'/Listing.js');
         $bootstrapJsPath = resource_path('assets/js/admin/bootstrap.js');
 
-        if ($this->alreadyExists($viewPath)) {
+        if ($this->alreadyExists($viewPath) && !$force) {
             $this->error('File '.$viewPath.' already exists!');
         } else {
+            if ($this->alreadyExists($viewPath) && $force) {
+                $this->warn('File '.$viewPath.' already exists! File will be deleted.');
+                $this->files->delete($viewPath);
+            }
+
             $this->makeDirectory($viewPath);
 
             $this->files->put($viewPath, $this->buildView());
@@ -64,9 +70,14 @@ class ViewIndex extends ViewGenerator {
         }
 
 
-        if ($this->alreadyExists($listingJsPath)) {
+        if ($this->alreadyExists($listingJsPath && !$force)) {
             $this->error('File '.$listingJsPath.' already exists!');
         } else {
+            if ($this->alreadyExists($listingJsPath) && $force) {
+                $this->warn('File '.$listingJsPath.' already exists! File will be deleted.');
+                $this->files->delete($listingJsPath);
+            }
+
             $this->makeDirectory($listingJsPath);
 
             $this->files->put($listingJsPath, $this->buildListingJs());
@@ -124,6 +135,7 @@ class ViewIndex extends ViewGenerator {
         return [
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
+            ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating index'],
         ];
     }
 

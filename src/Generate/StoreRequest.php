@@ -25,7 +25,9 @@ class StoreRequest extends ClassGenerator {
      */
     public function fire()
     {
-        if ($this->generateClass()){
+        $force = $this->option('force');
+
+        if ($this->generateClass($force)){
             $this->info('Generating '.$this->classFullName.' finished');
         }
     }
@@ -36,15 +38,20 @@ class StoreRequest extends ClassGenerator {
             'modelBaseName' => $this->modelBaseName,
             'modelDotNotation' => $this->modelDotNotation,
             'modelWithNamespaceFromDefault' => $this->modelWithNamespaceFromDefault,
+            'tableName' => $this->tableName,
 
             // validation in store/update
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
+            'translatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return $column['type'] == "json";
+            })->pluck('name'),
         ])->render();
     }
 
     protected function getOptions() {
         return [
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
+            ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating request'],
         ];
     }
 

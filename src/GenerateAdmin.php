@@ -32,10 +32,12 @@ class GenerateAdmin extends Command {
         $tableNameArgument = $this->argument('table_name');
         $modelOption = $this->option('model-name');
         $controllerOption = $this->option('controller-name');
+        $force = $this->option('force');
 
         $this->call('admin:generate:model', [
             'table_name' => $tableNameArgument,
             'class_name' => $modelOption,
+            '--force' => $force,
         ]);
 
         $this->call('admin:generate:factory', [
@@ -48,26 +50,31 @@ class GenerateAdmin extends Command {
             'table_name' => $tableNameArgument,
             'class_name' => $controllerOption,
             '--model-name' => $modelOption,
+            '--force' => $force,
         ]);
 
         $this->call('admin:generate:request:index', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
+            '--force' => $force,
         ]);
 
         $this->call('admin:generate:request:store', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
+            '--force' => $force,
         ]);
 
         $this->call('admin:generate:request:update', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
+            '--force' => $force,
         ]);
 
         $this->call('admin:generate:request:destroy', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
+            '--force' => $force,
         ]);
 
         $this->call('admin:generate:routes', [
@@ -79,11 +86,13 @@ class GenerateAdmin extends Command {
         $this->call('admin:generate:index', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
+            '--force' => $force,
         ]);
 
         $this->call('admin:generate:form', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
+            '--force' => $force,
         ]);
 
         $this->info('Generating whole admin finished');
@@ -101,6 +110,7 @@ class GenerateAdmin extends Command {
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
             ['controller-name', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
             ['seed', 's', InputOption::VALUE_NONE, 'Seeds the table with fake data'],
+            ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating admin'],
         ];
     }
 
