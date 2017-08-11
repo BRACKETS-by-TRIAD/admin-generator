@@ -101,7 +101,7 @@ class {{ $controllerBaseName }} extends Controller
         }
 
         return redirect('admin/{{ $modelViewsDirectory }}')
-            ->withSuccess("Created");
+            ->withSuccess(__('{{ $modelBaseName }} was created'));
     }
 
     /**
@@ -180,7 +180,7 @@ class {{ $controllerBaseName }} extends Controller
         }
 
         return redirect('admin/{{ $modelViewsDirectory }}')
-            ->withSuccess("Updated");
+            ->withSuccess(__('{{ $modelBaseName }} was updated'));
     }
 
     /**
@@ -199,6 +199,6 @@ class {{ $controllerBaseName }} extends Controller
         }
 
         return redirect()->back()
-            ->withSuccess("Deleted");
+            ->withSuccess(__('{{ $modelBaseName }} was deleted'));
     }
 }
