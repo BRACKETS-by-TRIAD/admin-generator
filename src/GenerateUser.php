@@ -114,6 +114,7 @@ class GenerateUser extends Command {
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
             '--belongs-to-many' => 'roles',
+            '--template' => 'user',
         ]);
 
         $this->call('admin:generate:factory', [
