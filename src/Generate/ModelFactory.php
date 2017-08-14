@@ -64,6 +64,8 @@ class ModelFactory extends FileAppender {
                         $type = '$faker->randomFloat';
                     } elseif ($col['name'] == 'title') {
                         $type = '$faker->sentence';
+                    } elseif ($col['name'] == 'email') {
+                        $type = '$faker->email';
                     } elseif ($col['name'] == 'name' || $col['name'] == 'first_name') {
                         $type = '$faker->firstName';
                     } elseif ($col['name'] == 'surname' || $col['name'] == 'last_name') {
