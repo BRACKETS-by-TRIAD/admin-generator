@@ -43,6 +43,7 @@ class GenerateAdmin extends Command {
         $this->call('admin:generate:factory', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
+            '--seed' => $this->option('seed'),
         ]);
 
         $this->call('admin:generate:controller', [
@@ -55,6 +56,7 @@ class GenerateAdmin extends Command {
         $this->call('admin:generate:request:index', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
+            '--force' => $force,
         ]);
 
         $this->call('admin:generate:request:store', [
@@ -72,6 +74,7 @@ class GenerateAdmin extends Command {
         $this->call('admin:generate:request:destroy', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
+            '--force' => $force,
         ]);
 
         $this->call('admin:generate:routes', [
@@ -92,11 +95,6 @@ class GenerateAdmin extends Command {
             '--force' => $force,
         ]);
 
-        if ($this->option('seed')) {
-            $this->info('Seeding testing data');
-            factory($this->modelFullName, 20)->create();
-        }
-
         $this->info('Generating whole admin finished');
 
     }
@@ -111,8 +109,8 @@ class GenerateAdmin extends Command {
         return [
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
             ['controller-name', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
+            ['seed', 's', InputOption::VALUE_NONE, 'Seeds the table with fake data'],
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating admin'],
-            ['seed', 's', InputOption::VALUE_NONE, 'Seeds table with fake data'],
         ];
     }
 

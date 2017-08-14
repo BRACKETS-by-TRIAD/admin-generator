@@ -25,7 +25,9 @@ class DestroyRequest extends ClassGenerator {
      */
     public function fire()
     {
-        if ($this->generateClass()){
+        $force = $this->option('force');
+
+        if ($this->generateClass($force)){
             $this->info('Generating '.$this->classFullName.' finished');
         }
     }
@@ -43,6 +45,7 @@ class DestroyRequest extends ClassGenerator {
     protected function getOptions() {
         return [
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
+            ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating request'],
         ];
     }
 

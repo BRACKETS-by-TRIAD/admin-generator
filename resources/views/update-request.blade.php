@@ -30,7 +30,7 @@ class Update{{ $modelBaseName }} extends FormRequest
      */
     public function authorize()
     {
-        return Gate::allows('admin.{{ $modelDotNotation }}.edit', ['{{ $modelVariableName }}' => $this->{{ $modelVariableName }}]);
+        return Gate::allows('admin.{{ $modelDotNotation }}.edit', $this->{{ $modelVariableName }});
     }
 
 @if($translatable->count() > 0)/**

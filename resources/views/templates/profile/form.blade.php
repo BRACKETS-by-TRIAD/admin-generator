@@ -13,6 +13,18 @@
                                 <div v-if="errors.has('{{ $col['name'] }}_confirmation')" class="form-control-feedback" v-cloak>{{'@{{'}} errors.first('{{ $col['name'] }}') }}</div>
                             </div>
                         </div>
+                        @elseif($col['name'] == 'language')<div class="form-group row" :class="{'has-danger': errors.has('{{ $col['name'] }}'), 'has-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid }">
+                            <label for="{{ $col['name'] }}" class="col-md-3 col-form-label text-md-right">{{ ucfirst($col['name']) }}</label>
+                            <div class="col-md-9 col-xl-8">
+                                <select v-model="form.{{ $col['name'] }}" v-validate="'required'" class="form-control" :class="{'form-control-danger': errors.has('{{ $col['name'] }}'), 'form-control-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid}" id="{{ $col['name'] }}" name="{{ $col['name'] }}">
+                                    @@foreach  ($locales as $locale)
+                                        @php echo '<option value="@{{ $locale }}"@{{ $locale == old(\''.$col['name'].'\', \'\') ? \' selected="selected"\' : null }}>@{{ $locale }}</option>'; @endphp
+
+                                        @@endforeach
+                                </select>
+                                <div v-if="errors.has('{{ $col['name'] }}')" class="form-control-feedback" v-cloak>@@{{ errors.first('@php echo $col['name']; @endphp') }}</div>
+                            </div>
+                        </div>
                         @elseif($col['type'] == 'date')<div class="form-group row" :class="{'has-danger': errors.has('{{ $col['name'] }}'), 'has-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid }">
                             <label for="{{ $col['name'] }}" class="col-md-3 col-form-label text-md-right">{{ ucfirst($col['name']) }}</label>
                             <div class="col-sm-6">

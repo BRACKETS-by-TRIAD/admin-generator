@@ -110,7 +110,7 @@ class ViewIndex extends ViewGenerator {
                         $filters->push($col['type']);
                     }
 
-                    if ($col['name'] == 'enabled' || $col['name'] == 'activated') {
+                    if ($col['type'] == 'boolean' && ($col['name'] == 'enabled' || $col['name'] == 'activated' || $col['name'] == 'is_published')) {
                         $col['switch'] = true;
                     }
 

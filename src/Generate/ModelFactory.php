@@ -30,6 +30,11 @@ class ModelFactory extends FileAppender {
         if ($this->appendIfNotAlreadyAppended(base_path('database/factories/ModelFactory.php'), $this->buildClass())){
             $this->info('Appending '.$this->modelBaseName.' model to ModelFactory finished');
         }
+
+        if ($this->option('seed')) {
+            $this->info('Seeding testing data');
+            factory($this->modelFullName , 50)->create();
+        }
     }
 
     protected function buildClass() {
@@ -89,6 +94,7 @@ class ModelFactory extends FileAppender {
     protected function getOptions() {
         return [
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
+            ['seed', 's', InputOption::VALUE_OPTIONAL, 'Seeds the table with fake data'],
         ];
     }
 

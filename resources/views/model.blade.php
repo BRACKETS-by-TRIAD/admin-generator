@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 @endif
 @if($hasRoles)use Spatie\Permission\Traits\HasRoles;
 @endif
-@if($translatable->count() > 0)use Spatie\Translatable\HasTranslations;
+@if($translatable->count() > 0)use Brackets\Admin\Traits\HasTranslations;
 @endif
 
 class {{ $modelBaseName }} extends Model

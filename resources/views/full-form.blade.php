@@ -6,13 +6,17 @@
 
         <div class="card">
 
-            <{{ $modelJSName }}-form
-                :action="'{{'{{'}} route('{{ $route }}', ['{{ $modelVariableName }}' => ${{ $modelVariableName }}]) }}'"
-                :data="{{'{{'}} ${{ $modelVariableName }}->toJson() }}"
-                @if($hasTranslatable):locales="@{{ json_encode($locales) }}"
-                :send-empty-locales="false"@endif
-
-                inline-template>
+            @if($hasTranslatable)<{{ $modelJSName }}-form
+            :action="'{{'{{'}} route('{{ $route }}', ['{{ $modelVariableName }}' => ${{ $modelVariableName }}]) }}'"
+            :data="{{'{{'}} ${{ $modelVariableName }}->toJsonAllLocales() }}"
+            :locales="@{{ json_encode($locales) }}"
+            :send-empty-locales="false"
+            inline-template>
+            @else<{{ $modelJSName }}-form
+            :action="'{{'{{'}} route('{{ $route }}', ['{{ $modelVariableName }}' => ${{ $modelVariableName }}]) }}'"
+            :data="{{'{{'}} ${{ $modelVariableName }}->toJson() }}"
+            inline-template>
+            @endif
 
                 <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
 
