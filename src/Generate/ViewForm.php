@@ -64,7 +64,7 @@ class ViewForm extends ViewGenerator {
             $this->info('Generating '.$viewPath.' finished');
         }
 
-        $formJsPath = resource_path('assets/admin/js'.$this->modelJSName.'/Form.js');
+        $formJsPath = resource_path('assets/admin/js/'.$this->modelJSName.'/Form.js');
         $bootstrapJsPath = resource_path('assets/admin/js/index.js');
 
         if ($this->alreadyExists($formJsPath)) {
