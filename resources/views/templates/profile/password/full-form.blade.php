@@ -14,7 +14,7 @@
                 <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
 
                     <div class="card-header">
-                        <i class="fa fa-plus"></i> Edit Password
+                        <i class="fa fa-pencil"></i> Edit Password
                     </div>
 
                     <div class="card-block">

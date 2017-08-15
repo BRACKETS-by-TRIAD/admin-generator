@@ -17,7 +17,7 @@
                 <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
 
                     <div class="card-header">
-                        <i class="fa fa-plus"></i> Edit Profile
+                        <i class="fa fa-pencil"></i> Edit Profile
                     </div>
 
                     <div class="card-block">

@@ -21,7 +21,7 @@
                 <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
 
                     <div class="card-header">
-                        <i class="fa fa-plus"></i> Edit the {{ $modelBaseName }}
+                        <i class="fa fa-pencil"></i> Edit the {{ $modelBaseName }}
                     </div>
 
                     <div class="card-block">
