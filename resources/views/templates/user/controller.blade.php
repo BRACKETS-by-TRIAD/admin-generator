@@ -40,7 +40,7 @@ class {{ $controllerBaseName }} extends Controller
     public function index(Index{{ $modelBaseName }} $request)
     {
         // create and AdminListing instance for a specific model and
-        $data = AdminListing::instance({{ $modelBaseName }}::class)->processRequestAndGet(
+        $data = AdminListing::create({{ $modelBaseName }}::class)->processRequestAndGet(
             // pass the request with params
             $request,
 
