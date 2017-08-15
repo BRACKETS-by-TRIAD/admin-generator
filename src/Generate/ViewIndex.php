@@ -83,7 +83,7 @@ class ViewIndex extends ViewGenerator {
             $this->files->put($listingJsPath, $this->buildListingJs());
             $this->info('Generating '.$listingJsPath.' finished');
 
-            if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "require('./".$this->modelJSName."/Listing')\n")){
+            if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "\nrequire('./".$this->modelJSName."/Listing')\n")){
                 $this->info('Appending Listing to '.$bootstrapJsPath.' finished');
             };
         }
