@@ -52,10 +52,10 @@ class {{ $controllerBaseName }} extends Controller
         );
 
         if ($request->ajax()) {
-            return ['data' => $data];
+            return ['data' => $data, 'activation' => Config::get('admin-auth.activations.enabled')];
         }
 
-        return view('admin.{{ $modelDotNotation }}.index', ['data' => $data]);
+        return view('admin.{{ $modelDotNotation }}.index', ['data' => $data, 'activation' => Config::get('admin-auth.activations.enabled')]);
 
     }
 
@@ -70,6 +70,7 @@ class {{ $controllerBaseName }} extends Controller
 
 @if (count($relations))
         return view('admin.{{ $modelDotNotation }}.create',[
+            'activation' => Config::get('admin-auth.activations.enabled'),
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
             '{{ $belongsToMany['related_table'] }}' => {{ $belongsToMany['related_model_name'] }}::all(),
@@ -148,6 +149,7 @@ class {{ $controllerBaseName }} extends Controller
 @endif
         return view('admin.{{ $modelDotNotation }}.edit', [
             '{{ $modelVariableName }}' => ${{ $modelVariableName }},
+            'activation' => Config::get('admin-auth.activations.enabled'),
 @if (count($relations))
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
@@ -226,26 +228,26 @@ class {{ $controllerBaseName }} extends Controller
             $response = $activationService->handle(${{ $modelVariableName }});
             if($response == Activation::ACTIVATION_LINK_SENT) {
                 if ($request->ajax()) {
-                    return ['notify' => ['type' => 'success', 'title' => 'Success!', 'message' => 'Activaton e-mail has been send.']];
+                    return ['notify' => ['type' => 'success', 'title' => 'Success!', 'message' => 'Activation e-mail has been send.']];
                 }
 
                 return redirect()->back()
-                    ->withSuccess("Activaton e-mail has been send.");
+                    ->withSuccess("Activation e-mail has been send.");
             } else {
                 if ($request->ajax()) {
-                    return ['notify' => ['type' => 'danger', 'title' => 'Failed!', 'message' => 'Activaton e-mail send failed.']];
+                    return ['notify' => ['type' => 'danger', 'title' => 'Failed!', 'message' => 'Activation e-mail send failed.']];
                 }
 
                 return redirect()->back()
-                    ->withSuccess("Activaton e-mail send failed.");
+                    ->withSuccess("Activation e-mail send failed.");
             }
         } else {
             if ($request->ajax()) {
-                return ['notify' => ['type' => 'danger', 'title' => 'Failed!', 'message' => 'Activaton not allowed.']];
+                return ['notify' => ['type' => 'danger', 'title' => 'Failed!', 'message' => 'Activation not allowed.']];
             }
 
             return redirect()->back()
-                ->withSuccess("Activaton not allowed.");
+                ->withSuccess("Activation not allowed.");
         }
     }
     @endif
@@ -259,6 +261,10 @@ class {{ $controllerBaseName }} extends Controller
     */
     protected function modifyInputData($data, $edit = false)
     {
+        //TODO: is this ok?
+        if(!Config::get('admin-auth.activations.enabled')) {
+            $data['activated'] = true;
+        }
         if (array_key_exists('password', $data) && empty($data['password']) && $edit) {
             unset($data['password']);
         }

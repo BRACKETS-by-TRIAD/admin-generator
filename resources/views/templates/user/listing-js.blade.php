@@ -16,5 +16,11 @@ Vue.component('{{ $modelJSName }}-listing', {
                 }
             );
         }
+    },
+    props: {
+        'activation': {
+            type: Boolean,
+            required: true
+        },
     }
 });

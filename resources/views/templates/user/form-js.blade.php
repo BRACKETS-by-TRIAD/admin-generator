@@ -11,6 +11,11 @@ Vue.component('{{ $modelJSName }}-form', {
             }
         }
     }
-    @endif
-
+    @endif,
+    props: {
+        'activation': {
+            type: Boolean,
+            required: true
+        },
+    }
 });

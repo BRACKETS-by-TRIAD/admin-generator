@@ -8,6 +8,7 @@
 
             <{{ $modelJSName }}-form
                 :action="'{{'{{'}} url('admin/{{ $modelViewsDirectory }}/store') }}'"
+                :activation="!!'@{{ $activation }}'"
                 @if($hasTranslatable):locales="@{{ json_encode($locales) }}"
                 :send-empty-locales="false"@endif
 
