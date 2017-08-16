@@ -47,11 +47,11 @@ class Routes extends FileAppender {
 
     protected function buildClass() {
 
-        return view('brackets/admin-generator::'.$this->view, [
+        return preg_replace('/\r\n/', "\n", view('brackets/admin-generator::'.$this->view, [
             'controllerPartiallyFullName' => $this->controllerWithNamespaceFromDefault,
             'modelVariableName' => $this->modelVariableName,
             'modelViewsDirectory' => $this->modelViewsDirectory,
-        ])->render();
+        ])->render());
     }
 
     protected function getOptions() {
