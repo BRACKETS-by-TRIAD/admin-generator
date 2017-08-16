@@ -55,7 +55,7 @@
                                             <span class="switch-label"></span>
                                             <span class="switch-handle"></span>
                                         </label>
-                                    @else{{'@{{'}} item.{{ $col['name'] }}{{ $col['filters'] }} }}@endif @if($col['name'] == 'activated') @@if(config('admin-auth.activation-required'))&nbsp; <button class="btn btn-sm btn-info" v-show="!item.activated" @click="resendActivation('{{'{{'}} url('admin/{{ $modelViewsDirectory }}/resend-activation') }}/' + item.id)" title="Resend activation" role="button"><i class="fa fa-envelope-o"></i></button>@@endif
+                                    @else{{'@{{'}} item.{{ $col['name'] }}{{ $col['filters'] }} }}@endif @if($col['name'] == 'activated') @@if(config('admin-auth.activations.enabled'))&nbsp; <button class="btn btn-sm btn-info" v-show="!item.activated" @click="resendActivation('{{'{{'}} url('admin/{{ $modelViewsDirectory }}/resend-activation') }}/' + item.id)" title="Resend activation" role="button"><i class="fa fa-envelope-o"></i></button>@@endif
                                     @endif</td>
                                     @endforeach
 

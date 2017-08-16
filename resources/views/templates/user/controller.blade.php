@@ -221,7 +221,7 @@ class {{ $controllerBaseName }} extends Controller
     */
     public function resendActivationEmail(Request $request, ActivationService $activationService, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
-        if(Config::get('admin-auth.activation-required')) {
+        if(Config::get('admin-auth.activations.enabled')) {
 
             $response = $activationService->handle(${{ $modelVariableName }});
             if($response == Activation::ACTIVATION_LINK_SENT) {
