@@ -15,9 +15,10 @@
 @else
 use Illuminate\Foundation\Http\FormRequest;
 @endif
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
 
 @if($translatable->count() > 0)class Store{{ $modelBaseName }} extends TranslatableFormRequest
 @else
@@ -84,4 +85,22 @@ class Store{{ $modelBaseName }} extends FormRequest
         return $rules;
     }
 @endif
+
+    /**
+     * Modify input data
+     *
+     * @return array
+     */
+    public function getModifiedData()
+    {
+        $data = $this->only(collect($this->rules())->keys()->all());
+        //TODO: is this ok?
+        if(!Config::get('admin-auth.activations.enabled')) {
+            $data['activated'] = true;
+        }
+        if(!empty($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+        return $data;
+    }
 }

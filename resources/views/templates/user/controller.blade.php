@@ -16,7 +16,6 @@ use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $mode
 use Brackets\Admin\AdminListing;
 use {{ $modelFullName }};
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Hash;
 @if($activation)use Brackets\AdminAuth\Services\ActivationService;
 use Brackets\AdminAuth\Facades\Activation;
 @endif
@@ -91,10 +90,7 @@ class {{ $controllerBaseName }} extends Controller
     public function store(Store{{ $modelBaseName }} $request)
     {
         // Sanitize input
-        $sanitized = $request->only(collect($request->rules())->keys()->all());
-
-        //Modify input, set activated if needed and set hashed password
-        $sanitized = $this->modifyInputData($sanitized, false);
+        $sanitized = $request->getModifiedData();
 
         // Store the {{ $modelBaseName }}
         ${{ $modelVariableName }} = {{ $modelBaseName }}::create($sanitized);
@@ -170,10 +166,7 @@ class {{ $controllerBaseName }} extends Controller
     public function update(Update{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
         // Sanitize input
-        $sanitized = $request->only(collect($request->rules())->keys()->all());
-
-        //Modify input, set activated if needed and set hashed password
-        $sanitized = $this->modifyInputData($sanitized, true);
+        $sanitized = $request->getModifiedData();
 
         // Update changed values {{ $modelBaseName }}
         ${{ $modelVariableName }}->update($sanitized);
@@ -251,27 +244,5 @@ class {{ $controllerBaseName }} extends Controller
         }
     }
     @endif
-
-    /**
-    * Modify input data for save
-    *
-    * @param  array $data
-    * @param  bool $edit
-    * @return array
-    */
-    protected function modifyInputData($data, $edit = false)
-    {
-        //TODO: is this ok?
-        if(!Config::get('admin-auth.activations.enabled')) {
-            $data['activated'] = true;
-        }
-        if (array_key_exists('password', $data) && empty($data['password']) && $edit) {
-            unset($data['password']);
-        }
-        if(!empty($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        }
-        return $data;
-    }
 
 }
