@@ -11,15 +11,29 @@ class DefaultProfileGeneratorTest extends UserTestCase
     use DatabaseMigrations;
 
     /** @test */
-    function profile_controller_should_be_generated_under_default_namespace(){
-        $filePath = base_path('App/Http/Controllers/Admin/ProfileController.php');
+    function all_files_should_be_generated_under_default_namespace(){
+        $filePathController = base_path('App/Http/Controllers/Admin/ProfileController.php');
+        $filePathRoute = base_path('routes/web.php');
+        $editPathProfile = resource_path('views/admin/profile/edit-profile.blade.php');
+        $formJsPathProfile = resource_path('assets/js/admin/profile-edit-profile/Form.js');
+        $editPathPassword = resource_path('views/admin/profile/edit-password.blade.php');
+        $formJsPathPassword = resource_path('assets/js/admin/profile-edit-password/Form.js');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileNotExists($filePathController);
+        $this->assertFileNotExists($editPathProfile);
+        $this->assertFileNotExists($formJsPathProfile);
+        $this->assertFileNotExists($editPathPassword);
+        $this->assertFileNotExists($formJsPathPassword);
 
         $this->artisan('admin:generate:user:profile', [
         ]);
 
-        $this->assertFileExists($filePath);
+        $this->assertFileExists($filePathController);
+        $this->assertFileExists($editPathProfile);
+        $this->assertFileExists($formJsPathProfile);
+        $this->assertFileExists($editPathPassword);
+        $this->assertFileExists($formJsPathPassword);
+
         $this->assertStringStartsWith('<?php namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -27,16 +41,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
-{', File::get($filePath));
-    }
-
-    /** @test */
-    function profile_generated_routes_append(){
-        $filePath = base_path('routes/web.php');
-
-        $this->artisan('admin:generate:user:profile', [
-        ]);
-
+{', File::get($filePathController));
         $this->assertStringStartsWith('<?php
 
 
@@ -45,22 +50,7 @@ class ProfileController extends Controller
 Route::get(\'/admin/profile\',                                \'Admin\ProfileController@editProfile\')->name(\'admin/profile/edit\');
 Route::post(\'/admin/profile\',                               \'Admin\ProfileController@updateProfile\')->name(\'admin/profile/update\');
 Route::get(\'/admin/password\',                               \'Admin\ProfileController@editPassword\')->name(\'admin/password/edit\');
-Route::post(\'/admin/password\',                              \'Admin\ProfileController@updatePassword\')->name(\'admin/password/update\');', File::get($filePath));
-    }
-
-    /** @test */
-    function profile_form_should_get_generated() {
-        $editPath = resource_path('views/admin/profile/edit-profile.blade.php');
-        $formJsPath = resource_path('assets/js/admin/profile-edit-profile/Form.js');
-
-        $this->assertFileNotExists($editPath);
-        $this->assertFileNotExists($formJsPath);
-
-        $this->artisan('admin:generate:user:profile', [
-        ]);
-
-        $this->assertFileExists($editPath);
-        $this->assertFileExists($formJsPath);
+Route::post(\'/admin/password\',                              \'Admin\ProfileController@updatePassword\')->name(\'admin/password/update\');', File::get($filePathRoute));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')
 
 @section(\'body\')
@@ -69,25 +59,10 @@ Route::post(\'/admin/password\',                              \'Admin\ProfileCon
 
         <div class="card">
 
-            <profile-edit-profile-form', File::get($editPath));
+            <profile-edit-profile-form', File::get($editPathProfile));
         $this->assertStringStartsWith('var base = require(\'../components/Form/Form\');
 
-Vue.component(\'profile-edit-profile-form\'', File::get($formJsPath));
-    }
-
-    /** @test */
-    function password_form_should_get_generated(){
-        $editPath = resource_path('views/admin/profile/edit-password.blade.php');
-        $formJsPath = resource_path('assets/js/admin/profile-edit-password/Form.js');
-
-        $this->assertFileNotExists($editPath);
-        $this->assertFileNotExists($formJsPath);
-
-        $this->artisan('admin:generate:user:profile', [
-        ]);
-
-        $this->assertFileExists($editPath);
-        $this->assertFileExists($formJsPath);
+Vue.component(\'profile-edit-profile-form\'', File::get($formJsPathProfile));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')
 
 @section(\'body\')
@@ -96,9 +71,9 @@ Vue.component(\'profile-edit-profile-form\'', File::get($formJsPath));
 
         <div class="card">
 
-            <profile-edit-password-form', File::get($editPath));
+            <profile-edit-password-form', File::get($editPathPassword));
         $this->assertStringStartsWith('var base = require(\'../components/Form/Form\');
 
-Vue.component(\'profile-edit-password-form\'', File::get($formJsPath));
+Vue.component(\'profile-edit-password-form\'', File::get($formJsPathPassword));
     }
 }
