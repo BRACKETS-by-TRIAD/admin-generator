@@ -75,10 +75,10 @@
                         </table>
 
                         <div class="row" v-if="pagination.state.total > 0">
-                            <div class="col">
-                                <span>Displaying from {{'@{{'}} pagination.state.from }} to {{'@{{'}} pagination.state.to }} of total {{'@{{'}} pagination.state.total }} items.</span>
+                            <div class="col-sm">
+                                <span class="pagination-caption">Displaying from {{'@{{'}} pagination.state.from }} to {{'@{{'}} pagination.state.to }} of total {{'@{{'}} pagination.state.total }} items.</span>
                             </div>
-                            <div class="col-auto">
+                            <div class="col-sm-auto">
                                 <!-- TODO how to add push state to this pagination so the URL will actually change? we need JS router - do we want it? -->
                                 <pagination></pagination>
                             </div>
