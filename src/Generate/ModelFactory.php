@@ -20,12 +20,25 @@ class ModelFactory extends FileAppender {
     protected $description = 'Append a new factory';
 
     /**
+     * Path for view
+     *
+     * @var string
+     */
+    protected $view = 'factory';
+
+    /**
      * Execute the console command.
      *
      * @return mixed
      */
     public function fire()
     {
+        //TODO check if exists
+        //TODO make global for all generator
+        //TODO also with prefix
+        if(!empty($template = $this->option('template'))) {
+            $this->view = 'templates.'.$template.'.factory';
+        }
 
         if ($this->appendIfNotAlreadyAppended(base_path('database/factories/ModelFactory.php'), $this->buildClass())){
             $this->info('Appending '.$this->modelBaseName.' model to ModelFactory finished');
@@ -39,7 +52,7 @@ class ModelFactory extends FileAppender {
 
     protected function buildClass() {
 
-        return view('brackets/admin-generator::factory', [
+        return view('brackets/admin-generator::'.$this->view, [
             'modelFullName' => $this->modelFullName,
 
             'columns' => $this->readColumnsFromTable($this->tableName)
@@ -94,6 +107,7 @@ class ModelFactory extends FileAppender {
     protected function getOptions() {
         return [
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
+            ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
             ['seed', 's', InputOption::VALUE_OPTIONAL, 'Seeds the table with fake data'],
         ];
     }

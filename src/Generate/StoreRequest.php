@@ -19,6 +19,13 @@ class StoreRequest extends ClassGenerator {
     protected $description = 'Generate a Store request class';
 
     /**
+     * Path for view
+     *
+     * @var string
+     */
+    protected $view = 'store-request';
+
+    /**
      * Execute the console command.
      *
      * @return mixed
@@ -27,6 +34,13 @@ class StoreRequest extends ClassGenerator {
     {
         $force = $this->option('force');
 
+        //TODO check if exists
+        //TODO make global for all generator
+        //TODO also with prefix
+        if(!empty($template = $this->option('template'))) {
+            $this->view = 'templates.'.$template.'.store-request';
+        }
+
         if ($this->generateClass($force)){
             $this->info('Generating '.$this->classFullName.' finished');
         }
@@ -34,7 +48,7 @@ class StoreRequest extends ClassGenerator {
 
     protected function buildClass() {
 
-        return view('brackets/admin-generator::store-request', [
+        return view('brackets/admin-generator::'.$this->view, [
             'modelBaseName' => $this->modelBaseName,
             'modelDotNotation' => $this->modelDotNotation,
             'modelWithNamespaceFromDefault' => $this->modelWithNamespaceFromDefault,
@@ -51,6 +65,7 @@ class StoreRequest extends ClassGenerator {
     protected function getOptions() {
         return [
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
+            ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating request'],
         ];
     }

@@ -64,7 +64,6 @@ use App\Http\Requests\Admin\User\DestroyUser;
 use Brackets\Admin\AdminListing;
 use App\Models\User;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Hash;
 use Brackets\AdminAuth\Services\ActivationService;
 use Brackets\AdminAuth\Facades\Activation;
 use Spatie\Permission\Models\Role;
@@ -80,16 +79,20 @@ class IndexUser extends FormRequest
         $this->assertStringStartsWith('<?php namespace App\Http\Requests\Admin\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
 
 class StoreUser extends FormRequest
 {', File::get($storePath));
         $this->assertStringStartsWith('<?php namespace App\Http\Requests\Admin\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
 
 class UpdateUser extends FormRequest
 {', File::get($updatePath));

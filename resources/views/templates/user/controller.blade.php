@@ -16,7 +16,6 @@ use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $mode
 use Brackets\Admin\AdminListing;
 use {{ $modelFullName }};
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Hash;
 @if($activation)use Brackets\AdminAuth\Services\ActivationService;
 use Brackets\AdminAuth\Facades\Activation;
 @endif
@@ -52,10 +51,10 @@ class {{ $controllerBaseName }} extends Controller
         );
 
         if ($request->ajax()) {
-            return ['data' => $data];
+            return ['data' => $data, 'activation' => Config::get('admin-auth.activations.enabled')];
         }
 
-        return view('admin.{{ $modelDotNotation }}.index', ['data' => $data]);
+        return view('admin.{{ $modelDotNotation }}.index', ['data' => $data, 'activation' => Config::get('admin-auth.activations.enabled')]);
 
     }
 
@@ -70,6 +69,7 @@ class {{ $controllerBaseName }} extends Controller
 
 @if (count($relations))
         return view('admin.{{ $modelDotNotation }}.create',[
+            'activation' => Config::get('admin-auth.activations.enabled'),
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
             '{{ $belongsToMany['related_table'] }}' => {{ $belongsToMany['related_model_name'] }}::all(),
@@ -90,10 +90,7 @@ class {{ $controllerBaseName }} extends Controller
     public function store(Store{{ $modelBaseName }} $request)
     {
         // Sanitize input
-        $sanitized = $request->only(collect($request->rules())->keys()->all());
-
-        //Modify input, set activated if needed and set hashed password
-        $sanitized = $this->modifyInputData($sanitized, false);
+        $sanitized = $request->getModifiedData();
 
         // Store the {{ $modelBaseName }}
         ${{ $modelVariableName }} = {{ $modelBaseName }}::create($sanitized);
@@ -148,6 +145,7 @@ class {{ $controllerBaseName }} extends Controller
 @endif
         return view('admin.{{ $modelDotNotation }}.edit', [
             '{{ $modelVariableName }}' => ${{ $modelVariableName }},
+            'activation' => Config::get('admin-auth.activations.enabled'),
 @if (count($relations))
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
@@ -168,10 +166,7 @@ class {{ $controllerBaseName }} extends Controller
     public function update(Update{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
         // Sanitize input
-        $sanitized = $request->only(collect($request->rules())->keys()->all());
-
-        //Modify input, set activated if needed and set hashed password
-        $sanitized = $this->modifyInputData($sanitized, true);
+        $sanitized = $request->getModifiedData();
 
         // Update changed values {{ $modelBaseName }}
         ${{ $modelVariableName }}->update($sanitized);
@@ -221,51 +216,33 @@ class {{ $controllerBaseName }} extends Controller
     */
     public function resendActivationEmail(Request $request, ActivationService $activationService, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
-        if(Config::get('admin-auth.activation-required')) {
+        if(Config::get('admin-auth.activations.enabled')) {
 
             $response = $activationService->handle(${{ $modelVariableName }});
             if($response == Activation::ACTIVATION_LINK_SENT) {
                 if ($request->ajax()) {
-                    return ['notify' => ['type' => 'success', 'title' => 'Success!', 'message' => 'Activaton e-mail has been send.']];
+                    return ['notify' => ['type' => 'success', 'title' => 'Success!', 'message' => 'Activation e-mail has been send.']];
                 }
 
                 return redirect()->back()
-                    ->withSuccess("Activaton e-mail has been send.");
+                    ->withSuccess("Activation e-mail has been send.");
             } else {
                 if ($request->ajax()) {
-                    return ['notify' => ['type' => 'danger', 'title' => 'Failed!', 'message' => 'Activaton e-mail send failed.']];
+                    return ['notify' => ['type' => 'danger', 'title' => 'Failed!', 'message' => 'Activation e-mail send failed.']];
                 }
 
                 return redirect()->back()
-                    ->withSuccess("Activaton e-mail send failed.");
+                    ->withSuccess("Activation e-mail send failed.");
             }
         } else {
             if ($request->ajax()) {
-                return ['notify' => ['type' => 'danger', 'title' => 'Failed!', 'message' => 'Activaton not allowed.']];
+                return ['notify' => ['type' => 'danger', 'title' => 'Failed!', 'message' => 'Activation not allowed.']];
             }
 
             return redirect()->back()
-                ->withSuccess("Activaton not allowed.");
+                ->withSuccess("Activation not allowed.");
         }
     }
     @endif
-
-    /**
-    * Modify input data for save
-    *
-    * @param  array $data
-    * @param  bool $edit
-    * @return array
-    */
-    protected function modifyInputData($data, $edit = false)
-    {
-        if (array_key_exists('password', $data) && empty($data['password']) && $edit) {
-            unset($data['password']);
-        }
-        if(!empty($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        }
-        return $data;
-    }
 
 }

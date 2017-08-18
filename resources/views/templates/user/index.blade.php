@@ -4,6 +4,7 @@
 
     <{{ $modelJSName }}-listing
         :data="{{'{{'}} $data->toJson() }}"
+        :activation="!!'@{{ $activation }}'"
         :url="'{{'{{'}} url('admin/{{ $modelViewsDirectory }}') }}'"
         inline-template>
 
@@ -42,7 +43,7 @@
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    @foreach($columns as $col)<th is='sortable' :column="'{{ $col['name'] }}'">{{ ucfirst($col['name']) }}</th>
+                                    @foreach($columns as $col)<th is='sortable' :column="'{{ $col['name'] }}'"@if($col['name'] == 'activated') v-if="activation"@endif>{{ ucfirst($col['name']) }}</th>
                                     @endforeach
 
                                     <th></th>
@@ -50,12 +51,12 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(item, index) in collection">
-                                    @foreach($columns as $col)<td>@if($col['switch'])<label class="switch switch-3d switch-success">
+                                    @foreach($columns as $col)<td @if($col['name'] == 'activated')v-if="activation"@endif>@if($col['switch'])<label class="switch switch-3d switch-success">
                                             <input type="checkbox" class="switch-input" v-model="collection[index].{{ $col['name'] }}" @change="toggleSwitch('{{'{{'}} url('admin/{{ $modelViewsDirectory }}/update') }}/' + item.id, '{{ $col['name'] }}', collection[index])">
                                             <span class="switch-label"></span>
                                             <span class="switch-handle"></span>
                                         </label>
-                                    @else{{'@{{'}} item.{{ $col['name'] }}{{ $col['filters'] }} }}@endif @if($col['name'] == 'activated') @@if(config('admin-auth.activation-required'))&nbsp; <button class="btn btn-sm btn-info" v-show="!item.activated" @click="resendActivation('{{'{{'}} url('admin/{{ $modelViewsDirectory }}/resend-activation') }}/' + item.id)" title="Resend activation" role="button"><i class="fa fa-envelope-o"></i></button>@@endif
+                                    @else{{'@{{'}} item.{{ $col['name'] }}{{ $col['filters'] }} }}@endif @if($col['name'] == 'activated') <button class="btn btn-sm btn-info" v-show="!item.activated" @click="resendActivation('{{'{{'}} url('admin/{{ $modelViewsDirectory }}/resend-activation') }}/' + item.id)" title="Resend activation" role="button"><i class="fa fa-envelope-o"></i></button>
                                     @endif</td>
                                     @endforeach
 

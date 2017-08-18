@@ -12,15 +12,16 @@ class ProfileGeneratorWithCustomControllerNameTest extends UserTestCase
 
     /** @test */
     function profile_controller_name_can_be_namespaced(){
-        $filePath = base_path('App/Http/Controllers/Admin/Auth/ProfileController.php');
+        $filePathController = base_path('App/Http/Controllers/Admin/Auth/ProfileController.php');
+        $filePathRoute = base_path('routes/web.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileNotExists($filePathController);
 
         $this->artisan('admin:generate:user:profile', [
             '--controller-name' => 'Auth\\ProfileController',
         ]);
 
-        $this->assertFileExists($filePath);
+        $this->assertFileExists($filePathController);
         $this->assertStringStartsWith('<?php namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
@@ -28,7 +29,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
-{', File::get($filePath));
+{', File::get($filePathController));
+        $this->assertStringStartsWith('<?php
+
+
+
+/* Auto-generated profile routes */
+Route::get(\'/admin/profile\',                                \'Admin\Auth\ProfileController@editProfile\')->name(\'admin/profile/edit\');
+Route::post(\'/admin/profile\',                               \'Admin\Auth\ProfileController@updateProfile\')->name(\'admin/profile/update\');
+Route::get(\'/admin/password\',                               \'Admin\Auth\ProfileController@editPassword\')->name(\'admin/password/edit\');
+Route::post(\'/admin/password\',                              \'Admin\Auth\ProfileController@updatePassword\')->name(\'admin/password/update\');', File::get($filePathRoute));
     }
 
     /** @test */
@@ -50,25 +60,6 @@ use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {', File::get($filePath));
-    }
-
-    /** @test */
-    function profile_custom_controller_name_routes(){
-        $filePath = base_path('routes/web.php');
-
-        $this->artisan('admin:generate:user:profile', [
-            '--controller-name' => 'Auth\\ProfileController',
-        ]);
-
-        $this->assertStringStartsWith('<?php
-
-
-
-/* Auto-generated profile routes */
-Route::get(\'/admin/profile\',                                \'Admin\Auth\ProfileController@editProfile\')->name(\'admin/profile/edit\');
-Route::post(\'/admin/profile\',                               \'Admin\Auth\ProfileController@updateProfile\')->name(\'admin/profile/update\');
-Route::get(\'/admin/password\',                               \'Admin\Auth\ProfileController@editPassword\')->name(\'admin/password/edit\');
-Route::post(\'/admin/password\',                              \'Admin\Auth\ProfileController@updatePassword\')->name(\'admin/password/update\');', File::get($filePath));
     }
 
 }

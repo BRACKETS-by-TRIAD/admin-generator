@@ -85,11 +85,13 @@ class GenerateUser extends Command {
         $this->call('admin:generate:request:store', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
+            '--template' => 'user',
         ]);
 
         $this->call('admin:generate:request:update', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
+            '--template' => 'user',
         ]);
 
         $this->call('admin:generate:request:destroy', [
@@ -120,6 +122,7 @@ class GenerateUser extends Command {
         $this->call('admin:generate:factory', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
+            '--template' => 'user',
         ]);
 
         if ($this->option('seed')) {
