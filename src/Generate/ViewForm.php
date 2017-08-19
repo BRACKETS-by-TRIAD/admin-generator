@@ -155,7 +155,7 @@ class ViewForm extends ViewGenerator {
             'hasTranslatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return $column['type'] == "json";
             })->count() > 0,
-            'translatableTextarea' => ['perex', 'text'],
+            'translatableTextarea' => ['perex', 'text', 'body'],
             'relations' => $this->relations,
         ])->render();
     }
