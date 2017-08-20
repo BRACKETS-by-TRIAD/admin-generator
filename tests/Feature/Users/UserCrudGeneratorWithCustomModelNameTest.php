@@ -59,7 +59,7 @@ use App\Http\Requests\Admin\User\IndexUser;
 use App\Http\Requests\Admin\User\StoreUser;
 use App\Http\Requests\Admin\User\UpdateUser;
 use App\Http\Requests\Admin\User\DestroyUser;
-use Brackets\Admin\AdminListing;
+use Brackets\AdminListing\AdminListing;
 use App\User;
 use Illuminate\Support\Facades\Config;
 use Brackets\AdminAuth\Services\ActivationService;
