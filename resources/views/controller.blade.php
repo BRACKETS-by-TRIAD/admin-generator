@@ -8,7 +8,7 @@ use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelB
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
-use Brackets\Admin\AdminListing;
+use Brackets\AdminListing\AdminListing;
 use {{ $modelFullName }};
 @if (count($relations))
 @if (count($relations['belongsToMany']))
