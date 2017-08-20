@@ -52,7 +52,7 @@ class GenerateUser extends Command {
             }
             $this->files->delete(app_path('Http/Controllers/Admin/UsersController.php'));
             $this->files->deleteDirectory(app_path('Http/Requests/Admin/User'));
-            $this->files->deleteDirectory(resource_path('assets/js/admin/user'));
+            $this->files->deleteDirectory(resource_path('assets/admin/js/user'));
             $this->files->deleteDirectory(resource_path('views/admin/user'));
 
             $this->info('Deleting previous files finished.');

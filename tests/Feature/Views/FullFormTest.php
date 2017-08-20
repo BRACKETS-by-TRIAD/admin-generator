@@ -13,7 +13,7 @@ class FullFormTest extends TestCase
     /** @test */
     function view_full_form_should_get_auto_generated(){
         $formPath = resource_path('views/admin/category/form.blade.php');
-        $formJsPath = resource_path('assets/js/admin/category/Form.js');
+        $formJsPath = resource_path('assets/admin/js/category/Form.js');
 
         $this->assertFileNotExists($formPath);
         $this->assertFileNotExists($formJsPath);
@@ -35,7 +35,7 @@ Vue.component(\'category-form\', {
     /** @test */
     function you_can_pass_your_own_file_path(){
         $formPath = resource_path('views/admin/profile/edit-password.blade.php');
-        $formJsPath = resource_path('assets/js/admin/profile-edit-password/Form.js');
+        $formJsPath = resource_path('assets/admin/js/profile-edit-password/Form.js');
 
         $this->assertFileNotExists($formPath);
         $this->assertFileNotExists($formJsPath);

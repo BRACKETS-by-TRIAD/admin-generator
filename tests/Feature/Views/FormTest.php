@@ -15,7 +15,7 @@ class FormTest extends TestCase
         $elementsPath = resource_path('views/admin/category/components/form-elements.blade.php');
         $createPath = resource_path('views/admin/category/create.blade.php');
         $editPath = resource_path('views/admin/category/edit.blade.php');
-        $formJsPath = resource_path('assets/js/admin/category/Form.js');
+        $formJsPath = resource_path('assets/admin/js/category/Form.js');
 
         $this->assertFileNotExists($elementsPath);
         $this->assertFileNotExists($createPath);
@@ -46,7 +46,7 @@ Vue.component(\'category-form\', {
         $elementsPath = resource_path('views/admin/billing/my-article/components/form-elements.blade.php');
         $createPath = resource_path('views/admin/billing/my-article/create.blade.php');
         $editPath = resource_path('views/admin/billing/my-article/edit.blade.php');
-        $formJsPath = resource_path('assets/js/admin/billing-my-article/Form.js');
+        $formJsPath = resource_path('assets/admin/js/billing-my-article/Form.js');
 
         $this->assertFileNotExists($elementsPath);
         $this->assertFileNotExists($createPath);
