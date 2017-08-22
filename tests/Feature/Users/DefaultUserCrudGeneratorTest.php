@@ -19,11 +19,11 @@ class DefaultUserCrudGeneratorTest extends UserTestCase
         $destroyPath = base_path('App/Http/Requests/Admin/User/DestroyUser.php');
         $routesPath = base_path('routes/web.php');
         $indexPath = resource_path('views/admin/user/index.blade.php');
-        $indexJsPath = resource_path('assets/js/admin/user/Listing.js');
+        $indexJsPath = resource_path('assets/admin/js/user/Listing.js');
         $elementsPath = resource_path('views/admin/user/components/form-elements.blade.php');
         $createPath = resource_path('views/admin/user/create.blade.php');
         $editPath = resource_path('views/admin/user/edit.blade.php');
-        $formJsPath = resource_path('assets/js/admin/user/Form.js');
+        $formJsPath = resource_path('assets/admin/js/user/Form.js');
         $factoryPath = base_path('database/factories/ModelFactory.php');
 
         $this->assertFileNotExists($controllerPath);
@@ -116,7 +116,7 @@ Route::post(\'/admin/user/update/{user}\',                    \'Admin\UsersContr
 Route::delete(\'/admin/user/destroy/{user}\',                 \'Admin\UsersController@destroy\')->name(\'admin/user/destroy\');
 Route::get(\'/admin/user/resend-activation/{user}\',          \'Admin\UsersController@resendActivationEmail\')->name(\'admin/user/resendActivationEmail\');', File::get($routesPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.index\')', File::get($indexPath));
-        $this->assertStringStartsWith('var base = require(\'../components/Listing/Listing\');
+        $this->assertStringStartsWith('import AppListing from \'../components/Listing/AppListing\';
 
 Vue.component(\'user-listing\'', File::get($indexJsPath));
         $this->assertStringStartsWith('<div ', File::get($elementsPath));
