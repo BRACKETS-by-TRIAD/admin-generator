@@ -1,5 +1,5 @@
-var base = require('../components/Listing/Listing');
+import AppListing from '../components/Listing/AppListing';
 
 Vue.component('{{ $modelJSName }}-listing', {
-    mixins: [base]
+    mixins: [AppListing]
 });
