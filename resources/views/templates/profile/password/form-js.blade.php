@@ -1,7 +1,7 @@
-var base = require('../components/Form/Form');
+import AppForm from '../components/Form/AppForm';
 
 Vue.component('{{ $modelJSName }}-form', {
-    mixins: [base],
+    mixins: [AppForm],
     methods: {
         onSuccess(data) {
             if(data.notify) {

@@ -61,7 +61,7 @@ Route::middleware([\'admin\'])->group(function () {
         <div class="card">
 
             <profile-edit-profile-form', File::get($editPathProfile));
-        $this->assertStringStartsWith('var base = require(\'../components/Form/Form\');
+        $this->assertStringStartsWith('import AppForm from \'../components/Form/AppForm\';
 
 Vue.component(\'profile-edit-profile-form\'', File::get($formJsPathProfile));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')
@@ -73,7 +73,7 @@ Vue.component(\'profile-edit-profile-form\'', File::get($formJsPathProfile));
         <div class="card">
 
             <profile-edit-password-form', File::get($editPathPassword));
-        $this->assertStringStartsWith('var base = require(\'../components/Form/Form\');
+        $this->assertStringStartsWith('import AppForm from \'../components/Form/AppForm\';
 
 Vue.component(\'profile-edit-password-form\'', File::get($formJsPathPassword));
     }

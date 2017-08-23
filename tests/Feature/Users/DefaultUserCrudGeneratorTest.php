@@ -123,7 +123,7 @@ Vue.component(\'user-listing\'', File::get($indexJsPath));
         $this->assertStringStartsWith('<div ', File::get($elementsPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')', File::get($createPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')', File::get($editPath));
-        $this->assertStringStartsWith('var base = require(\'../components/Form/Form\');
+        $this->assertStringStartsWith('import AppForm from \'../components/Form/AppForm\';
 
 Vue.component(\'user-form\'', File::get($formJsPath));
         $this->assertStringStartsWith('<?php

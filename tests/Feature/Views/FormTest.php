@@ -33,10 +33,10 @@ class FormTest extends TestCase
         $this->assertStringStartsWith('<div ', File::get($elementsPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')', File::get($createPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')', File::get($editPath));
-        $this->assertStringStartsWith('var base = require(\'../components/Form/Form\');
+        $this->assertStringStartsWith('import AppForm from \'../components/Form/AppForm\';
 
 Vue.component(\'category-form\', {
-    mixins: [base]', File::get($formJsPath));
+    mixins: [AppForm]', File::get($formJsPath));
     }
 
 
@@ -64,10 +64,10 @@ Vue.component(\'category-form\', {
         $this->assertStringStartsWith('<div ', File::get($elementsPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')', File::get($createPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')', File::get($editPath));
-        $this->assertStringStartsWith('var base = require(\'../components/Form/Form\');
+        $this->assertStringStartsWith('import AppForm from \'../components/Form/AppForm\';
 
 Vue.component(\'billing-my-article-form\', {
-    mixins: [base]', File::get($formJsPath));
+    mixins: [AppForm]', File::get($formJsPath));
     }
 
 }

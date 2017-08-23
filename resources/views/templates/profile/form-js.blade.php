@@ -1,7 +1,7 @@
-var base = require('../components/Form/Form');
+import AppForm from '../components/Form/AppForm';
 
 Vue.component('{{ $modelJSName }}-form', {
-    mixins: [base]@if($translatable->count() > 0),
+    mixins: [AppForm]@if($translatable->count() > 0),
     data: function() {
         return {
             form: {
