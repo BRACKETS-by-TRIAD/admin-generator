@@ -1,7 +1,7 @@
 <?php namespace Brackets\AdminGenerator\Generate\Traits;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
-use Schema;
 
 trait Helpers {
 

@@ -2,7 +2,7 @@
 
 namespace Brackets\AdminGenerator\Tests;
 
-use File;
+use Illuminate\Support\Facades\File;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\TestCase as Orchestra;

@@ -3,7 +3,6 @@
 namespace Brackets\AdminGenerator\Tests\Feature\Classes;
 
 use Brackets\AdminGenerator\Tests\TestCase;
-use File;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class WholeAdminGeneratorTest extends TestCase

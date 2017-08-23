@@ -3,7 +3,7 @@
 namespace Brackets\AdminGenerator\Tests\Feature\Users;
 
 use Brackets\AdminGenerator\Tests\UserTestCase;
-use File;
+use Illuminate\Support\Facades\File;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class UserCrudGeneratorWithCustomModelNameTest extends UserTestCase

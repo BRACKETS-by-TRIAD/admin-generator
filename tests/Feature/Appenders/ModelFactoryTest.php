@@ -3,7 +3,7 @@
 namespace Brackets\AdminGenerator\Tests\Feature\Appenders;
 
 use Brackets\AdminGenerator\Tests\TestCase;
-use File;
+use Illuminate\Support\Facades\File;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ModelFactoryTest extends TestCase
