@@ -99,8 +99,11 @@ class ViewIndex extends ViewGenerator {
             'modelViewsDirectory' => $this->modelViewsDirectory,
             'modelJSName' => $this->modelJSName,
 
-            'columns' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
-                return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "remember_token" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
+            'columns' => $this->readColumnsFromTable($this->tableName)->reject(function($column) {
+                    return ($column['type'] == 'text'
+                        || in_array($column['name'], ["password", "remember_token", "slug", "created_at", "updated_at", "deleted_at"])
+                        || ($column['type'] == 'json' && in_array($column['name'], ["perex", "text", "body"]))
+                    );
                 })->map(function($col){
 
                     $filters = collect([]);
