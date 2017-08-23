@@ -47,10 +47,11 @@ class ProfileController extends Controller
 
 
 /* Auto-generated profile routes */
-Route::get(\'/admin/profile\',                                \'Admin\ProfileController@editProfile\')->name(\'admin/profile/edit\');
-Route::post(\'/admin/profile\',                               \'Admin\ProfileController@updateProfile\')->name(\'admin/profile/update\');
-Route::get(\'/admin/password\',                               \'Admin\ProfileController@editPassword\')->name(\'admin/password/edit\');
-Route::post(\'/admin/password\',                              \'Admin\ProfileController@updatePassword\')->name(\'admin/password/update\');', File::get($filePathRoute));
+Route::middleware([\'admin\'])->group(function () {
+    Route::get(\'/admin/profile\',                                \'Admin\ProfileController@editProfile\')->name(\'admin/profile/edit\');
+    Route::post(\'/admin/profile\',                               \'Admin\ProfileController@updateProfile\')->name(\'admin/profile/update\');
+    Route::get(\'/admin/password\',                               \'Admin\ProfileController@editPassword\')->name(\'admin/password/edit\');
+    Route::post(\'/admin/password\',                              \'Admin\ProfileController@updatePassword\')->name(\'admin/password/update\');', File::get($filePathRoute));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')
 
 @section(\'body\')
