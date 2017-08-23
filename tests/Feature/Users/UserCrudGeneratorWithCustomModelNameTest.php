@@ -59,7 +59,7 @@ use App\Http\Requests\Admin\User\IndexUser;
 use App\Http\Requests\Admin\User\StoreUser;
 use App\Http\Requests\Admin\User\UpdateUser;
 use App\Http\Requests\Admin\User\DestroyUser;
-use Brackets\AdminListing\AdminListing;
+use Brackets\AdminListing\Facades\AdminListing;
 use App\User;
 use Illuminate\Support\Facades\Config;
 use Brackets\AdminAuth\Services\ActivationService;
@@ -92,13 +92,14 @@ class UpdateUser extends FormRequest
 
 
 /* Auto-generated admin routes */
-Route::get(\'/admin/user\',                                   \'Admin\Auth\UsersController@index\');
-Route::get(\'/admin/user/create\',                            \'Admin\Auth\UsersController@create\');
-Route::post(\'/admin/user/store\',                            \'Admin\Auth\UsersController@store\');
-Route::get(\'/admin/user/edit/{user}\',                       \'Admin\Auth\UsersController@edit\')->name(\'admin/user/edit\');
-Route::post(\'/admin/user/update/{user}\',                    \'Admin\Auth\UsersController@update\')->name(\'admin/user/update\');
-Route::delete(\'/admin/user/destroy/{user}\',                 \'Admin\Auth\UsersController@destroy\')->name(\'admin/user/destroy\');
-Route::get(\'/admin/user/resend-activation/{user}\',          \'Admin\Auth\UsersController@resendActivationEmail\')->name(\'admin/user/resendActivationEmail\');', File::get($routesPath));
+Route::middleware([\'admin\'])->group(function () {
+    Route::get(\'/admin/user\',                                   \'Admin\Auth\UsersController@index\');
+    Route::get(\'/admin/user/create\',                            \'Admin\Auth\UsersController@create\');
+    Route::post(\'/admin/user/store\',                            \'Admin\Auth\UsersController@store\');
+    Route::get(\'/admin/user/edit/{user}\',                       \'Admin\Auth\UsersController@edit\')->name(\'admin/user/edit\');
+    Route::post(\'/admin/user/update/{user}\',                    \'Admin\Auth\UsersController@update\')->name(\'admin/user/update\');
+    Route::delete(\'/admin/user/destroy/{user}\',                 \'Admin\Auth\UsersController@destroy\')->name(\'admin/user/destroy\');
+    Route::get(\'/admin/user/resend-activation/{user}\',          \'Admin\Auth\UsersController@resendActivationEmail\')->name(\'admin/user/resendActivationEmail\');', File::get($routesPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.index\')', File::get($indexPath));
         $this->assertStringStartsWith('import AppListing from \'../components/Listing/AppListing\';
 
