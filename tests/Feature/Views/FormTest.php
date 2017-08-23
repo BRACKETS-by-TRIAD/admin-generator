@@ -36,8 +36,7 @@ class FormTest extends TestCase
         $this->assertStringStartsWith('var base = require(\'../components/Form/Form\');
 
 Vue.component(\'category-form\', {
-    mixins: [base]
-});', File::get($formJsPath));
+    mixins: [base]', File::get($formJsPath));
     }
 
 
@@ -68,8 +67,7 @@ Vue.component(\'category-form\', {
         $this->assertStringStartsWith('var base = require(\'../components/Form/Form\');
 
 Vue.component(\'billing-my-article-form\', {
-    mixins: [base]
-});', File::get($formJsPath));
+    mixins: [base]', File::get($formJsPath));
     }
 
 }
