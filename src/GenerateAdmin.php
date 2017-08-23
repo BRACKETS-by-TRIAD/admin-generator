@@ -95,6 +95,11 @@ class GenerateAdmin extends Command {
             '--force' => $force,
         ]);
 
+        $this->call('admin:generate:lang', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+        ]);
+
         $this->info('Generating whole admin finished');
 
     }

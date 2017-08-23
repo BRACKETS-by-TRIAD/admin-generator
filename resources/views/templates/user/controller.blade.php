@@ -13,7 +13,7 @@ use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelB
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
-use Brackets\AdminListing\AdminListing;
+use Brackets\AdminListing\Facades\AdminListing;
 use {{ $modelFullName }};
 use Illuminate\Support\Facades\Config;
 @if($activation)use Brackets\AdminAuth\Services\ActivationService;
