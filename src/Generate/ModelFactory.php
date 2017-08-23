@@ -101,6 +101,9 @@ class ModelFactory extends FileAppender {
                     'faker' => $type,
                 ];
             }),
+            'translatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                return $column['type'] == "json";
+            })->pluck('name'),
         ])->render();
     }
 
