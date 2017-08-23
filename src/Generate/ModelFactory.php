@@ -93,7 +93,7 @@ class ModelFactory extends FileAppender {
                     } elseif ($col['name'] == 'password') {
                         $type = 'bcrypt($faker->password)';
                     } else {
-                        $type = '$faker->words';
+                        $type = '$faker->sentence';
                     }
                 }
                 return [
