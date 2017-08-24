@@ -146,9 +146,7 @@ class ViewFullForm extends ViewGenerator {
         return view('brackets/admin-generator::'.$this->viewJs, [
             'modelJSName' => $this->formJsRelativePath,
 
-            'translatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
-                return $column['type'] == "json";
-            })->pluck('name'),
+            'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
         ])->render();
     }
 

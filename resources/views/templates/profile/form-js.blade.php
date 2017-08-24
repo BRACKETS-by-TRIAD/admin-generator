@@ -1,16 +1,16 @@
 import AppForm from '../components/Form/AppForm';
 
 Vue.component('{{ $modelJSName }}-form', {
-    mixins: [AppForm]@if($translatable->count() > 0),
+    mixins: [AppForm],
     data: function() {
         return {
             form: {
-                @foreach($translatable as $translatableField){{ $translatableField }}: {},
+                @foreach($columns as $column){{ $column['name'].':' }} @if($column['type'] == 'json') {{ '{}' }} @elseif($column['type'] == 'boolean') {!! "false" !!} @else {!! "''" !!} @endif,
                 @endforeach
 
             }
         }
-    }@endif,
+    },
     methods: {
         onSuccess(data) {
             if(data.notify) {
