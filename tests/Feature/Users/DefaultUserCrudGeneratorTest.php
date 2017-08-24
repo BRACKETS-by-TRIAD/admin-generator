@@ -116,13 +116,13 @@ Route::middleware([\'admin\'])->group(function () {
     Route::post(\'/admin/user/update/{user}\',                    \'Admin\UsersController@update\')->name(\'admin/user/update\');
     Route::delete(\'/admin/user/destroy/{user}\',                 \'Admin\UsersController@destroy\')->name(\'admin/user/destroy\');
     Route::get(\'/admin/user/resend-activation/{user}\',          \'Admin\UsersController@resendActivationEmail\')->name(\'admin/user/resendActivationEmail\');', File::get($routesPath));
-        $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.index\')', File::get($indexPath));
+        $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.default\')', File::get($indexPath));
         $this->assertStringStartsWith('import AppListing from \'../components/Listing/AppListing\';
 
 Vue.component(\'user-listing\'', File::get($indexJsPath));
         $this->assertStringStartsWith('<div ', File::get($elementsPath));
-        $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')', File::get($createPath));
-        $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')', File::get($editPath));
+        $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.default\')', File::get($createPath));
+        $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.default\')', File::get($editPath));
         $this->assertStringStartsWith('import AppForm from \'../components/Form/AppForm\';
 
 Vue.component(\'user-form\'', File::get($formJsPath));

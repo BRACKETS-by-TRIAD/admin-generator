@@ -1,6 +1,6 @@
-{{'@'}}extends('brackets/admin::admin.layout.form')
+{{'@'}}extends('brackets/admin::admin.layout.default')
 
-@section('title', 'Edit Password')
+{{'@'}}section('title', 'Edit Password')
 
 {{'@'}}section('body')
 

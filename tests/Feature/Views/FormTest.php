@@ -31,8 +31,8 @@ class FormTest extends TestCase
         $this->assertFileExists($editPath);
         $this->assertFileExists($formJsPath);
         $this->assertStringStartsWith('<div ', File::get($elementsPath));
-        $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')', File::get($createPath));
-        $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')', File::get($editPath));
+        $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.default\')', File::get($createPath));
+        $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.default\')', File::get($editPath));
         $this->assertStringStartsWith('import AppForm from \'../components/Form/AppForm\';
 
 Vue.component(\'category-form\', {
@@ -62,8 +62,8 @@ Vue.component(\'category-form\', {
         $this->assertFileExists($editPath);
         $this->assertFileExists($formJsPath);
         $this->assertStringStartsWith('<div ', File::get($elementsPath));
-        $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')', File::get($createPath));
-        $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')', File::get($editPath));
+        $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.default\')', File::get($createPath));
+        $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.default\')', File::get($editPath));
         $this->assertStringStartsWith('import AppForm from \'../components/Form/AppForm\';
 
 Vue.component(\'billing-my-article-form\', {

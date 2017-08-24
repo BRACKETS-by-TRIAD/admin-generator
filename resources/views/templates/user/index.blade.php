@@ -1,4 +1,4 @@
-{{'@'}}extends('brackets/admin::admin.layout.index')
+{{'@'}}extends('brackets/admin::admin.layout.default')
 
 {{'@'}}section('title', '{{ $modelPlural }}')
 
