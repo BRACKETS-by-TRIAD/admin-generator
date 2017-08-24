@@ -71,10 +71,12 @@ class {{ $modelBaseName }} extends Authenticatable implements CanActivateContrac
     ];
     @endif
 
-
     @if (!$timestamps)public $timestamps = false;
     @endif
 
+    public function getFullNameAttribute() {
+        return $this->first_name." ".$this->last_name;
+    }
 
     /**
      * Send the password reset notification.
