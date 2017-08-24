@@ -2,7 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 
-class AdminGeneratorProvider extends ServiceProvider
+class AdminGeneratorServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.

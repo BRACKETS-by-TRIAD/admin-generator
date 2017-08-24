@@ -55,7 +55,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            \Brackets\AdminGenerator\AdminGeneratorProvider::class
+            \Brackets\AdminGenerator\AdminGeneratorServiceProvider::class
         ];
     }
 
