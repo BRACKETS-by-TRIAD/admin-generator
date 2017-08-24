@@ -1,5 +1,7 @@
 {{'@'}}extends('brackets/admin::admin.layout.form')
 
+{{'@'}}section('title', 'New {{ $modelBaseName }}')
+
 {{'@'}}section('body')
 
     <div class="container-xl">

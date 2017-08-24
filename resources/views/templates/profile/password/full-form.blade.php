@@ -1,5 +1,7 @@
 {{'@'}}extends('brackets/admin::admin.layout.form')
 
+@section('title', 'Edit Password')
+
 {{'@'}}section('body')
 
     <div class="container-xl">

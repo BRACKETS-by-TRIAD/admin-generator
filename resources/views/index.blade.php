@@ -1,5 +1,7 @@
 {{'@'}}extends('brackets/admin::admin.layout.index')
 
+{{'@'}}section('title', '{{ $modelPlural }}')
+
 {{'@'}}section('body')
 
     <{{ $modelJSName }}-listing
