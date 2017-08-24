@@ -25,11 +25,10 @@ class FullFormTest extends TestCase
         $this->assertFileExists($formPath);
         $this->assertFileExists($formJsPath);
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')', File::get($formPath));
-        $this->assertStringStartsWith('var base = require(\'../components/Form/Form\');
+        $this->assertStringStartsWith('import AppForm from \'../components/Form/AppForm\';
 
 Vue.component(\'category-form\', {
-    mixins: [base]
-});', File::get($formJsPath));
+    mixins: [AppForm]', File::get($formJsPath));
     }
 
     /** @test */
@@ -49,11 +48,10 @@ Vue.component(\'category-form\', {
         $this->assertFileExists($formJsPath);
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.form\')', File::get($formPath));
         $this->assertContains(':action="\'{{ route(\'admin/profile/edit-password\', [\'category\' => $category]) }}\'"', File::get($formPath));
-        $this->assertStringStartsWith('var base = require(\'../components/Form/Form\');
+        $this->assertStringStartsWith('import AppForm from \'../components/Form/AppForm\';
 
 Vue.component(\'profile-edit-password-form\', {
-    mixins: [base]
-});', File::get($formJsPath));
+    mixins: [AppForm]', File::get($formJsPath));
     }
 
 }
