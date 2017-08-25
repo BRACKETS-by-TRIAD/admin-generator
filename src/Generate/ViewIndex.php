@@ -52,6 +52,7 @@ class ViewIndex extends ViewGenerator {
 
         $viewPath = resource_path('views/admin/'.$this->modelViewsDirectory.'/index.blade.php');
         $listingJsPath = resource_path('assets/admin/js/'.$this->modelJSName.'/Listing.js');
+        $indexJsPath = resource_path('assets/admin/js/'.$this->modelJSName.'/index.js');
         $bootstrapJsPath = resource_path('assets/admin/js/index.js');
 
         if ($this->alreadyExists($viewPath) && !$force) {
@@ -82,12 +83,15 @@ class ViewIndex extends ViewGenerator {
 
             $this->files->put($listingJsPath, $this->buildListingJs());
             $this->info('Generating '.$listingJsPath.' finished');
-
-            if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "\nrequire('./".$this->modelJSName."/Listing')\n")){
-                $this->info('Appending Listing to '.$bootstrapJsPath.' finished');
-            };
         }
 
+
+		if ($this->appendIfNotAlreadyAppended($indexJsPath, "import './Listing';\n")){
+			$this->info('Appending Listing to '.$indexJsPath.' finished');
+		}
+		if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "import './". $this->modelJSName ."';\n")){
+			$this->info('Appending '.$this->modelJSName.'/index.js to '.$bootstrapJsPath.' finished');
+		};
     }
 
     protected function buildView() {

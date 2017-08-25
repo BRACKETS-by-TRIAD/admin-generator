@@ -19,12 +19,13 @@ class WholeAdminGeneratorTest extends TestCase
         $destroyPath = base_path('App/Http/Requests/Admin/Category/DestroyCategory.php');
         $routesPath = base_path('routes/web.php');
         $indexPath = resource_path('views/admin/category/index.blade.php');
-        $indexJsPath = resource_path('assets/admin/js/category/Listing.js');
+        $listingJsPath = resource_path('assets/admin/js/category/Listing.js');
         $elementsPath = resource_path('views/admin/category/components/form-elements.blade.php');
         $createPath = resource_path('views/admin/category/create.blade.php');
         $editPath = resource_path('views/admin/category/edit.blade.php');
         $formJsPath = resource_path('assets/admin/js/category/Form.js');
         $factoryPath = base_path('database/factories/ModelFactory.php');
+		$indexJsPath = resource_path('assets/admin/js/category/index.js');
 
         $this->assertFileNotExists($controllerPath);
         $this->assertFileNotExists($indexRequestPath);
@@ -32,7 +33,7 @@ class WholeAdminGeneratorTest extends TestCase
         $this->assertFileNotExists($updatePath);
         $this->assertFileNotExists($destroyPath);
         $this->assertFileNotExists($indexPath);
-        $this->assertFileNotExists($indexJsPath);
+        $this->assertFileNotExists($listingJsPath);
         $this->assertFileNotExists($elementsPath);
         $this->assertFileNotExists($createPath);
         $this->assertFileNotExists($editPath);
@@ -40,6 +41,7 @@ class WholeAdminGeneratorTest extends TestCase
         $this->assertFileNotExists($modelPath);
         $this->assertFileNotExists($routesPath);
         $this->assertFileNotExists($factoryPath);
+		$this->assertFileNotExists($indexJsPath);
 
         $this->artisan('admin:generate', [
             'table_name' => 'categories'
@@ -51,7 +53,7 @@ class WholeAdminGeneratorTest extends TestCase
         $this->assertFileExists($updatePath);
         $this->assertFileExists($destroyPath);
         $this->assertFileExists($indexPath);
-        $this->assertFileExists($indexJsPath);
+        $this->assertFileExists($listingJsPath);
         $this->assertFileExists($elementsPath);
         $this->assertFileExists($createPath);
         $this->assertFileExists($editPath);
@@ -59,6 +61,7 @@ class WholeAdminGeneratorTest extends TestCase
         $this->assertFileExists($modelPath);
         $this->assertFileExists($routesPath);
         $this->assertFileExists($factoryPath);
+		$this->assertFileExists($indexJsPath);
     }
 
 }

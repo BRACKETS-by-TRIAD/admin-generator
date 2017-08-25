@@ -120,7 +120,6 @@ class ViewForm extends ViewGenerator {
         }
 
         $formJsPath = resource_path('assets/admin/js/'.$this->modelJSName.'/Form.js');
-        $bootstrapJsPath = resource_path('assets/admin/js/index.js');
 
         if ($this->alreadyExists($formJsPath) && !$force) {
             $this->error('File '.$formJsPath.' already exists!');
@@ -134,12 +133,17 @@ class ViewForm extends ViewGenerator {
 
             $this->files->put($formJsPath, $this->buildFormJs());
             $this->info('Generating '.$formJsPath.' finished');
-
-            if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "\nrequire('./".$this->modelJSName."/Form')\n")){
-                $this->info('Appending Form to '.$bootstrapJsPath.' finished');
-            };
         }
 
+		$indexJsPath = resource_path('assets/admin/js/'.$this->modelJSName.'/index.js');
+		$bootstrapJsPath = resource_path('assets/admin/js/index.js');
+
+		if ($this->appendIfNotAlreadyAppended($indexJsPath, "import './Form';\n")){
+			$this->info('Appending Form to '.$indexJsPath.' finished');
+		};
+		if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "import './".$this->modelJSName."';\n")){
+			$this->info('Appending Form to '.$bootstrapJsPath.' finished');
+		};
     }
 
     protected function buildForm() {

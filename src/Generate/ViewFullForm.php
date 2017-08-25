@@ -116,10 +116,28 @@ class ViewFullForm extends ViewGenerator {
             $this->files->put($formJsPath, $this->buildFormJs());
             $this->info('Generating '.$formJsPath.' finished');
 
-            if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "\nrequire('./".$this->formJsRelativePath."/Form')\n")){
-                $this->info('Appending Form to '.$bootstrapJsPath.' finished');
-            }
+//            if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "\nrequire('./".$this->formJsRelativePath."/Form')\n")){
+//                $this->info('Appending Form to '.$bootstrapJsPath.' finished');
+//            }
         }
+
+		$indexJsPath = resource_path('assets/admin/js/'.$this->formJsRelativePath.'/index.js');
+		if ($this->alreadyExists($indexJsPath) && !$force) {
+			$this->error('File '.$indexJsPath.' already exists!');
+		} else {
+			if ($this->alreadyExists($indexJsPath) && $force) {
+				$this->warn('File '.$indexJsPath.' already exists! File will be deleted.');
+				$this->files->delete($indexJsPath);
+			}
+			$this->makeDirectory($indexJsPath);
+		}
+
+		if ($this->appendIfNotAlreadyAppended($indexJsPath, "import './Form';\n")){
+			$this->info('Appending Form to '.$indexJsPath.' finished');
+		};
+		if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "import './". $this->formJsRelativePath ."';\n")){
+			$this->info('Appending '.$this->formJsRelativePath.'/index.js to '.$bootstrapJsPath.' finished');
+		};
 
     }
 

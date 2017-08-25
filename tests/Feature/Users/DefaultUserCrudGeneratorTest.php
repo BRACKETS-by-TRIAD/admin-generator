@@ -19,7 +19,8 @@ class DefaultUserCrudGeneratorTest extends UserTestCase
         $destroyPath = base_path('App/Http/Requests/Admin/User/DestroyUser.php');
         $routesPath = base_path('routes/web.php');
         $indexPath = resource_path('views/admin/user/index.blade.php');
-        $indexJsPath = resource_path('assets/admin/js/user/Listing.js');
+        $listingJsPath = resource_path('assets/admin/js/user/Listing.js');
+        $indexJsPath = resource_path('assets/admin/js/user/index.js');
         $elementsPath = resource_path('views/admin/user/components/form-elements.blade.php');
         $createPath = resource_path('views/admin/user/create.blade.php');
         $editPath = resource_path('views/admin/user/edit.blade.php');
@@ -32,11 +33,12 @@ class DefaultUserCrudGeneratorTest extends UserTestCase
         $this->assertFileNotExists($updatePath);
         $this->assertFileNotExists($destroyPath);
         $this->assertFileNotExists($indexPath);
-        $this->assertFileNotExists($indexJsPath);
+        $this->assertFileNotExists($listingJsPath);
         $this->assertFileNotExists($elementsPath);
         $this->assertFileNotExists($createPath);
         $this->assertFileNotExists($editPath);
         $this->assertFileNotExists($formJsPath);
+		$this->assertFileNotExists($indexJsPath);
 
 
         $this->artisan('admin:generate:user');
@@ -47,11 +49,12 @@ class DefaultUserCrudGeneratorTest extends UserTestCase
         $this->assertFileExists($updatePath);
         $this->assertFileExists($destroyPath);
         $this->assertFileExists($indexPath);
-        $this->assertFileExists($indexJsPath);
+        $this->assertFileExists($listingJsPath);
         $this->assertFileExists($elementsPath);
         $this->assertFileExists($createPath);
         $this->assertFileExists($editPath);
         $this->assertFileExists($formJsPath);
+		$this->assertFileExists($indexJsPath);
         $this->assertStringStartsWith('<?php namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -119,13 +122,14 @@ Route::middleware([\'admin\'])->group(function () {
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.default\')', File::get($indexPath));
         $this->assertStringStartsWith('import AppListing from \'../components/Listing/AppListing\';
 
-Vue.component(\'user-listing\'', File::get($indexJsPath));
+Vue.component(\'user-listing\'', File::get($listingJsPath));
         $this->assertStringStartsWith('<div ', File::get($elementsPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.default\')', File::get($createPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.default\')', File::get($editPath));
         $this->assertStringStartsWith('import AppForm from \'../components/Form/AppForm\';
 
 Vue.component(\'user-form\'', File::get($formJsPath));
+        $this->assertStringStartsWith('import \'./Listing\';', File::get($indexJsPath));
         $this->assertStringStartsWith('<?php
 
 /** @var  \Illuminate\Database\Eloquent\Factory $factory */

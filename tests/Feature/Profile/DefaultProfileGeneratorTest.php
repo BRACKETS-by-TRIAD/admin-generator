@@ -18,12 +18,15 @@ class DefaultProfileGeneratorTest extends UserTestCase
         $formJsPathProfile = resource_path('assets/admin/js/profile-edit-profile/Form.js');
         $editPathPassword = resource_path('views/admin/profile/edit-password.blade.php');
         $formJsPathPassword = resource_path('assets/admin/js/profile-edit-password/Form.js');
+        $indexJsPathPassword = resource_path('assets/admin/js/profile-edit-password/index.js');
+        $bootstrapJsPath =
 
         $this->assertFileNotExists($filePathController);
         $this->assertFileNotExists($editPathProfile);
         $this->assertFileNotExists($formJsPathProfile);
         $this->assertFileNotExists($editPathPassword);
         $this->assertFileNotExists($formJsPathPassword);
+		$this->assertFileNotExists($indexJsPathPassword);
 
         $this->artisan('admin:generate:user:profile', [
         ]);
@@ -33,6 +36,7 @@ class DefaultProfileGeneratorTest extends UserTestCase
         $this->assertFileExists($formJsPathProfile);
         $this->assertFileExists($editPathPassword);
         $this->assertFileExists($formJsPathPassword);
+		$this->assertFileExists($indexJsPathPassword);
 
         $this->assertStringStartsWith('<?php namespace App\Http\Controllers\Admin;
 
@@ -80,5 +84,7 @@ Vue.component(\'profile-edit-profile-form\'', File::get($formJsPathProfile));
         $this->assertStringStartsWith('import AppForm from \'../components/Form/AppForm\';
 
 Vue.component(\'profile-edit-password-form\'', File::get($formJsPathPassword));
+        $this->assertStringStartsWith("import './Form';\n", File::get($indexJsPathPassword));
     }
+
 }

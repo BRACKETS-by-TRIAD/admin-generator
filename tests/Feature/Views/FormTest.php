@@ -16,11 +16,16 @@ class FormTest extends TestCase
         $createPath = resource_path('views/admin/category/create.blade.php');
         $editPath = resource_path('views/admin/category/edit.blade.php');
         $formJsPath = resource_path('assets/admin/js/category/Form.js');
+		$indexJsPath = resource_path('assets/admin/js/category/index.js');
+		$bootstrapJsPath = resource_path('assets/admin/js/index.js');
 
         $this->assertFileNotExists($elementsPath);
         $this->assertFileNotExists($createPath);
         $this->assertFileNotExists($editPath);
         $this->assertFileNotExists($formJsPath);
+		$this->assertFileNotExists($indexJsPath);
+		$this->assertFileNotExists($bootstrapJsPath);
+
 
         $this->artisan('admin:generate:form', [
             'table_name' => 'categories'
@@ -30,6 +35,8 @@ class FormTest extends TestCase
         $this->assertFileExists($createPath);
         $this->assertFileExists($editPath);
         $this->assertFileExists($formJsPath);
+		$this->assertFileExists($indexJsPath);
+		$this->assertFileExists($bootstrapJsPath);
         $this->assertStringStartsWith('<div ', File::get($elementsPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.default\')', File::get($createPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.default\')', File::get($editPath));
@@ -37,6 +44,8 @@ class FormTest extends TestCase
 
 Vue.component(\'category-form\', {
     mixins: [AppForm]', File::get($formJsPath));
+		$this->assertStringStartsWith('import \'./Form\'', File::get($indexJsPath));
+		$this->assertStringStartsWith('import \'./category\';', File::get($bootstrapJsPath));
     }
 
 
@@ -46,11 +55,15 @@ Vue.component(\'category-form\', {
         $createPath = resource_path('views/admin/billing/my-article/create.blade.php');
         $editPath = resource_path('views/admin/billing/my-article/edit.blade.php');
         $formJsPath = resource_path('assets/admin/js/billing-my-article/Form.js');
+		$indexJsPath = resource_path('assets/admin/js/billing-my-article/index.js');
+		$bootstrapJsPath = resource_path('assets/admin/js/index.js');
 
         $this->assertFileNotExists($elementsPath);
         $this->assertFileNotExists($createPath);
         $this->assertFileNotExists($editPath);
         $this->assertFileNotExists($formJsPath);
+		$this->assertFileNotExists($indexJsPath);
+		$this->assertFileNotExists($bootstrapJsPath);
 
         $this->artisan('admin:generate:form', [
             'table_name' => 'categories',
@@ -61,6 +74,8 @@ Vue.component(\'category-form\', {
         $this->assertFileExists($createPath);
         $this->assertFileExists($editPath);
         $this->assertFileExists($formJsPath);
+		$this->assertFileExists($indexJsPath);
+		$this->assertFileExists($bootstrapJsPath);
         $this->assertStringStartsWith('<div ', File::get($elementsPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.default\')', File::get($createPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin::admin.layout.default\')', File::get($editPath));
@@ -68,6 +83,9 @@ Vue.component(\'category-form\', {
 
 Vue.component(\'billing-my-article-form\', {
     mixins: [AppForm]', File::get($formJsPath));
+		$this->assertStringStartsWith('import \'./Form\'', File::get($indexJsPath));
+		$this->assertStringStartsWith('import \'./billing-my-article\';', File::get($bootstrapJsPath));
     }
+
 
 }
