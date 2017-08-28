@@ -71,7 +71,7 @@ class ViewIndex extends ViewGenerator {
         }
 
 
-        if ($this->alreadyExists($listingJsPath && !$force)) {
+        if ($this->alreadyExists($listingJsPath) && !$force) {
             $this->error('File '.$listingJsPath.' already exists!');
         } else {
             if ($this->alreadyExists($listingJsPath) && $force) {
