@@ -6,6 +6,7 @@
         ],
 
         'columns' => [
+            'id' => "ID",
             @foreach($columns as $col)'{{ $col['name'] }}' => "{{ ucfirst(str_replace('_', ' ', $col['name'])) }}",
             @endforeach
 
