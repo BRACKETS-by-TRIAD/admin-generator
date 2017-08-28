@@ -11,7 +11,7 @@
     }
 @endphp
 
-@if($translatable->count() > 0)use Brackets\Admin\TranslatableFormRequest;
+@if($translatable->count() > 0)use Brackets\Translatable\TranslatableFormRequest;
 @else
 use Illuminate\Foundation\Http\FormRequest;
 @endif
