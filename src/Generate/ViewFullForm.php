@@ -146,6 +146,7 @@ class ViewFullForm extends ViewGenerator {
             'route' => $this->route,
             'modelJSName' => $this->formJsRelativePath,
             'modelDotNotation' => $this->modelDotNotation,
+            'modelLangFormat' => $this->modelLangFormat,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName)->sortByDesc(function($column) {
                 return $column['type'] == "json";

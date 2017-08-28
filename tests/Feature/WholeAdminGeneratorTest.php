@@ -26,6 +26,7 @@ class WholeAdminGeneratorTest extends TestCase
         $formJsPath = resource_path('assets/admin/js/category/Form.js');
         $factoryPath = base_path('database/factories/ModelFactory.php');
 		$indexJsPath = resource_path('assets/admin/js/category/index.js');
+		$langPath = resource_path('lang/en/admin.php');
 
         $this->assertFileNotExists($controllerPath);
         $this->assertFileNotExists($indexRequestPath);
@@ -42,6 +43,7 @@ class WholeAdminGeneratorTest extends TestCase
         $this->assertFileNotExists($routesPath);
         $this->assertFileNotExists($factoryPath);
 		$this->assertFileNotExists($indexJsPath);
+		$this->assertFileNotExists($langPath);
 
         $this->artisan('admin:generate', [
             'table_name' => 'categories'
@@ -62,6 +64,7 @@ class WholeAdminGeneratorTest extends TestCase
         $this->assertFileExists($routesPath);
         $this->assertFileExists($factoryPath);
 		$this->assertFileExists($indexJsPath);
+		$this->assertFileExists($langPath);
     }
 
 }

@@ -153,6 +153,7 @@ class ViewForm extends ViewGenerator {
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
             'modelPlural' => $this->modelPlural,
             'modelDotNotation' => $this->modelDotNotation,
+            'modelLangFormat' => $this->modelLangFormat,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName)->sortByDesc(function($column) {
                 return $column['type'] == "json";
@@ -175,6 +176,7 @@ class ViewForm extends ViewGenerator {
             'modelViewsDirectory' => $this->modelViewsDirectory,
             'modelDotNotation' => $this->modelDotNotation,
             'modelJSName' => $this->modelJSName,
+            'modelLangFormat' => $this->modelLangFormat,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
             'hasTranslatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
@@ -193,10 +195,11 @@ class ViewForm extends ViewGenerator {
             'modelViewsDirectory' => $this->modelViewsDirectory,
             'modelDotNotation' => $this->modelDotNotation,
             'modelJSName' => $this->modelJSName,
+            'modelLangFormat' => $this->modelLangFormat,
+
             'modelTitle' => $this->readColumnsFromTable($this->tableName)->filter(function($column){
             	return in_array($column['name'], ['title', 'name', 'first_name', 'email']);
             })->first(null, ['name'=>'id'])['name'],
-
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
             'hasTranslatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return $column['type'] == "json";

@@ -44,7 +44,11 @@ class Lang extends FileAppender {
             $locale = 'en';
         }
 
-        if ($this->appendIfNotAlreadyAppended(resource_path('lang/'.$locale.'/admin.php'), "\n\n".$this->buildClass())){
+        // TODO what if a file has been changed? this will append it again (because the content is not present anymore -> we should probably check only for a root key for existence)
+
+        // TODO name-spaced model names should be probably inserted as a sub-array in a translation file..
+
+        if ($this->replaceIfNotPresent(resource_path('lang/'.$locale.'/admin.php'),  "// Do not delete me :) I'm used for auto-generation\n",$this->buildClass()."\n", "<?php\n\nreturn [\n    // Do not delete me :) I'm used for auto-generation\n];")){
             $this->info('Appending translations finished');
         }
     }
@@ -52,7 +56,11 @@ class Lang extends FileAppender {
     protected function buildClass() {
 
         return view('brackets/admin-generator::'.$this->view, [
+            'modelLangFormat' => $this->modelLangFormat,
             'modelBaseName' => $this->modelBaseName,
+            'modelPlural' => $this->modelPlural,
+
+            'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
         ])->render();
     }
 

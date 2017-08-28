@@ -1,6 +1,6 @@
 {{'@'}}extends('brackets/admin::admin.layout.default')
 
-{{'@'}}section('title', trans('admin.{{ $modelDotNotation }}.actions.index'))
+{{'@'}}section('title', trans('admin.{{ $modelLangFormat }}.actions.index'))
 
 {{'@'}}section('body')
 
@@ -13,8 +13,8 @@
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> {{'{{'}} trans('admin.{{ $modelDotNotation }}.actions.index') }}
-                        <a class="btn btn-primary btn-sm pull-right m-b-0" href="{{'{{'}} url('admin/{{ $modelViewsDirectory }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; {{'{{'}} trans('admin.{{ $modelDotNotation }}.actions.create') }}</a>
+                        <i class="fa fa-align-justify"></i> {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.index') }}
+                        <a class="btn btn-primary btn-sm pull-right m-b-0" href="{{'{{'}} url('admin/{{ $modelViewsDirectory }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.create') }}</a>
                     </div>
                     <div class="card-block" v-cloak>
                         <form @submit.prevent="">
@@ -43,7 +43,7 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    @foreach($columns as $col)<th is='sortable' :column="'{{ $col['name'] }}'">{{'{{'}} trans('admin.{{ $modelDotNotation }}.columns.{{ $col['name'] }}') }}</th>
+                                    @foreach($columns as $col)<th is='sortable' :column="'{{ $col['name'] }}'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</th>
                                     @endforeach
 
                                     <th></th>

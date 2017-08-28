@@ -1,6 +1,6 @@
 {{'@'}}extends('brackets/admin::admin.layout.default')
 
-{{'@'}}section('title', trans('admin.{{ $modelDotNotation }}.actions.create'))
+{{'@'}}section('title', trans('admin.{{ $modelLangFormat }}.actions.create'))
 
 {{'@'}}section('body')
 
@@ -18,7 +18,7 @@
                 <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
 
                     <div class="card-header">
-                        <i class="fa fa-plus"></i> {{'{{'}} trans('admin.{{ $modelDotNotation }}.actions.create') }}
+                        <i class="fa fa-plus"></i> {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.create') }}
                     </div>
 
                     <div class="card-block">

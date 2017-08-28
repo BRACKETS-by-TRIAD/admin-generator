@@ -48,13 +48,14 @@ abstract class FileAppender extends Command {
      *
      * @param $path
      * @param $content
+     * @param string $defaultContent content that will be used to populated with newly created file (in case it does not already exists)
      * @return bool
      */
-    protected function appendIfNotAlreadyAppended($path, $content)
+    protected function appendIfNotAlreadyAppended($path, $content, $defaultContent = "<?php\n\n")
     {
         if (!$this->files->exists($path)) {
             $this->makeDirectory($path);
-            $this->files->put($path, "<?php\n\n".$content);
+            $this->files->put($path, $defaultContent.$content);
         } else if (!$this->alreadyAppended($path, $content)) {
             $this->files->append($path, $content);
         } else {
@@ -62,6 +63,30 @@ abstract class FileAppender extends Command {
         }
 
         return true;
+    }
+
+    /**
+     * Append content to file only if if the content is not present in the file
+     *
+     * @param $path
+     * @param $search
+     * @param $replace
+     * @param string $defaultContent content that will be used to populated with newly created file (in case it does not already exists)
+     * @return bool
+     */
+    protected function replaceIfNotPresent($path, $search, $replace, $defaultContent = "<?php\n\n")
+    {
+        if (!$this->files->exists($path)) {
+            $this->makeDirectory($path);
+            $this->files->put($path, $defaultContent);
+        }
+
+        if (!$this->alreadyAppended($path, $replace)) {
+            $this->files->put($path, str_replace($search, $replace, $this->files->get($path)));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
