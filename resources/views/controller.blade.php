@@ -93,7 +93,7 @@ class {{ $controllerBaseName }} extends Controller
 @endif
 @endif
         if ($request->ajax()) {
-            return ['redirect' => url('admin/{{ $modelViewsDirectory }}', 'message' => trans('brackets/admin::admin.operation.succeeded')];
+            return ['redirect' => url('admin/{{ $modelViewsDirectory }}'), 'message' => trans('brackets/admin::admin.operation.succeeded')];
         }
 
         return redirect('admin/{{ $modelViewsDirectory }}');
@@ -185,7 +185,7 @@ class {{ $controllerBaseName }} extends Controller
         ${{ $modelVariableName }}->delete();
 
         if ($request->ajax()) {
-            return response(['message' => trans('brackets/admin::admin.operation.succeeded')];]);
+            return response(['message' => trans('brackets/admin::admin.operation.succeeded')]);
         }
 
         return redirect()->back();
