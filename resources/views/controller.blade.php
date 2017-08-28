@@ -93,11 +93,10 @@ class {{ $controllerBaseName }} extends Controller
 @endif
 @endif
         if ($request->ajax()) {
-            return ['redirect' => url('admin/{{ $modelViewsDirectory }}')];
+            return ['redirect' => url('admin/{{ $modelViewsDirectory }}', 'message' => trans('brackets/admin::admin.operation.succeeded')];
         }
 
-        return redirect('admin/{{ $modelViewsDirectory }}')
-            ->withSuccess(__('{{ $modelBaseName }} was created'));
+        return redirect('admin/{{ $modelViewsDirectory }}');
     }
 
     /**
@@ -168,11 +167,10 @@ class {{ $controllerBaseName }} extends Controller
 @endif
 @endif
         if ($request->ajax()) {
-            return ['redirect' => url('admin/{{ $modelViewsDirectory }}')];
+            return ['redirect' => url('admin/{{ $modelViewsDirectory }}'), 'message' => trans('brackets/admin::admin.operation.succeeded')];
         }
 
-        return redirect('admin/{{ $modelViewsDirectory }}')
-            ->withSuccess(__('{{ $modelBaseName }} was updated'));
+        return redirect('admin/{{ $modelViewsDirectory }}');
     }
 
     /**
@@ -187,10 +185,9 @@ class {{ $controllerBaseName }} extends Controller
         ${{ $modelVariableName }}->delete();
 
         if ($request->ajax()) {
-            return response([]);
+            return response(['message' => trans('brackets/admin::admin.operation.succeeded')];]);
         }
 
-        return redirect()->back()
-            ->withSuccess(__('{{ $modelBaseName }} was deleted'));
+        return redirect()->back();
     }
 }

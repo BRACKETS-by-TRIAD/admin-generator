@@ -1,5 +1,7 @@
 {{'@'}}extends('brackets/admin::admin.layout.default')
 
+{{-- TODO title --}}
+
 {{'@'}}section('body')
 
     <div class="container-xl">
@@ -21,7 +23,7 @@
                 <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
 
                     <div class="card-header">
-                        <i class="fa fa-plus"></i> {{ $modelBaseName }}
+                        <i class="fa fa-plus"></i> {{-- TODO title + correct icon --}}
                     </div>
 
                     <div class="card-block">
@@ -31,7 +33,7 @@
                     </div>
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary">@{{ trans('brackets/admin::admin.btn.save') }}</button>
                     </div>
 
                 </form>

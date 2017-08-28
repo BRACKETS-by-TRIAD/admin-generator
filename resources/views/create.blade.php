@@ -1,6 +1,6 @@
 {{'@'}}extends('brackets/admin::admin.layout.default')
 
-{{'@'}}section('title', 'New {{ $modelBaseName }}')
+{{'@'}}section('title', trans('admin.{{ $modelDotNotation }}.actions.create'))
 
 {{'@'}}section('body')
 
@@ -18,7 +18,7 @@
                 <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
 
                     <div class="card-header">
-                        <i class="fa fa-plus"></i> New {{ $modelBaseName }}
+                        <i class="fa fa-plus"></i> {{'{{'}} trans('admin.{{ $modelDotNotation }}.actions.create') }}
                     </div>
 
                     <div class="card-block">
@@ -28,7 +28,7 @@
                     </div>
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary">@{{ trans('brackets/admin::admin.btn.save') }}</button>
                     </div>
 
                 </form>

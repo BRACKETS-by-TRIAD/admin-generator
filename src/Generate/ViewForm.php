@@ -152,6 +152,7 @@ class ViewForm extends ViewGenerator {
             'modelBaseName' => $this->modelBaseName,
             'modelRouteAndViewName' => $this->modelRouteAndViewName,
             'modelPlural' => $this->modelPlural,
+            'modelDotNotation' => $this->modelDotNotation,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName)->sortByDesc(function($column) {
                 return $column['type'] == "json";
