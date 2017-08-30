@@ -52,7 +52,7 @@ class ViewForm extends ViewGenerator {
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $force = $this->option('force');
 

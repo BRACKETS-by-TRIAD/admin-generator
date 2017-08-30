@@ -26,7 +26,7 @@ class GenerateAdmin extends Command {
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
 
         $tableNameArgument = $this->argument('table_name');

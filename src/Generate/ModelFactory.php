@@ -31,7 +31,7 @@ class ModelFactory extends FileAppender {
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         //TODO check if exists
         //TODO make global for all generator

@@ -14,12 +14,12 @@
     ],
     "require": {
         "php": ">=7.0.0",
-        "illuminate/support": "5.4.*",
-        "illuminate/console": "5.4.*",
+        "illuminate/support": "5.5.*",
+        "illuminate/console": "5.5.*",
         "doctrine/dbal": "^2.6"
     },
     "require-dev": {
-        "orchestra/testbench": "~3.0",
+        "orchestra/testbench": "~3.5",
         "phpunit/phpunit": "~6.3"
     },
     "autoload": {
@@ -31,6 +31,13 @@
     "autoload-dev": {
         "psr-4": {
             "Brackets\\AdminGenerator\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Brackets\\AdminGenerator\\AdminGeneratorServiceProvider"
+            ]
         }
     }
 }

@@ -23,7 +23,7 @@ class IndexRequest extends ClassGenerator {
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $force = $this->option('force');
 

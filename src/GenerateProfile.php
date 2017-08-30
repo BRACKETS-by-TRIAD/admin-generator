@@ -37,7 +37,7 @@ class GenerateProfile extends Command {
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $tableNameArgument = 'users';
         $modelOption = $this->option('model-name');
