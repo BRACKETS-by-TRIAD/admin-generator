@@ -86,7 +86,7 @@
                         </div>
 
 	                    <div class="no-items-found" v-if="!collection.length > 0">
-		                    <i class="fa fa-search"></i>
+		                    <i class="icon-magnifier"></i>
 		                    <h3>@{{ trans('brackets/admin::admin.index.no_items') }}</h3>
 		                    <p>@{{ trans('brackets/admin::admin.index.try_changing_items') }}</p>
 	                    </div>
