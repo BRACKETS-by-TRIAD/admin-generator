@@ -22,7 +22,7 @@
                 inline-template>
             @endif
 
-                <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
+                <form class="form-horizontal form-edit" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
 
                     <div class="card-header">
                         <i class="fa fa-pencil"></i> Edit the {{ $modelBaseName }}
@@ -35,7 +35,10 @@
                     </div>
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
+	                    <button type="submit" class="btn btn-primary">
+		                    <i class="fa" :class="submiting ? 'fa-spinner' : 'fa-download'"></i>
+		                    Save
+	                    </button>
                     </div>
 
                 </form>
