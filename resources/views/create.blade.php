@@ -15,7 +15,7 @@
 
                 inline-template>
 
-                <form class="form-horizontal form-create" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
+                <form class="form-horizontal form-create" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action" novalidate>
 
                     <div class="card-header">
                         <i class="fa fa-plus"></i> {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.create') }}
