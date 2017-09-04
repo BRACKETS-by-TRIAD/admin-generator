@@ -49,7 +49,7 @@ trait Columns {
             $frontendRules = collect([]);
             if ($column['required']) {
                 $serverStoreRules->push('\'required\'');
-                $serverUpdateRules->push('\'required\'');
+                $serverUpdateRules->push('\'sometimes\'');
                 if($column['type'] != 'boolean' && $column['name'] != 'password') {
                     $frontendRules->push('required');
                 }
