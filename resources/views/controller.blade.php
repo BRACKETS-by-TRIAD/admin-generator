@@ -78,7 +78,7 @@ class {{ $controllerBaseName }} extends Controller
     public function store(Store{{ $modelBaseName }} $request)
     {
         // Sanitize input
-        $sanitized = $request->only(collect($request->rules())->keys()->all());
+        $sanitized = $request->validated();
 
         // Store the {{ $modelBaseName }}
         ${{ $modelVariableName }} = {{ $modelBaseName }}::create($sanitized);
@@ -152,7 +152,7 @@ class {{ $controllerBaseName }} extends Controller
     public function update(Update{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
         // Sanitize input
-        $sanitized = $request->only(collect($request->rules())->keys()->all());
+        $sanitized = $request->validated();
 
         // Update changed values {{ $modelBaseName }}
         ${{ $modelVariableName }}->update($sanitized);
