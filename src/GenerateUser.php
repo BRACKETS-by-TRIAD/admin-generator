@@ -72,6 +72,14 @@ class GenerateUser extends Command {
             //TODO change config/auth.php to use our user model for auth
         }
 
+        // we need to replace this before controller generation happens
+        $this->strReplaceInFile(
+            resource_path('views/admin/layout/sidebar.blade.php'),
+            '|url\(\'admin\/user\'\)|',
+            '{{-- Do not delete me :) I\'m also used for auto-generation menu items --}}',
+            '<li class="nav-item"><a class="nav-link" href="{{ url(\'admin/user\') }}"><i class="icon-user"></i> <span class="nav-link-text">{{ __(\'Manage access\') }}</span></a></li>
+            {{-- Do not delete me :) I\'m also used for auto-generation menu items --}}');
+
         $this->call('admin:generate:controller', [
             'table_name' => $tableNameArgument,
             'class_name' => $controllerOption,
@@ -129,13 +137,6 @@ class GenerateUser extends Command {
             '--model-name' => $modelOption,
             '--template' => 'user',
         ]);
-
-        $this->strReplaceInFile(
-            resource_path('views/admin/layout/sidebar.blade.php'),
-            '|url\(\'admin\/user\'\)|',
-            '{{-- Do not delete me :) I\'m also used for auto-generation menu items --}}',
-            '<li class="nav-item"><a class="nav-link" href="{{ url(\'admin/user\') }}"><i class="icon-user"></i> <span class="nav-link-text">{{ __(\'Manage access\') }}</span></a></li>
-            {{-- Do not delete me :) I\'m also used for auto-generation menu items --}}');
 
         if ($this->option('seed')) {
             $this->info('Seeding testing data');
