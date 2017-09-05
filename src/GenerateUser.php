@@ -127,6 +127,13 @@ class GenerateUser extends Command {
             '--template' => 'user',
         ]);
 
+        $this->strReplaceInFile(
+            resource_path('views/admin/layout/sidebar.blade.php'),
+            '|url\(\'admin\/user\'\)|',
+            '{{-- Do not delete me :) I\'m also used for auto-generation menu items --}}',
+            '<li class="nav-item"><a class="nav-link" href="{{ url(\'admin/user\') }}"><i class="icon-user"></i> <span class="nav-link-text">{{ __(\'Manage access\') }}</span></a></li>
+            {{-- Do not delete me :) I\'m also used for auto-generation menu items --}}');
+
         if ($this->option('seed')) {
             $this->info('Seeding testing data');
             factory($this->modelFullName, 20)->create();

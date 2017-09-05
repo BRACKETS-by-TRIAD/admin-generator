@@ -83,6 +83,20 @@ class GenerateProfile extends Command {
             '--template' => 'profile.password',
         ]);
 
+        $this->strReplaceInFile(
+            resource_path('views/admin/layout/profile-dropdown.blade.php'),
+            '|url\(\'admin\/profile\'\)|',
+            '{{-- Do not delete me :) I\'m used for auto-generation menu items --}}',
+            '<a href="{{ url(\'admin/profile\') }}" class="dropdown-item"><i class="fa fa-user"></i> Profile</a>
+    {{-- Do not delete me :) I\'m used for auto-generation menu items --}}');
+
+        $this->strReplaceInFile(
+            resource_path('views/admin/layout/profile-dropdown.blade.php'),
+            '|url\(\'admin\/password\'\)|',
+            '{{-- Do not delete me :) I\'m used for auto-generation menu items --}}',
+            '<a href="{{ url(\'admin/password\') }}" class="dropdown-item"><i class="fa fa-key"></i> Password</a>
+    {{-- Do not delete me :) I\'m used for auto-generation menu items --}}');
+
         $this->info('Generating whole admin "My Profile" finished');
 
     }
