@@ -114,7 +114,7 @@
 @foreach($relations['belongsToMany'] as $belongsToMany)<div class="form-group row" :class="{'has-danger': errors.has('{{ $belongsToMany['related_table'] }}'), 'has-success': this.fields.{{ $belongsToMany['related_table'] }} && this.fields.{{ $belongsToMany['related_table'] }}.valid }">
     <label for="{{ $belongsToMany['related_table'] }}" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-sm-2'">{{ $belongsToMany['related_model_name_plural'] }}</label>
     <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
-        <multiselect v-model="form.{{ $belongsToMany['related_table'] }}" placeholder="Select {{ $belongsToMany['related_model_name_plural'] }}" label="name" track-by="id" :options="@{{ ${{ $belongsToMany['related_table'] }}->toJson() }}" :multiple="true"></multiselect>
+        <multiselect v-model="form.{{ $belongsToMany['related_table'] }}" placeholder="Select {{ $belongsToMany['related_model_name_plural'] }}" label="name" track-by="id" :options="{{'{{'}} ${{ $belongsToMany['related_table'] }}->toJson() }}" :multiple="true"></multiselect>
         <div v-if="errors.has('{{ $belongsToMany['related_table'] }}')" class="form-control-feedback form-text" v-cloak>@@{{ errors.first('@php echo $belongsToMany['related_table']; @endphp') }}</div>
     </div>
 </div>

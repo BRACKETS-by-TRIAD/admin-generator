@@ -66,7 +66,6 @@ trait Columns {
 
             if ($column['name'] == 'password') {
                 $serverStoreRules->push('\'confirmed\'');
-                $serverUpdateRules->push('\'sometimes\'');
                 $serverUpdateRules->push('\'confirmed\'');
                 $frontendRules->push('confirmed:password_confirmation');
 

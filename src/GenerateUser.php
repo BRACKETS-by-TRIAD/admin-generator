@@ -86,12 +86,14 @@ class GenerateUser extends Command {
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
             '--template' => 'user',
+            '--belongs-to-many' => 'roles',
         ]);
 
         $this->call('admin:generate:request:update', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
             '--template' => 'user',
+            '--belongs-to-many' => 'roles',
         ]);
 
         $this->call('admin:generate:request:destroy', [

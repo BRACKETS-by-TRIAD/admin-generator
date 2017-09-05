@@ -66,14 +66,14 @@
         <div v-if="errors.has('{{ $col['name'] }}')" class="form-control-feedback" v-cloak>{{'@{{'}} errors.first('{{ $col['name'] }}') }}</div>
     </div>
 </div>
-@elseif($col['type'] == 'boolean')<div class="form-check row" :class="{'has-danger': errors.has('{{ $col['name'] }}'), 'has-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid }"@if($col['name'] == 'activated') v-if="activation"@endif>
-    <div class="col-md-9 col-xl-8 offset-md-3">
-        <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" v-model="form.{{ $col['name'] }}" v-validate="'{{ implode('|', $col['frontendRules']) }}'" data-vv-name="{{ $col['name'] }}"  name="{{ $col['name'] }}_fake_element">
-            <input type="hidden" name="{{ $col['name'] }}" :value="form.{{ $col['name'] }}">
-            {{ ucfirst($col['name']) }}?
-            <div v-if="errors.has('{{ $col['name'] }}')" class="form-control-feedback" v-cloak>{{'@{{'}} errors.first('{{ $col['name'] }}') }}</div>
+@elseif($col['type'] == 'boolean')<div class="form-check row" :class="{'has-danger': errors.has('{{ $col['name'] }}'), 'has-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid }">
+    <div class="ml-md-auto" :class="isFormLocalized ? 'col-md-8' : 'col-md-10'">
+        <input class="form-check-input" id="{{ $col['name'] }}" type="checkbox" v-model="form.{{ $col['name'] }}" v-validate="'{{ implode('|', $col['frontendRules']) }}'" data-vv-name="{{ $col['name'] }}"  name="{{ $col['name'] }}_fake_element">
+        <label class="form-check-label" for="{{ $col['name'] }}">
+            {{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}
         </label>
+        <input type="hidden" name="{{ $col['name'] }}" :value="form.{{ $col['name'] }}">
+        <div v-if="errors.has('{{ $col['name'] }}')" class="form-control-feedback form-text" v-cloak>{{'@{{'}} errors.first('{{ $col['name'] }}') }}</div>
     </div>
 </div>
 @elseif($col['type'] == 'json')<div class="row">
@@ -109,7 +109,7 @@
 @foreach($relations['belongsToMany'] as $belongsToMany)<div class="form-group row" :class="{'has-danger': errors.has('{{ $belongsToMany['related_table'] }}'), 'has-success': this.fields.{{ $belongsToMany['related_table'] }} && this.fields.{{ $belongsToMany['related_table'] }}.valid }">
     <label for="{{ $belongsToMany['related_table'] }}" class="col-md-3 col-form-label text-md-right">{{ $belongsToMany['related_model_name_plural'] }}</label>
     <div class="col-md-9 col-xl-8">
-        <multiselect v-model="form.{{ $belongsToMany['related_table'] }}" placeholder="Select {{ $belongsToMany['related_model_name_plural'] }}" label="name" track-by="id" :options="@{{ ${{ $belongsToMany['related_table'] }}->toJson() }}" :multiple="true"></multiselect>
+        <multiselect v-model="form.{{ $belongsToMany['related_table'] }}" placeholder="Select {{ $belongsToMany['related_model_name_plural'] }}" label="name" track-by="id" :options="{{'{{'}} ${{ $belongsToMany['related_table'] }}->toJson() }}" :multiple="true"></multiselect>
         <div v-if="errors.has('{{ $belongsToMany['related_table'] }}')" class="form-control-feedback" v-cloak>@@{{ errors.first('@php echo $belongsToMany['related_table']; @endphp') }}</div>
     </div>
 </div>

@@ -49,13 +49,13 @@
                             </div>
                         </div>
                         @elseif($col['type'] == 'boolean')<div class="form-check row" :class="{'has-danger': errors.has('{{ $col['name'] }}'), 'has-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid }">
-                            <div class="col-md-9 col-xl-8 offset-md-3">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" v-model="form.{{ $col['name'] }}" v-validate="'{{ implode('|', $col['frontendRules']) }}'" data-vv-name="{{ $col['name'] }}"  name="{{ $col['name'] }}_fake_element">
-                                    <input type="hidden" name="{{ $col['name'] }}" :value="form.{{ $col['name'] }}">
-                                    {{ ucfirst($col['name']) }}?
-                                    <div v-if="errors.has('{{ $col['name'] }}')" class="form-control-feedback" v-cloak>{{'@{{'}} errors.first('{{ $col['name'] }}') }}</div>
+                            <div class="ml-md-auto" :class="isFormLocalized ? 'col-md-8' : 'col-md-10'">
+                                <input class="form-check-input" id="{{ $col['name'] }}" type="checkbox" v-model="form.{{ $col['name'] }}" v-validate="'{{ implode('|', $col['frontendRules']) }}'" data-vv-name="{{ $col['name'] }}"  name="{{ $col['name'] }}_fake_element">
+                                <label class="form-check-label" for="{{ $col['name'] }}">
+                                    {{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}
                                 </label>
+                                <input type="hidden" name="{{ $col['name'] }}" :value="form.{{ $col['name'] }}">
+                                <div v-if="errors.has('{{ $col['name'] }}')" class="form-control-feedback form-text" v-cloak>{{'@{{'}} errors.first('{{ $col['name'] }}') }}</div>
                             </div>
                         </div>
                         @else<div class="form-group row" :class="{'has-danger': errors.has('{{ $col['name'] }}'), 'has-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid }">
