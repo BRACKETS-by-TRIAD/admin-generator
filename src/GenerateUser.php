@@ -2,6 +2,7 @@
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 use Symfony\Component\Console\Input\InputOption;
 
 class GenerateUser extends Command {
@@ -157,6 +158,16 @@ class GenerateUser extends Command {
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating admin user'],
             ['seed', 's', InputOption::VALUE_NONE, 'Seeds table with fake data'],
         ];
+    }
+
+
+    private function strReplaceInFile($fileName, $ifExistsRegex, $find, $replaceWith) {
+        $content = File::get($fileName);
+        if (preg_match($ifExistsRegex, $content)) {
+            return;
+        }
+
+        return File::put($fileName, str_replace($find, $replaceWith, $content));
     }
 
 }

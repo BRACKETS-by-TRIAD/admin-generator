@@ -2,6 +2,7 @@
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 use Symfony\Component\Console\Input\InputOption;
 
 class GenerateProfile extends Command {
@@ -112,6 +113,16 @@ class GenerateProfile extends Command {
             ['controller-name', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating admin profile'],
         ];
+    }
+
+
+    private function strReplaceInFile($fileName, $ifExistsRegex, $find, $replaceWith) {
+        $content = File::get($fileName);
+        if (preg_match($ifExistsRegex, $content)) {
+            return;
+        }
+
+        return File::put($fileName, str_replace($find, $replaceWith, $content));
     }
 
 }
