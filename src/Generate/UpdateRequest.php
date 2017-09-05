@@ -41,6 +41,10 @@ class UpdateRequest extends ClassGenerator {
             $this->view = 'templates.'.$template.'.update-request';
         }
 
+        if(!empty($belongsToMany = $this->option('belongs-to-many'))) {
+            $this->setBelongToManyRelation($belongsToMany);
+        }
+
         if ($this->generateClass($force)){
             $this->info('Generating '.$this->classFullName.' finished');
         }
@@ -64,6 +68,7 @@ class UpdateRequest extends ClassGenerator {
             'hasSoftDelete' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return $column['name'] == "deleted_at";
             })->count() > 0,
+            'relations' => $this->relations,
         ])->render();
     }
 
@@ -71,6 +76,7 @@ class UpdateRequest extends ClassGenerator {
         return [
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
+            ['belongs-to-many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating request'],
         ];
     }

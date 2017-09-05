@@ -45,6 +45,14 @@ class Update{{ $modelBaseName }} extends FormRequest
             @foreach($standardColumn as $column)'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverUpdateRules']) !!}],
             @endforeach
 
+@if (count($relations))
+    @if (count($relations['belongsToMany']))
+        @foreach($relations['belongsToMany'] as $belongsToMany)'{{ $belongsToMany['related_table'] }}' => [{!! implode(', ', ['array']) !!}],
+        @endforeach
+
+    @endif
+@endif
+
         ];
     }
 
@@ -75,6 +83,14 @@ class Update{{ $modelBaseName }} extends FormRequest
         $rules = [
             @foreach($columns as $column)'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverUpdateRules']) !!}],
             @endforeach
+
+@if (count($relations))
+    @if (count($relations['belongsToMany']))
+        @foreach($relations['belongsToMany'] as $belongsToMany)'{{ $belongsToMany['related_table'] }}' => [{!! implode(', ', ['array']) !!}],
+        @endforeach
+
+    @endif
+@endif
 
         ];
 

@@ -41,6 +41,10 @@ class StoreRequest extends ClassGenerator {
             $this->view = 'templates.'.$template.'.store-request';
         }
 
+        if(!empty($belongsToMany = $this->option('belongs-to-many'))) {
+            $this->setBelongToManyRelation($belongsToMany);
+        }
+
         if ($this->generateClass($force)){
             $this->info('Generating '.$this->classFullName.' finished');
         }
@@ -59,6 +63,7 @@ class StoreRequest extends ClassGenerator {
             'translatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return $column['type'] == "json";
             })->pluck('name'),
+            'relations' => $this->relations,
         ])->render();
     }
 
@@ -66,6 +71,7 @@ class StoreRequest extends ClassGenerator {
         return [
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
+            ['belongs-to-many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating request'],
         ];
     }
