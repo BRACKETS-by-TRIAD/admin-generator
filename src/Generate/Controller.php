@@ -1,9 +1,12 @@
 <?php namespace Brackets\AdminGenerator\Generate;
 
+use Brackets\AdminGenerator\Generate\Traits\FileManipulations;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
 class Controller extends ClassGenerator {
+
+    use FileManipulations;
 
     /**
      * The name and signature of the console command.
@@ -52,10 +55,12 @@ class Controller extends ClassGenerator {
 
             $this->info('Generating '.$this->classFullName.' finished');
 
-            $sidebarPath = resource_path('views/admin/layout/sidebar.blade.php');
-            if($this->files->exists($sidebarPath) && !$this->alreadyAppended($sidebarPath, "<a class=\"nav-link\" href=\"{{ url('admin/".$this->modelViewsDirectory."') }}\">")) {
-                $icon = array_random(['icon-graduation', 'icon-puzzle', 'icon-compass', 'icon-drop', 'icon-globe', 'icon-ghost', 'icon-book-open', 'icon-flag', 'icon-star', 'icon-umbrella', 'icon-energy', 'icon-plane', 'icon-magnet', 'icon-diamond']);
-                $this->files->put($sidebarPath, str_replace("{{-- Do not delete me :) I'm used for auto-generation menu items --}}", "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->modelViewsDirectory."') }}\"><i class=\"".$icon."\"></i> <span class=\"nav-link-text\">".$this->modelPlural."</span></a></li>\n            {{-- Do not delete me :) I'm used for auto-generation menu items --}}", $this->files->get($sidebarPath)));
+            if ($this->strReplaceInFile(
+                resource_path('views/admin/layout/sidebar.blade.php'),
+                '|url\(\'admin/"'.$this->modelViewsDirectory.'"\'\)|',
+                "{{-- Do not delete me :) I'm used for auto-generation menu items --}}",
+                "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->modelViewsDirectory."') }}\"><i class=\"".$icon."\"></i> <span class=\"nav-link-text\">".$this->modelPlural."</span></a></li>\n            {{-- Do not delete me :) I'm used for auto-generation menu items --}}"
+            )) {
                 $this->info('Updating sidebar');
             }
         }
