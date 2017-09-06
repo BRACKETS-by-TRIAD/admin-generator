@@ -1,13 +1,38 @@
 {
     "name": "brackets/admin-generator",
-    "description": "Admin/CRUD generator for brackets/admin package",
-    "keywords": ["simpleweb", "cms", "crud", "admin", "brackets", "generator"],
+    "description": "Admin/CRUD generator for brackets/admin-ui",
+    "keywords": [
+        "generator",
+        "make",
+        "crud",
+        "admin",
+        "cms",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "authors": [
         {
             "name": "Pavol Perdík",
             "email": "pavol.perdik@brackets.sk",
+            "homepage": "https://www.brackets.sk/en",
+            "role": "Developer"
+        },
+        {
+            "name": "David Běhal",
+            "email": "david.behal@brackets.sk",
+            "homepage": "https://www.brackets.sk/en",
+            "role": "Developer"
+        },
+        {
+            "name": "Matej Minár",
+            "email": "matej.minar@brackets.sk",
+            "homepage": "https://www.brackets.sk/en",
+            "role": "Developer"
+        },
+        {
+            "name": "Dušan Subally",
+            "email": "dusan.subally@triad.sk",
             "homepage": "https://www.brackets.sk/en",
             "role": "Developer"
         }
