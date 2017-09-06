@@ -58,7 +58,7 @@ class Controller extends ClassGenerator {
             $icon = array_random(['icon-graduation', 'icon-puzzle', 'icon-compass', 'icon-drop', 'icon-globe', 'icon-ghost', 'icon-book-open', 'icon-flag', 'icon-star', 'icon-umbrella', 'icon-energy', 'icon-plane', 'icon-magnet', 'icon-diamond']);
             if ($this->strReplaceInFile(
                 resource_path('views/admin/layout/sidebar.blade.php'),
-                '|url\(\'admin/"'.$this->modelViewsDirectory.'"\'\)|',
+                '|url\(\'admin\/'.$this->modelViewsDirectory.'\'\)|',
                 "{{-- Do not delete me :) I'm used for auto-generation menu items --}}",
                 "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->modelViewsDirectory."') }}\"><i class=\"".$icon."\"></i> <span class=\"nav-link-text\">".$this->modelPlural."</span></a></li>\n            {{-- Do not delete me :) I'm used for auto-generation menu items --}}"
             )) {
