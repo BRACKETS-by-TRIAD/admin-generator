@@ -33,7 +33,7 @@
                     </div>
 
                     <div class="card-footer">
-	                    <button type="submit" class="btn btn-primary">
+	                    <button type="submit" class="btn btn-primary" :disabled="submiting">
 		                    <i class="fa" :class="submiting ? 'fa-spinner' : 'fa-download'"></i>
 		                    @{{ trans('brackets/admin::admin.btn.save') }}
 	                    </button>

@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="card-footer">
-	                    <button type="submit" class="btn btn-primary">
+	                    <button type="submit" class="btn btn-primary" :disabled="submiting">
 		                    <i class="fa" :class="submiting ? 'fa-spinner' : 'fa-download'"></i>
 		                    Save
 	                    </button>
