@@ -88,6 +88,7 @@
 		                    <i class="icon-magnifier"></i>
 		                    <h3>Could not find any {{ $modelPlural }}</h3>
 		                    <p>Try changing the filters or add a new one</p>
+                            <a class="btn btn-primary btn-spinner" href="{{'{{'}} url('admin/{{ $modelViewsDirectory }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; New {{ $modelBaseName }}</a>
 	                    </div>
                     </div>
                 </div>
