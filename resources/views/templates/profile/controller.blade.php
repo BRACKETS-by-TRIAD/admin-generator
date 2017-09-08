@@ -76,11 +76,10 @@ class ProfileController extends Controller
         $this->user->update($sanitized);
 
         if ($request->ajax()) {
-            return ['notify' => ['type' => 'success', 'title' => 'Success!', 'message' => 'Profile successfully changed.']];
+            return ['redirect' => url('admin/profile'), 'message' => trans('brackets/admin::admin.operation.succeeded')];
         }
 
-        return redirect(route('admin/profile/edit'))
-            ->withSuccess("Updated");
+        return redirect('admin/profile');
     }
 
     /**
@@ -136,11 +135,10 @@ class ProfileController extends Controller
         $this->user->update($sanitized);
 
         if ($request->ajax()) {
-            return ['notify' => ['type' => 'success', 'title' => 'Success!', 'message' => 'Password successfully changed.']];
+            return ['redirect' => url('admin/password'), 'message' => trans('brackets/admin::admin.operation.succeeded')];
         }
 
-        return redirect(route('admin/password/edit'))
-            ->withSuccess("Updated");
+        return redirect('admin/password');
     }
 
 }

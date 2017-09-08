@@ -60,7 +60,7 @@ class Controller extends ClassGenerator {
                 resource_path('views/admin/layout/sidebar.blade.php'),
                 '|url\(\'admin\/'.$this->modelViewsDirectory.'\'\)|',
                 "{{-- Do not delete me :) I'm used for auto-generation menu items --}}",
-                "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->modelViewsDirectory."') }}\"><i class=\"".$icon."\"></i> <span class=\"nav-link-text\">".$this->modelPlural."</span></a></li>\n            {{-- Do not delete me :) I'm used for auto-generation menu items --}}"
+                "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->modelViewsDirectory."') }}\"><i class=\"".$icon."\"></i> <span class=\"nav-link-text\">{{ trans('admin.".$this->modelLangFormat.".title') }}</span></a></li>\n            {{-- Do not delete me :) I'm used for auto-generation menu items --}}"
             )) {
                 $this->info('Updating sidebar');
             }

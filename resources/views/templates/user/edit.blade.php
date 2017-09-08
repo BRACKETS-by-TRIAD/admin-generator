@@ -1,6 +1,6 @@
 {{'@'}}extends('brackets/admin::admin.layout.default')
 
-{{'@'}}section('title', 'Edit '.${{ $modelVariableName }}->{{$modelTitle}} )
+{{'@'}}section('title', trans('admin.{{ $modelLangFormat }}.actions.edit', ['name' => ${{ $modelVariableName }}->{{$modelTitle}}]))
 
 {{'@'}}section('body')
 
@@ -25,7 +25,7 @@
                 <form class="form-horizontal form-edit" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
 
                     <div class="card-header">
-                        <i class="fa fa-pencil"></i> Edit the {{ $modelBaseName }}
+                        <i class="fa fa-pencil"></i> {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.edit', ['name' => ${{ $modelVariableName }}->{{$modelTitle}}]) }}
                     </div>
 
                     <div class="card-block">
@@ -37,7 +37,7 @@
                     <div class="card-footer">
 	                    <button type="submit" class="btn btn-primary" :disabled="submiting">
 		                    <i class="fa" :class="submiting ? 'fa-spinner' : 'fa-download'"></i>
-		                    Save
+                            @{{ trans('brackets/admin::admin.btn.save') }}
 	                    </button>
                     </div>
 

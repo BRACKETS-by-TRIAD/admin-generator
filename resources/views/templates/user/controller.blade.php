@@ -105,11 +105,10 @@ class {{ $controllerBaseName }} extends Controller
 @endif
 @endif
         if ($request->ajax()) {
-            return ['redirect' => url('admin/{{ $modelViewsDirectory }}')];
+            return ['redirect' => url('admin/{{ $modelViewsDirectory }}'), 'message' => trans('brackets/admin::admin.operation.succeeded')];
         }
 
-        return redirect('admin/{{ $modelViewsDirectory }}')
-            ->withSuccess("Created");
+        return redirect('admin/{{ $modelViewsDirectory }}');
     }
 
     /**
@@ -181,11 +180,10 @@ class {{ $controllerBaseName }} extends Controller
 @endif
 
         if ($request->ajax()) {
-            return ['redirect' => url('admin/{{ $modelViewsDirectory }}')];
+            return ['redirect' => url('admin/{{ $modelViewsDirectory }}'), 'message' => trans('brackets/admin::admin.operation.succeeded')];
         }
 
-        return redirect('admin/{{ $modelViewsDirectory }}')
-            ->withSuccess("Updated");
+        return redirect('admin/{{ $modelViewsDirectory }}');
     }
 
     /**
@@ -200,11 +198,10 @@ class {{ $controllerBaseName }} extends Controller
         ${{ $modelVariableName }}->delete();
 
         if ($request->ajax()) {
-            return response([]);
+            return response(['message' => trans('brackets/admin::admin.operation.succeeded')]);
         }
 
-        return redirect()->back()
-            ->withSuccess("Deleted");
+        return redirect()->back();
     }
 
     @if($activation)/**
@@ -221,26 +218,23 @@ class {{ $controllerBaseName }} extends Controller
             $response = $activationService->handle(${{ $modelVariableName }});
             if($response == Activation::ACTIVATION_LINK_SENT) {
                 if ($request->ajax()) {
-                    return ['notify' => ['type' => 'success', 'title' => 'Success!', 'message' => 'Activation e-mail has been send.']];
+                    return ['message' => trans('brackets/admin::admin.operation.succeeded')];
                 }
 
-                return redirect()->back()
-                    ->withSuccess("Activation e-mail has been send.");
+                return redirect()->back();
             } else {
                 if ($request->ajax()) {
-                    return ['notify' => ['type' => 'danger', 'title' => 'Failed!', 'message' => 'Activation e-mail send failed.']];
+                    return ['message' => trans('brackets/admin::admin.operation.failed')];
                 }
 
-                return redirect()->back()
-                    ->withSuccess("Activation e-mail send failed.");
+                return redirect()->back();
             }
         } else {
             if ($request->ajax()) {
-                return ['notify' => ['type' => 'danger', 'title' => 'Failed!', 'message' => 'Activation not allowed.']];
+                return ['message' => trans('brackets/admin::admin.operation.not_allowed')];
             }
 
-            return redirect()->back()
-                ->withSuccess("Activation not allowed.");
+            return redirect()->back();
         }
     }
     @endif

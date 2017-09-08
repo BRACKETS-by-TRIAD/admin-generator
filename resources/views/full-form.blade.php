@@ -1,6 +1,6 @@
 {{'@'}}extends('brackets/admin::admin.layout.default')
 
-{{-- TODO title --}}
+{{'@'}}section('title', trans('admin.{{ $modelLangFormat }}.actions.edit', ['name' => ${{ $modelVariableName }}->{{$modelTitle}}]))
 
 {{'@'}}section('body')
 
@@ -23,7 +23,7 @@
                 <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
 
                     <div class="card-header">
-                        <i class="fa fa-plus"></i> {{-- TODO title + correct icon --}}
+                        <i class="fa fa-plus"></i> {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.edit', ['name' => ${{ $modelVariableName }}->{{$modelTitle}}]) }}
                     </div>
 
                     <div class="card-block">
@@ -33,7 +33,10 @@
                     </div>
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">@{{ trans('brackets/admin::admin.btn.save') }}</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa" :class="submiting ? 'fa-spinner' : 'fa-download'"></i>
+                            @{{ trans('brackets/admin::admin.btn.save') }}
+                        </button>
                     </div>
 
                 </form>

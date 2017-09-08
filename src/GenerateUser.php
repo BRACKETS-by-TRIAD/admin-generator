@@ -132,6 +132,13 @@ class GenerateUser extends Command {
             '--template' => 'user',
         ]);
 
+        $this->call('admin:generate:lang', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+            '--template' => 'user',
+            '--belongs-to-many' => 'roles',
+        ]);
+
         $this->call('admin:generate:factory', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,

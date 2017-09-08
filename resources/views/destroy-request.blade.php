@@ -2,7 +2,7 @@
 @endphp namespace App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }};
 
 use Illuminate\Foundation\Http\FormRequest;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 
 class Destroy{{ $modelBaseName }} extends FormRequest
 {

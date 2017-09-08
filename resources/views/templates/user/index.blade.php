@@ -1,6 +1,6 @@
 {{'@'}}extends('brackets/admin::admin.layout.default')
 
-{{'@'}}section('title', '{{ $modelPlural }}')
+{{'@'}}section('title', trans('admin.{{ $modelLangFormat }}.actions.index'))
 
 {{'@'}}section('body')
 
@@ -14,17 +14,17 @@
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> {{ $modelPlural }} listing
-                        <a class="btn btn-primary btn-spinner btn-sm pull-right m-b-0" href="{{'{{'}} url('admin/{{ $modelViewsDirectory }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; New {{ $modelBaseName }}</a>
+                        <i class="fa fa-align-justify"></i> {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.index') }}
+                        <a class="btn btn-primary btn-spinner btn-sm pull-right m-b-0" href="{{'{{'}} url('admin/{{ $modelViewsDirectory }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.create') }}</a>
                     </div>
                     <div class="card-block" v-cloak>
                         <form @submit.prevent="">
                             <div class="row justify-content-md-between">
                                 <div class="col col-lg-7 col-xl-5 form-group">
                                     <div class="input-group">
-                                        <input class="form-control" placeholder="Search" v-model="search" @keyup.enter="filter('search', $event.target.value)" />
+                                        <input class="form-control" placeholder="@{{ trans('brackets/admin::admin.placeholder.search') }}" v-model="search" @keyup.enter="filter('search', $event.target.value)" />
                                         <span class="btn-group input-group-btn">
-                                            <button type="button" class="btn btn-primary" @click="filter('search', search)"><i class="fa fa-search"></i>&nbsp; Search</button>
+                                            <button type="button" class="btn btn-primary" @click="filter('search', search)"><i class="fa fa-search"></i>&nbsp; @{{ trans('brackets/admin::admin.btn.search') }}</button>
                                         </span>
                                     </div>
                                 </div>
@@ -43,7 +43,7 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    @foreach($columns as $col)<th is='sortable' :column="'{{ $col['name'] }}'"@if($col['name'] == 'activated') v-if="activation"@endif>{{ ucfirst($col['name']) }}</th>
+                                    @foreach($columns as $col)<th is='sortable' :column="'{{ $col['name'] }}'"@if($col['name'] == 'activated') v-if="activation"@endif>{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</th>
                                     @endforeach
 
                                     <th></th>
@@ -63,10 +63,10 @@
                                     <td>
                                         <div class="row no-gutters">
                                             <div class="col-auto">
-                                                <a class="btn btn-sm btn-spinner btn-info" :href="'{{'{{'}} url('admin/{{ $modelViewsDirectory }}/edit') }}/' + item.id" title="Edit" role="button"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-sm btn-spinner btn-info" :href="'{{'{{'}} url('admin/{{ $modelViewsDirectory }}/edit') }}/' + item.id" title="@{{ trans('brackets/admin::admin.btn.edit') }}" role="button"><i class="fa fa-edit"></i></a>
                                             </div>
                                             <form class="col" @submit.prevent="deleteItem('{{'{{'}} url('admin/{{ $modelViewsDirectory }}/destroy') }}/' + item.id)">
-                                                <button type="submit" class="btn btn-sm btn-danger" title="Delete"><i class="fa fa-trash-o"></i></button>
+                                                <button type="submit" class="btn btn-sm btn-danger" title="@{{ trans('brackets/admin::admin.btn.delete') }}"><i class="fa fa-trash-o"></i></button>
                                             </form>
                                         </div>
                                     </td>
@@ -76,10 +76,9 @@
 
                         <div class="row" v-if="pagination.state.total > 0">
                             <div class="col-sm">
-                                <span class="pagination-caption">Displaying from {{'@{{'}} pagination.state.from }} to {{'@{{'}} pagination.state.to }} of total {{'@{{'}} pagination.state.total }} items.</span>
+                                <span class="pagination-caption">@{{ trans('brackets/admin::admin.pagination.overview') }}</span>
                             </div>
                             <div class="col-sm-auto">
-                                <!-- TODO how to add push state to this pagination so the URL will actually change? we need JS router - do we want it? -->
                                 <pagination></pagination>
                             </div>
                         </div>
@@ -88,7 +87,7 @@
 		                    <i class="icon-magnifier"></i>
                             <h3>@{{ trans('brackets/admin::admin.index.no_items') }}</h3>
                             <p>@{{ trans('brackets/admin::admin.index.try_changing_items') }}</p>
-                            <a class="btn btn-primary btn-spinner" href="{{'{{'}} url('admin/{{ $modelViewsDirectory }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; New {{ $modelBaseName }}</a>
+                            <a class="btn btn-primary btn-spinner" href="{{'{{'}} url('admin/{{ $modelViewsDirectory }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; @{{ trans('brackets/admin::admin.btn.new') }} {{ $modelBaseName }}</a>
 	                    </div>
                     </div>
                 </div>

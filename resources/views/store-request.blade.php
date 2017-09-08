@@ -15,7 +15,7 @@
 @else
 use Illuminate\Foundation\Http\FormRequest;
 @endif
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 @if($translatable->count() > 0)class Store{{ $modelBaseName }} extends TranslatableFormRequest

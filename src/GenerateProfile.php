@@ -74,7 +74,7 @@ class GenerateProfile extends Command {
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
             '--file-name' => 'profile/edit-profile',
-            '--route' => 'admin/profile/update',
+            '--route' => 'admin/profile',
             '--template' => 'profile',
         ]);
 
@@ -82,7 +82,7 @@ class GenerateProfile extends Command {
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
             '--file-name' => 'profile/edit-password',
-            '--route' => 'admin/password/update',
+            '--route' => 'admin/password',
             '--template' => 'profile.password',
         ]);
 

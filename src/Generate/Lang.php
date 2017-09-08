@@ -36,12 +36,16 @@ class Lang extends FileAppender {
 //        //TODO check if exists
 //        //TODO make global for all generator
 //        //TODO also with prefix
-//        if(!empty($template = $this->option('template'))) {
-//            $this->view = 'templates.'.$template.'.lang';
-//        }
+        if(!empty($template = $this->option('template'))) {
+            $this->view = 'templates.'.$template.'.lang';
+        }
 
         if(empty($locale = $this->option('locale'))) {
             $locale = 'en';
+        }
+
+        if(!empty($belongsToMany = $this->option('belongs-to-many'))) {
+            $this->setBelongToManyRelation($belongsToMany);
         }
 
         // TODO what if a file has been changed? this will append it again (because the content is not present anymore -> we should probably check only for a root key for existence)
@@ -61,6 +65,7 @@ class Lang extends FileAppender {
             'modelPlural' => $this->modelPlural,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
+            'relations' => $this->relations,
         ])->render();
     }
 
@@ -68,7 +73,8 @@ class Lang extends FileAppender {
         return [
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a controller for the given model'],
             ['locale', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom locale'],
-//            ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
+            ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
+            ['belongs-to-many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
         ];
     }
 

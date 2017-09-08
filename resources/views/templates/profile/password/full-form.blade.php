@@ -1,6 +1,6 @@
 {{'@'}}extends('brackets/admin::admin.layout.default')
 
-{{'@'}}section('title', 'Edit Password')
+{{'@'}}section('title', trans('admin.{{ $modelLangFormat }}.actions.edit_password'))
 
 {{'@'}}section('body')
 
@@ -9,14 +9,14 @@
         <div class="card">
 
             <{{ $modelJSName }}-form
-                :action="'{{'{{'}} route('{{ $route }}') }}'"
+                :action="'{{'{{'}} url('{{ $route }}') }}'"
                 :data="{{'{{'}} ${{ $modelVariableName }}->toJson() }}"
                 inline-template>
 
                 <form class="form-horizontal form-edit" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
 
                     <div class="card-header">
-                        <i class="fa fa-pencil"></i> Edit Password
+                        <i class="fa fa-pencil"></i> {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.edit_password') }}
                     </div>
 
                     <div class="card-block">
@@ -31,10 +31,10 @@
                     </div>
 
                     <div class="card-footer">
-	                    <button type="submit" class="btn btn-primary" :disabled="submiting">
-		                    <i class="fa" :class="submiting ? 'fa-spinner' : 'fa-download'"></i>
-		                    Save
-	                    </button>
+                        <button type="submit" class="btn btn-primary" :disabled="submiting">
+                            <i class="fa" :class="submiting ? 'fa-spinner' : 'fa-download'"></i>
+                            @{{ trans('brackets/admin::admin.btn.save') }}
+                        </button>
                     </div>
 
                 </form>
