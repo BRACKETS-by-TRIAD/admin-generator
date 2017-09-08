@@ -86,8 +86,8 @@
 
 	                    <div class="no-items-found" v-if="!collection.length > 0">
 		                    <i class="icon-magnifier"></i>
-		                    <h3>Could not find any {{ $modelPlural }}</h3>
-		                    <p>Try changing the filters or add a new one</p>
+                            <h3>@{{ trans('brackets/admin::admin.index.no_items') }}</h3>
+                            <p>@{{ trans('brackets/admin::admin.index.try_changing_items') }}</p>
                             <a class="btn btn-primary btn-spinner" href="{{'{{'}} url('admin/{{ $modelViewsDirectory }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; New {{ $modelBaseName }}</a>
 	                    </div>
                     </div>
