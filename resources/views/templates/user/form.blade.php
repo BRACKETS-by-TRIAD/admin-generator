@@ -1,16 +1,16 @@
 @if($hasTranslatable)<div class="row form-inline" style="padding-bottom: 10px;" v-cloak>
     <div :class="{'col-xl-10 col-md-11 text-right': !isFormLocalized, 'col text-center': isFormLocalized }">
-        <small>@{{ trans('brackets/admin::admin.forms.currently_editing_translation') }}<span v-if="!isFormLocalized && otherLocales.length > 1"> @{{ trans('brackets/admin::admin.forms.more_can_be_managed') }}</span><span v-if="!isFormLocalized"> | <a href="#" @click.prevent="showLocalization">@{{ trans('brackets/admin::admin.forms.manage_translations') }}</a></span></small>
+        <small>@{{ trans('brackets/admin-ui::admin.forms.currently_editing_translation') }}<span v-if="!isFormLocalized && otherLocales.length > 1"> @{{ trans('brackets/admin-ui::admin.forms.more_can_be_managed') }}</span><span v-if="!isFormLocalized"> | <a href="#" @click.prevent="showLocalization">@{{ trans('brackets/admin-ui::admin.forms.manage_translations') }}</a></span></small>
         <i class="localization-error" v-if="!isFormLocalized && showLocalizedValidationError"></i>
     </div>
     <div class="col text-center" v-if="isFormLocalized" v-cloak>
-        <small>@{{ trans('brackets/admin::admin.forms.choose_translation_to_edit') }}
+        <small>@{{ trans('brackets/admin-ui::admin.forms.choose_translation_to_edit') }}
             <select class="form-control" v-model="currentLocale">
                 <option v-for="locale in otherLocales" :value="locale">@@{{ locale.toUpperCase() }}</option>
             </select>
             <i class="localization-error" v-if="isFormLocalized && showLocalizedValidationError"></i>
             |
-            <a href="#" @click.prevent="hideLocalization">@{{ trans('brackets/admin::admin.forms.hide') }}</a>
+            <a href="#" @click.prevent="hideLocalization">@{{ trans('brackets/admin-ui::admin.forms.hide') }}</a>
         </small>
     </div>
 </div>
@@ -34,28 +34,28 @@
 @elseif($col['name'] == 'language')<div class="form-group row align-items-center" :class="{'has-danger': errors.has('{{ $col['name'] }}'), 'has-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid }">
     <label for="{{ $col['name'] }}" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-3'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</label>
     <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-7'">
-        <multiselect v-model="form.{{ $col['name'] }}" placeholder="@{{ trans('brackets/admin::admin.forms.select_an_option') }}" :options="@{{ $locales->toJson() }}" open-direction="bottom"></multiselect>
+        <multiselect v-model="form.{{ $col['name'] }}" placeholder="@{{ trans('brackets/admin-ui::admin.forms.select_an_option') }}" :options="@{{ $locales->toJson() }}" open-direction="bottom"></multiselect>
         <div v-if="errors.has('{{ $col['name'] }}')" class="form-control-feedback form-text" v-cloak>@@{{ errors.first('@php echo $col['name']; @endphp') }}</div>
     </div>
 </div>
 @elseif($col['type'] == 'date')<div class="form-group row align-items-center" :class="{'has-danger': errors.has('{{ $col['name'] }}'), 'has-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid }">
     <label for="{{ $col['name'] }}" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-3'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</label>
     <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-7'">
-        <datetime v-model="form.{{ $col['name'] }}" :config="datePickerConfig" v-validate="'{{ implode('|', $col['frontendRules']) }}'" class="flatpickr" :class="{'form-control-danger': errors.has('{{ $col['name'] }}'), 'form-control-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid}" id="{{ $col['name'] }}" name="{{ $col['name'] }}" placeholder="@{{ trans('brackets/admin::admin.forms.select_a_date') }}"></datetime>
+        <datetime v-model="form.{{ $col['name'] }}" :config="datePickerConfig" v-validate="'{{ implode('|', $col['frontendRules']) }}'" class="flatpickr" :class="{'form-control-danger': errors.has('{{ $col['name'] }}'), 'form-control-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid}" id="{{ $col['name'] }}" name="{{ $col['name'] }}" placeholder="@{{ trans('brackets/admin-ui::admin.forms.select_a_date') }}"></datetime>
         <div v-if="errors.has('{{ $col['name'] }}')" class="form-control-feedback form-text" v-cloak>{{'@{{'}} errors.first('{{ $col['name'] }}') }}</div>
     </div>
 </div>
 @elseif($col['type'] == 'time')<div class="form-group row align-items-center" :class="{'has-danger': errors.has('{{ $col['name'] }}'), 'has-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid }">
     <label for="{{ $col['name'] }}" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-3'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</label>
     <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-7'">
-        <datetime v-model="form.{{ $col['name'] }}" :config="timePickerConfig" v-validate="'{{ implode('|', $col['frontendRules']) }}'" class="flatpickr" :class="{'form-control-danger': errors.has('{{ $col['name'] }}'), 'form-control-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid}" id="{{ $col['name'] }}" name="{{ $col['name'] }}" placeholder="@{{ trans('brackets/admin::admin.forms.select_a_time') }}"></datetime>
+        <datetime v-model="form.{{ $col['name'] }}" :config="timePickerConfig" v-validate="'{{ implode('|', $col['frontendRules']) }}'" class="flatpickr" :class="{'form-control-danger': errors.has('{{ $col['name'] }}'), 'form-control-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid}" id="{{ $col['name'] }}" name="{{ $col['name'] }}" placeholder="@{{ trans('brackets/admin-ui::admin.forms.select_a_time') }}"></datetime>
         <div v-if="errors.has('{{ $col['name'] }}')" class="form-control-feedback form-text" v-cloak>{{'@{{'}} errors.first('{{ $col['name'] }}') }}</div>
     </div>
 </div>
 @elseif($col['type'] == 'datetime')<div class="form-group row align-items-center" :class="{'has-danger': errors.has('{{ $col['name'] }}'), 'has-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid }">
     <label for="{{ $col['name'] }}" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-3'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</label>
     <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-7'">
-        <datetime v-model="form.{{ $col['name'] }}" :config="datetimePickerConfig" v-validate="'{{ implode('|', $col['frontendRules']) }}'" class="flatpickr" :class="{'form-control-danger': errors.has('{{ $col['name'] }}'), 'form-control-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid}" id="{{ $col['name'] }}" name="{{ $col['name'] }}" placeholder="@{{ trans('brackets/admin::admin.forms.select_date_and_time') }}"></datetime>
+        <datetime v-model="form.{{ $col['name'] }}" :config="datetimePickerConfig" v-validate="'{{ implode('|', $col['frontendRules']) }}'" class="flatpickr" :class="{'form-control-danger': errors.has('{{ $col['name'] }}'), 'form-control-success': this.fields.{{ $col['name'] }} && this.fields.{{ $col['name'] }}.valid}" id="{{ $col['name'] }}" name="{{ $col['name'] }}" placeholder="@{{ trans('brackets/admin-ui::admin.forms.select_date_and_time') }}"></datetime>
         <div v-if="errors.has('{{ $col['name'] }}')" class="form-control-feedback form-text" v-cloak>{{'@{{'}} errors.first('{{ $col['name'] }}') }}</div>
     </div>
 </div>
@@ -112,7 +112,7 @@
 @foreach($relations['belongsToMany'] as $belongsToMany)<div class="form-group row align-items-center" :class="{'has-danger': errors.has('{{ $belongsToMany['related_table'] }}'), 'has-success': this.fields.{{ $belongsToMany['related_table'] }} && this.fields.{{ $belongsToMany['related_table'] }}.valid }">
     <label for="{{ $belongsToMany['related_table'] }}" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-3'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ lcfirst($belongsToMany['related_model_name_plural']) }}') }}</label>
     <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-7'">
-        <multiselect v-model="form.{{ $belongsToMany['related_table'] }}" placeholder="@{{ trans('brackets/admin::admin.forms.select_options') }}" label="name" track-by="id" :options="{{'{{'}} ${{ $belongsToMany['related_table'] }}->toJson() }}" :multiple="true" open-direction="bottom"></multiselect>
+        <multiselect v-model="form.{{ $belongsToMany['related_table'] }}" placeholder="@{{ trans('brackets/admin-ui::admin.forms.select_options') }}" label="name" track-by="id" :options="{{'{{'}} ${{ $belongsToMany['related_table'] }}->toJson() }}" :multiple="true" open-direction="bottom"></multiselect>
         <div v-if="errors.has('{{ $belongsToMany['related_table'] }}')" class="form-control-feedback form-text" v-cloak>@@{{ errors.first('@php echo $belongsToMany['related_table']; @endphp') }}</div>
     </div>
 </div>

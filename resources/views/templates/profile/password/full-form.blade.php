@@ -1,4 +1,4 @@
-{{'@'}}extends('brackets/admin::admin.layout.default')
+{{'@'}}extends('brackets/admin-ui::admin.layout.default')
 
 {{'@'}}section('title', trans('admin.{{ $modelLangFormat }}.actions.edit_password'))
 
@@ -33,7 +33,7 @@
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary" :disabled="submiting">
                             <i class="fa" :class="submiting ? 'fa-spinner' : 'fa-download'"></i>
-                            @{{ trans('brackets/admin::admin.btn.save') }}
+                            @{{ trans('brackets/admin-ui::admin.btn.save') }}
                         </button>
                     </div>
 

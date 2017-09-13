@@ -1,4 +1,4 @@
-{{'@'}}extends('brackets/admin::admin.layout.default')
+{{'@'}}extends('brackets/admin-ui::admin.layout.default')
 
 {{'@'}}section('title', trans('admin.{{ $modelLangFormat }}.actions.index'))
 
@@ -21,9 +21,9 @@
                             <div class="row justify-content-md-between">
                                 <div class="col col-lg-7 col-xl-5 form-group">
                                     <div class="input-group">
-                                        <input class="form-control" placeholder="@{{ trans('brackets/admin::admin.placeholder.search') }}" v-model="search" @keyup.enter="filter('search', $event.target.value)" />
+                                        <input class="form-control" placeholder="@{{ trans('brackets/admin-ui::admin.placeholder.search') }}" v-model="search" @keyup.enter="filter('search', $event.target.value)" />
                                         <span class="btn-group input-group-btn">
-                                            <button type="button" class="btn btn-primary" @click="filter('search', search)"><i class="fa fa-search"></i>&nbsp; @{{ trans('brackets/admin::admin.btn.search') }}</button>
+                                            <button type="button" class="btn btn-primary" @click="filter('search', search)"><i class="fa fa-search"></i>&nbsp; @{{ trans('brackets/admin-ui::admin.btn.search') }}</button>
                                         </span>
                                     </div>
                                 </div>
@@ -65,10 +65,10 @@
                                     <td>
                                         <div class="row no-gutters">
                                             <div class="col-auto">
-                                                <a class="btn btn-sm btn-spinner btn-info" :href="'{{'{{'}} url('admin/{{ $modelViewsDirectory }}/edit') }}/' + item.id" title="@{{ trans('brackets/admin::admin.btn.edit') }}" role="button"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-sm btn-spinner btn-info" :href="'{{'{{'}} url('admin/{{ $modelViewsDirectory }}/edit') }}/' + item.id" title="@{{ trans('brackets/admin-ui::admin.btn.edit') }}" role="button"><i class="fa fa-edit"></i></a>
                                             </div>
                                             <form class="col" @submit.prevent="deleteItem('{{'{{'}} url('admin/{{ $modelViewsDirectory }}/destroy') }}/' + item.id)">
-                                                <button type="submit" class="btn btn-sm btn-danger" title="@{{ trans('brackets/admin::admin.btn.delete') }}"><i class="fa fa-trash-o"></i></button>
+                                                <button type="submit" class="btn btn-sm btn-danger" title="@{{ trans('brackets/admin-ui::admin.btn.delete') }}"><i class="fa fa-trash-o"></i></button>
                                             </form>
                                         </div>
                                     </td>
@@ -78,7 +78,7 @@
 
                         <div class="row" v-if="pagination.state.total > 0">
                             <div class="col-sm">
-                                <span class="pagination-caption">@{{ trans('brackets/admin::admin.pagination.overview') }}</span>
+                                <span class="pagination-caption">@{{ trans('brackets/admin-ui::admin.pagination.overview') }}</span>
                             </div>
                             <div class="col-sm-auto">
                                 <pagination></pagination>
@@ -87,8 +87,8 @@
 
 	                    <div class="no-items-found" v-if="!collection.length > 0">
 		                    <i class="icon-magnifier"></i>
-		                    <h3>@{{ trans('brackets/admin::admin.index.no_items') }}</h3>
-		                    <p>@{{ trans('brackets/admin::admin.index.try_changing_items') }}</p>
+		                    <h3>@{{ trans('brackets/admin-ui::admin.index.no_items') }}</h3>
+		                    <p>@{{ trans('brackets/admin-ui::admin.index.try_changing_items') }}</p>
                             <a class="btn btn-primary btn-spinner" href="{{'{{'}} url('admin/{{ $modelViewsDirectory }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.create') }}</a>
 	                    </div>
                     </div>
