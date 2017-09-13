@@ -58,7 +58,7 @@ Route::middleware([\'admin\'])->group(function () {
     Route::post(\'/admin/password\',                              \'Admin\ProfileController@updatePassword\');', File::get($filePathRoute));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')
 
-@section(\'title\', \'Edit Profile\')
+@section(\'title\', trans(\'admin.user.actions.edit_profile\'))
 
 @section(\'body\')
 
@@ -72,7 +72,7 @@ Route::middleware([\'admin\'])->group(function () {
 Vue.component(\'profile-edit-profile-form\'', File::get($formJsPathProfile));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')
 
-@section(\'title\', \'Edit Password\')
+@section(\'title\', trans(\'admin.user.actions.edit_password\'))
 
 @section(\'body\')
 

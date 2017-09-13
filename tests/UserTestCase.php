@@ -123,6 +123,8 @@ abstract class UserTestCase extends Orchestra
         $app->setBasePath($newBasePath);
         $this->initializeDirectory($newBasePath);
 
+        File::copyDirectory(__DIR__.'/fixtures/resources', resource_path());
+
         $app['config']->set('database.default', 'sqlite');
         $app['config']->set('database.connections.sqlite', [
             'driver' => 'sqlite',

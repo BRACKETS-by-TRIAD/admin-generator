@@ -75,7 +75,7 @@ class UsersController extends Controller', File::get($controllerPath));
         $this->assertStringStartsWith('<?php namespace App\Http\Requests\Admin\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 
 class IndexUser extends FormRequest
 {', File::get($indexRequestPath));
@@ -102,7 +102,7 @@ class UpdateUser extends FormRequest
         $this->assertStringStartsWith('<?php namespace App\Http\Requests\Admin\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 
 class DestroyUser extends FormRequest
 {', File::get($destroyPath));
