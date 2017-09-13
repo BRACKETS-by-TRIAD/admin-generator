@@ -35,9 +35,12 @@ abstract class TestCase extends Orchestra
     {
 
         $newBasePath = $app->basePath().DIRECTORY_SEPARATOR.'testing_folder';
+
         $app->getNamespace();
         $app->setBasePath($newBasePath);
         $this->initializeDirectory($newBasePath);
+
+        File::copyDirectory(__DIR__.'/fixtures/resources', resource_path());
 
         $app['config']->set('database.default', 'sqlite');
         $app['config']->set('database.connections.sqlite', [
