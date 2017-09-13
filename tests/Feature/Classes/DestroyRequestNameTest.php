@@ -24,7 +24,7 @@ class DestroyRequestNameTest extends TestCase
         $this->assertStringStartsWith('<?php namespace App\Http\Requests\Admin\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 
 class DestroyCategory extends FormRequest', File::get($filePath));
     }
@@ -44,7 +44,7 @@ class DestroyCategory extends FormRequest', File::get($filePath));
         $this->assertStringStartsWith('<?php namespace App\Http\Requests\Admin\Billing\Cat;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 
 class DestroyCat extends FormRequest', File::get($filePath));
     }

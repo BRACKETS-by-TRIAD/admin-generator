@@ -22,6 +22,8 @@ class LangTest extends TestCase
 
 return [
     \'category\' => [
+        \'title\' => \'Categories\',
+
         \'actions\' => [
             \'index\' => \'Categories\',
             \'create\' => \'New Category\',
@@ -53,6 +55,8 @@ return [
 
 return [
     \'billing_categ-ory\' => [
+        \'title\' => \'CategOries\',
+
         \'actions\' => [
             \'index\' => \'CategOries\',
             \'create\' => \'New CategOry\',

@@ -24,7 +24,7 @@ class StoreRequestNameTest extends TestCase
         $this->assertStringStartsWith('<?php namespace App\Http\Requests\Admin\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class StoreCategory extends FormRequest', File::get($filePath));
@@ -45,7 +45,7 @@ class StoreCategory extends FormRequest', File::get($filePath));
         $this->assertStringStartsWith('<?php namespace App\Http\Requests\Admin\Billing\Cat;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class StoreCat extends FormRequest', File::get($filePath));
@@ -67,7 +67,7 @@ class StoreCat extends FormRequest', File::get($filePath));
         $this->assertStringStartsWith('<?php namespace App\Http\Requests\Admin\Cat;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class StoreCat extends FormRequest', File::get($filePath));
