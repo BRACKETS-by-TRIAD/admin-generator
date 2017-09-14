@@ -1,6 +1,6 @@
 {
     "name": "brackets/admin-generator",
-    "description": "Admin/CRUD generator for brackets/admin-ui",
+    "description": "Laravel 5 CRUD generator for brackets/admin-ui",
     "keywords": [
         "generator",
         "make",
