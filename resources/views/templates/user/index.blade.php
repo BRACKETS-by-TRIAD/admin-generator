@@ -51,17 +51,28 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(item, index) in collection">
-                                    @foreach($columns as $col)<td @if($col['name'] == 'activated')v-if="activation"@endif>@if($col['switch'])<label class="switch switch-3d switch-success">
+                                    @foreach($columns as $col)<td @if($col['name'] == 'activated')v-if="activation"@endif>@if($col['switch'])
+
+                                        <label class="switch switch-3d switch-success">
                                             <input type="checkbox" class="switch-input" v-model="collection[index].{{ $col['name'] }}" @change="toggleSwitch('{{'{{'}} url('admin/{{ $modelViewsDirectory }}/update') }}/' + item.id, '{{ $col['name'] }}', collection[index])">
                                             <span class="switch-label"></span>
                                             <span class="switch-handle"></span>
                                         </label>
-                                    @else{{'@{{'}} item.{{ $col['name'] }}{{ $col['filters'] }} }}@endif @if($col['name'] == 'activated') <button class="btn btn-sm btn-info" v-show="!item.activated" @click="resendActivation('{{'{{'}} url('admin/{{ $modelViewsDirectory }}/resend-activation') }}/' + item.id)" title="Resend activation" role="button"><i class="fa fa-envelope-o"></i></button>
-                                    @endif</td>
+                                    @elseif($col['name'] == 'forbidden')
+
+                                        <label class="switch switch-3d switch-danger">
+                                            <input type="checkbox" class="switch-input" v-model="collection[index].{{ $col['name'] }}" @change="toggleSwitch('{{'{{'}} url('admin/{{ $modelViewsDirectory }}/update') }}/' + item.id, '{{ $col['name'] }}', collection[index])">
+                                            <span class="switch-label"></span>
+                                            <span class="switch-handle"></span>
+                                        </label>
+                                    @else{{'@{{'}} item.{{ $col['name'] }}{{ $col['filters'] }} }}@endif</td>
                                     @endforeach
 
                                     <td>
                                         <div class="row no-gutters">
+                                            <div class="col-auto">
+                                                <button class="btn btn-sm btn-warning" v-show="!item.activated" @click="resendActivation('{{'{{'}} url('admin/{{ $modelViewsDirectory }}/resend-activation') }}/' + item.id)" title="Resend activation" role="button"><i class="fa fa-envelope-o"></i></button>
+                                            </div>
                                             <div class="col-auto">
                                                 <a class="btn btn-sm btn-spinner btn-info" :href="'{{'{{'}} url('admin/{{ $modelViewsDirectory }}/edit') }}/' + item.id" title="@{{ trans('brackets/admin-ui::admin.btn.edit') }}" role="button"><i class="fa fa-edit"></i></a>
                                             </div>
