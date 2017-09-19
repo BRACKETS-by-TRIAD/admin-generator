@@ -1,9 +1,9 @@
 <?php namespace Brackets\AdminGenerator;
 
-use Brackets\AdminGenerator\Generate\ClassGenerator;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Filesystem\Filesystem;
 
 class GenerateAdmin extends Command {
 
@@ -22,12 +22,20 @@ class GenerateAdmin extends Command {
     protected $description = 'Scaffold complete CRUD admin interface';
 
     /**
+     * The filesysem object
+     *
+     * @var Filesystem
+     */
+    protected $files;
+
+    /**
      * Execute the console command.
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(Filesystem $files)
     {
+        $this->files = $files;
 
         $tableNameArgument = $this->argument('table_name');
         $modelOption = $this->option('model-name');
@@ -100,6 +108,13 @@ class GenerateAdmin extends Command {
             '--model-name' => $modelOption,
         ]);
 
+        if($this->hasSpatieLaravelPermissions()) {
+            $this->call('admin:generate:permissions', [
+                'table_name' => $tableNameArgument,
+                '--model-name' => $modelOption,
+            ]);
+        }
+
         $this->info('Generating whole admin finished');
 
     }
@@ -117,6 +132,16 @@ class GenerateAdmin extends Command {
             ['seed', 's', InputOption::VALUE_NONE, 'Seeds the table with fake data'],
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating admin'],
         ];
+    }
+
+    protected function hasSpatieLaravelPermissions() {
+        $composerFile = base_path('composer.json');
+        $composer = $this->files->get($composerFile);
+        $composerContent = json_decode($composer, JSON_OBJECT_AS_ARRAY);
+        if(isset($composerContent['require']['spatie/laravel-permission'])) {
+            return true;
+        }
+        return false;
     }
 
 }
