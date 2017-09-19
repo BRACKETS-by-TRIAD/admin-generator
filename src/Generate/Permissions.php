@@ -36,7 +36,8 @@ class Permissions extends ClassGenerator {
         $fileName = 'fill_permissions_for_'.$this->modelRouteAndViewName;
         $path = database_path('migrations/'.date('Y_m_d_His', time()).'_'.$fileName.'.php');
 
-        if ($this->alreadyExists($fileName)) {
+        if ($oldPath = $this->alreadyExists($fileName)) {
+            $path = $oldPath;
             if($force) {
                 $this->warn('File '.$path.' already exists! File will be deleted.');
                 $this->files->delete($path);
@@ -62,7 +63,7 @@ class Permissions extends ClassGenerator {
     {
         foreach ($this->files->files(database_path('migrations')) as $file) {
             if(str_contains($file->getFilename(), $path)) {
-                return true;
+                return $file->getPathname();
             }
         }
         return false;

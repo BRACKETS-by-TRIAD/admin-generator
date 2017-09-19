@@ -112,6 +112,7 @@ class GenerateAdmin extends Command {
             $this->call('admin:generate:permissions', [
                 'table_name' => $tableNameArgument,
                 '--model-name' => $modelOption,
+                '--force' => $force,
             ]);
         }
 
