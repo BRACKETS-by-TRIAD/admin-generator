@@ -7,7 +7,7 @@
     <{{ $modelJSName }}-listing
         :data="{{'{{'}} $data->toJson() }}"
         :activation="!!'@{{ $activation }}'"
-        :url="'{{'{{'}} url('admin/{{ $modelViewsDirectory }}') }}'"
+        :url="'{{'{{'}} url('admin/{{ $resource }}') }}'"
         inline-template>
 
         <div class="row">
@@ -15,7 +15,7 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-align-justify"></i> {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.index') }}
-                        <a class="btn btn-primary btn-spinner btn-sm pull-right m-b-0" href="{{'{{'}} url('admin/{{ $modelViewsDirectory }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.create') }}</a>
+                        <a class="btn btn-primary btn-spinner btn-sm pull-right m-b-0" href="{{'{{'}} url('admin/{{ $resource }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.create') }}</a>
                     </div>
                     <div class="card-block" v-cloak>
                         <form @submit.prevent="">
@@ -54,14 +54,14 @@
                                     @foreach($columns as $col)<td @if($col['name'] == 'activated')v-if="activation"@endif>@if($col['switch'])
 
                                         <label class="switch switch-3d switch-success">
-                                            <input type="checkbox" class="switch-input" v-model="collection[index].{{ $col['name'] }}" @change="toggleSwitch('{{'{{'}} url('admin/{{ $modelViewsDirectory }}/update') }}/' + item.id, '{{ $col['name'] }}', collection[index])">
+                                            <input type="checkbox" class="switch-input" v-model="collection[index].{{ $col['name'] }}" @change="toggleSwitch('{{'{{'}} url('admin/{{ $resource }}/update') }}/' + item.id, '{{ $col['name'] }}', collection[index])">
                                             <span class="switch-label"></span>
                                             <span class="switch-handle"></span>
                                         </label>
                                     @elseif($col['name'] == 'forbidden')
 
                                         <label class="switch switch-3d switch-danger">
-                                            <input type="checkbox" class="switch-input" v-model="collection[index].{{ $col['name'] }}" @change="toggleSwitch('{{'{{'}} url('admin/{{ $modelViewsDirectory }}/update') }}/' + item.id, '{{ $col['name'] }}', collection[index])">
+                                            <input type="checkbox" class="switch-input" v-model="collection[index].{{ $col['name'] }}" @change="toggleSwitch('{{'{{'}} url('admin/{{ $resource }}/update') }}/' + item.id, '{{ $col['name'] }}', collection[index])">
                                             <span class="switch-label"></span>
                                             <span class="switch-handle"></span>
                                         </label>
@@ -71,12 +71,12 @@
                                     <td>
                                         <div class="row no-gutters">
                                             <div class="col-auto">
-                                                <button class="btn btn-sm btn-warning" v-show="!item.activated" @click="resendActivation('{{'{{'}} url('admin/{{ $modelViewsDirectory }}/resend-activation') }}/' + item.id)" title="Resend activation" role="button"><i class="fa fa-envelope-o"></i></button>
+                                                <button class="btn btn-sm btn-warning" v-show="!item.activated" @click="resendActivation('{{'{{'}} url('admin/{{ $resource }}/resend-activation') }}/' + item.id)" title="Resend activation" role="button"><i class="fa fa-envelope-o"></i></button>
                                             </div>
                                             <div class="col-auto">
-                                                <a class="btn btn-sm btn-spinner btn-info" :href="'{{'{{'}} url('admin/{{ $modelViewsDirectory }}/edit') }}/' + item.id" title="@{{ trans('brackets/admin-ui::admin.btn.edit') }}" role="button"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-sm btn-spinner btn-info" :href="'{{'{{'}} url('admin/{{ $resource }}/edit') }}/' + item.id" title="@{{ trans('brackets/admin-ui::admin.btn.edit') }}" role="button"><i class="fa fa-edit"></i></a>
                                             </div>
-                                            <form class="col" @submit.prevent="deleteItem('{{'{{'}} url('admin/{{ $modelViewsDirectory }}/destroy') }}/' + item.id)">
+                                            <form class="col" @submit.prevent="deleteItem('{{'{{'}} url('admin/{{ $resource }}/destroy') }}/' + item.id)">
                                                 <button type="submit" class="btn btn-sm btn-danger" title="@{{ trans('brackets/admin-ui::admin.btn.delete') }}"><i class="fa fa-trash-o"></i></button>
                                             </form>
                                         </div>
@@ -98,7 +98,7 @@
 		                    <i class="icon-magnifier"></i>
                             <h3>@{{ trans('brackets/admin-ui::admin.index.no_items') }}</h3>
                             <p>@{{ trans('brackets/admin-ui::admin.index.try_changing_items') }}</p>
-                            <a class="btn btn-primary btn-spinner" href="{{'{{'}} url('admin/{{ $modelViewsDirectory }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; @{{ trans('brackets/admin-ui::admin.btn.new') }} {{ $modelBaseName }}</a>
+                            <a class="btn btn-primary btn-spinner" href="{{'{{'}} url('admin/{{ $resource }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; @{{ trans('brackets/admin-ui::admin.btn.new') }} {{ $modelBaseName }}</a>
 	                    </div>
                     </div>
                 </div>

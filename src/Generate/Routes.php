@@ -51,6 +51,7 @@ class Routes extends FileAppender {
             'controllerPartiallyFullName' => $this->controllerWithNamespaceFromDefault,
             'modelVariableName' => $this->modelVariableName,
             'modelViewsDirectory' => $this->modelViewsDirectory,
+            'resource' => $this->resource,
         ])->render();
     }
 

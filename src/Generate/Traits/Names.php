@@ -19,6 +19,7 @@ trait Names {
     public $modelDotNotation;
     public $modelJSName;
     public $modelLangFormat;
+    public $resource;
 
     public $controllerWithNamespaceFromDefault;
 
@@ -41,6 +42,7 @@ trait Names {
         $this->modelPlural = Str::plural(class_basename($modelName));
         $this->modelVariableName = lcfirst(Str::singular(class_basename($this->modelBaseName)));
         $this->modelRouteAndViewName = Str::lower(Str::kebab($this->modelBaseName));
+        $this->resource = Str::lower(Str::kebab($this->modelPlural));
         $this->modelNamespace = Str::replaceLast("\\" . $this->modelBaseName, '', $this->modelFullName);
         if (!Str::startsWith($this->modelFullName, $startsWith = trim($modelGenerator->rootNamespace(), '\\').'\Models\\')) {
             $this->modelWithNamespaceFromDefault = $this->modelBaseName;

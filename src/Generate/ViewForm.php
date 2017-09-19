@@ -177,6 +177,7 @@ class ViewForm extends ViewGenerator {
             'modelDotNotation' => $this->modelDotNotation,
             'modelJSName' => $this->modelJSName,
             'modelLangFormat' => $this->modelLangFormat,
+            'resource' => $this->resource,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
             'hasTranslatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
@@ -196,6 +197,7 @@ class ViewForm extends ViewGenerator {
             'modelDotNotation' => $this->modelDotNotation,
             'modelJSName' => $this->modelJSName,
             'modelLangFormat' => $this->modelLangFormat,
+            'resource' => $this->resource,
 
             'modelTitle' => $this->readColumnsFromTable($this->tableName)->filter(function($column){
             	return in_array($column['name'], ['title', 'name', 'first_name', 'email']);

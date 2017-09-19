@@ -104,6 +104,7 @@ class ViewIndex extends ViewGenerator {
             'modelJSName' => $this->modelJSName,
             'modelDotNotation' => $this->modelDotNotation,
             'modelLangFormat' => $this->modelLangFormat,
+            'resource' => $this->resource,
 
             'columns' => $this->readColumnsFromTable($this->tableName)->reject(function($column) {
                     return ($column['type'] == 'text'

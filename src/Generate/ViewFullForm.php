@@ -80,7 +80,7 @@ class ViewFullForm extends ViewGenerator {
             if ($this->option('file-name')){
                 $this->route = 'admin/'.$this->fileName;
             } else {
-                $this->route = 'admin/'.$this->modelViewsDirectory.'/update';
+                $this->route = 'admin/'.$this->resource.'/update';
             }
         }
 

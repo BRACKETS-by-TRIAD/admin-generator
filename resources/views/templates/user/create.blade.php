@@ -9,7 +9,7 @@
         <div class="card">
 
             <{{ $modelJSName }}-form
-                :action="'{{'{{'}} url('admin/{{ $modelViewsDirectory }}/store') }}'"
+                :action="'{{'{{'}} url('admin/{{ $resource }}/store') }}'"
                 :activation="!!'@{{ $activation }}'"
                 @if($hasTranslatable):locales="@{{ json_encode($locales) }}"
                 :send-empty-locales="false"@endif
