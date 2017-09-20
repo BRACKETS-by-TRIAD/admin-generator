@@ -47,7 +47,7 @@ class Update{{ $modelBaseName }} extends FormRequest
 @if (count($relations))
     @if (count($relations['belongsToMany']))
 
-            @foreach($relations['belongsToMany'] as $belongsToMany)'{{ $belongsToMany['related_table'] }}' => [{!! implode(', ', ['\'array\'']) !!}],
+            @foreach($relations['belongsToMany'] as $belongsToMany)'{{ $belongsToMany['related_table'] }}' => [{!! implode(', ', ['\'sometimes\'', '\'array\'']) !!}],
             @endforeach
     @endif
 @endif
@@ -85,7 +85,7 @@ class Update{{ $modelBaseName }} extends FormRequest
 @if (count($relations))
     @if (count($relations['belongsToMany']))
 
-            @foreach($relations['belongsToMany'] as $belongsToMany)'{{ $belongsToMany['related_table'] }}' => [{!! implode(', ', ['\'array\'']) !!}],
+            @foreach($relations['belongsToMany'] as $belongsToMany)'{{ $belongsToMany['related_table'] }}' => [{!! implode(', ', ['\'sometimes\'', '\'array\'']) !!}],
             @endforeach
     @endif
 @endif

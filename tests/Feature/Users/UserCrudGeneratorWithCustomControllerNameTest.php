@@ -49,10 +49,10 @@ Route::middleware([\'admin\'])->group(function () {
     Route::get(\'/admin/users\',                                  \'Admin\Auth\UsersController@index\');
     Route::get(\'/admin/users/create\',                           \'Admin\Auth\UsersController@create\');
     Route::post(\'/admin/users\',                                 \'Admin\Auth\UsersController@store\');
-    Route::get(\'/admin/users/{user}/edit\',                      \'Admin\Auth\UsersController@edit\')->name(\'admin/user/edit\');
-    Route::post(\'/admin/users/{user}\',                          \'Admin\Auth\UsersController@update\')->name(\'admin/user/update\');
-    Route::delete(\'/admin/users/{user}\',                        \'Admin\Auth\UsersController@destroy\')->name(\'admin/user/destroy\');
-    Route::get(\'/admin/users/{user}/resend-activation\',         \'Admin\Auth\UsersController@resendActivationEmail\')->name(\'admin/user/resendActivationEmail\');', File::get($filePathRoutes));
+    Route::get(\'/admin/users/{user}/edit\',                      \'Admin\Auth\UsersController@edit\')->name(\'admin/users/edit\');
+    Route::post(\'/admin/users/{user}\',                          \'Admin\Auth\UsersController@update\')->name(\'admin/users/update\');
+    Route::delete(\'/admin/users/{user}\',                        \'Admin\Auth\UsersController@destroy\')->name(\'admin/users/destroy\');
+    Route::get(\'/admin/users/{user}/resend-activation\',         \'Admin\Auth\UsersController@resendActivationEmail\')->name(\'admin/users/resendActivationEmail\');', File::get($filePathRoutes));
     }
 
     /** @test */

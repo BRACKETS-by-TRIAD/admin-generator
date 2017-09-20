@@ -174,7 +174,9 @@ class {{ $controllerBaseName }} extends Controller
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
         // But we do have a {{ $belongsToMany['related_table'] }}, so we need to attach the {{ $belongsToMany['related_table'] }} to the {{ $modelVariableName }}
-        ${{ $modelVariableName }}->{{ $belongsToMany['related_table'] }}()->sync(collect($request->input('{{ $belongsToMany['related_table'] }}', []))->map->id->toArray());
+        if($request->input('{{ $belongsToMany['related_table'] }}')) {
+            ${{ $modelVariableName }}->{{ $belongsToMany['related_table'] }}()->sync(collect($request->input('{{ $belongsToMany['related_table'] }}', []))->map->id->toArray());
+        }
 @endforeach
 @endif
 @endif
