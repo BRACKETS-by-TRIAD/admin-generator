@@ -42,7 +42,6 @@ trait Names {
         $this->modelPlural = Str::plural(class_basename($modelName));
         $this->modelVariableName = lcfirst(Str::singular(class_basename($this->modelBaseName)));
         $this->modelRouteAndViewName = Str::lower(Str::kebab($this->modelBaseName));
-        $this->resource = Str::lower(Str::kebab($this->modelPlural));
         $this->modelNamespace = Str::replaceLast("\\" . $this->modelBaseName, '', $this->modelFullName);
         if (!Str::startsWith($this->modelFullName, $startsWith = trim($modelGenerator->rootNamespace(), '\\').'\Models\\')) {
             $this->modelWithNamespaceFromDefault = $this->modelBaseName;
@@ -52,10 +51,15 @@ trait Names {
         $this->modelViewsDirectory = Str::lower(Str::kebab(implode('/', collect(explode( '\\', $this->modelWithNamespaceFromDefault))->map(function($part){
             return lcfirst($part);
         })->toArray())));
+
+        $parts = collect(explode( '\\', $this->modelWithNamespaceFromDefault));
+        $parts->pop();
+        $parts->push($this->modelPlural);
+        $this->resource = Str::lower(Str::kebab(implode('', $parts->toArray())));
+
         $this->modelDotNotation = str_replace('/', '.', $this->modelViewsDirectory);
         $this->modelJSName = str_replace('/', '-', $this->modelViewsDirectory);
         $this->modelLangFormat = str_replace('/', '_', $this->modelViewsDirectory);
-
         if ($this instanceof Controller) {
             $controllerGenerator = $this;
         } else {

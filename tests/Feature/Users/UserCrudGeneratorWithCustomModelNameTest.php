@@ -93,13 +93,13 @@ class UpdateUser extends FormRequest
 
 /* Auto-generated admin routes */
 Route::middleware([\'admin\'])->group(function () {
-    Route::get(\'/admin/user\',                                   \'Admin\Auth\UsersController@index\');
-    Route::get(\'/admin/user/create\',                            \'Admin\Auth\UsersController@create\');
-    Route::post(\'/admin/user\',                                  \'Admin\Auth\UsersController@store\');
-    Route::get(\'/admin/user/{user}/edit\',                       \'Admin\Auth\UsersController@edit\')->name(\'admin/user/edit\');
-    Route::post(\'/admin/user/{user}\',                           \'Admin\Auth\UsersController@update\')->name(\'admin/user/update\');
-    Route::delete(\'/admin/user/{user}\',                         \'Admin\Auth\UsersController@destroy\')->name(\'admin/user/destroy\');
-    Route::get(\'/admin/user/{user}/resend-activation\',          \'Admin\Auth\UsersController@resendActivationEmail\')->name(\'admin/user/resendActivationEmail\');', File::get($routesPath));
+    Route::get(\'/admin/users\',                                  \'Admin\Auth\UsersController@index\');
+    Route::get(\'/admin/users/create\',                           \'Admin\Auth\UsersController@create\');
+    Route::post(\'/admin/users\',                                 \'Admin\Auth\UsersController@store\');
+    Route::get(\'/admin/users/{user}/edit\',                      \'Admin\Auth\UsersController@edit\')->name(\'admin/user/edit\');
+    Route::post(\'/admin/users/{user}\',                          \'Admin\Auth\UsersController@update\')->name(\'admin/user/update\');
+    Route::delete(\'/admin/users/{user}\',                        \'Admin\Auth\UsersController@destroy\')->name(\'admin/user/destroy\');
+    Route::get(\'/admin/users/{user}/resend-activation\',         \'Admin\Auth\UsersController@resendActivationEmail\')->name(\'admin/user/resendActivationEmail\');', File::get($routesPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')', File::get($indexPath));
         $this->assertStringStartsWith('import AppListing from \'../components/Listing/AppListing\';
 

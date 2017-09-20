@@ -112,13 +112,13 @@ class DestroyUser extends FormRequest
 
 /* Auto-generated admin routes */
 Route::middleware([\'admin\'])->group(function () {
-    Route::get(\'/admin/user\',                                   \'Admin\UsersController@index\');
-    Route::get(\'/admin/user/create\',                            \'Admin\UsersController@create\');
-    Route::post(\'/admin/user\',                                  \'Admin\UsersController@store\');
-    Route::get(\'/admin/user/{user}/edit\',                       \'Admin\UsersController@edit\')->name(\'admin/user/edit\');
-    Route::post(\'/admin/user/{user}\',                           \'Admin\UsersController@update\')->name(\'admin/user/update\');
-    Route::delete(\'/admin/user/{user}\',                         \'Admin\UsersController@destroy\')->name(\'admin/user/destroy\');
-    Route::get(\'/admin/user/{user}/resend-activation\',          \'Admin\UsersController@resendActivationEmail\')->name(\'admin/user/resendActivationEmail\');', File::get($routesPath));
+    Route::get(\'/admin/users\',                                  \'Admin\UsersController@index\');
+    Route::get(\'/admin/users/create\',                           \'Admin\UsersController@create\');
+    Route::post(\'/admin/users\',                                 \'Admin\UsersController@store\');
+    Route::get(\'/admin/users/{user}/edit\',                      \'Admin\UsersController@edit\')->name(\'admin/user/edit\');
+    Route::post(\'/admin/users/{user}\',                          \'Admin\UsersController@update\')->name(\'admin/user/update\');
+    Route::delete(\'/admin/users/{user}\',                        \'Admin\UsersController@destroy\')->name(\'admin/user/destroy\');
+    Route::get(\'/admin/users/{user}/resend-activation\',         \'Admin\UsersController@resendActivationEmail\')->name(\'admin/user/resendActivationEmail\');', File::get($routesPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')', File::get($indexPath));
         $this->assertStringStartsWith('import AppListing from \'../components/Listing/AppListing\';
 
