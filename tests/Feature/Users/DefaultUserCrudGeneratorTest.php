@@ -114,11 +114,11 @@ class DestroyUser extends FormRequest
 Route::middleware([\'admin\'])->group(function () {
     Route::get(\'/admin/user\',                                   \'Admin\UsersController@index\');
     Route::get(\'/admin/user/create\',                            \'Admin\UsersController@create\');
-    Route::post(\'/admin/user/store\',                            \'Admin\UsersController@store\');
-    Route::get(\'/admin/user/edit/{user}\',                       \'Admin\UsersController@edit\')->name(\'admin/user/edit\');
-    Route::post(\'/admin/user/update/{user}\',                    \'Admin\UsersController@update\')->name(\'admin/user/update\');
-    Route::delete(\'/admin/user/destroy/{user}\',                 \'Admin\UsersController@destroy\')->name(\'admin/user/destroy\');
-    Route::get(\'/admin/user/resend-activation/{user}\',          \'Admin\UsersController@resendActivationEmail\')->name(\'admin/user/resendActivationEmail\');', File::get($routesPath));
+    Route::post(\'/admin/user\',                                  \'Admin\UsersController@store\');
+    Route::get(\'/admin/user/{user}/edit\',                       \'Admin\UsersController@edit\')->name(\'admin/user/edit\');
+    Route::post(\'/admin/user/{user}\',                           \'Admin\UsersController@update\')->name(\'admin/user/update\');
+    Route::delete(\'/admin/user/{user}\',                         \'Admin\UsersController@destroy\')->name(\'admin/user/destroy\');
+    Route::get(\'/admin/user/{user}/resend-activation\',          \'Admin\UsersController@resendActivationEmail\')->name(\'admin/user/resendActivationEmail\');', File::get($routesPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')', File::get($indexPath));
         $this->assertStringStartsWith('import AppListing from \'../components/Listing/AppListing\';
 

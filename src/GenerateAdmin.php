@@ -1,6 +1,7 @@
 <?php namespace Brackets\AdminGenerator;
 
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Illuminate\Filesystem\Filesystem;
@@ -137,10 +138,15 @@ class GenerateAdmin extends Command {
 
     protected function hasSpatieLaravelPermissions() {
         $composerFile = base_path('composer.json');
-        $composer = $this->files->get($composerFile);
-        $composerContent = json_decode($composer, JSON_OBJECT_AS_ARRAY);
-        if(isset($composerContent['require']['spatie/laravel-permission'])) {
-            return true;
+        try {
+            if($composer = $this->files->get($composerFile)) {
+                $composerContent = json_decode($composer, JSON_OBJECT_AS_ARRAY);
+                if(isset($composerContent['require']['spatie/laravel-permission'])) {
+                    return true;
+                }
+            }
+        } catch (FileNotFoundException $e) {
+            return false;
         }
         return false;
     }

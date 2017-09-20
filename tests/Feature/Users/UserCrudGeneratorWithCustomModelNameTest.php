@@ -95,11 +95,11 @@ class UpdateUser extends FormRequest
 Route::middleware([\'admin\'])->group(function () {
     Route::get(\'/admin/user\',                                   \'Admin\Auth\UsersController@index\');
     Route::get(\'/admin/user/create\',                            \'Admin\Auth\UsersController@create\');
-    Route::post(\'/admin/user/store\',                            \'Admin\Auth\UsersController@store\');
-    Route::get(\'/admin/user/edit/{user}\',                       \'Admin\Auth\UsersController@edit\')->name(\'admin/user/edit\');
-    Route::post(\'/admin/user/update/{user}\',                    \'Admin\Auth\UsersController@update\')->name(\'admin/user/update\');
-    Route::delete(\'/admin/user/destroy/{user}\',                 \'Admin\Auth\UsersController@destroy\')->name(\'admin/user/destroy\');
-    Route::get(\'/admin/user/resend-activation/{user}\',          \'Admin\Auth\UsersController@resendActivationEmail\')->name(\'admin/user/resendActivationEmail\');', File::get($routesPath));
+    Route::post(\'/admin/user\',                                  \'Admin\Auth\UsersController@store\');
+    Route::get(\'/admin/user/{user}/edit\',                       \'Admin\Auth\UsersController@edit\')->name(\'admin/user/edit\');
+    Route::post(\'/admin/user/{user}\',                           \'Admin\Auth\UsersController@update\')->name(\'admin/user/update\');
+    Route::delete(\'/admin/user/{user}\',                         \'Admin\Auth\UsersController@destroy\')->name(\'admin/user/destroy\');
+    Route::get(\'/admin/user/{user}/resend-activation\',          \'Admin\Auth\UsersController@resendActivationEmail\')->name(\'admin/user/resendActivationEmail\');', File::get($routesPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')', File::get($indexPath));
         $this->assertStringStartsWith('import AppListing from \'../components/Listing/AppListing\';
 

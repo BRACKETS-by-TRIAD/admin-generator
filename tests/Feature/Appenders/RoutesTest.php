@@ -26,10 +26,10 @@ class RoutesTest extends TestCase
 Route::middleware([\'admin\'])->group(function () {
     Route::get(\'/admin/category\',                               \'Admin\CategoriesController@index\');
     Route::get(\'/admin/category/create\',                        \'Admin\CategoriesController@create\');
-    Route::post(\'/admin/category/store\',                        \'Admin\CategoriesController@store\');
-    Route::get(\'/admin/category/edit/{category}\',               \'Admin\CategoriesController@edit\')->name(\'admin/category/edit\');
-    Route::post(\'/admin/category/update/{category}\',            \'Admin\CategoriesController@update\')->name(\'admin/category/update\');
-    Route::delete(\'/admin/category/destroy/{category}\',         \'Admin\CategoriesController@destroy\')->name(\'admin/category/destroy\');', File::get($filePath));
+    Route::post(\'/admin/category\',                              \'Admin\CategoriesController@store\');
+    Route::get(\'/admin/category/{category}/edit\',               \'Admin\CategoriesController@edit\')->name(\'admin/category/edit\');
+    Route::post(\'/admin/category/{category}\',                   \'Admin\CategoriesController@update\')->name(\'admin/category/update\');
+    Route::delete(\'/admin/category/{category}\',                 \'Admin\CategoriesController@destroy\')->name(\'admin/category/destroy\');', File::get($filePath));
     }
 
 
@@ -51,10 +51,10 @@ Route::middleware([\'admin\'])->group(function () {
 Route::middleware([\'admin\'])->group(function () {
     Route::get(\'/admin/billing/categ-ory\',                      \'Admin\Billing\CategOryController@index\');
     Route::get(\'/admin/billing/categ-ory/create\',               \'Admin\Billing\CategOryController@create\');
-    Route::post(\'/admin/billing/categ-ory/store\',               \'Admin\Billing\CategOryController@store\');
-    Route::get(\'/admin/billing/categ-ory/edit/{categOry}\',      \'Admin\Billing\CategOryController@edit\')->name(\'admin/billing/categ-ory/edit\');
-    Route::post(\'/admin/billing/categ-ory/update/{categOry}\',   \'Admin\Billing\CategOryController@update\')->name(\'admin/billing/categ-ory/update\');
-    Route::delete(\'/admin/billing/categ-ory/destroy/{categOry}\',\'Admin\Billing\CategOryController@destroy\')->name(\'admin/billing/categ-ory/destroy\');', File::get($filePath));
+    Route::post(\'/admin/billing/categ-ory\',                     \'Admin\Billing\CategOryController@store\');
+    Route::get(\'/admin/billing/categ-ory/{categOry}/edit\',      \'Admin\Billing\CategOryController@edit\')->name(\'admin/billing/categ-ory/edit\');
+    Route::post(\'/admin/billing/categ-ory/{categOry}\',          \'Admin\Billing\CategOryController@update\')->name(\'admin/billing/categ-ory/update\');
+    Route::delete(\'/admin/billing/categ-ory/{categOry}\',        \'Admin\Billing\CategOryController@destroy\')->name(\'admin/billing/categ-ory/destroy\');', File::get($filePath));
     }
 
 }
