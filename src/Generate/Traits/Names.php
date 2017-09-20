@@ -60,6 +60,7 @@ trait Names {
         $this->modelDotNotation = str_replace('/', '.', $this->modelViewsDirectory);
         $this->modelJSName = str_replace('/', '-', $this->modelViewsDirectory);
         $this->modelLangFormat = str_replace('/', '_', $this->modelViewsDirectory);
+
         if ($this instanceof Controller) {
             $controllerGenerator = $this;
         } else {
