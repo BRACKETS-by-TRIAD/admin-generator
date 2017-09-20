@@ -33,8 +33,8 @@ class Permissions extends ClassGenerator {
     }
 
     protected function generateClass($force = false) {
-        $fileName = 'fill_permissions_for_'.$this->modelRouteAndViewName;
-        $path = database_path('migrations/'.date('Y_m_d_His', time()).'_'.$fileName.'.php');
+        $fileName = 'fill_permissions_for_'.$this->modelRouteAndViewName.'.php';
+        $path = database_path('migrations/'.date('Y_m_d_His', time()).'_'.$fileName);
 
         if ($oldPath = $this->alreadyExists($fileName)) {
             $path = $oldPath;
