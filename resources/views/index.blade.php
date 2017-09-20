@@ -53,7 +53,7 @@
                                 <tr v-for="(item, index) in collection">
                                     @foreach($columns as $col)@if($col['switch'])<td>
                                         <label class="switch switch-3d switch-success">
-                                            <input type="checkbox" class="switch-input" v-model="collection[index].{{ $col['name'] }}" @change="toggleSwitch('{{'{{'}} url('admin/{{ $resource }}/update') }}/' + item.id, '{{ $col['name'] }}', collection[index])">
+                                            <input type="checkbox" class="switch-input" v-model="collection[index].{{ $col['name'] }}" @change="toggleSwitch(item.resource_url, '{{ $col['name'] }}', collection[index])">
                                             <span class="switch-label"></span>
                                             <span class="switch-handle"></span>
                                         </label>
@@ -65,9 +65,9 @@
                                     <td>
                                         <div class="row no-gutters">
                                             <div class="col-auto">
-                                                <a class="btn btn-sm btn-spinner btn-info" :href="'{{'{{'}} url('admin/{{ $resource }}/edit') }}/' + item.id" title="@{{ trans('brackets/admin-ui::admin.btn.edit') }}" role="button"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-sm btn-spinner btn-info" :href="item.resource_url + '/edit'" title="@{{ trans('brackets/admin-ui::admin.btn.edit') }}" role="button"><i class="fa fa-edit"></i></a>
                                             </div>
-                                            <form class="col" @submit.prevent="deleteItem('{{'{{'}} url('admin/{{ $resource }}/destroy') }}/' + item.id)">
+                                            <form class="col" @submit.prevent="deleteItem(item.resource_url)">
                                                 <button type="submit" class="btn btn-sm btn-danger" title="@{{ trans('brackets/admin-ui::admin.btn.delete') }}"><i class="fa fa-trash-o"></i></button>
                                             </form>
                                         </div>

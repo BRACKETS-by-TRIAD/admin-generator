@@ -74,6 +74,14 @@ class {{ $modelBaseName }} extends Authenticatable implements CanActivateContrac
     @if (!$timestamps)public $timestamps = false;
     @endif
 
+    protected $appends = ['full_name', 'resource_url'];
+
+    /* ************************ ACCESSOR ************************* */
+
+    public function getResourceUrlAttribute() {
+        return url('/admin/{{$resource}}/'.$this->getKey());
+    }
+
     public function getFullNameAttribute() {
         return $this->first_name." ".$this->last_name;
     }

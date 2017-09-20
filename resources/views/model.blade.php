@@ -68,6 +68,14 @@ class {{ $modelBaseName }} extends Model
     @if (!$timestamps)public $timestamps = false;
     @endif
 
+    protected $appends = ['resource_url'];
+
+    /* ************************ ACCESSOR ************************* */
+
+    public function getResourceUrlAttribute() {
+        return url('/admin/{{$resource}}/'.$this->getKey());
+    }
+
     @if (count($relations))/* ************************ RELATIONS ************************ */
 
     @if (count($relations['belongsToMany']))

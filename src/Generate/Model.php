@@ -79,6 +79,7 @@ class Model extends ClassGenerator {
             'hasSoftDelete' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return $column['name'] == "deleted_at";
             })->count() > 0,
+            'resource' => $this->resource,
 
             'relations' => $this->relations,
         ])->render();

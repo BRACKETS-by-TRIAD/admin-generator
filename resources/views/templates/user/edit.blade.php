@@ -9,14 +9,14 @@
         <div class="card">
 
             @if($hasTranslatable)<{{ $modelJSName }}-form
-                :action="'{{'{{'}} route('admin/{{ $resource }}/update', ['{{ $modelVariableName }}' => ${{ $modelVariableName }}]) }}'"
+                :action="'{{'{{'}} ${{ $modelVariableName }}->resource_url }}'"
                 :data="{{'{{'}} ${{ $modelVariableName }}->toJsonAllLocales() }}"
                 :activation="!!'@{{ $activation }}'"
                 :locales="@{{ json_encode($locales) }}"
                 :send-empty-locales="false"
                 inline-template>
             @else<{{ $modelJSName }}-form
-                :action="'{{'{{'}} route('admin/{{ $resource }}/update', ['{{ $modelVariableName }}' => ${{ $modelVariableName }}]) }}'"
+                :action="'{{'{{'}} ${{ $modelVariableName }}->resource_url }}'"
                 :data="{{'{{'}} ${{ $modelVariableName }}->toJson() }}"
                 :activation="!!'@{{ $activation }}'"
                 inline-template>

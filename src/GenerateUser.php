@@ -75,9 +75,9 @@ class GenerateUser extends Command {
         // we need to replace this before controller generation happens
         $this->strReplaceInFile(
             resource_path('views/admin/layout/sidebar.blade.php'),
-            '|url\(\'admin\/user\'\)|',
+            '|url\(\'admin\/users\'\)|',
             '{{-- Do not delete me :) I\'m also used for auto-generation menu items --}}',
-            '<li class="nav-item"><a class="nav-link" href="{{ url(\'admin/user\') }}"><i class="icon-user"></i> <span class="nav-link-text">{{ __(\'Manage access\') }}</span></a></li>
+            '<li class="nav-item"><a class="nav-link" href="{{ url(\'admin/users\') }}"><i class="icon-user"></i> <span class="nav-link-text">{{ __(\'Manage access\') }}</span></a></li>
             {{-- Do not delete me :) I\'m also used for auto-generation menu items --}}');
 
         $this->call('admin:generate:controller', [
