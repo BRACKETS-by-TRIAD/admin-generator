@@ -155,8 +155,8 @@ class ViewForm extends ViewGenerator {
             'modelDotNotation' => $this->modelDotNotation,
             'modelLangFormat' => $this->modelLangFormat,
 
-            'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName)->sortByDesc(function($column) {
-                return $column['type'] == "json";
+            'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName)->sortBy(function($column) {
+                return !($column['type'] == "json");
             }),
             'hasTranslatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return $column['type'] == "json";
