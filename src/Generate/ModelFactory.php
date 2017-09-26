@@ -111,7 +111,7 @@ class ModelFactory extends FileAppender {
         return [
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
-            ['seed', 's', InputOption::VALUE_OPTIONAL, 'Seeds the table with fake data'],
+            ['seed', 's', InputOption::VALUE_NONE, 'Seeds the table with fake data'],
         ];
     }
 
