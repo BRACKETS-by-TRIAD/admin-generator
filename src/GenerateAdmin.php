@@ -2,9 +2,9 @@
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Illuminate\Filesystem\Filesystem;
 
 class GenerateAdmin extends Command {
 
@@ -34,8 +34,7 @@ class GenerateAdmin extends Command {
      *
      * @return mixed
      */
-    public function handle(Filesystem $files)
-    {
+    public function handle(Filesystem $files) {
         $this->files = $files;
 
         $tableNameArgument = $this->argument('table_name');
@@ -109,12 +108,16 @@ class GenerateAdmin extends Command {
             '--model-name' => $modelOption,
         ]);
 
-        if($this->hasSpatieLaravelPermissions()) {
+        if ($this->shouldGeneratePermissionsMigration()) {
             $this->call('admin:generate:permissions', [
                 'table_name' => $tableNameArgument,
                 '--model-name' => $modelOption,
                 '--force' => $force,
             ]);
+
+            if ($this->option('no-interaction') || $this->confirm('Do you want to attach generated permissions to the default role now?')) {
+               $this->call('migrate');
+            }
         }
 
         $this->info('Generating whole admin finished');
@@ -136,18 +139,11 @@ class GenerateAdmin extends Command {
         ];
     }
 
-    protected function hasSpatieLaravelPermissions() {
-        $composerFile = base_path('composer.json');
-        try {
-            if($composer = $this->files->get($composerFile)) {
-                $composerContent = json_decode($composer, JSON_OBJECT_AS_ARRAY);
-                if(isset($composerContent['require']['spatie/laravel-permission'])) {
-                    return true;
-                }
-            }
-        } catch (FileNotFoundException $e) {
-            return false;
+    protected function shouldGeneratePermissionsMigration() {
+        if (class_exists('\Brackets\Craftable\CraftableServiceProvider')) {
+            return true;
         }
+
         return false;
     }
 
