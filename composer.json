@@ -39,10 +39,10 @@
         }
     ],
     "require": {
-        "php": ">=7.0.0",
+        "php": ">=7.1.0",
         "illuminate/support": "5.5.*",
         "illuminate/console": "5.5.*",
-        "doctrine/dbal": "~2.5.13"
+        "doctrine/dbal": "^2.6.0"
     },
     "require-dev": {
         "orchestra/testbench": "~3.5",
