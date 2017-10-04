@@ -12,9 +12,9 @@ class UserCrudGeneratorWithCustomModelNameTest extends UserTestCase
 
     /** @test */
     function all_files_should_be_generated_with_custom_model(){
-        $controllerPath = base_path('App/Http/Controllers/Admin/Auth/UsersController.php');
-        $storePath = base_path('App/Http/Requests/Admin/User/StoreUser.php');
-        $updatePath = base_path('App/Http/Requests/Admin/User/UpdateUser.php');
+        $controllerPath = base_path('app/Http/Controllers/Admin/Auth/UsersController.php');
+        $storePath = base_path('app/Http/Requests/Admin/User/StoreUser.php');
+        $updatePath = base_path('app/Http/Requests/Admin/User/UpdateUser.php');
         $routesPath = base_path('routes/web.php');
         $indexPath = resource_path('views/admin/user/index.blade.php');
         $indexJsPath = resource_path('assets/admin/js/user/Listing.js');

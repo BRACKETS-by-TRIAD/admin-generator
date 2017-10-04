@@ -11,12 +11,12 @@ class WholeAdminGeneratorTest extends TestCase
 
     /** @test */
     function whole_admin_generator_produces_all_the_files(){
-        $modelPath = base_path('App/Models/Category.php');
-        $controllerPath = base_path('App/Http/Controllers/Admin/CategoriesController.php');
-        $indexRequestPath = base_path('App/Http/Requests/Admin/Category/IndexCategory.php');
-        $storePath = base_path('App/Http/Requests/Admin/Category/StoreCategory.php');
-        $updatePath = base_path('App/Http/Requests/Admin/Category/UpdateCategory.php');
-        $destroyPath = base_path('App/Http/Requests/Admin/Category/DestroyCategory.php');
+        $modelPath = base_path('app/Models/Category.php');
+        $controllerPath = base_path('app/Http/Controllers/Admin/CategoriesController.php');
+        $indexRequestPath = base_path('app/Http/Requests/Admin/Category/IndexCategory.php');
+        $storePath = base_path('app/Http/Requests/Admin/Category/StoreCategory.php');
+        $updatePath = base_path('app/Http/Requests/Admin/Category/UpdateCategory.php');
+        $destroyPath = base_path('app/Http/Requests/Admin/Category/DestroyCategory.php');
         $routesPath = base_path('routes/web.php');
         $indexPath = resource_path('views/admin/category/index.blade.php');
         $listingJsPath = resource_path('assets/admin/js/category/Listing.js');

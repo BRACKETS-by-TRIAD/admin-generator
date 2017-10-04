@@ -12,7 +12,7 @@ class ProfileGeneratorWithCustomControllerNameTest extends UserTestCase
 
     /** @test */
     function profile_controller_name_can_be_namespaced(){
-        $filePathController = base_path('App/Http/Controllers/Admin/Auth/ProfileController.php');
+        $filePathController = base_path('app/Http/Controllers/Admin/Auth/ProfileController.php');
         $filePathRoute = base_path('routes/web.php');
 
         $this->assertFileNotExists($filePathController);

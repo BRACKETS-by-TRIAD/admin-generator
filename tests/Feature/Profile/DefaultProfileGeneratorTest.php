@@ -12,7 +12,7 @@ class DefaultProfileGeneratorTest extends UserTestCase
 
     /** @test */
     function all_files_should_be_generated_under_default_namespace(){
-        $filePathController = base_path('App/Http/Controllers/Admin/ProfileController.php');
+        $filePathController = base_path('app/Http/Controllers/Admin/ProfileController.php');
         $filePathRoute = base_path('routes/web.php');
         $editPathProfile = resource_path('views/admin/profile/edit-profile.blade.php');
         $formJsPathProfile = resource_path('assets/admin/js/profile-edit-profile/Form.js');
