@@ -12,7 +12,7 @@ class DestroyRequestNameTest extends TestCase
 
     /** @test */
     function destroy_request_generation_should_generate_an_update_request_name(){
-        $filePath = base_path('App/Http/Requests/Admin/Category/DestroyCategory.php');
+        $filePath = base_path('app/Http/Requests/Admin/Category/DestroyCategory.php');
 
         $this->assertFileNotExists($filePath);
 
@@ -31,7 +31,7 @@ class DestroyCategory extends FormRequest', File::get($filePath));
 
     /** @test */
     function testing_correct_name_for_custom_model_name_in_destroy_request(){
-        $filePath = base_path('App/Http/Requests/Admin/Billing/Cat/DestroyCat.php');
+        $filePath = base_path('app/Http/Requests/Admin/Billing/Cat/DestroyCat.php');
 
         $this->assertFileNotExists($filePath);
 

@@ -12,7 +12,7 @@ class ProfileGeneratorWithCustomModelNameTest extends UserTestCase
 
     /** @test */
     function profile_controller_should_be_generated_with_custom_model(){
-        $filePath = base_path('App/Http/Controllers/Admin/Auth/ProfileController.php');
+        $filePath = base_path('app/Http/Controllers/Admin/Auth/ProfileController.php');
 
         $this->assertFileNotExists($filePath);
 

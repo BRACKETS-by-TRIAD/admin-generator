@@ -12,7 +12,7 @@ class UserCrudGeneratorWithGenerateModelTest extends UserTestCase
 
     /** @test */
     function user_model_name_should_auto_generate_from_table_name_if_required(){
-        $filePath = base_path('App/Models/User.php');
+        $filePath = base_path('app/Models/User.php');
 
         $this->assertFileNotExists($filePath);
 
@@ -37,7 +37,7 @@ class User extends Authenticatable implements CanActivateContract
 
     /** @test */
     function user_model_name_should_use_custom_name_if_required(){
-        $filePath = base_path('App/Models/Auth/User.php');
+        $filePath = base_path('app/Models/Auth/User.php');
 
         $this->assertFileNotExists($filePath);
 
@@ -63,7 +63,7 @@ class User extends Authenticatable implements CanActivateContract
 
     /** @test */
     function user_model_name_should_use_custom_name_outside_default_folder_if_required(){
-        $filePath = base_path('App/Auth/User.php');
+        $filePath = base_path('app/Auth/User.php');
 
         $this->assertFileNotExists($filePath);
 

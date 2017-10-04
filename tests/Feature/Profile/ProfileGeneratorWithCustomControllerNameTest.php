@@ -44,7 +44,7 @@ Route::middleware([\'admin\'])->group(function () {
 
     /** @test */
     function profile_controller_name_can_be_outside_default_directory(){
-        $filePath = base_path('App/Http/Controllers/Auth/ProfileController.php');
+        $filePath = base_path('app/Http/Controllers/Auth/ProfileController.php');
 
         $this->assertFileNotExists($filePath);
 

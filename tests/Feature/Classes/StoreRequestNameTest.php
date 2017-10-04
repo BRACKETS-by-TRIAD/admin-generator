@@ -12,7 +12,7 @@ class StoreRequestNameTest extends TestCase
 
     /** @test */
     function store_request_generation_should_generate_a_store_request_name(){
-        $filePath = base_path('App/Http/Requests/Admin/Category/StoreCategory.php');
+        $filePath = base_path('app/Http/Requests/Admin/Category/StoreCategory.php');
 
         $this->assertFileNotExists($filePath);
 
@@ -32,7 +32,7 @@ class StoreCategory extends FormRequest', File::get($filePath));
 
     /** @test */
     function testing_correct_name_for_custom_model_name(){
-        $filePath = base_path('App/Http/Requests/Admin/Billing/Cat/StoreCat.php');
+        $filePath = base_path('app/Http/Requests/Admin/Billing/Cat/StoreCat.php');
 
         $this->assertFileNotExists($filePath);
 
@@ -54,7 +54,7 @@ class StoreCat extends FormRequest', File::get($filePath));
 
     /** @test */
     function testing_correct_name_for_custom_model_name_outside_default_folder(){
-        $filePath = base_path('App/Http/Requests/Admin/Cat/StoreCat.php');
+        $filePath = base_path('app/Http/Requests/Admin/Cat/StoreCat.php');
 
         $this->assertFileNotExists($filePath);
 
