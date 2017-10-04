@@ -66,7 +66,9 @@ abstract class ClassGenerator extends Command {
     abstract protected function buildClass();
 
     public function getPathFromClassName($name) {
-        return str_replace('\\', '/', $name).".php";
+        $path = str_replace('\\', '/', $name).".php";
+
+        return preg_replace('|^App/|', 'app/', $path);
     }
 
     /**

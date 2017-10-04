@@ -12,11 +12,11 @@ class DefaultUserCrudGeneratorTest extends UserTestCase
 
     /** @test */
     function all_files_should_be_generated_under_default_namespace(){
-        $controllerPath = base_path('App/Http/Controllers/Admin/UsersController.php');
-        $indexRequestPath = base_path('App/Http/Requests/Admin/User/IndexUser.php');
-        $storePath = base_path('App/Http/Requests/Admin/User/StoreUser.php');
-        $updatePath = base_path('App/Http/Requests/Admin/User/UpdateUser.php');
-        $destroyPath = base_path('App/Http/Requests/Admin/User/DestroyUser.php');
+        $controllerPath = base_path('app/Http/Controllers/Admin/UsersController.php');
+        $indexRequestPath = base_path('app/Http/Requests/Admin/User/IndexUser.php');
+        $storePath = base_path('app/Http/Requests/Admin/User/StoreUser.php');
+        $updatePath = base_path('app/Http/Requests/Admin/User/UpdateUser.php');
+        $destroyPath = base_path('app/Http/Requests/Admin/User/DestroyUser.php');
         $routesPath = base_path('routes/web.php');
         $indexPath = resource_path('views/admin/user/index.blade.php');
         $listingJsPath = resource_path('assets/admin/js/user/Listing.js');

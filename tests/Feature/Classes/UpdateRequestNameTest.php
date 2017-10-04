@@ -12,7 +12,7 @@ class UpdateRequestNameTest extends TestCase
 
     /** @test */
     function update_request_generation_should_generate_an_update_request_name(){
-        $filePath = base_path('App/Http/Requests/Admin/Category/UpdateCategory.php');
+        $filePath = base_path('app/Http/Requests/Admin/Category/UpdateCategory.php');
 
         $this->assertFileNotExists($filePath);
 
@@ -32,7 +32,7 @@ class UpdateCategory extends FormRequest', File::get($filePath));
 
     /** @test */
     function testing_correct_name_for_custom_model_name(){
-        $filePath = base_path('App/Http/Requests/Admin/Billing/Cat/UpdateCat.php');
+        $filePath = base_path('app/Http/Requests/Admin/Billing/Cat/UpdateCat.php');
 
         $this->assertFileNotExists($filePath);
 

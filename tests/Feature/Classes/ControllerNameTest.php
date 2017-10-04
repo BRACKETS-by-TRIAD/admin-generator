@@ -12,7 +12,7 @@ class ControllerNameTest extends TestCase
 
     /** @test */
     function controller_should_be_generated_underdefault_namespace(){
-        $filePath = base_path('App/Http/Controllers/Admin/CategoriesController.php');
+        $filePath = base_path('app/Http/Controllers/Admin/CategoriesController.php');
 
         $this->assertFileNotExists($filePath);
 
@@ -38,7 +38,7 @@ class CategoriesController extends Controller', File::get($filePath));
 
     /** @test */
     function controller_name_can_be_namespaced(){
-        $filePath = base_path('App/Http/Controllers/Admin/Billing/MyNameController.php');
+        $filePath = base_path('app/Http/Controllers/Admin/Billing/MyNameController.php');
 
         $this->assertFileNotExists($filePath);
 
@@ -65,7 +65,7 @@ class MyNameController extends Controller', File::get($filePath));
 
     /** @test */
     function you_can_generate_controller_outside_default_directory(){
-        $filePath = base_path('App/Http/Controllers/Billing/CategoriesController.php');
+        $filePath = base_path('app/Http/Controllers/Billing/CategoriesController.php');
 
         $this->assertFileNotExists($filePath);
 
@@ -93,7 +93,7 @@ class CategoriesController extends Controller', File::get($filePath));
 
     /** @test */
     function you_can_pass_a_model_class_name(){
-        $filePath = base_path('App/Http/Controllers/Billing/CategoriesController.php');
+        $filePath = base_path('app/Http/Controllers/Billing/CategoriesController.php');
 
         $this->assertFileNotExists($filePath);
 
