@@ -105,17 +105,17 @@ trait Columns {
                 case 'datetime':
                     $serverStoreRules->push('\'date\'');
                     $serverUpdateRules->push('\'date\'');
-                    $frontendRules->push('date_format:YYYY-MM-DD kk:mm:ss');
+                    $frontendRules->push('date_format:YYYY-MM-DD HH:mm:ss');
                     break;
                 case 'date':
                     $serverStoreRules->push('\'date\'');
                     $serverUpdateRules->push('\'date\'');
-                    $frontendRules->push('date_format:YYYY-MM-DD kk:mm:ss');
+                    $frontendRules->push('date_format:YYYY-MM-DD HH:mm:ss');
                     break;
                 case 'time':
                     $serverStoreRules->push('\'date_format:H:i:s\'');
                     $serverUpdateRules->push('\'date_format:H:i:s\'');
-                    $frontendRules->push('date_format:kk:mm:ss');
+                    $frontendRules->push('date_format:HH:mm:ss');
                     break;
                 case 'integer':
                     $serverStoreRules->push('\'integer\'');
