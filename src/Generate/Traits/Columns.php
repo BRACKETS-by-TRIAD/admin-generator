@@ -79,26 +79,26 @@ trait Columns {
 //                $frontendRules->push(''regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!$#%]).*$/g'');
             }
 
-            if ($column['unique']) {
-                $storeRule = 'unique:'.$tableName;
-                $updateRule = 'unique:'.$tableName.','.$column['name'].',\'.$this->'.$modelVariableName.'->getKey().\',\'.$this->'.$modelVariableName.'->getKeyName().\'';
-                if($hasSoftDelete && $column['unique_deleted_at_condition']) {
-                    $storeRule .= ','.$column['name'].',NULL,id,deleted_at,NULL';
-                    $updateRule .= ',deleted_at,NULL';
+            if($column['unique'] || $column['name'] == 'slug') {
+                if($column['type'] == 'json') {
+                    $storeRule = 'Rule::unique(\''.$tableName.'\', \''.$column['name'].'->\'.$locale)';
+                    $updateRule = 'Rule::unique(\''.$tableName.'\', \''.$column['name'].'->\'.$locale)->ignore($this->'.$modelVariableName.'->getKey(), $this->'.$modelVariableName.'->getKeyName())';
+                    if($hasSoftDelete && $column['unique_deleted_at_condition']) {
+                        $storeRule .= '->whereNull(\'deleted_at\')';
+                        $updateRule .= '->whereNull(\'deleted_at\')';
+                    }
+                    $serverStoreRules->push($storeRule);
+                    $serverUpdateRules->push($updateRule);
+                } else {
+                    $storeRule = 'Rule::unique(\''.$tableName.'\', \''.$column['name'].'\')';
+                    $updateRule = 'Rule::unique(\''.$tableName.'\', \''.$column['name'].'\')->ignore($this->'.$modelVariableName.'->getKey(), $this->'.$modelVariableName.'->getKeyName())';
+                    if($hasSoftDelete && $column['unique_deleted_at_condition']) {
+                        $storeRule .= '->whereNull(\'deleted_at\')';
+                        $updateRule .= '->whereNull(\'deleted_at\')';
+                    }
+                    $serverStoreRules->push($storeRule);
+                    $serverUpdateRules->push($updateRule);
                 }
-                $serverStoreRules->push('\''.$storeRule.'\'');
-                $serverUpdateRules->push('\''.$updateRule.'\'');
-            }
-
-            if ($column['name'] == 'slug' && $column['type'] == 'json' && !$column['unique']) {
-                $storeRule = 'Rule::unique(\''.$tableName.'\', \''.$column['name'].'->\'.$locale)';
-                $updateRule = 'Rule::unique(\''.$tableName.'\', \''.$column['name'].'->\'.$locale)->ignore($this->'.$modelVariableName.'->getKey(), $this->'.$modelVariableName.'->getKeyName())';
-                if($hasSoftDelete && $column['unique_deleted_at_condition']) {
-                    $storeRule .= '->whereNull(\'deleted_at\')';
-                    $updateRule .= '->whereNull(\'deleted_at\')';
-                }
-                $serverStoreRules->push($storeRule);
-                $serverUpdateRules->push($updateRule);
             }
 
             switch ($column['type']) {
