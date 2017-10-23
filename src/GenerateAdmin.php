@@ -115,7 +115,7 @@ class GenerateAdmin extends Command {
                 '--force' => $force,
             ]);
 
-            if ($this->option('no-interaction') || $this->confirm('Do you want to attach generated permissions to the default role now?')) {
+            if ($this->option('no-interaction') || $this->confirm('Do you want to attach generated permissions to the default role now?', true)) {
                $this->call('migrate');
             }
         }
