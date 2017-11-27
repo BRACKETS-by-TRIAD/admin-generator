@@ -7,8 +7,8 @@
     <div class="col text-center" :class="{'language-mobile': onSmallScreen, 'has-error': !isFormLocalized && showLocalizedValidationError}" v-if="isFormLocalized || onSmallScreen" v-cloak>
         <small>@{{ trans('brackets/admin-ui::admin.forms.choose_translation_to_edit') }}
             <select class="form-control" v-model="currentLocale">
-                <option :value="defaultLocale" v-if="onSmallScreen">@{{ defaultLocale.toUpperCase() }}</option>
-                <option v-for="locale in otherLocales" :value="locale">@{{ locale.toUpperCase() }}</option>
+                <option :value="defaultLocale" v-if="onSmallScreen">{{'@{{'}}defaultLocale.toUpperCase()}}</option>
+                <option v-for="locale in otherLocales" :value="locale">{{'@{{'}}locale.toUpperCase()}}</option>
             </select>
             <i class="localization-error" v-if="isFormLocalized && showLocalizedValidationError"></i>
             <span>|</span>
