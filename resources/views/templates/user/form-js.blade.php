@@ -1,4 +1,4 @@
-import AppForm from '../components/Form/AppForm';
+import AppForm from '../app-components/Form/AppForm';
 
 Vue.component('{{ $modelJSName }}-form', {
     mixins: [AppForm],
