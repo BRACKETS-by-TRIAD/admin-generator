@@ -43,6 +43,7 @@ class DefaultProfileGeneratorTest extends UserTestCase
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {', File::get($filePathController));
@@ -67,7 +68,7 @@ Route::middleware([\'admin\'])->group(function () {
         <div class="card">
 
             <profile-edit-profile-form', File::get($editPathProfile));
-        $this->assertStringStartsWith('import AppForm from \'../components/Form/AppForm\';
+        $this->assertStringStartsWith('import AppForm from \'../app-components/Form/AppForm\';
 
 Vue.component(\'profile-edit-profile-form\'', File::get($formJsPathProfile));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')
@@ -81,7 +82,7 @@ Vue.component(\'profile-edit-profile-form\'', File::get($formJsPathProfile));
         <div class="card">
 
             <profile-edit-password-form', File::get($editPathPassword));
-        $this->assertStringStartsWith('import AppForm from \'../components/Form/AppForm\';
+        $this->assertStringStartsWith('import AppForm from \'../app-components/Form/AppForm\';
 
 Vue.component(\'profile-edit-password-form\'', File::get($formJsPathPassword));
         $this->assertStringStartsWith("import './profile-edit-profile';
