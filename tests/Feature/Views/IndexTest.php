@@ -29,7 +29,7 @@ class IndexTest extends TestCase
         $this->assertFileExists($listingJsPath);
         $this->assertFileExists($indexJsPath);
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')', File::get($indexPath));
-        $this->assertStringStartsWith('import AppListing from \'../components/Listing/AppListing\';
+        $this->assertStringStartsWith('import AppListing from \'../app-components/Listing/AppListing\';
 
 Vue.component(\'category-listing\', {
     mixins: [AppListing]
@@ -60,7 +60,7 @@ Vue.component(\'category-listing\', {
 		$this->assertFileExists($listingJsPath);
         $this->assertFileExists($indexJsPath);
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')', File::get($indexPath));
-        $this->assertStringStartsWith('import AppListing from \'../components/Listing/AppListing\';
+        $this->assertStringStartsWith('import AppListing from \'../app-components/Listing/AppListing\';
 
 Vue.component(\'billing-my-article-listing\', {
     mixins: [AppListing]

@@ -40,7 +40,7 @@ class FormTest extends TestCase
         $this->assertStringStartsWith('<div ', File::get($elementsPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')', File::get($createPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')', File::get($editPath));
-        $this->assertStringStartsWith('import AppForm from \'../components/Form/AppForm\';
+        $this->assertStringStartsWith('import AppForm from \'../app-components/Form/AppForm\';
 
 Vue.component(\'category-form\', {
     mixins: [AppForm]', File::get($formJsPath));
@@ -79,7 +79,7 @@ Vue.component(\'category-form\', {
         $this->assertStringStartsWith('<div ', File::get($elementsPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')', File::get($createPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')', File::get($editPath));
-        $this->assertStringStartsWith('import AppForm from \'../components/Form/AppForm\';
+        $this->assertStringStartsWith('import AppForm from \'../app-components/Form/AppForm\';
 
 Vue.component(\'billing-my-article-form\', {
     mixins: [AppForm]', File::get($formJsPath));

@@ -120,13 +120,13 @@ Route::middleware([\'admin\'])->group(function () {
     Route::delete(\'/admin/users/{user}\',                        \'Admin\UsersController@destroy\')->name(\'admin/users/destroy\');
     Route::get(\'/admin/users/{user}/resend-activation\',         \'Admin\UsersController@resendActivationEmail\')->name(\'admin/users/resendActivationEmail\');', File::get($routesPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')', File::get($indexPath));
-        $this->assertStringStartsWith('import AppListing from \'../components/Listing/AppListing\';
+        $this->assertStringStartsWith('import AppListing from \'../app-components/Listing/AppListing\';
 
 Vue.component(\'user-listing\'', File::get($listingJsPath));
         $this->assertStringStartsWith('<div ', File::get($elementsPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')', File::get($createPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')', File::get($editPath));
-        $this->assertStringStartsWith('import AppForm from \'../components/Form/AppForm\';
+        $this->assertStringStartsWith('import AppForm from \'../app-components/Form/AppForm\';
 
 Vue.component(\'user-form\'', File::get($formJsPath));
         $this->assertStringStartsWith('import \'./Listing\';', File::get($indexJsPath));
