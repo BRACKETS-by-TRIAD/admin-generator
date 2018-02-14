@@ -144,7 +144,7 @@ class ViewFullForm extends ViewGenerator {
             'modelBaseName' => $this->modelBaseName,
             'modelVariableName' => $this->modelVariableName,
             'route' => $this->route,
-            'modelJSName' => $this->formJsRelativePath,
+            'modelJSName' => str_replace('/', '-', $this->formJsRelativePath),
             'modelDotNotation' => $this->modelDotNotation,
             'modelLangFormat' => $this->modelLangFormat,
             'modelTitle' => $this->readColumnsFromTable($this->tableName)->filter(function($column){
@@ -164,7 +164,7 @@ class ViewFullForm extends ViewGenerator {
 
     protected function buildFormJs() {
         return view('brackets/admin-generator::'.$this->viewJs, [
-            'modelJSName' => $this->formJsRelativePath,
+            'modelJSName' => str_replace('/', '-', $this->formJsRelativePath),
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
         ])->render();
