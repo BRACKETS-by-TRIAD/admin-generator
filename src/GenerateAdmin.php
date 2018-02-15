@@ -120,8 +120,6 @@ class GenerateAdmin extends Command {
             }
         }
 
-        $this->runNpmCommand();
-
         $this->info('Generating whole admin finished');
 
     }
@@ -149,16 +147,6 @@ class GenerateAdmin extends Command {
         return false;
     }
 
-    private function runNpmCommand()
-    {
-        // Run NPM Run Dev
-        $this->info('Running npm run dev...');
-        $process = (new \Symfony\Component\Process\Process('npm run dev'))->setTimeout(300);
-        $process->run();
-        if (!$process->isSuccessful()) {
-            throw new \Symfony\Component\Process\Exception\ProcessFailedException($process);
-        }
-    }
 }
 
 
