@@ -70,7 +70,7 @@ class ViewFullForm extends ViewGenerator {
         }
 
         $this->fileName = $this->option('file-name') ?: $this->modelViewsDirectory;
-        $this->formJsRelativePath = str_replace(DIRECTORY_SEPARATOR, '-', $this->fileName);
+        $this->formJsRelativePath = str_replace([DIRECTORY_SEPARATOR, '/', '\\'], '-', $this->fileName);
         if (!$this->option('file-name')) {
             $this->fileName = $this->fileName . DIRECTORY_SEPARATOR . 'form';
         }
