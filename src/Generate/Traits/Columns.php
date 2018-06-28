@@ -120,7 +120,7 @@ trait Columns {
                 case 'integer':
                     $serverStoreRules->push('\'integer\'');
                     $serverUpdateRules->push('\'integer\'');
-                    $frontendRules->push('numeric');
+                    $frontendRules->push('integer');
                     break;
                 case 'boolean':
                     $serverStoreRules->push('\'boolean\'');
