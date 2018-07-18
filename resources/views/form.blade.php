@@ -67,8 +67,7 @@
     <label for="{{ $col['name'] }}" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</label>
         <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
         <div>
-            <textarea v-model="form.{{ $col['name'] }}" v-validate="'{{ implode('|', $col['frontendRules']) }}'" @input="validate($event)" class="hidden-xs-up" id="{{ $col['name'] }}" name="{{ $col['name'] }}"></textarea>
-            <wysiwyg v-model="form.{{ $col['name'] }}" :config="mediaWysiwygConfig"></wysiwyg>
+            <wysiwyg v-model="form.{{ $col['name'] }}" v-validate="'{{ implode('|', $col['frontendRules']) }}'" id="{{ $col['name'] }}" name="{{ $col['name'] }}" :config="mediaWysiwygConfig"></wysiwyg>
         </div>
         <div v-if="errors.has('{{ $col['name'] }}')" class="form-control-feedback form-text" v-cloak>{{'@{{'}} errors.first('{{ $col['name'] }}') }}</div>
     </div>
@@ -90,8 +89,7 @@
                 <label for="{{ $col['name'] }}_@{{ $locale }}" class="col-md-2 col-form-label text-md-right">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</label>
                 <div class="col-md-9" :class="{'col-xl-8': !isFormLocalized }">
                     @if(in_array($col['name'], $translatableTextarea))<div>
-                        <textarea v-model="form.{{ $col['name'] }}.@{{ $locale }}" v-validate="'{!! implode('|', $col['frontendRules']) !!}'" @input="validate($event)" class="hidden-xs-up" id="{{ $col['name'] }}_@{{ $locale }}" name="{{ $col['name'] }}_@{{ $locale }}"></textarea>
-                        <wysiwyg v-model="form.{{ $col['name'] }}.@{{ $locale }}" :config="mediaWysiwygConfig"></wysiwyg>
+                        <wysiwyg v-model="form.{{ $col['name'] }}.@{{ $locale }}" v-validate="'{!! implode('|', $col['frontendRules']) !!}'" id="{{ $col['name'] }}_@{{ $locale }}" name="{{ $col['name'] }}_@{{ $locale }}" :config="mediaWysiwygConfig"></wysiwyg>
                     </div>
                     @else<input type="text" v-model="form.{{ $col['name'] }}.@{{ $locale }}" v-validate="'{!! implode('|', $col['frontendRules']) !!}'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('{{ $col['name'] }}_@{{ $locale }}'), 'form-control-success': this.fields.{{ $col['name'] }}_@{{ $locale }} && this.fields.{{ $col['name'] }}_@{{ $locale }}.valid }" id="{{ $col['name'] }}_@{{ $locale }}" name="{{ $col['name'] }}_@{{ $locale }}" placeholder="{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}">
                     @endif<div v-if="errors.has('{{ $col['name'] }}_@{{ $locale }}')" class="form-control-feedback form-text" v-cloak>@{{'{{'}} errors.first('{{ $col['name'] }}_@{{ $locale }}') }}</div>
