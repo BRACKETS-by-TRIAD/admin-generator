@@ -52,7 +52,7 @@ class Lang extends FileAppender {
 
         // TODO name-spaced model names should be probably inserted as a sub-array in a translation file..
 
-        if ($this->replaceIfNotPresent(resource_path('lang/'.$locale.'/admin.php'),  "// Do not delete me :) I'm used for auto-generation\n",$this->buildClass()."\n", "<?php\n\nreturn [\n    // Do not delete me :) I'm used for auto-generation\n];")){
+        if ($this->replaceIfNotPresent(resource_path('lang/'.$locale.'/admin.php'),  "// Do not delete me :) I'm used for auto-generation".PHP_EOL,$this->buildClass().PHP_EOL, "<?php".PHP_EOL.PHP_EOL."return [".PHP_EOL."    // Do not delete me :) I'm used for auto-generation".PHP_EOL."];")){
             $this->info('Appending translations finished');
         }
     }
