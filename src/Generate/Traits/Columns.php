@@ -117,11 +117,58 @@ trait Columns {
                     $serverUpdateRules->push('\'date_format:H:i:s\'');
                     $frontendRules->push('date_format:HH:mm:ss');
                     break;
+                    
                 case 'integer':
                     $serverStoreRules->push('\'integer\'');
                     $serverUpdateRules->push('\'integer\'');
                     $frontendRules->push('integer');
                     break;
+                case 'tinyInteger':
+                    $serverStoreRules->push('\'integer\'');
+                    $serverUpdateRules->push('\'integer\'');
+                    $frontendRules->push('integer');
+                    break;
+                case 'smallInteger':
+                    $serverStoreRules->push('\'integer\'');
+                    $serverUpdateRules->push('\'integer\'');
+                    $frontendRules->push('integer');
+                    break;
+                case 'mediumInteger':
+                    $serverStoreRules->push('\'integer\'');
+                    $serverUpdateRules->push('\'integer\'');
+                    $frontendRules->push('integer');
+                    break;
+                case 'bigInteger':
+                    $serverStoreRules->push('\'integer\'');
+                    $serverUpdateRules->push('\'integer\'');
+                    $frontendRules->push('integer');
+                    break;
+                case 'unsignedInteger':
+                    $serverStoreRules->push('\'integer\'');
+                    $serverUpdateRules->push('\'integer\'');
+                    $frontendRules->push('integer');
+                    break;
+                case 'unsignedTinyInteger':
+                    $serverStoreRules->push('\'integer\'');
+                    $serverUpdateRules->push('\'integer\'');
+                    $frontendRules->push('integer');
+                    break;
+                case 'unsignedSmallInteger':
+                    $serverStoreRules->push('\'integer\'');
+                    $serverUpdateRules->push('\'integer\'');
+                    $frontendRules->push('integer');
+                    break;
+                case 'unsignedMediumInteger':
+                    $serverStoreRules->push('\'integer\'');
+                    $serverUpdateRules->push('\'integer\'');
+                    $frontendRules->push('integer');
+                    break;
+                case 'unsignedBigInteger':
+                    $serverStoreRules->push('\'integer\'');
+                    $serverUpdateRules->push('\'integer\'');
+                    $frontendRules->push('integer');
+                    break;
+                    
                 case 'boolean':
                     $serverStoreRules->push('\'boolean\'');
                     $serverUpdateRules->push('\'boolean\'');
