@@ -51,7 +51,7 @@ abstract class FileAppender extends Command {
      * @param string $defaultContent content that will be used to populated with newly created file (in case it does not already exists)
      * @return bool
      */
-    protected function appendIfNotAlreadyAppended($path, $content, $defaultContent = "<?php\n\n")
+    protected function appendIfNotAlreadyAppended($path, $content, $defaultContent = "<?php".PHP_EOL.PHP_EOL)
     {
         if (!$this->files->exists($path)) {
             $this->makeDirectory($path);
@@ -74,7 +74,7 @@ abstract class FileAppender extends Command {
      * @param string $defaultContent content that will be used to populated with newly created file (in case it does not already exists)
      * @return bool
      */
-    protected function replaceIfNotPresent($path, $search, $replace, $defaultContent = "<?php\n\n")
+    protected function replaceIfNotPresent($path, $search, $replace, $defaultContent = "<?php".PHP_EOL.PHP_EOL)
     {
         if (!$this->files->exists($path)) {
             $this->makeDirectory($path);

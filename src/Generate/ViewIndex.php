@@ -86,10 +86,10 @@ class ViewIndex extends ViewGenerator {
         }
 
 
-		if ($this->appendIfNotAlreadyAppended($indexJsPath, "import './Listing';\n")){
+		if ($this->appendIfNotAlreadyAppended($indexJsPath, "import './Listing';".PHP_EOL)){
 			$this->info('Appending Listing to '.$indexJsPath.' finished');
 		}
-		if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "import './". $this->modelJSName ."';\n")){
+		if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "import './". $this->modelJSName ."';".PHP_EOL)){
 			$this->info('Appending '.$this->modelJSName.'/index.js to '.$bootstrapJsPath.' finished');
 		};
     }

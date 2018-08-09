@@ -138,10 +138,10 @@ class ViewForm extends ViewGenerator {
 		$indexJsPath = resource_path('assets/admin/js/'.$this->modelJSName.'/index.js');
 		$bootstrapJsPath = resource_path('assets/admin/js/index.js');
 
-		if ($this->appendIfNotAlreadyAppended($indexJsPath, "import './Form';\n")){
+		if ($this->appendIfNotAlreadyAppended($indexJsPath, "import './Form';".PHP_EOL)){
 			$this->info('Appending Form to '.$indexJsPath.' finished');
 		};
-		if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "import './".$this->modelJSName."';\n")){
+		if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "import './".$this->modelJSName."';".PHP_EOL)){
 			$this->info('Appending Form to '.$bootstrapJsPath.' finished');
 		};
     }

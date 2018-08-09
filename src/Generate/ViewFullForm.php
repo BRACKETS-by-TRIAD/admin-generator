@@ -129,10 +129,10 @@ class ViewFullForm extends ViewGenerator {
 			$this->makeDirectory($indexJsPath);
 		}
 
-		if ($this->appendIfNotAlreadyAppended($indexJsPath, "import './Form';\n")){
+		if ($this->appendIfNotAlreadyAppended($indexJsPath, "import './Form';".PHP_EOL)){
 			$this->info('Appending Form to '.$indexJsPath.' finished');
 		};
-		if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "import './". $this->formJsRelativePath ."';\n")){
+		if ($this->appendIfNotAlreadyAppended($bootstrapJsPath, "import './". $this->formJsRelativePath ."';".PHP_EOL)){
 			$this->info('Appending '.$this->formJsRelativePath.'/index.js to '.$bootstrapJsPath.' finished');
 		};
 
