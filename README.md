@@ -7,4 +7,6 @@ Example of an administration interface generated with this package:
 
 This packages is part of [Craftable](https://github.com/BRACKETS-by-TRIAD/craftable) (`brackets/craftable`) - an administration starter kit for Laravel 5. You should definitely have a look :)
 
+
+# Documentation
 You can find full documentation at https://docs.getcraftable.com/#/admin-generator
