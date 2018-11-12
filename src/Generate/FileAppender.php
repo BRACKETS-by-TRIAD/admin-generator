@@ -98,7 +98,7 @@ abstract class FileAppender extends Command {
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->initCommonNames($this->argument('table_name'), $this->option('model-name'), $this->option('controller-name'));
+        $this->initCommonNames($this->argument('table_name'), $this->option('model-name'), $this->option('controller-name'), $this->option('model-with-full-namespace'));
 
         $output = parent::execute($input, $output);
 

@@ -8,11 +8,19 @@ use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {
-    public $user;
+    public $adminUser;
+
+    /**
+     * Guard used for admin user
+     *
+     * @var string
+     */
+    protected $guard = 'admin';
 
     public function __construct()
     {
         // TODO add authorization
+        $this->guard = config('admin-auth.defaults.guard');
     }
 
     /**
@@ -21,11 +29,11 @@ class ProfileController extends Controller
      * @param Request $request
      */
     protected function setUser($request) {
-        if (empty($request->user())) {
-            abort(404, 'User not found');
+        if (empty($request->user($this->guard))) {
+            abort(404, 'Admin User not found');
         }
 
-        $this->user = $request->user();
+        $this->{{ $modelVariableName }} = $request->user($this->guard);
     }
 
     /**
@@ -39,7 +47,7 @@ class ProfileController extends Controller
         $this->setUser($request);
 
         return view('admin.profile.edit-profile', [
-            'user' => $this->user,
+            '{{ $modelVariableName }}' => $this->{{ $modelVariableName }},
         ]);
     }
 @php
@@ -57,7 +65,7 @@ class ProfileController extends Controller
     public function updateProfile(Request $request)
     {
         $this->setUser($request);
-        $user = $this->user;
+        ${{ $modelVariableName }} = $this->{{ $modelVariableName }};
 
         // Validate the request
         $this->validate($request, [
@@ -74,7 +82,7 @@ class ProfileController extends Controller
         ]);
 
         // Update changed values {{ $modelBaseName }}
-        $this->user->update($sanitized);
+        $this->{{ $modelVariableName }}->update($sanitized);
 
         if ($request->ajax()) {
             return ['redirect' => url('admin/profile'), 'message' => trans('brackets/admin-ui::admin.operation.succeeded')];
@@ -94,7 +102,7 @@ class ProfileController extends Controller
         $this->setUser($request);
 
         return view('admin.profile.edit-password', [
-            'user' => $this->user,
+            '{{ $modelVariableName }}' => $this->{{ $modelVariableName }},
         ]);
     }
 
@@ -113,7 +121,7 @@ class ProfileController extends Controller
     public function updatePassword(Request $request)
     {
         $this->setUser($request);
-        $user = $this->user;
+        ${{ $modelVariableName }} = $this->{{ $modelVariableName }};
 
         // Validate the request
         $this->validate($request, [
@@ -133,7 +141,7 @@ class ProfileController extends Controller
         $sanitized['password'] = Hash::make($sanitized['password']);
 
         // Update changed values {{ $modelBaseName }}
-        $this->user->update($sanitized);
+        $this->{{ $modelVariableName }}->update($sanitized);
 
         if ($request->ajax()) {
             return ['redirect' => url('admin/password'), 'message' => trans('brackets/admin-ui::admin.operation.succeeded')];

@@ -67,7 +67,7 @@ trait Columns {
             if ($column['name'] == 'password') {
                 $serverStoreRules->push('\'confirmed\'');
                 $serverUpdateRules->push('\'confirmed\'');
-                $frontendRules->push('confirmed:password_confirmation');
+                $frontendRules->push('confirmed:password');
 
                 $serverStoreRules->push('\'min:7\'');
                 $serverUpdateRules->push('\'min:7\'');

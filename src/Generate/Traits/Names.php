@@ -23,7 +23,7 @@ trait Names {
 
     public $controllerWithNamespaceFromDefault;
 
-    protected function initCommonNames($tableName, $modelName = null, $controllerName = null) {
+    protected function initCommonNames($tableName, $modelName = null, $controllerName = null, $modelWithFullNamespace = null) {
         $this->tableName = $tableName;
 
         if ($this instanceof Model) {
@@ -77,6 +77,10 @@ trait Names {
             $this->controllerWithNamespaceFromDefault = $controllerFullName;
         } else {
             $this->controllerWithNamespaceFromDefault = Str::replaceFirst($startsWith, '', $controllerFullName);
+        }
+
+        if(!empty($modelWithFullNamespace)) {
+            $this->modelFullName = $modelWithFullNamespace;
         }
     }
 
