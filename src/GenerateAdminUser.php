@@ -49,7 +49,7 @@ class GenerateAdminUser extends Command {
 
         if(empty($modelOption)) {
             $modelOption = 'AdminUser';
-            $modelWithFullNamespace = '\Brackets\AdminAuth\Models\AdminUser';
+            $modelWithFullNamespace = 'Brackets\AdminAuth\Models\AdminUser';
         } else {
             $modelWithFullNamespace = null;
         }

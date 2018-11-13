@@ -92,7 +92,7 @@ class Update{{ $modelBaseName }} extends FormRequest
 
         ];
 
-        if(Config::get('admin-auth.activations.enabled')) {
+        if(Config::get('admin-auth.activation_enabled')) {
             $rules['activated'] = ['required', 'boolean'];
         }
 
@@ -109,7 +109,7 @@ class Update{{ $modelBaseName }} extends FormRequest
     {
         $data = $this->only(collect($this->rules())->keys()->all());
         //TODO: is this ok?
-        if(!Config::get('admin-auth.activations.enabled')) {
+        if(!Config::get('admin-auth.activation_enabled')) {
             $data['activated'] = true;
         }
         if (array_key_exists('password', $data) && empty($data['password'])) {

@@ -17,7 +17,7 @@ use Brackets\AdminListing\Facades\AdminListing;
 use {{ $modelFullName }};
 use Illuminate\Support\Facades\Config;
 @if($activation)use Brackets\AdminAuth\Services\ActivationService;
-use Brackets\AdminAuth\Facades\Activation;
+use Brackets\AdminAuth\Activation\Facades\Activation;
 @endif
 @if (count($relations))
 @if (count($relations['belongsToMany']))
@@ -51,10 +51,10 @@ class {{ $controllerBaseName }} extends Controller
         );
 
         if ($request->ajax()) {
-            return ['data' => $data, 'activation' => Config::get('admin-auth.activations.enabled')];
+            return ['data' => $data, 'activation' => Config::get('admin-auth.activation_enabled')];
         }
 
-        return view('admin.{{ $modelDotNotation }}.index', ['data' => $data, 'activation' => Config::get('admin-auth.activations.enabled')]);
+        return view('admin.{{ $modelDotNotation }}.index', ['data' => $data, 'activation' => Config::get('admin-auth.activation_enabled')]);
 
     }
 
@@ -69,7 +69,7 @@ class {{ $controllerBaseName }} extends Controller
 
 @if (count($relations))
         return view('admin.{{ $modelDotNotation }}.create',[
-            'activation' => Config::get('admin-auth.activations.enabled'),
+            'activation' => Config::get('admin-auth.activation_enabled'),
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
             '{{ $belongsToMany['related_table'] }}' => {{ $belongsToMany['related_model_name'] }}::all(),
@@ -144,7 +144,7 @@ class {{ $controllerBaseName }} extends Controller
 @endif
         return view('admin.{{ $modelDotNotation }}.edit', [
             '{{ $modelVariableName }}' => ${{ $modelVariableName }},
-            'activation' => Config::get('admin-auth.activations.enabled'),
+            'activation' => Config::get('admin-auth.activation_enabled'),
 @if (count($relations))
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
@@ -215,7 +215,7 @@ class {{ $controllerBaseName }} extends Controller
     */
     public function resendActivationEmail(Request $request, ActivationService $activationService, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
-        if(Config::get('admin-auth.activations.enabled')) {
+        if(Config::get('admin-auth.activation_enabled')) {
 
             $response = $activationService->handle(${{ $modelVariableName }});
             if($response == Activation::ACTIVATION_LINK_SENT) {

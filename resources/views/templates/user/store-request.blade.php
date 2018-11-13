@@ -92,7 +92,7 @@ class Store{{ $modelBaseName }} extends FormRequest
 
         ];
 
-        if(Config::get('admin-auth.activations.enabled')) {
+        if(Config::get('admin-auth.activation_enabled')) {
             $rules['activated'] = ['required', 'boolean'];
         }
 
@@ -109,7 +109,7 @@ class Store{{ $modelBaseName }} extends FormRequest
     {
         $data = $this->only(collect($this->rules())->keys()->all());
         //TODO: is this ok?
-        if(!Config::get('admin-auth.activations.enabled')) {
+        if(!Config::get('admin-auth.activation_enabled')) {
             $data['activated'] = true;
         }
         if(!empty($data['password'])) {

@@ -35,7 +35,7 @@ use Brackets\AdminListing\Facades\AdminListing;
 use App\Models\User;
 use Illuminate\Support\Facades\Config;
 use Brackets\AdminAuth\Services\ActivationService;
-use Brackets\AdminAuth\Facades\Activation;
+use Brackets\AdminAuth\Activation\Facades\Activation;
 use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller', File::get($filePathController));
@@ -79,7 +79,7 @@ use Brackets\AdminListing\Facades\AdminListing;
 use App\Models\User;
 use Illuminate\Support\Facades\Config;
 use Brackets\AdminAuth\Services\ActivationService;
-use Brackets\AdminAuth\Facades\Activation;
+use Brackets\AdminAuth\Activation\Facades\Activation;
 use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller', File::get($filePath));
