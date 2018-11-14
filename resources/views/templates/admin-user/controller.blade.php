@@ -31,6 +31,23 @@ class {{ $controllerBaseName }} extends Controller
 {
 
     /**
+     * Guard used for admin user
+     *
+     * {{'@'}}var string
+     */
+    protected $guard = 'admin';
+
+    /**
+     * AdminUsersController constructor.
+     *
+     * {{'@'}}return void
+     */
+    public function __construct()
+    {
+        $this->guard = config('admin-auth.defaults.guard');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * {{'@'}}param  Index{{ $modelBaseName }} $request
@@ -62,6 +79,7 @@ class {{ $controllerBaseName }} extends Controller
      * Show the form for creating a new resource.
      *
      * {{'@'}}return Response
+     * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
@@ -72,7 +90,11 @@ class {{ $controllerBaseName }} extends Controller
             'activation' => Config::get('admin-auth.activation_enabled'),
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
+@if($belongsToMany['related_table'] === 'roles')
+            '{{ $belongsToMany['related_table'] }}' => {{ $belongsToMany['related_model_name'] }}::where('guard_name', $this->guard)->get(),
+@else
             '{{ $belongsToMany['related_table'] }}' => {{ $belongsToMany['related_model_name'] }}::all(),
+@endif
 @endforeach
 @endif
         ]);
@@ -115,7 +137,8 @@ class {{ $controllerBaseName }} extends Controller
      * Display the specified resource.
      *
      * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}return Response
+     * {{'@'}}return void
+     * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show({{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -129,6 +152,7 @@ class {{ $controllerBaseName }} extends Controller
      *
      * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}return Response
+     * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit({{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -148,7 +172,11 @@ class {{ $controllerBaseName }} extends Controller
 @if (count($relations))
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
+@if($belongsToMany['related_table'] === 'roles')
+            '{{ $belongsToMany['related_table'] }}' => {{ $belongsToMany['related_model_name'] }}::where('guard_name', $this->guard)->get(),
+@else
             '{{ $belongsToMany['related_table'] }}' => {{ $belongsToMany['related_model_name'] }}::all(),
+@endif
 @endforeach
 @endif
 @endif
@@ -194,6 +222,7 @@ class {{ $controllerBaseName }} extends Controller
      * {{'@'}}param  Destroy{{ $modelBaseName }} $request
      * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}return Response|bool
+     * {{'@'}}throws \Exception
      */
     public function destroy(Destroy{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
