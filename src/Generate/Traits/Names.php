@@ -20,6 +20,7 @@ trait Names {
     public $modelJSName;
     public $modelLangFormat;
     public $resource;
+    public $exportBaseName;
 
     public $controllerWithNamespaceFromDefault;
 

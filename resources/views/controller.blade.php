@@ -192,4 +192,11 @@ class {{ $controllerBaseName }} extends Controller
 
         return redirect()->back();
     }
+
+@if($export)
+    public function export()
+    {
+        return Excel::download(new {{ $exportBaseName }}, '{{ $modelVariableName }}s.xlsx');
+    }
+@endif
 }
