@@ -5,7 +5,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use {{ $modelFullName }};
 
-class {{ $classBaseName }} implemets FromCollection, WithMapping
+class {{ $classBaseName }} implements FromCollection, WithMapping
 {
     /**
      * {{'@'}}return \Illuminate\Support\Collection
@@ -16,7 +16,7 @@ class {{ $classBaseName }} implemets FromCollection, WithMapping
     }
 
     /**
-     * {{'@'}}param {{$modelBaseName}} {{ $modelVariableName }}
+     * {{'@'}}param {{$modelBaseName}} ${{ $modelVariableName }}
      * {{'@'}}return array
      *
      */
@@ -24,7 +24,7 @@ class {{ $classBaseName }} implemets FromCollection, WithMapping
     {
         return [
 @foreach($columnsToExport as $column)
-            {{$modelVariableName}}->{{$column}}
+            ${{$modelVariableName}}->{{$column}},
 @endforeach
         ];
     }

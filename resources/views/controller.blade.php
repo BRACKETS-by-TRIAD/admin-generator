@@ -17,6 +17,10 @@ use {{ $belongsToMany['related_model'] }};
 @endforeach
 @endif
 @endif
+@if($export)
+use App\Exports\{{$exportBaseName}};
+use Maatwebsite\Excel\Facdades\Excel;
+@endif
 
 class {{ $controllerBaseName }} extends Controller
 {

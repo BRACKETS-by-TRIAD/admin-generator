@@ -31,8 +31,14 @@ class Routes extends FileAppender {
      *
      * @return mixed
      */
+    protected $export = false;
+
     public function handle()
     {
+        if($this->option('with-export')){
+            $this->export = true;
+        }
+
         //TODO check if exists
         //TODO make global for all generator
         //TODO also with prefix
@@ -52,6 +58,7 @@ class Routes extends FileAppender {
             'modelVariableName' => $this->modelVariableName,
             'modelViewsDirectory' => $this->modelViewsDirectory,
             'resource' => $this->resource,
+            'export' => $this->export,
         ])->render();
     }
 
@@ -60,6 +67,7 @@ class Routes extends FileAppender {
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a controller for the given model'],
             ['controller-name', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
+            ['with-export', 'e', InputOption::VALUE_NONE, 'Specify export to excel'],
         ];
     }
 

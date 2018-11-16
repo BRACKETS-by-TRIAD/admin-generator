@@ -79,6 +79,8 @@ trait Names {
         } else {
             $this->controllerWithNamespaceFromDefault = Str::replaceFirst($startsWith, '', $controllerFullName);
         }
+
+        $this->exportBaseName = Str::studly($tableName).'Export';
     }
 
 }
