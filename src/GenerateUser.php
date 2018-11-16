@@ -46,6 +46,7 @@ class GenerateUser extends Command {
         $modelOption = $this->option('model-name');
         $controllerOption = $this->option('controller-name');
         $generateModelOption = $this->option('generate-model');
+        $exportOption = $this->option('with-export');
         $force = $this->option('force');
 
         if($force) {
@@ -86,6 +87,7 @@ class GenerateUser extends Command {
             '--model-name' => $modelOption,
             '--template' => 'user',
             '--belongs-to-many' => 'roles',
+            '--with-export' => $exportOption,
         ]);
 
         $this->call('admin:generate:request:index', [
@@ -117,12 +119,14 @@ class GenerateUser extends Command {
             '--model-name' => $modelOption,
             '--controller-name' => $controllerOption,
             '--template' => 'user',
+            '--with-export' => $exportOption,
         ]);
 
         $this->call('admin:generate:index', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
             '--template' => 'user',
+            '--with-export' => $exportOption,
         ]);
 
         $this->call('admin:generate:form', [
@@ -167,6 +171,7 @@ class GenerateUser extends Command {
 
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating admin user'],
             ['seed', 's', InputOption::VALUE_NONE, 'Seeds table with fake data'],
+            ['with-export', 'e', InputOption::VALUE_NONE, 'Specify export to excel'],
         ];
     }
 

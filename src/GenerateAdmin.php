@@ -98,6 +98,7 @@ class GenerateAdmin extends Command {
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
             '--force' => $force,
+            '--with-export' => $exportOption,
         ]);
 
         $this->call('admin:generate:form', [

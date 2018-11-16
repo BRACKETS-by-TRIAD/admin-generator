@@ -26,6 +26,10 @@ use {{ $belongsToMany['related_model'] }};
 @endforeach
 @endif
 @endif
+@if($export)
+    use App\Exports\{{$exportBaseName}};
+    use Maatwebsite\Excel\Facades\Excel;
+@endif
 
 class {{ $controllerBaseName }} extends Controller
 {
@@ -240,5 +244,11 @@ class {{ $controllerBaseName }} extends Controller
         }
     }
     @endif
+@if($export)
+    public function export()
+    {
+    return Excel::download(new {{ $exportBaseName }}, '{{ $modelVariableName }}s.xlsx');
+    }
+@endif
 
 }

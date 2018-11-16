@@ -38,9 +38,15 @@ class ViewIndex extends ViewGenerator {
      *
      * @return mixed
      */
+    protected $export = false;
+
     public function handle()
     {
         $force = $this->option('force');
+
+        if($this->option('with-export')){
+            $this->export = true;
+        }
 
         //TODO check if exists
         //TODO make global for all generator
@@ -105,6 +111,7 @@ class ViewIndex extends ViewGenerator {
             'modelDotNotation' => $this->modelDotNotation,
             'modelLangFormat' => $this->modelLangFormat,
             'resource' => $this->resource,
+            'export' => $this->export,
 
             'columns' => $this->readColumnsFromTable($this->tableName)->reject(function($column) {
                     return ($column['type'] == 'text'
@@ -146,6 +153,7 @@ class ViewIndex extends ViewGenerator {
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating index'],
+            ['with-export', 'e', InputOption::VALUE_NONE, 'Specify export to excel'],
         ];
     }
 
