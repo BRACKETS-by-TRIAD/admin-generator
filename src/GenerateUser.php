@@ -171,7 +171,7 @@ class GenerateUser extends Command {
 
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating admin user'],
             ['seed', 's', InputOption::VALUE_NONE, 'Seeds table with fake data'],
-            ['with-export', 'e', InputOption::VALUE_NONE, 'Specify export to excel'],
+            ['with-export', 'e', InputOption::VALUE_NONE, 'Generate an option to Export as Excel'],
         ];
     }
 

@@ -3,9 +3,10 @@
 
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 use {{ $modelFullName }};
 
-class {{ $classBaseName }} implements FromCollection, WithMapping
+class {{ $classBaseName }} implements FromCollection, WithMapping, WithHeadings
 {
     /**
      * {{'@'}}return \Illuminate\Support\Collection
@@ -13,6 +14,15 @@ class {{ $classBaseName }} implements FromCollection, WithMapping
     public function collection()
     {
         return {{$modelBaseName}}::all();
+    }
+
+    public function headings(): array
+    {
+        return [
+@foreach($columnsToExport as $column)
+            trans('admin.{{ $modelVariableName }}.columns.{{ $column }}'),
+@endforeach
+        ];
     }
 
     /**

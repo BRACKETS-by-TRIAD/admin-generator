@@ -53,7 +53,7 @@ class Export extends ClassGenerator {
             'modelBaseName' => $this->modelBaseName,
             'modelVariableName' => $this->modelVariableName,
             'columnsToExport' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
-                return !($column['type'] == 'text' || $column['type'] == 'boolean' || $column['name'] == "password" || $column['name'] == "remember_token" || $column['name'] == "slug" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
+                return !($column['name'] == "password" || $column['name'] == "remember_token" || $column['name'] == "updated_at" || $column['name'] == "created_at"  || $column['name'] == "deleted_at");
             })->pluck('name')->toArray(),
         ])->render();
     }
