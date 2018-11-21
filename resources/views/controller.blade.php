@@ -200,7 +200,7 @@ class {{ $controllerBaseName }} extends Controller
 @if($export)
     public function export()
     {
-        return Excel::download(new {{ $exportBaseName }}, '{{ $modelVariableName }}s.xlsx');
+        return Excel::download(new {{ $exportBaseName }}, '{{ str_plural($modelVariableName) }}.xlsx');
     }
 @endif
 }
