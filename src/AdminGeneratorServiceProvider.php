@@ -28,6 +28,7 @@ class AdminGeneratorServiceProvider extends ServiceProvider
             Generate\DestroyRequest::class,
             Generate\Lang::class,
             Generate\Permissions::class,
+            Generate\Export::class,
         ]);
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'brackets/admin-generator');

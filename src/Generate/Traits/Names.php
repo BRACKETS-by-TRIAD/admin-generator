@@ -20,6 +20,7 @@ trait Names {
     public $modelJSName;
     public $modelLangFormat;
     public $resource;
+    public $exportBaseName;
 
     public $controllerWithNamespaceFromDefault;
 
@@ -78,6 +79,8 @@ trait Names {
         } else {
             $this->controllerWithNamespaceFromDefault = Str::replaceFirst($startsWith, '', $controllerFullName);
         }
+
+        $this->exportBaseName = Str::studly($tableName).'Export';
     }
 
 }

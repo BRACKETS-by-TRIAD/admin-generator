@@ -40,6 +40,7 @@ class GenerateAdmin extends Command {
         $tableNameArgument = $this->argument('table_name');
         $modelOption = $this->option('model-name');
         $controllerOption = $this->option('controller-name');
+        $exportOption = $this->option('with-export');
         $force = $this->option('force');
 
         $this->call('admin:generate:model', [
@@ -59,6 +60,7 @@ class GenerateAdmin extends Command {
             'class_name' => $controllerOption,
             '--model-name' => $modelOption,
             '--force' => $force,
+            '--with-export' => $exportOption,
         ]);
 
         $this->call('admin:generate:request:index', [
@@ -89,12 +91,14 @@ class GenerateAdmin extends Command {
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
             '--controller-name' => $controllerOption,
+            '--with-export' => $exportOption,
         ]);
 
         $this->call('admin:generate:index', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
             '--force' => $force,
+            '--with-export' => $exportOption,
         ]);
 
         $this->call('admin:generate:form', [
@@ -107,6 +111,13 @@ class GenerateAdmin extends Command {
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
         ]);
+
+        if($this->option('with-export')){
+            $this->call('admin:generate:export', [
+                'table_name' => $tableNameArgument,
+                '--force' => $force,
+            ]);
+        }
 
         if ($this->shouldGeneratePermissionsMigration()) {
             $this->call('admin:generate:permissions', [
@@ -136,6 +147,7 @@ class GenerateAdmin extends Command {
             ['controller-name', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
             ['seed', 's', InputOption::VALUE_NONE, 'Seeds the table with fake data'],
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating admin'],
+            ['with-export', 'e', InputOption::VALUE_NONE, 'Generate an option to Export as Excel'],
         ];
     }
 

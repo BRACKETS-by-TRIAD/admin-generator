@@ -5,6 +5,7 @@
             'index' => '{{ $modelPlural }}',
             'create' => 'New {{ studly_case($modelBaseName) }}',
             'edit' => 'Edit :name',
+            'export' => 'Export',
         ],
 
         'columns' => [

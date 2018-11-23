@@ -7,4 +7,7 @@ Route::middleware(['admin'])->group(function () {
     {!! str_pad("Route::get('/admin/".$resource."/{".$modelVariableName."}/edit',", 60) !!}'{{ $controllerPartiallyFullName }}@edit')->name('admin/{{ $resource }}/edit');
     {!! str_pad("Route::post('/admin/".$resource."/{".$modelVariableName."}',", 60) !!}'{{ $controllerPartiallyFullName }}@update')->name('admin/{{ $resource }}/update');
     {!! str_pad("Route::delete('/admin/".$resource."/{".$modelVariableName."}',", 60) !!}'{{ $controllerPartiallyFullName }}@destroy')->name('admin/{{ $resource }}/destroy');
+@if($export)
+    {!! str_pad("Route::get('/admin/".$resource."/export',", 60) !!}'{{ $controllerPartiallyFullName }}@export')->name('admin/{{ $resource }}/export');
+@endif
 });
