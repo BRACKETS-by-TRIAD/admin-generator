@@ -26,7 +26,7 @@
                         <i class="fa fa-plus"></i> {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.edit', ['name' => ${{ $modelVariableName }}->{{$modelTitle}}]) }}
                     </div>
 
-                    <div class="card-block">
+                    <div class="card-body">
 
                         @include('brackets/admin-generator::form')
 

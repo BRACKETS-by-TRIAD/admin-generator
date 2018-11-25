@@ -28,7 +28,7 @@
                         <i class="fa fa-pencil"></i> {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.edit', ['name' => ${{ $modelVariableName }}->{{$modelTitle}}]) }}
                     </div>
 
-                    <div class="card-block">
+                    <div class="card-body">
 
                         {{'@'}}include('admin.{{ $modelDotNotation }}.components.form-elements')
 
