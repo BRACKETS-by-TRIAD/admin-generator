@@ -10,7 +10,7 @@
 
         'columns' => [
             'id' => "ID",
-            @foreach($columns as $col)'{{ $col['name'] }}' => "{{ ucfirst(str_replace('_', ' ', $col['name'])) }}",
+            @foreach($columns as $col)'{{ $col['name'] }}' => "{{ app(\Brackets\AdminGenerator\Services\FormatTranslatableStringService::class)->valueWithoutId($col['name']) }}",
             @endforeach
 @if (count($relations))
     @if (count($relations['belongsToMany']))
