@@ -1,6 +1,5 @@
 <?php namespace Brackets\AdminGenerator\Generate;
 
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
 class Lang extends FileAppender {
@@ -58,13 +57,15 @@ class Lang extends FileAppender {
     }
 
     protected function buildClass() {
-
         return view('brackets/admin-generator::'.$this->view, [
             'modelLangFormat' => $this->modelLangFormat,
             'modelBaseName' => $this->modelBaseName,
             'modelPlural' => $this->modelPlural,
 
-            'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
+            'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName)->map(function ($column) {
+                $column['defaultTranslation'] = $this->valueWithoutId($column['name']);
+                return $column;
+            }),
             'relations' => $this->relations,
         ])->render();
     }
