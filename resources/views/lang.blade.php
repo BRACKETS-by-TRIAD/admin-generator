@@ -10,7 +10,7 @@
 
         'columns' => [
             'id' => "ID",
-            @foreach($columns as $col)'{{ $col['name'] }}' => "{{ ucfirst(str_replace('_', ' ', $col['name'])) }}",
+            @foreach($columns as $col)'{{ $col['name'] }}' => "{{ $col['defaultTranslation'] }}",
             @endforeach
 @if (count($relations))
     @if (count($relations['belongsToMany']))
@@ -25,3 +25,4 @@
     ],
 
     // Do not delete me :) I'm used for auto-generation
+

@@ -83,4 +83,13 @@ trait Names {
         $this->exportBaseName = Str::studly($tableName).'Export';
     }
 
+    public function valueWithoutId($string)
+    {
+        if (Str::endsWith(Str::lower($string), '_id')) {
+            $string = Str::substr($string, 0, -3);
+        }
+
+        return Str::ucfirst(str_replace('_', ' ', $string));
+    }
+
 }
