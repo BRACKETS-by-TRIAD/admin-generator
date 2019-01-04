@@ -34,10 +34,15 @@ class Controller extends ClassGenerator {
      *
      * @return mixed
      */
+    protected $export = false;
+
     public function handle()
     {
         $force = $this->option('force');
 
+        if($this->option('with-export')){
+            $this->export = true;
+        }
         // TODO test the case, if someone passes a class_name outside Laravel's default App\Http\Controllers folder, if it's going to work
 
         //TODO check if exists
@@ -81,8 +86,9 @@ class Controller extends ClassGenerator {
             'modelViewsDirectory' => $this->modelViewsDirectory,
             'modelDotNotation' => $this->modelDotNotation,
             'modelWithNamespaceFromDefault' => $this->modelWithNamespaceFromDefault,
+            'export' => $this->export,
+            'exportBaseName' => $this->exportBaseName,
             'resource' => $this->resource,
-
             // index
             'columnsToQuery' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "remember_token" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
@@ -106,6 +112,7 @@ class Controller extends ClassGenerator {
             ['belongs-to-many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating controller'],
             ['model-with-full-namespace', 'fnm', InputOption::VALUE_OPTIONAL, 'Specify model with full namespace'],
+            ['with-export', 'e', InputOption::VALUE_NONE, 'Generate an option to Export as Excel'],
         ];
     }
 
