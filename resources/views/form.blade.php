@@ -85,7 +85,7 @@
 @elseif($col['type'] == 'json')<div class="row">
     @@foreach($locales as $locale)
         <div class="col-md" v-show="shouldShowLangGroup('@{{ $locale }}')" v-cloak>
-            <div class="form-group row" :class="{'has-danger': errors.has('{{ $col['name'] }}_@{{ $locale }}'), 'has-success': this.fields.{{ $col['name'] }}_@{{ $locale }} && this.fields.{{ $col['name'] }}_@{{ $locale }}.valid }">
+            <div class="form-group row align-items-center" :class="{'has-danger': errors.has('{{ $col['name'] }}_@{{ $locale }}'), 'has-success': this.fields.{{ $col['name'] }}_@{{ $locale }} && this.fields.{{ $col['name'] }}_@{{ $locale }}.valid }">
                 <label for="{{ $col['name'] }}_@{{ $locale }}" class="col-md-2 col-form-label text-md-right">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</label>
                 <div class="col-md-9" :class="{'col-xl-8': !isFormLocalized }">
                     @if(in_array($col['name'], $translatableTextarea))<div>

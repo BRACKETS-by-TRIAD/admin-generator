@@ -22,7 +22,7 @@
                         <i class="fa fa-pencil"></i> {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.edit_profile') }}
                     </div>
 
-                    <div class="card-block">
+                    <div class="card-body">
 
 @php
     $columns = $columns->reject(function($column) {
