@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {
-    public $adminUser;
+    public ${{ $modelVariableName }};
 
     /**
      * Guard used for admin user
