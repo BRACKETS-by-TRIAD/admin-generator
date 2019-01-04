@@ -8,4 +8,7 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
     {!! str_pad("Route::post('/admin/".$resource."/{".$modelVariableName."}',", 60) !!}'{{ $controllerPartiallyFullName }}@update')->name('admin/{{ $resource }}/update');
     {!! str_pad("Route::delete('/admin/".$resource."/{".$modelVariableName."}',", 60) !!}'{{ $controllerPartiallyFullName }}@destroy')->name('admin/{{ $resource }}/destroy');
     {!! str_pad("Route::get('/admin/".$resource."/{".$modelVariableName."}/resend-activation',", 60) !!}'{{ $controllerPartiallyFullName }}@resendActivationEmail')->name('admin/{{ $resource }}/resendActivationEmail');
+@if($export)
+    {!! str_pad("Route::get('/admin/".$resource."/export',", 60) !!}'{{ $controllerPartiallyFullName }}@export')->name('admin/{{ $resource }}/export');
+@endif
 });

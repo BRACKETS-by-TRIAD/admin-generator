@@ -45,6 +45,7 @@ class GenerateAdminUser extends Command {
         $tableNameArgument = 'admin_users';
         $modelOption = $this->option('model-name');
         $controllerOption = $this->option('controller-name');
+        $exportOption = $this->option('with-export');
         $force = $this->option('force');
 
         if(empty($modelOption)) {
@@ -78,6 +79,7 @@ class GenerateAdminUser extends Command {
             '--template' => 'admin-user',
             '--belongs-to-many' => 'roles',
             '--model-with-full-namespace' => $modelWithFullNamespace,
+            '--with-export' => $exportOption,
         ]);
 
         $this->call('admin:generate:request:index', [
@@ -109,12 +111,14 @@ class GenerateAdminUser extends Command {
             '--model-name' => $modelOption,
             '--controller-name' => $controllerOption,
             '--template' => 'admin-user',
+            '--with-export' => $exportOption,
         ]);
 
         $this->call('admin:generate:index', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
             '--template' => 'admin-user',
+            '--with-export' => $exportOption,
         ]);
 
         $this->call('admin:generate:form', [
@@ -138,6 +142,13 @@ class GenerateAdminUser extends Command {
             '--model-with-full-namespace' => $modelWithFullNamespace,
         ]);
 
+        if($exportOption){
+            $this->call('admin:generate:export', [
+                'table_name' => $tableNameArgument,
+                '--force' => $force,
+            ]);
+        }
+
         if ($this->option('seed')) {
             $this->info('Seeding testing data');
             factory($this->modelFullName, 20)->create();
@@ -160,6 +171,7 @@ class GenerateAdminUser extends Command {
 
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating admin user'],
             ['seed', 's', InputOption::VALUE_NONE, 'Seeds table with fake data'],
+            ['with-export', 'e', InputOption::VALUE_NONE, 'Generate an option to Export as Excel'],
         ];
     }
 

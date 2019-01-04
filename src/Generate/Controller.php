@@ -30,7 +30,7 @@ class Controller extends ClassGenerator {
     protected $view = 'controller';
 
     /**
-     * Execute the console command.
+     * Controller has also export method
      *
      * @return mixed
      */

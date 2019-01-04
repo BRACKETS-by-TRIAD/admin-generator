@@ -34,7 +34,7 @@ class ViewIndex extends ViewGenerator {
     protected $viewJs = 'listing-js';
 
     /**
-     * Execute the console command.
+     * Index view has also export button
      *
      * @return mixed
      */

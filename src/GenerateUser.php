@@ -149,6 +149,13 @@ class GenerateUser extends Command {
             '--template' => 'user',
         ]);
 
+        if($exportOption){
+            $this->call('admin:generate:export', [
+                'table_name' => $tableNameArgument,
+                '--force' => $force,
+            ]);
+        }
+
         if ($this->option('seed')) {
             $this->info('Seeding testing data');
             factory($this->modelFullName, 20)->create();
