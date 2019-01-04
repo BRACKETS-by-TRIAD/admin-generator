@@ -54,6 +54,9 @@ class GenerateUser extends Command {
             if($generateModelOption) {
                 $this->files->delete(app_path('Models/User.php'));
             }
+            if($exportOption){
+                $this->files->delete(app_path('Exports/UsersExport.php'));
+            }
             $this->files->delete(app_path('Http/Controllers/Admin/UsersController.php'));
             $this->files->deleteDirectory(app_path('Http/Requests/Admin/User'));
             $this->files->deleteDirectory(resource_path('assets/admin/js/user'));

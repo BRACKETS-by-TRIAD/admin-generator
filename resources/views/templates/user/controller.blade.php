@@ -8,7 +8,7 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use \Illuminate\Http\Response;
+use Illuminate\Http\Response;
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};

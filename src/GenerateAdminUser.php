@@ -56,6 +56,9 @@ class GenerateAdminUser extends Command {
         }
 
         if($force) {
+            if($exportOption){
+                $this->files->delete(app_path('Exports/AdminUsersExport.php'));
+            }
             $this->files->delete(app_path('Http/Controllers/Admin/AdminUsersController.php'));
             $this->files->deleteDirectory(app_path('Http/Requests/Admin/AdminUser'));
             $this->files->deleteDirectory(resource_path('assets/admin/js/admin-user'));
@@ -145,7 +148,7 @@ class GenerateAdminUser extends Command {
         if($exportOption){
             $this->call('admin:generate:export', [
                 'table_name' => $tableNameArgument,
-                '--force' => $force,
+                '--model-with-full-namespace' => $modelWithFullNamespace,
             ]);
         }
 

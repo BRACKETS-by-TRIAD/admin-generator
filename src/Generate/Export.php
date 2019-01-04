@@ -61,6 +61,7 @@ class Export extends ClassGenerator {
     protected function getOptions() {
         return [
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating request'],
+            ['model-with-full-namespace', 'fnm', InputOption::VALUE_OPTIONAL, 'Specify model with full namespace'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
         ];
     }
