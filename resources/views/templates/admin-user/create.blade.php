@@ -22,7 +22,7 @@
                         <i class="fa fa-plus"></i> {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.create') }}
                     </div>
 
-                    <div class="card-block">
+                    <div class="card-body">
 
                         {{'@'}}include('admin.{{ $modelDotNotation }}.components.form-elements')
 
