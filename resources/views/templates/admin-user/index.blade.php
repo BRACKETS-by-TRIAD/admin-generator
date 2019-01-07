@@ -20,7 +20,7 @@
 @endif
                         <a class="btn btn-primary btn-spinner btn-sm pull-right m-b-0" href="{{'{{'}} url('admin/{{ $resource }}/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.create') }}</a>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" v-cloak>
                         <form @submit.prevent="">
                             <div class="row justify-content-md-between">
                                 <div class="col col-lg-7 col-xl-5 form-group">
