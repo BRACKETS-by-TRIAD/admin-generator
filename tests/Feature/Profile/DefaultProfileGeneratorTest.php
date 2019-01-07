@@ -28,7 +28,7 @@ class DefaultProfileGeneratorTest extends UserTestCase
         $this->assertFileNotExists($formJsPathPassword);
 		$this->assertFileNotExists($indexJsPathPassword);
 
-        $this->artisan('admin:generate:user:profile', [
+        $this->artisan('admin:generate:admin-user:profile', [
         ]);
 
         $this->assertFileExists($filePathController);
@@ -52,14 +52,14 @@ class ProfileController extends Controller
 
 
 /* Auto-generated profile routes */
-Route::middleware([\'admin\'])->group(function () {
+Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(function () {
     Route::get(\'/admin/profile\',                                \'Admin\ProfileController@editProfile\');
     Route::post(\'/admin/profile\',                               \'Admin\ProfileController@updateProfile\');
     Route::get(\'/admin/password\',                               \'Admin\ProfileController@editPassword\');
     Route::post(\'/admin/password\',                              \'Admin\ProfileController@updatePassword\');', File::get($filePathRoute));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')
 
-@section(\'title\', trans(\'admin.user.actions.edit_profile\'))
+@section(\'title\', trans(\'admin.admin-user.actions.edit_profile\'))
 
 @section(\'body\')
 
@@ -73,7 +73,7 @@ Route::middleware([\'admin\'])->group(function () {
 Vue.component(\'profile-edit-profile-form\'', File::get($formJsPathProfile));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')
 
-@section(\'title\', trans(\'admin.user.actions.edit_password\'))
+@section(\'title\', trans(\'admin.admin-user.actions.edit_password\'))
 
 @section(\'body\')
 

@@ -153,9 +153,9 @@ abstract class ClassGenerator extends Command {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if ($this instanceof Model) {
-            $this->initCommonNames($this->argument('table_name'), $this->argument('class_name'));
+            $this->initCommonNames($this->argument('table_name'), $this->argument('class_name'), null, $this->option('model-with-full-namespace'));
         } else {
-            $this->initCommonNames($this->argument('table_name'), $this->option('model-name'));
+            $this->initCommonNames($this->argument('table_name'), $this->option('model-name'), null, $this->option('model-with-full-namespace'));
         }
 
         $this->initClassNames($this->argument('class_name'));

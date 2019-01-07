@@ -112,7 +112,7 @@ class GenerateAdmin extends Command {
             '--model-name' => $modelOption,
         ]);
 
-        if($this->option('with-export')){
+        if($exportOption){
             $this->call('admin:generate:export', [
                 'table_name' => $tableNameArgument,
                 '--force' => $force,

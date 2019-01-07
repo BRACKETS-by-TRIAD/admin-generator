@@ -34,8 +34,6 @@ use App\Http\Requests\Admin\User\DestroyUser;
 use Brackets\AdminListing\Facades\AdminListing;
 use App\Models\User;
 use Illuminate\Support\Facades\Config;
-use Brackets\AdminAuth\Services\ActivationService;
-use Brackets\AdminAuth\Facades\Activation;
 use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller', File::get($filePathController));
@@ -45,7 +43,7 @@ class UsersController extends Controller', File::get($filePathController));
 
 
 /* Auto-generated admin routes */
-Route::middleware([\'admin\'])->group(function () {
+Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(function () {
     Route::get(\'/admin/users\',                                  \'Admin\Auth\UsersController@index\');
     Route::get(\'/admin/users/create\',                           \'Admin\Auth\UsersController@create\');
     Route::post(\'/admin/users\',                                 \'Admin\Auth\UsersController@store\');
@@ -78,8 +76,6 @@ use App\Http\Requests\Admin\User\DestroyUser;
 use Brackets\AdminListing\Facades\AdminListing;
 use App\Models\User;
 use Illuminate\Support\Facades\Config;
-use Brackets\AdminAuth\Services\ActivationService;
-use Brackets\AdminAuth\Facades\Activation;
 use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller', File::get($filePath));

@@ -16,7 +16,7 @@ class ProfileGeneratorWithCustomModelNameTest extends UserTestCase
 
         $this->assertFileNotExists($filePath);
 
-        $this->artisan('admin:generate:user:profile', [
+        $this->artisan('admin:generate:admin-user:profile', [
             '--controller-name' => 'Auth\\ProfileController',
             '--model-name' => 'App\\User',
         ]);
