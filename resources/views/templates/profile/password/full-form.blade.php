@@ -26,7 +26,7 @@
         return !in_array($column['name'], ['password']);
     });
 @endphp
-                        @include('brackets/admin-generator::templates.profile.form')
+                        @include('brackets/admin-generator::templates.profile.password.form')
 
                     </div>
 
