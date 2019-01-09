@@ -57,8 +57,7 @@
                                     @foreach($columns as $col)@if($col['switch'])<td>
                                         <label class="switch switch-3d switch-success">
                                             <input type="checkbox" class="switch-input" v-model="collection[index].{{ $col['name'] }}" @change="toggleSwitch(item.resource_url, '{{ $col['name'] }}', collection[index])">
-                                            <span class="switch-label"></span>
-                                            <span class="switch-handle"></span>
+                                            <span class="switch-slider"></span>
                                         </label>
                                     </td>
                                     @else<td>{{'@{{'}} item.{{ $col['name'] }}{{ $col['filters'] }} }}</td>@endif

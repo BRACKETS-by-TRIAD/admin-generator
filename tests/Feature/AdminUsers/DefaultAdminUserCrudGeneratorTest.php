@@ -19,12 +19,12 @@ class DefaultAdminUserCrudGeneratorTest extends UserTestCase
         $destroyPath = base_path('app/Http/Requests/Admin/AdminUser/DestroyAdminUser.php');
         $routesPath = base_path('routes/web.php');
         $indexPath = resource_path('views/admin/admin-user/index.blade.php');
-        $listingJsPath = resource_path('assets/admin/js/admin-user/Listing.js');
-        $indexJsPath = resource_path('assets/admin/js/admin-user/index.js');
+        $listingJsPath = resource_path('js/admin/admin-user/Listing.js');
+        $indexJsPath = resource_path('js/admin/admin-user/index.js');
         $elementsPath = resource_path('views/admin/admin-user/components/form-elements.blade.php');
         $createPath = resource_path('views/admin/admin-user/create.blade.php');
         $editPath = resource_path('views/admin/admin-user/edit.blade.php');
-        $formJsPath = resource_path('assets/admin/js/admin-user/Form.js');
+        $formJsPath = resource_path('js/admin/admin-user/Form.js');
         $factoryPath = base_path('database/factories/ModelFactory.php');
 
         $this->assertFileNotExists($controllerPath);
@@ -59,7 +59,7 @@ class DefaultAdminUserCrudGeneratorTest extends UserTestCase
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use \Illuminate\Http\Response;
+use Illuminate\Http\Response;
 use App\Http\Requests\Admin\AdminUser\IndexAdminUser;
 use App\Http\Requests\Admin\AdminUser\StoreAdminUser;
 use App\Http\Requests\Admin\AdminUser\UpdateAdminUser;

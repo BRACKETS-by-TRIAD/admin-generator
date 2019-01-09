@@ -7,7 +7,9 @@
             'edit' => 'Edit :name',
             'edit_profile' => 'Edit Profile',
             'edit_password' => 'Edit Password',
+@if($export)
             'export' => 'Export',
+@endif
         ],
 
         'columns' => [

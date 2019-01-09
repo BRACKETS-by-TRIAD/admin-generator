@@ -19,12 +19,12 @@ class DefaultUserCrudGeneratorTest extends UserTestCase
         $destroyPath = base_path('app/Http/Requests/Admin/User/DestroyUser.php');
         $routesPath = base_path('routes/web.php');
         $indexPath = resource_path('views/admin/user/index.blade.php');
-        $listingJsPath = resource_path('assets/admin/js/user/Listing.js');
-        $indexJsPath = resource_path('assets/admin/js/user/index.js');
+        $listingJsPath = resource_path('js/admin/user/Listing.js');
+        $indexJsPath = resource_path('js/admin/user/index.js');
         $elementsPath = resource_path('views/admin/user/components/form-elements.blade.php');
         $createPath = resource_path('views/admin/user/create.blade.php');
         $editPath = resource_path('views/admin/user/edit.blade.php');
-        $formJsPath = resource_path('assets/admin/js/user/Form.js');
+        $formJsPath = resource_path('js/admin/user/Form.js');
         $factoryPath = base_path('database/factories/ModelFactory.php');
 
         $this->assertFileNotExists($controllerPath);
@@ -59,7 +59,7 @@ class DefaultUserCrudGeneratorTest extends UserTestCase
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use \Illuminate\Http\Response;
+use Illuminate\Http\Response;
 use App\Http\Requests\Admin\User\IndexUser;
 use App\Http\Requests\Admin\User\StoreUser;
 use App\Http\Requests\Admin\User\UpdateUser;

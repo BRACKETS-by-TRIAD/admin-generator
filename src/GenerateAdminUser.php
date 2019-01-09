@@ -61,7 +61,7 @@ class GenerateAdminUser extends Command {
             }
             $this->files->delete(app_path('Http/Controllers/Admin/AdminUsersController.php'));
             $this->files->deleteDirectory(app_path('Http/Requests/Admin/AdminUser'));
-            $this->files->deleteDirectory(resource_path('assets/admin/js/admin-user'));
+            $this->files->deleteDirectory(resource_path('js/admin/admin-user'));
             $this->files->deleteDirectory(resource_path('views/admin/admin-user'));
 
             $this->info('Deleting previous files finished.');
@@ -136,6 +136,7 @@ class GenerateAdminUser extends Command {
             '--model-name' => $modelOption,
             '--template' => 'admin-user',
             '--belongs-to-many' => 'roles',
+            '--with-export' => $exportOption,
         ]);
 
         $this->call('admin:generate:factory', [

@@ -57,9 +57,9 @@ class ViewIndex extends ViewGenerator {
         }
 
         $viewPath = resource_path('views/admin/'.$this->modelViewsDirectory.'/index.blade.php');
-        $listingJsPath = resource_path('assets/admin/js/'.$this->modelJSName.'/Listing.js');
-        $indexJsPath = resource_path('assets/admin/js/'.$this->modelJSName.'/index.js');
-        $bootstrapJsPath = resource_path('assets/admin/js/index.js');
+        $listingJsPath = resource_path('js/admin/'.$this->modelJSName.'/Listing.js');
+        $indexJsPath = resource_path('js/admin/'.$this->modelJSName.'/index.js');
+        $bootstrapJsPath = resource_path('js/admin/index.js');
 
         if ($this->alreadyExists($viewPath) && !$force) {
             $this->error('File '.$viewPath.' already exists!');

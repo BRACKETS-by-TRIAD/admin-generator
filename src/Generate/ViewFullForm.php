@@ -100,8 +100,8 @@ class ViewFullForm extends ViewGenerator {
             $this->info('Generating '.$viewPath.' finished');
         }
 
-        $formJsPath = resource_path('assets/admin/js/'.$this->formJsRelativePath.'/Form.js');
-        $bootstrapJsPath = resource_path('assets/admin/js/index.js');
+        $formJsPath = resource_path('js/admin/'.$this->formJsRelativePath.'/Form.js');
+        $bootstrapJsPath = resource_path('js/admin/index.js');
 
         if ($this->alreadyExists($formJsPath) && !$force) {
             $this->error('File '.$formJsPath.' already exists!');
@@ -118,7 +118,7 @@ class ViewFullForm extends ViewGenerator {
 
         }
 
-		$indexJsPath = resource_path('assets/admin/js/'.$this->formJsRelativePath.'/index.js');
+		$indexJsPath = resource_path('js/admin/'.$this->formJsRelativePath.'/index.js');
 		if ($this->alreadyExists($indexJsPath) && !$force) {
 			$this->error('File '.$indexJsPath.' already exists!');
 		} else {

@@ -15,9 +15,9 @@ class FormTest extends TestCase
         $elementsPath = resource_path('views/admin/category/components/form-elements.blade.php');
         $createPath = resource_path('views/admin/category/create.blade.php');
         $editPath = resource_path('views/admin/category/edit.blade.php');
-        $formJsPath = resource_path('assets/admin/js/category/Form.js');
-		$indexJsPath = resource_path('assets/admin/js/category/index.js');
-		$bootstrapJsPath = resource_path('assets/admin/js/index.js');
+        $formJsPath = resource_path('js/admin/category/Form.js');
+		$indexJsPath = resource_path('js/admin/category/index.js');
+		$bootstrapJsPath = resource_path('js/admin/index.js');
 
         $this->assertFileNotExists($elementsPath);
         $this->assertFileNotExists($createPath);
@@ -54,9 +54,9 @@ Vue.component(\'category-form\', {
         $elementsPath = resource_path('views/admin/billing/my-article/components/form-elements.blade.php');
         $createPath = resource_path('views/admin/billing/my-article/create.blade.php');
         $editPath = resource_path('views/admin/billing/my-article/edit.blade.php');
-        $formJsPath = resource_path('assets/admin/js/billing-my-article/Form.js');
-		$indexJsPath = resource_path('assets/admin/js/billing-my-article/index.js');
-		$bootstrapJsPath = resource_path('assets/admin/js/index.js');
+        $formJsPath = resource_path('js/admin/billing-my-article/Form.js');
+		$indexJsPath = resource_path('js/admin/billing-my-article/index.js');
+		$bootstrapJsPath = resource_path('js/admin/index.js');
 
         $this->assertFileNotExists($elementsPath);
         $this->assertFileNotExists($createPath);

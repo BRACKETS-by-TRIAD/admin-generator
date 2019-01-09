@@ -13,9 +13,9 @@ class IndexTest extends TestCase
     /** @test */
     function index_listing_should_get_auto_generated(){
         $indexPath = resource_path('views/admin/category/index.blade.php');
-        $listingJsPath = resource_path('assets/admin/js/category/Listing.js');
-		$indexJsPath = resource_path('assets/admin/js/category/index.js');
-		$bootstrapJsPath = resource_path('assets/admin/js/index.js');
+        $listingJsPath = resource_path('js/admin/category/Listing.js');
+		$indexJsPath = resource_path('js/admin/category/index.js');
+		$bootstrapJsPath = resource_path('js/admin/index.js');
 
         $this->assertFileNotExists($indexPath);
         $this->assertFileNotExists($listingJsPath);
@@ -42,9 +42,9 @@ Vue.component(\'category-listing\', {
     /** @test */
     function index_listing_should_get_auto_generated_with_custom_model(){
         $indexPath = resource_path('views/admin/billing/my-article/index.blade.php');
-        $listingJsPath = resource_path('assets/admin/js/billing-my-article/Listing.js');
-		$indexJsPath = resource_path('assets/admin/js/billing-my-article/index.js');
-		$bootstrapJsPath = resource_path('assets/admin/js/index.js');
+        $listingJsPath = resource_path('js/admin/billing-my-article/Listing.js');
+		$indexJsPath = resource_path('js/admin/billing-my-article/index.js');
+		$bootstrapJsPath = resource_path('js/admin/index.js');
 
         $this->assertFileNotExists($indexPath);
         $this->assertFileNotExists($listingJsPath);

@@ -15,11 +15,11 @@ class DefaultProfileGeneratorTest extends UserTestCase
         $filePathController = base_path('app/Http/Controllers/Admin/ProfileController.php');
         $filePathRoute = base_path('routes/web.php');
         $editPathProfile = resource_path('views/admin/profile/edit-profile.blade.php');
-        $formJsPathProfile = resource_path('assets/admin/js/profile-edit-profile/Form.js');
+        $formJsPathProfile = resource_path('js/admin/profile-edit-profile/Form.js');
         $editPathPassword = resource_path('views/admin/profile/edit-password.blade.php');
-        $formJsPathPassword = resource_path('assets/admin/js/profile-edit-password/Form.js');
-        $indexJsPathPassword = resource_path('assets/admin/js/profile-edit-password/index.js');
-		$bootstrapJsPath = resource_path('assets/admin/js/index.js');
+        $formJsPathPassword = resource_path('js/admin/profile-edit-password/Form.js');
+        $indexJsPathPassword = resource_path('js/admin/profile-edit-password/index.js');
+		$bootstrapJsPath = resource_path('js/admin/index.js');
 
         $this->assertFileNotExists($filePathController);
         $this->assertFileNotExists($editPathProfile);

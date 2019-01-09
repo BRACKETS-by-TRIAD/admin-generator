@@ -52,8 +52,8 @@ class GenerateAdminProfile extends Command
         if ($force) {
             //remove all files
             $this->files->delete(app_path('Http/Controllers/Admin/ProfileController.php'));
-            $this->files->deleteDirectory(resource_path('assets/admin/js/profile-edit-profile'));
-            $this->files->deleteDirectory(resource_path('assets/admin/js/profile-edit-password'));
+            $this->files->deleteDirectory(resource_path('js/admin/profile-edit-profile'));
+            $this->files->deleteDirectory(resource_path('js/admin/profile-edit-password'));
             $this->files->deleteDirectory(resource_path('views/admin/profile'));
         }
 

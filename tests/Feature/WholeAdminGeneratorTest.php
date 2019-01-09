@@ -19,13 +19,13 @@ class WholeAdminGeneratorTest extends TestCase
         $destroyPath = base_path('app/Http/Requests/Admin/Category/DestroyCategory.php');
         $routesPath = base_path('routes/web.php');
         $indexPath = resource_path('views/admin/category/index.blade.php');
-        $listingJsPath = resource_path('assets/admin/js/category/Listing.js');
+        $listingJsPath = resource_path('js/admin/category/Listing.js');
         $elementsPath = resource_path('views/admin/category/components/form-elements.blade.php');
         $createPath = resource_path('views/admin/category/create.blade.php');
         $editPath = resource_path('views/admin/category/edit.blade.php');
-        $formJsPath = resource_path('assets/admin/js/category/Form.js');
+        $formJsPath = resource_path('js/admin/category/Form.js');
         $factoryPath = base_path('database/factories/ModelFactory.php');
-		$indexJsPath = resource_path('assets/admin/js/category/index.js');
+		$indexJsPath = resource_path('js/admin/category/index.js');
 		$langPath = resource_path('lang/en/admin.php');
 
         $this->assertFileNotExists($controllerPath);
