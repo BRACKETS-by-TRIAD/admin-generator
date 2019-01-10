@@ -43,7 +43,7 @@
                             </div>
                         </form>
 
-                        <table class="table table-hover">
+                        <table class="table table-hover table-listing">
                             <thead>
                                 <tr>
                                     @foreach($columns as $col)<th is='sortable' :column="'{{ $col['name'] }}'"@if($col['name'] == 'activated') v-if="activation"@endif>{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</th>
