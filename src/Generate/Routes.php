@@ -27,7 +27,7 @@ class Routes extends FileAppender {
     protected $view = 'routes';
 
     /**
-     * Execute the console command.
+     * Routes have also export route
      *
      * @return mixed
      */

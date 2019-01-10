@@ -119,7 +119,7 @@ class ViewForm extends ViewGenerator {
             $this->info('Generating '.$viewPath.' finished');
         }
 
-        $formJsPath = resource_path('assets/admin/js/'.$this->modelJSName.'/Form.js');
+        $formJsPath = resource_path('js/admin/'.$this->modelJSName.'/Form.js');
 
         if ($this->alreadyExists($formJsPath) && !$force) {
             $this->error('File '.$formJsPath.' already exists!');
@@ -135,8 +135,8 @@ class ViewForm extends ViewGenerator {
             $this->info('Generating '.$formJsPath.' finished');
         }
 
-		$indexJsPath = resource_path('assets/admin/js/'.$this->modelJSName.'/index.js');
-		$bootstrapJsPath = resource_path('assets/admin/js/index.js');
+		$indexJsPath = resource_path('js/admin/'.$this->modelJSName.'/index.js');
+		$bootstrapJsPath = resource_path('js/admin/index.js');
 
 		if ($this->appendIfNotAlreadyAppended($indexJsPath, "import './Form';".PHP_EOL)){
 			$this->info('Appending Form to '.$indexJsPath.' finished');

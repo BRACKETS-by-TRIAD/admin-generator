@@ -3,7 +3,7 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use \Illuminate\Http\Response;
+use Illuminate\Http\Response;
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};
@@ -57,6 +57,7 @@ class {{ $controllerBaseName }} extends Controller
      * Show the form for creating a new resource.
      *
      * {{'@'}}return Response
+     * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
@@ -107,7 +108,8 @@ class {{ $controllerBaseName }} extends Controller
      * Display the specified resource.
      *
      * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}return Response
+     * {{'@'}}return void
+     * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show({{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -121,6 +123,7 @@ class {{ $controllerBaseName }} extends Controller
      *
      * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}return Response
+     * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit({{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -185,6 +188,7 @@ class {{ $controllerBaseName }} extends Controller
      * {{'@'}}param  Destroy{{ $modelBaseName }} $request
      * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}return Response|bool
+     * {{'@'}}throws \Exception
      */
     public function destroy(Destroy{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -197,7 +201,9 @@ class {{ $controllerBaseName }} extends Controller
         return redirect()->back();
     }
 
-@if($export)
+    @if($export)/**
+    * Export entities
+    */
     public function export()
     {
         return Excel::download(new {{ $exportBaseName }}, '{{ str_plural($modelVariableName) }}.xlsx');

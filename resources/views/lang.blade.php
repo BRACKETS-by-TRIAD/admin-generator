@@ -5,7 +5,9 @@
             'index' => '{{ $modelPlural }}',
             'create' => 'New {{ studly_case($modelBaseName) }}',
             'edit' => 'Edit :name',
+@if($export)
             'export' => 'Export',
+@endif
         ],
 
         'columns' => [
@@ -25,4 +27,3 @@
     ],
 
     // Do not delete me :) I'm used for auto-generation
-

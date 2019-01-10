@@ -20,7 +20,7 @@ class {{ $classBaseName }} implements FromCollection, WithMapping, WithHeadings
     {
         return [
 @foreach($columnsToExport as $column)
-            trans('admin.{{ $modelVariableName }}.columns.{{ $column }}'),
+            trans('admin.{{ $modelLangFormat }}.columns.{{ $column }}'),
 @endforeach
         ];
     }

@@ -30,7 +30,7 @@ class Controller extends ClassGenerator {
     protected $view = 'controller';
 
     /**
-     * Execute the console command.
+     * Controller has also export method
      *
      * @return mixed
      */
@@ -65,7 +65,7 @@ class Controller extends ClassGenerator {
                 resource_path('views/admin/layout/sidebar.blade.php'),
                 '|url\(\'admin\/'.$this->resource.'\'\)|',
                 "{{-- Do not delete me :) I'm used for auto-generation menu items --}}",
-                "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->resource."') }}\"><i class=\"".$icon."\"></i> <span class=\"nav-link-text\">{{ trans('admin.".$this->modelLangFormat.".title') }}</span></a></li>".PHP_EOL."           {{-- Do not delete me :) I'm used for auto-generation menu items --}}"
+                "<li class=\"nav-item\"><a class=\"nav-link\" href=\"{{ url('admin/".$this->resource."') }}\"><i class=\"nav-icon ".$icon."\"></i> {{ trans('admin.".$this->modelLangFormat.".title') }}</a></li>".PHP_EOL."           {{-- Do not delete me :) I'm used for auto-generation menu items --}}"
             )) {
                 $this->info('Updating sidebar');
             }
@@ -111,6 +111,7 @@ class Controller extends ClassGenerator {
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
             ['belongs-to-many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating controller'],
+            ['model-with-full-namespace', 'fnm', InputOption::VALUE_OPTIONAL, 'Specify model with full namespace'],
             ['with-export', 'e', InputOption::VALUE_NONE, 'Generate an option to Export as Excel'],
         ];
     }

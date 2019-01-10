@@ -6,7 +6,7 @@ use Brackets\AdminGenerator\Tests\UserTestCase;
 use Illuminate\Support\Facades\File;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class UserCrudGeneratorWithCustomModelNameTest extends UserTestCase
+class AdminUserCrudGeneratorWithCustomModelNameTest extends UserTestCase
 {
     use DatabaseMigrations;
 
@@ -35,7 +35,7 @@ class UserCrudGeneratorWithCustomModelNameTest extends UserTestCase
         $this->assertFileNotExists($formJsPath);
 
 
-        $this->artisan('admin:generate:user', [
+        $this->artisan('admin:generate:admin-user', [
             '--controller-name' => 'Auth\\UsersController',
             '--model-name' => 'App\\User',
         ]);
@@ -62,6 +62,8 @@ use App\Http\Requests\Admin\User\DestroyUser;
 use Brackets\AdminListing\Facades\AdminListing;
 use App\User;
 use Illuminate\Support\Facades\Config;
+use Brackets\AdminAuth\Services\ActivationService;
+use Brackets\AdminAuth\Activation\Facades\Activation;
 use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller', File::get($controllerPath));
@@ -115,10 +117,10 @@ $factory->define(App\User::class', File::get($factoryPath));
     }
 
     /** @test */
-    function user_factory_generator_should_generate_everything_with_custom_model_name(){
+    function admin_user_factory_generator_should_generate_everything_with_custom_model_name(){
         $filePath = base_path('database/factories/ModelFactory.php');
 
-        $this->artisan('admin:generate:user', [
+        $this->artisan('admin:generate:admin-user', [
             '--model-name' => 'Auth\\User',
         ]);
 

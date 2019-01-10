@@ -4,7 +4,8 @@ use Brackets\AdminGenerator\Generate\Controller;
 use Brackets\AdminGenerator\Generate\Model;
 use Illuminate\Support\Str;
 
-trait Names {
+trait Names
+{
 
     public $tableName;
 
@@ -24,7 +25,12 @@ trait Names {
 
     public $controllerWithNamespaceFromDefault;
 
-    protected function initCommonNames($tableName, $modelName = null, $controllerName = null) {
+    protected function initCommonNames(
+        $tableName,
+        $modelName = null,
+        $controllerName = null,
+        $modelWithFullNamespace = null
+    ) {
         $this->tableName = $tableName;
 
         if ($this instanceof Model) {
@@ -44,16 +50,18 @@ trait Names {
         $this->modelVariableName = lcfirst(Str::singular(class_basename($this->modelBaseName)));
         $this->modelRouteAndViewName = Str::lower(Str::kebab($this->modelBaseName));
         $this->modelNamespace = Str::replaceLast("\\" . $this->modelBaseName, '', $this->modelFullName);
-        if (!Str::startsWith($this->modelFullName, $startsWith = trim($modelGenerator->rootNamespace(), '\\').'\Models\\')) {
+        if (!Str::startsWith($this->modelFullName,
+            $startsWith = trim($modelGenerator->rootNamespace(), '\\') . '\Models\\')) {
             $this->modelWithNamespaceFromDefault = $this->modelBaseName;
         } else {
             $this->modelWithNamespaceFromDefault = Str::replaceFirst($startsWith, '', $this->modelFullName);
         }
-        $this->modelViewsDirectory = Str::lower(Str::kebab(implode('/', collect(explode( '\\', $this->modelWithNamespaceFromDefault))->map(function($part){
-            return lcfirst($part);
-        })->toArray())));
+        $this->modelViewsDirectory = Str::lower(Str::kebab(implode('/',
+            collect(explode('\\', $this->modelWithNamespaceFromDefault))->map(function ($part) {
+                return lcfirst($part);
+            })->toArray())));
 
-        $parts = collect(explode( '\\', $this->modelWithNamespaceFromDefault));
+        $parts = collect(explode('\\', $this->modelWithNamespaceFromDefault));
         $parts->pop();
         $parts->push($this->modelPlural);
         $this->resource = Str::lower(Str::kebab(implode('', $parts->toArray())));
@@ -74,13 +82,17 @@ trait Names {
         }
 
         $controllerFullName = $controllerGenerator->qualifyClass($controllerName);
-        if (!Str::startsWith($controllerFullName, $startsWith = trim($controllerGenerator->rootNamespace(), '\\').'\Http\\Controllers\\')) {
+        if (!Str::startsWith($controllerFullName,
+            $startsWith = trim($controllerGenerator->rootNamespace(), '\\') . '\Http\\Controllers\\')) {
             $this->controllerWithNamespaceFromDefault = $controllerFullName;
         } else {
             $this->controllerWithNamespaceFromDefault = Str::replaceFirst($startsWith, '', $controllerFullName);
         }
 
-        $this->exportBaseName = Str::studly($tableName).'Export';
+        if (!empty($modelWithFullNamespace)) {
+            $this->modelFullName = $modelWithFullNamespace;
+        }
+        $this->exportBaseName = Str::studly($tableName) . 'Export';
     }
 
     public function valueWithoutId($string)

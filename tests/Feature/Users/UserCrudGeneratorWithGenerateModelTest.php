@@ -23,10 +23,9 @@ class UserCrudGeneratorWithGenerateModelTest extends UserTestCase
         $this->assertFileExists($filePath);
         $this->assertStringStartsWith('<?php namespace App\Models;
 
-use Brackets\AdminAuth\Auth\Activations\CanActivate;
-use Brackets\AdminAuth\Contracts\Auth\CanActivate as CanActivateContract;
+use Brackets\AdminAuth\Activation\Traits\CanActivate;
+use Brackets\AdminAuth\Activation\Contracts\CanActivate as CanActivateContract;
 use Brackets\AdminAuth\Notifications\ResetPassword;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -49,10 +48,9 @@ class User extends Authenticatable implements CanActivateContract
         $this->assertFileExists($filePath);
         $this->assertStringStartsWith('<?php namespace App\Models\Auth;
 
-use Brackets\AdminAuth\Auth\Activations\CanActivate;
-use Brackets\AdminAuth\Contracts\Auth\CanActivate as CanActivateContract;
+use Brackets\AdminAuth\Activation\Traits\CanActivate;
+use Brackets\AdminAuth\Activation\Contracts\CanActivate as CanActivateContract;
 use Brackets\AdminAuth\Notifications\ResetPassword;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -75,10 +73,9 @@ class User extends Authenticatable implements CanActivateContract
         $this->assertFileExists($filePath);
         $this->assertStringStartsWith('<?php namespace App\Auth;
 
-use Brackets\AdminAuth\Auth\Activations\CanActivate;
-use Brackets\AdminAuth\Contracts\Auth\CanActivate as CanActivateContract;
+use Brackets\AdminAuth\Activation\Traits\CanActivate;
+use Brackets\AdminAuth\Activation\Contracts\CanActivate as CanActivateContract;
 use Brackets\AdminAuth\Notifications\ResetPassword;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;

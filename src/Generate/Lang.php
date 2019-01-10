@@ -26,6 +26,13 @@ class Lang extends FileAppender {
     protected $view = 'lang';
 
     /**
+     * Lang has also export translation
+     *
+     * @return mixed
+     */
+    protected $export = false;
+
+    /**
      * Execute the console command.
      *
      * @return mixed
@@ -41,6 +48,10 @@ class Lang extends FileAppender {
 
         if(empty($locale = $this->option('locale'))) {
             $locale = 'en';
+        }
+
+        if($this->option('with-export')){
+            $this->export = true;
         }
 
         if(!empty($belongsToMany = $this->option('belongs-to-many'))) {
@@ -61,6 +72,7 @@ class Lang extends FileAppender {
             'modelLangFormat' => $this->modelLangFormat,
             'modelBaseName' => $this->modelBaseName,
             'modelPlural' => $this->modelPlural,
+            'export' => $this->export,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName)->map(function ($column) {
                 $column['defaultTranslation'] = $this->valueWithoutId($column['name']);
@@ -76,6 +88,7 @@ class Lang extends FileAppender {
             ['locale', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom locale'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
             ['belongs-to-many', 'btm', InputOption::VALUE_OPTIONAL, 'Specify belongs to many relations'],
+            ['with-export', 'e', InputOption::VALUE_NONE, 'Generate an option to Export as Excel'],
         ];
     }
 

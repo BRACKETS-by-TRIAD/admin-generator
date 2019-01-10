@@ -2,6 +2,7 @@
 
 namespace Brackets\AdminGenerator\Tests;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\File;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -9,6 +10,7 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class UserTestCase extends Orchestra
 {
+    use RefreshDatabase;
 
     public function setUp()
     {
@@ -24,21 +26,33 @@ abstract class UserTestCase extends Orchestra
     {
         $app['db']->connection()->getSchemaBuilder()->create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('email');
+            $table->string('name');
+            $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
-            $table->boolean('activated')->default(false);
-            $table->boolean('forbidden')->default(false);
-            $table->softDeletes('deleted_at');
-            $table->unique(['email', 'deleted_at']);
-            $table->string('language', 2)->default('en');
         });
 
-        $app['db']->connection()->getSchemaBuilder()->table('users', function (Blueprint $table) {
-            DB::statement('CREATE UNIQUE INDEX users_email_null_deleted_at ON users (email) WHERE deleted_at IS NULL;');
+        $app['db']->connection()->getSchemaBuilder()->create('admin_users', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('email');
+            $table->string('password');
+            $table->rememberToken();
+
+            $table->boolean('activated')->default(false);
+            $table->boolean('forbidden')->default(false);
+            $table->string('language', 2)->default('en');
+
+            $table->softDeletes('deleted_at');
+            $table->timestamps();
+
+            $table->unique(['email', 'deleted_at']);
+        });
+
+        $app['db']->connection()->getSchemaBuilder()->table('admin_users', function (Blueprint $table) {
+            DB::statement('CREATE UNIQUE INDEX admin_users_email_null_deleted_at ON admin_users (email) WHERE deleted_at IS NULL;');
         });
 
         $app['db']->connection()->getSchemaBuilder()->create('password_resets', function (Blueprint $table) {
@@ -125,12 +139,28 @@ abstract class UserTestCase extends Orchestra
 
         File::copyDirectory(__DIR__.'/fixtures/resources', resource_path());
 
-        $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite', [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-            'prefix' => '',
-        ]);
+        if(env('DB_CONNECTION') === 'pgsql') {
+            $app['config']->set('database.default', 'pgsql');
+            $app['config']->set('database.connections.pgsql', [
+                'driver' => 'pgsql',
+                'host' => 'testing',
+                'port' => '5432',
+                'database' => 'homestead',
+                'username' => 'homestead',
+                'password' => 'secret',
+                'charset' => 'utf8',
+                'prefix' => '',
+                'schema' => 'public',
+                'sslmode' => 'prefer',
+            ]);
+        } else {
+            $app['config']->set('database.default', 'sqlite');
+            $app['config']->set('database.connections.sqlite', [
+                'driver' => 'sqlite',
+                'database' => ':memory:',
+                'prefix' => '',
+            ]);
+        }
     }
 
     /**

@@ -1,6 +1,6 @@
 
 /* Auto-generated admin routes */
-Route::middleware(['admin'])->group(function () {
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(function () {
     {!! str_pad("Route::get('/admin/".$resource."',", 60) !!}'{{ $controllerPartiallyFullName }}@index');
     {!! str_pad("Route::get('/admin/".$resource."/create',", 60) !!}'{{ $controllerPartiallyFullName }}@create');
     {!! str_pad("Route::post('/admin/".$resource."',", 60) !!}'{{ $controllerPartiallyFullName }}@store');

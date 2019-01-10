@@ -1,11 +1,13 @@
 <?php namespace Brackets\AdminGenerator;
 
 use Brackets\AdminGenerator\Generate\Traits\FileManipulations;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class GenerateProfile extends Command {
+class GenerateAdminProfile extends Command
+{
 
     use FileManipulations;
 
@@ -14,7 +16,7 @@ class GenerateProfile extends Command {
      *
      * @var string
      */
-    protected $name = 'admin:generate:user:profile';
+    protected $name = 'admin:generate:admin-user:profile';
 
     /**
      * The console command description.
@@ -26,7 +28,7 @@ class GenerateProfile extends Command {
     /**
      * Create a new controller creator command instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param  \Illuminate\Filesystem\Filesystem $files
      */
     public function __construct(Filesystem $files)
     {
@@ -42,16 +44,16 @@ class GenerateProfile extends Command {
      */
     public function handle()
     {
-        $tableNameArgument = 'users';
+        $tableNameArgument = !empty($this->argument('table_name')) ? $this->argument('table_name') : 'admin_users';
         $modelOption = $this->option('model-name');
         $controllerOption = !empty($this->option('controller-name')) ? $this->option('controller-name') : 'ProfileController';
         $force = $this->option('force');
 
-        if($force) {
+        if ($force) {
             //remove all files
             $this->files->delete(app_path('Http/Controllers/Admin/ProfileController.php'));
-            $this->files->deleteDirectory(resource_path('assets/admin/js/profile-edit-profile'));
-            $this->files->deleteDirectory(resource_path('assets/admin/js/profile-edit-password'));
+            $this->files->deleteDirectory(resource_path('js/admin/profile-edit-profile'));
+            $this->files->deleteDirectory(resource_path('js/admin/profile-edit-password'));
             $this->files->deleteDirectory(resource_path('views/admin/profile'));
         }
 
@@ -104,12 +106,15 @@ class GenerateProfile extends Command {
 
     }
 
-    protected function getArguments() {
+    protected function getArguments()
+    {
         return [
+            ['table_name', InputArgument::OPTIONAL, 'Name of the existing table'],
         ];
     }
 
-    protected function getOptions() {
+    protected function getOptions()
+    {
         return [
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Specify custom model name'],
             ['controller-name', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
