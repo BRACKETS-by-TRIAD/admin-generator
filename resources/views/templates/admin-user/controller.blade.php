@@ -282,5 +282,6 @@ class {{ $controllerBaseName }} extends Controller
     {
         return Excel::download(new {{ $exportBaseName }}, '{{ str_plural($modelVariableName) }}.xlsx');
     }
+
 @endif
 }

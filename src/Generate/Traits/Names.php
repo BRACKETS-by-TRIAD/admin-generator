@@ -96,8 +96,8 @@ trait Names
         }
         $this->exportBaseName = Str::studly($tableName) . 'Export';
 
-        $this->titleSingular = Str::studly($this->modelBaseName);
-        $this->titlePlural = Str::studly($this->modelPlural);
+        $this->titleSingular = Str::singular(str_replace(['-', '_'], ' ', Str::title($this->tableName)));
+        $this->titlePlural = str_replace(['-', '_'], ' ', Str::title($this->tableName));
     }
 
     public function valueWithoutId($string)
