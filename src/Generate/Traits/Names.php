@@ -22,6 +22,8 @@ trait Names
     public $modelLangFormat;
     public $resource;
     public $exportBaseName;
+    public $titleSingular;
+    public $titlePlural;
 
     public $controllerWithNamespaceFromDefault;
 
@@ -93,6 +95,9 @@ trait Names
             $this->modelFullName = $modelWithFullNamespace;
         }
         $this->exportBaseName = Str::studly($tableName) . 'Export';
+
+        $this->titleSingular = Str::singular(str_replace(['-', '_'], ' ', Str::title($this->tableName)));
+        $this->titlePlural = str_replace(['-', '_'], ' ', Str::title($this->tableName));
     }
 
     public function valueWithoutId($string)

@@ -81,7 +81,7 @@ class GenerateUser extends Command {
             resource_path('views/admin/layout/sidebar.blade.php'),
             '|url\(\'admin\/users\'\)|',
             '{{-- Do not delete me :) I\'m also used for auto-generation menu items --}}',
-            '<li class="nav-item"><a class="nav-link" href="{{ url(\'admin/users\') }}"><i class="nav-icon icon-user"></i> {{ __(\'Manage access\') }}</a></li>
+            '<li class="nav-item"><a class="nav-link" href="{{ url(\'admin/users\') }}"><i class="nav-icon icon-user"></i> {{ __(\'Manage users\') }}</a></li>
             {{-- Do not delete me :) I\'m also used for auto-generation menu items --}}');
 
         $this->call('admin:generate:controller', [

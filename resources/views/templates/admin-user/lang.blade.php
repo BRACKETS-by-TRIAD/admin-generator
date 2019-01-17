@@ -1,9 +1,9 @@
     '{{ $modelLangFormat }}' => [
-        'title' => '{{ $modelPlural }}',
+        'title' => 'Users',
 
         'actions' => [
-            'index' => '{{ $modelPlural }}',
-            'create' => 'New {{ studly_case($modelBaseName) }}',
+            'index' => 'Users',
+            'create' => 'New User',
             'edit' => 'Edit :name',
             'edit_profile' => 'Edit Profile',
             'edit_password' => 'Edit Password',

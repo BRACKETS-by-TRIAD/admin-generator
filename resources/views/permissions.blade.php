@@ -1,38 +1,57 @@
 @php echo "<?php"
 @endphp
 
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
 class {{ $className }} extends Migration
 {
-    protected $roles;
+    /**
+     * @var \Illuminate\Config\Repository|mixed
+     */
+    protected $guardName;
+    /**
+     * @var array
+     */
     protected $permissions;
+    /**
+     * @var array
+     */
+    protected $roles;
 
+    /**
+     * {{ $className }} constructor.
+     */
     public function __construct()
     {
-        //New permissions
-        $this->permissions = [
-            ['name' => 'admin.{{ $modelDotNotation }}',],
-            ['name' => 'admin.{{ $modelDotNotation }}.index',],
-            ['name' => 'admin.{{ $modelDotNotation }}.create',],
-            ['name' => 'admin.{{ $modelDotNotation }}.show',],
-            ['name' => 'admin.{{ $modelDotNotation }}.edit',],
-            ['name' => 'admin.{{ $modelDotNotation }}.delete',],
-        ];
+        $this->guardName = config('admin-auth.defaults.guard');
+
+        $permissions = collect([
+            'admin.{{ $modelDotNotation }}',
+            'admin.{{ $modelDotNotation }}.index',
+            'admin.{{ $modelDotNotation }}.create',
+            'admin.{{ $modelDotNotation }}.show',
+            'admin.{{ $modelDotNotation }}.edit',
+            'admin.{{ $modelDotNotation }}.delete',
+        ]);
+
+        //Add New permissions
+        $this->permissions = $permissions->map(function ($permission) {
+            return [
+                'name' => $permission,
+                'guard_name' => $this->guardName,
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now(),
+            ];
+        })->toArray();
 
         //Role should already exists
         $this->roles = [
             [
                 'name' => 'Administrator',
-                'permissions' => [
-                    'admin.{{ $modelDotNotation }}',
-                    'admin.{{ $modelDotNotation }}.index',
-                    'admin.{{ $modelDotNotation }}.create',
-                    'admin.{{ $modelDotNotation }}.show',
-                    'admin.{{ $modelDotNotation }}.edit',
-                    'admin.{{ $modelDotNotation }}.delete',
-                ],
+                'guard_name' => $this->guardName,
+                'permissions' => $permissions,
             ],
         ];
     }
@@ -44,15 +63,13 @@ class {{ $className }} extends Migration
      */
     public function up()
     {
-        app()['cache']->forget('spatie.permission.cache');
         DB::transaction(function () {
             foreach ($this->permissions as $permission) {
-                $permission = array_merge($permission, [
-                    'guard_name' => config('auth.defaults.guard'),
-                    'created_at' => \Carbon\Carbon::now(),
-                    'updated_at' => \Carbon\Carbon::now(),
-                ]);
-                if(!($permissionItem = DB::table('permissions')->where('name', '=', $permission['name'])->first())) {
+                $permissionItem = DB::table('permissions')->where([
+                    'name' => $permission['name'],
+                    'guard_name' => $permission['guard_name']
+                ])->first();
+                if (is_null($permissionItem)) {
                     DB::table('permissions')->insert($permission);
                 }
             }
@@ -61,20 +78,29 @@ class {{ $className }} extends Migration
                 $permissions = $role['permissions'];
                 unset($role['permissions']);
 
-                if($roleItem = DB::table('roles')->where('name', '=', $role['name'])->first()) {
+                $roleItem = DB::table('roles')->where([
+                    'name' => $role['name'],
+                    'guard_name' => $role['guard_name']
+                ])->first();
+                if (!is_null($roleItem)) {
                     $roleId = $roleItem->id;
 
-                    $permissionItems = DB::table('permissions')->whereIn('name', $permissions)->get();
+                    $permissionItems = DB::table('permissions')->whereIn('name', $permissions)->where('guard_name',
+                        $role['guard_name'])->get();
                     foreach ($permissionItems as $permissionItem) {
-                        if(!($rolePermissionItem = DB::table('role_has_permissions')
-                            ->where('permission_id', '=', $permissionItem->id)
-                            ->where('role_id', '=', $roleId)->first())) {
-                            DB::table('role_has_permissions')->insert(['permission_id' => $permissionItem->id, 'role_id' => $roleId]);
+                        $roleHasPermissionData = [
+                            'permission_id' => $permissionItem->id,
+                            'role_id' => $roleId
+                        ];
+                        $roleHasPermissionItem = DB::table('role_has_permissions')->where($roleHasPermissionData)->first();
+                        if (is_null($roleHasPermissionItem)) {
+                            DB::table('role_has_permissions')->insert($roleHasPermissionData);
                         }
                     }
                 }
             }
         });
+        app()['cache']->forget(config('permission.cache.key'));
     }
 
     /**
@@ -84,14 +110,18 @@ class {{ $className }} extends Migration
      */
     public function down()
     {
-        app()['cache']->forget('spatie.permission.cache');
         DB::transaction(function () {
             foreach ($this->permissions as $permission) {
-                if(!empty($permissionItem = DB::table('permissions')->where('name', '=', $permission['name'])->first())) {
-                    DB::table('permissions')->where('id', '=', $permissionItem->id)->delete();
-                    DB::table('model_has_permissions')->where('permission_id', '=', $permissionItem->id)->delete();
+                $permissionItem = DB::table('permissions')->where([
+                    'name' => $permission['name'],
+                    'guard_name' => $permission['guard_name']
+                ])->first();
+                if (!is_null($permissionItem)) {
+                    DB::table('permissions')->where('id', $permissionItem->id)->delete();
+                    DB::table('model_has_permissions')->where('permission_id', $permissionItem->id)->delete();
                 }
             }
         });
+        app()['cache']->forget(config('permission.cache.key'));
     }
 }
