@@ -11,12 +11,10 @@ Vue.component('{{ $modelJSName }}-listing', {
                     } else if (response.data.redirect) {
                         window.location.replace(response.data.redirect);
                     }
-                }, error => {
-                    this.$notify({ type: 'error', title: 'Error!', text: 'An error has occured.'});
                 }
             ).catch(errors => {
-                    if(errors.data.message) {
-                        this.$notify({ type: 'error', title: 'Error!', text: errors.data.message})
+                    if(errors.response.data.message) {
+                        this.$notify({ type: 'error', title: 'Error!', text: errors.response.data.message})
                     }
                 }
             );

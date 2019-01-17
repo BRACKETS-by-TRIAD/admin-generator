@@ -260,14 +260,14 @@ class {{ $controllerBaseName }} extends Controller
                 return redirect()->back();
             } else {
                 if ($request->ajax()) {
-                    return ['message' => trans('brackets/admin-ui::admin.operation.failed')];
+                    abort(409, trans('brackets/admin-ui::admin.operation.failed'));
                 }
 
                 return redirect()->back();
             }
         } else {
             if ($request->ajax()) {
-                return ['message' => trans('brackets/admin-ui::admin.operation.not_allowed')];
+                abort(400, trans('brackets/admin-ui::admin.operation.not_allowed'));
             }
 
             return redirect()->back();
