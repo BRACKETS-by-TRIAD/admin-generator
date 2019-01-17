@@ -1,9 +1,9 @@
     '{{ $modelLangFormat }}' => [
-        'title' => '{{ $modelPlural }}',
+        'title' => '{{ $titlePlural }}',
 
         'actions' => [
-            'index' => '{{ $modelPlural }}',
-            'create' => 'New {{ studly_case($modelBaseName) }}',
+            'index' => '{{ $titlePlural }}',
+            'create' => 'New {{ $titleSingular }}',
             'edit' => 'Edit :name',
 @if($export)
             'export' => 'Export',

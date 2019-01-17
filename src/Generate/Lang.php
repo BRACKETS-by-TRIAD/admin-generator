@@ -72,6 +72,8 @@ class Lang extends FileAppender {
             'modelLangFormat' => $this->modelLangFormat,
             'modelBaseName' => $this->modelBaseName,
             'modelPlural' => $this->modelPlural,
+            'titleSingular' => $this->titleSingular,
+            'titlePlural' => $this->titlePlural,
             'export' => $this->export,
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName)->map(function ($column) {

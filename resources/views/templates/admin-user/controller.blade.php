@@ -243,6 +243,7 @@ class {{ $controllerBaseName }} extends Controller
     * Resend activation e-mail
     *
     * @param  \Illuminate\Http\Request  $request
+    * @param ActivationService $activationService
     * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
     * @return array|\Illuminate\Http\Response
     */
