@@ -1,9 +1,9 @@
     '{{ $modelLangFormat }}' => [
-        'title' => '{{ $titlePlural }}',
+        'title' => 'Users',
 
         'actions' => [
-            'index' => '{{ $titlePlural }}',
-            'create' => 'New {{ $titleSingular }}',
+            'index' => 'Users',
+            'create' => 'New User',
             'edit' => 'Edit :name',
             'edit_profile' => 'Edit Profile',
             'edit_password' => 'Edit Password',
