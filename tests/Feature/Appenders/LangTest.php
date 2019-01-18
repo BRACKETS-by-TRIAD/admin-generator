@@ -55,11 +55,11 @@ return [
 
 return [
     \'billing_categ-ory\' => [
-        \'title\' => \'CategOries\',
+        \'title\' => \'Categories\',
 
         \'actions\' => [
-            \'index\' => \'CategOries\',
-            \'create\' => \'New CategOry\',
+            \'index\' => \'Categories\',
+            \'create\' => \'New Category\',
             \'edit\' => \'Edit :name\',
         ],
 
