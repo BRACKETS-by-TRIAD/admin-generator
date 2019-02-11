@@ -8,7 +8,8 @@ Vue.component('{{ $modelJSName }}-form', {
                 @foreach($columns as $column){{ $column['name'].':' }} @if($column['type'] == 'json') {{ '{}' }} @elseif($column['type'] == 'boolean') {!! "false" !!} @else {!! "''" !!} @endif,
                 @endforeach
 
-            }
+            },
+            mediaCollections: ['avatar']
         }
     },
     methods: {
