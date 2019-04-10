@@ -105,12 +105,12 @@ trait Columns {
                 case 'datetime':
                     $serverStoreRules->push('\'date\'');
                     $serverUpdateRules->push('\'date\'');
-                    $frontendRules->push('date_format:YYYY-MM-DD HH:mm:ss');
+                    $frontendRules->push('date_format:yyyy-MM-dd HH:mm:ss');
                     break;
                 case 'date':
                     $serverStoreRules->push('\'date\'');
                     $serverUpdateRules->push('\'date\'');
-                    $frontendRules->push('date_format:YYYY-MM-DD HH:mm:ss');
+                    $frontendRules->push('date_format:yyyy-MM-dd HH:mm:ss');
                     break;
                 case 'time':
                     $serverStoreRules->push('\'date_format:H:i:s\'');
