@@ -10,3 +10,7 @@ This packages is part of [Craftable](https://github.com/BRACKETS-by-TRIAD/crafta
 
 ## Documentation
 You can find full documentation at https://docs.getcraftable.com/#/admin-generator
+
+## Issues
+Where do I report issues?
+If something is not working as expected, please open an issue in the main repository https://github.com/BRACKETS-by-TRIAD/craftable.
