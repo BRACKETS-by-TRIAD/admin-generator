@@ -61,22 +61,24 @@
                                                 <span class="switch-slider"></span>
                                             </label>
                                         </td>
+
+
                                         @elseif($col['name'] === 'created_by_admin_user_id')
-                                            <div class="user-detail-tooltips-list" v-if="item.created_by_user_admin_id">
+                                            <div class="user-detail-tooltips-list" >
                                                 <td>
                                                     <user-detail-tooltip :user="item.created_by_admin_user" v-if="item.created_by_admin_user">
-                                                        <p>Created on @{{ item.created_at | datetime('HH:mm:ss, DD.MM.YYYY') }}</p>
+                                                        <p>Created on {{'@{{'}} item.created_at | datetime('HH:mm:ss, DD.MM.YYYY') }}</p>
                                                     </user-detail-tooltip>
                                                 </td>
                                             </div>
                                         @elseif($col['name'] === 'updated_by_admin_user_id')
-                                            <td>
-                                                <div class="user-detail-tooltips-list" v-if="item.updated_by_user_admin_id">
+                                            <div class="user-detail-tooltips-list" >
+                                                <td>
                                                     <user-detail-tooltip :user="item.updated_by_admin_user" v-if="item.updated_by_admin_user">
-                                                        <p>Updated on @{{ item.updated_at | datetime('HH:mm:ss, DD.MM.YYYY') }}</p>
+                                                        <p>Updated on {{'@{{'}} item.updated_at | datetime('HH:mm:ss, DD.MM.YYYY') }}</p>
                                                     </user-detail-tooltip>
-                                                </div>
-                                            </td>
+                                                </td>
+                                            </div>
                                         @else
                                             <td>{{'@{{'}} item.{{ $col['name'] }}{{ $col['filters'] }} }}</td>
                                         @endif
