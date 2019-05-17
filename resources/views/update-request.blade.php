@@ -73,7 +73,8 @@ class Update{{ $modelBaseName }} extends FormRequest
     public function rules()
     {
         return [
-            @foreach($columns as $column)'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverUpdateRules']) !!}],
+            @foreach($columns as $column)@if(!($column['name'] == "updated_by_admin_user_id" || $column['name'] == "created_by_admin_user_id" ))'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverUpdateRules']) !!}],
+            @endif
             @endforeach
 @if (count($relations))
     @if (count($relations['belongsToMany']))
