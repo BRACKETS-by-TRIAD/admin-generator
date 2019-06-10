@@ -93,7 +93,19 @@ abstract class ClassGenerator extends Command {
     }
 
     /**
-     * Parse the class name and format according to the root namespace.
+     * Get the app folder root path.
+     *
+     * @return string
+     */
+    public function rootAppPath()
+    {
+        $appPath = app_path();
+
+        return str_replace('/', '', substr($appPath, strlen(base_path()), strlen($appPath))) . '\\';
+    }
+
+    /**
+     * Parse the class name and format according to the root app path.
      *
      * @param  string  $name
      * @return string
@@ -102,14 +114,14 @@ abstract class ClassGenerator extends Command {
     {
         $name = str_replace('/', '\\', $name);
 
-        $rootNamespace = $this->rootNamespace();
+        $rootAppPath = $this->rootAppPath();
 
-        if (Str::startsWith($name, $rootNamespace)) {
+        if (Str::startsWith($name, $rootAppPath)) {
             return $name;
         }
 
         return $this->qualifyClass(
-            $this->getDefaultNamespace(trim($rootNamespace, '\\')).'\\'.$name
+            $this->getDefaultNamespace(trim($rootAppPath, '\\')).'\\'.$name
         );
     }
 
@@ -173,6 +185,7 @@ abstract class ClassGenerator extends Command {
         $this->classFullName = $this->qualifyClass($className);
         $this->classBaseName = class_basename($this->classFullName);
         $this->classNamespace = Str::replaceLast("\\".$this->classBaseName, '', $this->classFullName);
+        $this->classNamespace = Str::replaceLast($this->rootAppPath(), $this->rootNamespace(), $this->classNamespace);
     }
 
 }

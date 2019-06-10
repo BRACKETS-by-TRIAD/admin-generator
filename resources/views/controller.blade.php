@@ -1,13 +1,13 @@
 @php echo "<?php";
 @endphp namespace {{ $controllerNamespace }};
 
-use App\Http\Controllers\Controller;
+use {{ $rootNamespace }}Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelBaseName }};
-use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
-use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};
-use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
+use {{ $rootNamespace }}Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelBaseName }};
+use {{ $rootNamespace }}Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
+use {{ $rootNamespace }}Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};
+use {{ $rootNamespace }}Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
 use Brackets\AdminListing\Facades\AdminListing;
 use {{ $modelFullName }};
 @if (count($relations))
@@ -18,7 +18,7 @@ use {{ $belongsToMany['related_model'] }};
 @endif
 @endif
 @if($export)
-use App\Exports\{{$exportBaseName}};
+use {{ rootNamespace }}\Exports\{{$exportBaseName}};
 use Maatwebsite\Excel\Facades\Excel;
 @endif
 
