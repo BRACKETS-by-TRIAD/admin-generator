@@ -54,34 +54,28 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(item, index) in collection">
-                                    @foreach($columns as $col)
-                                        @if($col['switch'])<td>
-                                            <label class="switch switch-3d switch-success">
-                                                <input type="checkbox" class="switch-input" v-model="collection[index].{{ $col['name'] }}" @change="toggleSwitch(item.resource_url, '{{ $col['name'] }}', collection[index])">
-                                                <span class="switch-slider"></span>
-                                            </label>
+                                    @foreach($columns as $col)@if($col['switch'])<td>
+                                        <label class="switch switch-3d switch-success">
+                                            <input type="checkbox" class="switch-input" v-model="collection[index].{{ $col['name'] }}" @change="toggleSwitch(item.resource_url, '{{ $col['name'] }}', collection[index])">
+                                            <span class="switch-slider"></span>
+                                        </label>
+                                    </td>
+@elseif($col['name'] === 'created_by_admin_user_id')<div class="user-detail-tooltips-list">
+                                        <td>
+                                            <user-detail-tooltip :user="item.created_by_admin_user" v-if="item.created_by_admin_user">
+                                                <p>Created on {{'@{{'}} item.created_at | datetime('HH:mm:ss, DD.MM.YYYY') }}</p>
+                                            </user-detail-tooltip>
                                         </td>
+                                    </div>
+@elseif($col['name'] === 'updated_by_admin_user_id')<div class="user-detail-tooltips-list">
+                                        <td>
+                                            <user-detail-tooltip :user="item.updated_by_admin_user" v-if="item.updated_by_admin_user">
+                                                <p>Updated on {{'@{{'}} item.updated_at | datetime('HH:mm:ss, DD.MM.YYYY') }}</p>
+                                            </user-detail-tooltip>
+                                        </td>
+                                    </div>
+                                    @else<td>{{'@{{'}} item.{{ $col['name'] }}{{ $col['filters'] }} }}</td>@endif
 
-
-                                        @elseif($col['name'] === 'created_by_admin_user_id')
-                                            <div class="user-detail-tooltips-list" >
-                                                <td>
-                                                    <user-detail-tooltip :user="item.created_by_admin_user" v-if="item.created_by_admin_user">
-                                                        <p>Created on {{'@{{'}} item.created_at | datetime('HH:mm:ss, DD.MM.YYYY') }}</p>
-                                                    </user-detail-tooltip>
-                                                </td>
-                                            </div>
-                                        @elseif($col['name'] === 'updated_by_admin_user_id')
-                                            <div class="user-detail-tooltips-list" >
-                                                <td>
-                                                    <user-detail-tooltip :user="item.updated_by_admin_user" v-if="item.updated_by_admin_user">
-                                                        <p>Updated on {{'@{{'}} item.updated_at | datetime('HH:mm:ss, DD.MM.YYYY') }}</p>
-                                                    </user-detail-tooltip>
-                                                </td>
-                                            </div>
-                                        @else
-                                            <td>{{'@{{'}} item.{{ $col['name'] }}{{ $col['filters'] }} }}</td>
-                                        @endif
                                     @endforeach
 
                                     <td>
