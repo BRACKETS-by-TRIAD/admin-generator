@@ -21,6 +21,9 @@ use {{ $belongsToMany['related_model'] }};
 use App\Exports\{{$exportBaseName}};
 use Maatwebsite\Excel\Facades\Excel;
 @endif
+@if(in_array('created_by_admin_user_id', $columnsToQuery) || in_array('updated_by_admin_user_id', $columnsToQuery))
+use Illuminate\Support\Facades\Auth;
+@endif
 
 class {{ $controllerBaseName }} extends Controller
 {
@@ -35,15 +38,31 @@ class {{ $controllerBaseName }} extends Controller
     {
         // create and AdminListing instance for a specific model and
         $data = AdminListing::create({{ $modelBaseName }}::class)->processRequestAndGet(
-            // pass the request with params
+        // pass the request with params
             $request,
 
             // set columns to query
             ['{!! implode('\', \'', $columnsToQuery) !!}'],
 
             // set columns to searchIn
-            ['{!! implode('\', \'', $columnsToSearchIn) !!}']
-        );
+            ['{!! implode('\', \'', $columnsToSearchIn) !!}']@if(in_array('created_by_admin_user_id', $columnsToQuery) || in_array('updated_by_admin_user_id', $columnsToQuery)),@endif
+
+@if(in_array('created_by_admin_user_id', $columnsToQuery) || in_array('updated_by_admin_user_id', $columnsToQuery))
+    @if(in_array('created_by_admin_user_id', $columnsToQuery) && in_array('updated_by_admin_user_id', $columnsToQuery))
+        function ($query) use ($request) {
+                $query->with(['createdByAdminUser', 'updatedByAdminUser']);
+            }
+    @elseif(in_array('created_by_admin_user_id', $columnsToQuery))
+        function ($query) use ($request) {
+                $query->with(['createdByAdminUser']);
+            }
+    @elseif(in_array('updated_by_admin_user_id', $columnsToQuery))
+        function ($query) use ($request) {
+                $query->with(['updatedByAdminUser']);
+            }
+    @endif
+@endif()
+    );
 
         if ($request->ajax()) {
             return ['data' => $data];
@@ -84,6 +103,16 @@ class {{ $controllerBaseName }} extends Controller
     {
         // Sanitize input
         $sanitized = $request->validated();
+@if(in_array('created_by_admin_user_id', $columnsToQuery) || in_array('updated_by_admin_user_id', $columnsToQuery))
+    @if(in_array('created_by_admin_user_id', $columnsToQuery) && in_array('updated_by_admin_user_id', $columnsToQuery))
+    $sanitized['created_by_admin_user_id'] = Auth::getUser()->id;
+        $sanitized['updated_by_admin_user_id'] = Auth::getUser()->id;
+    @elseif(in_array('created_by_admin_user_id', $columnsToQuery))
+        $sanitized['created_by_admin_user_id'] = Auth::getUser()->id;
+    @elseif(in_array('updated_by_admin_user_id', $columnsToQuery))
+        $sanitized['updated_by_admin_user_id'] = Auth::getUser()->id;
+    @endif
+@endif()
 
         // Store the {{ $modelBaseName }}
         ${{ $modelVariableName }} = {{ $modelBaseName }}::create($sanitized);
@@ -160,6 +189,9 @@ class {{ $controllerBaseName }} extends Controller
     {
         // Sanitize input
         $sanitized = $request->validated();
+@if(in_array('updated_by_admin_user_id', $columnsToQuery))
+        $sanitized['updated_by_admin_user_id'] = Auth::getUser()->id;
+@endif
 
         // Update changed values {{ $modelBaseName }}
         ${{ $modelVariableName }}->update($sanitized);
