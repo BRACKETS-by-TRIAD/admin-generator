@@ -46,6 +46,7 @@ trait Names
             $modelName = $modelGenerator->generateClassNameFromTable($this->tableName);
         }
         $this->modelFullName = $modelGenerator->qualifyClass($modelName);
+        $this->modelFullName = Str::replaceLast($modelGenerator->rootAppPath(), $modelGenerator->rootNamespace(), $this->modelFullName);
 
         $this->modelBaseName = class_basename($modelName);
         $this->modelPlural = Str::plural(class_basename($modelName));
@@ -84,6 +85,8 @@ trait Names
         }
 
         $controllerFullName = $controllerGenerator->qualifyClass($controllerName);
+        $controllerFullName = Str::replaceLast($controllerGenerator->rootAppPath(), $controllerGenerator->rootNamespace(), $controllerFullName);
+
         if (!Str::startsWith($controllerFullName,
             $startsWith = trim($controllerGenerator->rootNamespace(), '\\') . '\Http\\Controllers\\')) {
             $this->controllerWithNamespaceFromDefault = $controllerFullName;

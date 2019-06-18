@@ -59,6 +59,7 @@ class UpdateRequest extends ClassGenerator {
             'modelVariableName' => $this->modelVariableName,
             'modelFullName' => $this->modelFullName,
             'tableName' => $this->tableName,
+            'requestNamespace' => $this->classNamespace,
 
             // validation in store/update
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),

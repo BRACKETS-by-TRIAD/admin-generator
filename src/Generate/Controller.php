@@ -89,6 +89,7 @@ class Controller extends ClassGenerator {
             'export' => $this->export,
             'exportBaseName' => $this->exportBaseName,
             'resource' => $this->resource,
+            'rootNamespace' => $this->rootNamespace(),
             // index
             'columnsToQuery' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "remember_token" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
