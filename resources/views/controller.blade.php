@@ -158,6 +158,16 @@ class {{ $controllerBaseName }} extends Controller
     {
         $this->authorize('admin.{{ $modelDotNotation }}.edit', ${{ $modelVariableName }});
 
+@if(in_array('created_by_admin_user_id', $columnsToQuery) || in_array('updated_by_admin_user_id', $columnsToQuery))
+    @if(in_array('created_by_admin_user_id', $columnsToQuery) && in_array('updated_by_admin_user_id', $columnsToQuery))
+    ${{ $modelVariableName }}->load(['createdByAdminUser', 'updatedByAdminUser']);
+    @elseif(in_array('created_by_admin_user_id', $columnsToQuery))
+    ${{ $modelVariableName }}->load('createdByAdminUser');
+    @elseif(in_array('updated_by_admin_user_id', $columnsToQuery))
+    ${{ $modelVariableName }}->load('updatedByAdminUser');
+    @endif
+@endif()
+
 @if (count($relations))
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
