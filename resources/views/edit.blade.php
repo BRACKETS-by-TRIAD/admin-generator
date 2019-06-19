@@ -55,34 +55,36 @@
                                 </div>
                             </div>
                             @if(in_array("created_by_admin_user_id", array_column($columns->toArray(), 'name')) && in_array("updated_by_admin_user_id", array_column($columns->toArray(), 'name')))
-                                <div class="card">
-                                    <div class="card-header">
-                                        <i class="fa fa-history"></i> @{{ trans('brackets/admin-ui::admin.forms.history') }} </span>
-                                    </div>
-                                    <div class="card-body">
 
-                                        @if(in_array("created_by_admin_user_id", array_column($columns->toArray(), 'name')))
-
-                                            <div class="form-group row align-items-center">
-                                                <label for="author_id" class="col-form-label text-right col-md-4 col-lg-3">Created by:</label>
-                                                <user-detail-tooltip :user="form.created_by_admin_user" v-if="form.created_by_admin_user">
-                                                    <p>Created on {{'@'}}{{'{{'}} form.created_at | datetime('HH:mm:ss, DD.MM.YYYY') }}</p>
-                                                </user-detail-tooltip>
-                                            </div>
-                                        @endif
-                                        @if(in_array("updated_by_admin_user_id", array_column($columns->toArray(), 'name')))
-
-                                            <div class="form-group row align-items-center">
-                                                <label for="author_id" class="col-form-label text-right col-md-4 col-lg-3">Updated by:</label>
-                                                <user-detail-tooltip :user="form.updated_by_admin_user" v-if="form.updated_by_admin_user">
-                                                    <p>Updated on {{'@'}}{{'{{'}} form.updated_at | datetime('HH:mm:ss, DD.MM.YYYY') }}</p>
-                                                </user-detail-tooltip>
-                                            </div>
-                                        @endif
-
-                                    </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <i class="fa fa-history"></i> @{{ trans('brackets/admin-ui::admin.forms.history') }} </span>
                                 </div>
+                                <div class="card-body">
+
+                                    @if(in_array("created_by_admin_user_id", array_column($columns->toArray(), 'name')))
+
+                                    <div class="form-group row align-items-center">
+                                        <label for="author_id" class="col-form-label text-right col-md-4 col-lg-3">Created by:</label>
+                                        <user-detail-tooltip :user="form.created_by_admin_user" :edit="true" :datetime="form.created_at" v-if="form.created_by_admin_user">
+                                            <p>Created on {{'@'}}{{'{{'}} form.created_at | datetime('HH:mm:ss, DD.MM.YYYY') }}</p>
+                                        </user-detail-tooltip>
+                                    </div>
+                                    @endif
+                                    @if(in_array("updated_by_admin_user_id", array_column($columns->toArray(), 'name')))
+
+                                    <div class="form-group row align-items-center">
+                                        <label for="author_id" class="col-form-label text-right col-md-4 col-lg-3">Updated by:</label>
+                                        <user-detail-tooltip :user="form.updated_by_admin_user" :edit="true" :datetime="form.updated_at" v-if="form.updated_by_admin_user">
+                                            <p>Updated on {{'@'}}{{'{{'}} form.updated_at | datetime('HH:mm:ss, DD.MM.YYYY') }}</p>
+                                        </user-detail-tooltip>
+                                    </div>
+                                    @endif
+
+                                </div>
+                            </div>
                             @endif
+
                         </div>
                     </div>
                     @else
