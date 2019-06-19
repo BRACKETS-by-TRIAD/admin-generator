@@ -8,6 +8,7 @@
         @if(!in_array("published_at", array_column($columns->toArray(), 'name')))
         <div class="card">
         @endif
+
             @if($hasTranslatable)<{{ $modelJSName }}-form
                 :action="'{{'{{'}} ${{ $modelVariableName }}->resource_url }}'"
                 :data="{{'{{'}} ${{ $modelVariableName }}->toJsonAllLocales() }}"
