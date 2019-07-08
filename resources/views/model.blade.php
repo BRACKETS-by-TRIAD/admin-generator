@@ -12,12 +12,13 @@
     }
 @endphp
 
-
-@if($fillable->contains("created_by_admin_user_id")|| $fillable->contains("updated_by_admin_user_id"))
-use Brackets\AdminAuth\Models\AdminUser;
-@endif
 use Illuminate\Database\Eloquent\Model;
-
+@if($fillable)@foreach($fillable as $f)
+@if($f == "created_by_admin_user_id")use Brackets\Craftable\Traits\CreatedByAdminUserTrait;
+@elseif($f == "updated_by_admin_user_id")use Brackets\Craftable\Traits\UpdatedByAdminUserTrait;
+@endif
+@endforeach
+@endif
 @if($hasSoftDelete)use Illuminate\Database\Eloquent\SoftDeletes;
 @endif
 @if($hasRoles)use Spatie\Permission\Traits\HasRoles;
@@ -32,6 +33,12 @@ class {{ $modelBaseName }} extends Model
 @if($hasRoles)use HasRoles;
 @endif
 @if($translatable->count() > 0)use HasTranslations;
+@endif
+@if($fillable)@foreach($fillable as $f)
+@if($f == "created_by_admin_user_id")use CreatedByAdminUserTrait;
+@elseif($f == "updated_by_admin_user_id")    use UpdatedByAdminUserTrait;
+@endif
+@endforeach
 @endif
 
     @if (!is_null($tableName))protected $table = '{{ $tableName }}';
@@ -95,19 +102,6 @@ class {{ $modelBaseName }} extends Model
 
 @endforeach
     @endif
-    @endif
-    @if($fillable) @foreach($fillable as $f) @if($f == "created_by_admin_user_id")
-
-    public function createdByAdminUser(){
-            return $this->belongsTo(AdminUser::class);
-    }
-            @elseif($f == "updated_by_admin_user_id")
-
-    public function updatedByAdminUser(){
-        return $this->belongsTo(AdminUser::class);
-    }
-            @endif
-        @endforeach
     @endif
 
 }
