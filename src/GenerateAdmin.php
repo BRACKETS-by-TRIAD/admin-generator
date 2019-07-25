@@ -41,6 +41,7 @@ class GenerateAdmin extends Command {
         $modelOption = $this->option('model-name');
         $controllerOption = $this->option('controller-name');
         $exportOption = $this->option('with-export');
+        $withoutBulkOptions = $this->option('without-bulk');
         $force = $this->option('force');
 
         $this->call('admin:generate:model', [
@@ -61,6 +62,7 @@ class GenerateAdmin extends Command {
             '--model-name' => $modelOption,
             '--force' => $force,
             '--with-export' => $exportOption,
+            '--without-bulk' => $withoutBulkOptions,
         ]);
 
         $this->call('admin:generate:request:index', [
@@ -92,6 +94,7 @@ class GenerateAdmin extends Command {
             '--model-name' => $modelOption,
             '--controller-name' => $controllerOption,
             '--with-export' => $exportOption,
+            '--without-bulk' => $withoutBulkOptions,
         ]);
 
         $this->call('admin:generate:index', [
@@ -99,6 +102,7 @@ class GenerateAdmin extends Command {
             '--model-name' => $modelOption,
             '--force' => $force,
             '--with-export' => $exportOption,
+            '--without-bulk' => $withoutBulkOptions,
         ]);
 
         $this->call('admin:generate:form', [
@@ -149,6 +153,7 @@ class GenerateAdmin extends Command {
             ['seed', 's', InputOption::VALUE_NONE, 'Seeds the table with fake data'],
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating admin'],
             ['with-export', 'e', InputOption::VALUE_NONE, 'Generate an option to Export as Excel'],
+            ['without-bulk', 'b', InputOption::VALUE_NONE, 'Generate without bulk options'],
         ];
     }
 

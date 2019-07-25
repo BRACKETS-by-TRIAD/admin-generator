@@ -21,6 +21,9 @@ use {{ $belongsToMany['related_model'] }};
 use App\Exports\{{$exportBaseName}};
 use Maatwebsite\Excel\Facades\Excel;
 @endif
+@if(!$withoutBulk)
+    use Illuminate\Support\Facades\DB;
+@endif
 @if(in_array('created_by_admin_user_id', $columnsToQuery) || in_array('updated_by_admin_user_id', $columnsToQuery))
 use Illuminate\Support\Facades\Auth;
 @endif
@@ -62,7 +65,7 @@ class {{ $controllerBaseName }} extends Controller
             }
     @endif
 @endif()
-    );
+        );
 
         if ($request->ajax()) {
             return ['data' => $data];
@@ -233,6 +236,62 @@ class {{ $controllerBaseName }} extends Controller
         return redirect()->back();
     }
 
+
+    @if(!$withoutBulk)/**
+    * Remove the specified resources from storage.
+    *
+    * {{'@'}}param  Destroy{{ $modelBaseName }} $request
+    * @return Response|bool
+    * @throws \Exception
+    */
+    public function bulkDestroy(Destroy{{ $modelBaseName }} $request) : Response
+    {
+        $bulkChunked = array_chunk($request->data['ids'], 1000, true);
+
+        DB::transaction(function () use ($bulkChunked){
+            collect($bulkChunked)->each(function($bulkItem){
+            {{ $modelBaseName }}::whereIn('id', $bulkItem)->delete();
+
+                // TODO your code goes here
+            });
+        });
+
+        if ($request->ajax()) {
+            return response(['message' => trans('brackets/admin-ui::admin.operation.succeeded')]);
+        }
+
+        return redirect()->back();
+    }
+
+    /**
+    * Get the resources.
+    *
+    * {{'@'}}param  Index{{ $modelBaseName }} $request
+    * {{'@'}}return Response|array
+    */
+    public function getAll(Index{{ $modelBaseName }} $request)
+    {
+        $data = AdminListing::create({{ $modelBaseName }}::class)->processRequestAndGet(
+        // pass the request with params
+            $request,
+
+            // set columns to query
+            ['id'],
+
+            // set columns to searchIn
+            ['{!! implode('\', \'', $columnsToSearchIn) !!}']
+        );
+
+        if ($request->ajax()) {
+            return [
+                'bulkItems' => $data->pluck('id')
+            ];
+        }
+
+        return redirect()->back();
+    }
+    @endif
+
     @if($export)/**
     * Export entities
     */
@@ -241,4 +300,5 @@ class {{ $controllerBaseName }} extends Controller
         return Excel::download(new {{ $exportBaseName }}, '{{ str_plural($modelVariableName) }}.xlsx');
     }
 @endif
+
 }

@@ -33,10 +33,21 @@ class Routes extends FileAppender {
      */
     protected $export = false;
 
+    /**
+     * Routes have also bulk options route
+     *
+     * @return mixed
+     */
+    protected $withoutBulk = false;
+
     public function handle()
     {
         if($this->option('with-export')){
             $this->export = true;
+        }
+
+        if($this->option('without-bulk')){
+            $this->withoutBulk = true;
         }
 
         //TODO check if exists
@@ -59,6 +70,7 @@ class Routes extends FileAppender {
             'modelViewsDirectory' => $this->modelViewsDirectory,
             'resource' => $this->resource,
             'export' => $this->export,
+            'withoutBulk' => $this->withoutBulk,
         ])->render();
     }
 
@@ -68,6 +80,7 @@ class Routes extends FileAppender {
             ['controller-name', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
             ['with-export', 'e', InputOption::VALUE_NONE, 'Generate an option to Export as Excel'],
+            ['without-bulk', 'b', InputOption::VALUE_NONE, 'Generate without bulk options'],
         ];
     }
 
