@@ -246,11 +246,11 @@ class {{ $controllerBaseName }} extends Controller
     */
     public function bulkDestroy(Destroy{{ $modelBaseName }} $request) : Response
     {
-        $bulkChunked = array_chunk($request->data['ids'], 1000, true);
+        $bulkChunked = collect($request->data['ids'])->chunk(1000);
 
         DB::transaction(function () use ($bulkChunked){
-            collect($bulkChunked)->each(function($bulkItem){
-            {{ $modelBaseName }}::whereIn('id', $bulkItem)->delete();
+            collect($bulkChunked)->each(function($bulkChunk){
+            {{ $modelBaseName }}::whereIn('id', $bulkChunk)->delete();
 
                 // TODO your code goes here
             });
