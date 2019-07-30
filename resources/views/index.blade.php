@@ -59,9 +59,9 @@
                                     <th></th>
                                 </tr>
 @if(!$withoutBulk)
-                                <tr v-show="(clickedBulkItemsCount() > 0) || isClickedAll">
+                                <tr v-show="(clickedBulkItemsCount > 0) || isClickedAll">
                                     <td class="bg-primary d-table-cell text-center" colspan="{{count($columns) + 2 }}">
-                                        <span class="align-middle font-weight-light text-white">@{{ trans('brackets/admin-ui::admin.listing.selected_items') }} {{'@{{'}} clickedBulkItemsCount() }}.  <a href="#" class="text-secondary" @click="onBulkItemsClickedAll('/admin/{{ $resource }}')" v-if="(clickedBulkItemsCount() < pagination.state.total)"> <i class="fa" :class="bulkCheckingAll ? 'fa-spinner' : ''"></i> @{{ trans('brackets/admin-ui::admin.listing.check_all_items') }} {{'@{{'}} pagination.state.total }}</a> | <a
+                                        <span class="align-middle font-weight-light text-white">@{{ trans('brackets/admin-ui::admin.listing.selected_items') }} {{'@{{'}} clickedBulkItemsCount }}.  <a href="#" class="text-secondary" @click="onBulkItemsClickedAll('/admin/{{ $resource }}')" v-if="(clickedBulkItemsCount < pagination.state.total)"> <i class="fa" :class="bulkCheckingAllLoader ? 'fa-spinner' : ''"></i> @{{ trans('brackets/admin-ui::admin.listing.check_all_items') }} {{'@{{'}} pagination.state.total }}</a> | <a
                                                     href="#" class="text-secondary" @click="onBulkItemsClickedAllUncheck()">@{{ trans('brackets/admin-ui::admin.listing.uncheck_all_items') }}</a>  </span>
 
                                             <span class="pull-right col-md-2 text-primary font-weight-light">
@@ -76,7 +76,7 @@
                                 <tr v-for="(item, index) in collection" @if(!$withoutBulk):key="item.id" :class="bulkItems[item.id] ? 'bg-bulk' : ''"@endif>
 @if(!$withoutBulk)
                                     <td class="bulk-checkbox">
-                                        <input class="form-check-input" :id="'enabled' + item.id" type="checkbox" v-model="bulkItems[item.id]" v-validate="''" :data-vv-name="'enabled' + item.id"  :name="'enabled' + item.id + '_fake_element'" @click="onBulkItemClicked(item.id)" :disabled="bulkCheckingAll">
+                                        <input class="form-check-input" :id="'enabled' + item.id" type="checkbox" v-model="bulkItems[item.id]" v-validate="''" :data-vv-name="'enabled' + item.id"  :name="'enabled' + item.id + '_fake_element'" @click="onBulkItemClicked(item.id)" :disabled="bulkCheckingAllLoader">
                                         <label class="form-check-label" :for="'enabled' + item.id">
                                         </label>
                                     </td>
