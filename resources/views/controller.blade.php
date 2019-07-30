@@ -68,6 +68,13 @@ class {{ $controllerBaseName }} extends Controller
         );
 
         if ($request->ajax()) {
+@if(!$withoutBulk)
+            if($request->has('bulk')){
+                return [
+                    'bulkItems' => $data->pluck('id')
+                ];
+            }
+@endif
             return ['data' => $data];
         }
 
@@ -246,46 +253,18 @@ class {{ $controllerBaseName }} extends Controller
     */
     public function bulkDestroy(Destroy{{ $modelBaseName }} $request) : Response
     {
-        $bulkChunked = collect($request->data['ids'])->chunk(1000);
+        DB::transaction(function () use ($request){
+            collect($request->data['ids'])
+                ->chunk(1000)
+                ->each(function($bulkChunk){
+                    {{ $modelBaseName }}::whereIn('id', $bulkChunk)->delete();
 
-        DB::transaction(function () use ($bulkChunked){
-            collect($bulkChunked)->each(function($bulkChunk){
-            {{ $modelBaseName }}::whereIn('id', $bulkChunk)->delete();
-
-                // TODO your code goes here
+                    // TODO your code goes here
             });
         });
 
         if ($request->ajax()) {
             return response(['message' => trans('brackets/admin-ui::admin.operation.succeeded')]);
-        }
-
-        return redirect()->back();
-    }
-
-    /**
-    * Get the resources.
-    *
-    * {{'@'}}param  Index{{ $modelBaseName }} $request
-    * {{'@'}}return Response|array
-    */
-    public function getAll(Index{{ $modelBaseName }} $request)
-    {
-        $data = AdminListing::create({{ $modelBaseName }}::class)->processRequestAndGet(
-        // pass the request with params
-            $request,
-
-            // set columns to query
-            ['id'],
-
-            // set columns to searchIn
-            ['{!! implode('\', \'', $columnsToSearchIn) !!}']
-        );
-
-        if ($request->ajax()) {
-            return [
-                'bulkItems' => $data->pluck('id')
-            ];
         }
 
         return redirect()->back();

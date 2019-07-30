@@ -3,7 +3,6 @@
 Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(function () {
 @if(!$withoutBulk)
     {!! str_pad("Route::post('/admin/".$resource."/bulk-destroy',", 60) !!}'{{ $controllerPartiallyFullName }}@bulkDestroy')->name('admin/{{ $resource }}/bulk-destroy');
-    {!! str_pad("Route::get('/admin/".$resource."/get-all',", 60) !!}'{{ $controllerPartiallyFullName }}@getAll')->name('admin/{{ $resource }}/get-all');
 @endif
     {!! str_pad("Route::get('/admin/".$resource."',", 60) !!}'{{ $controllerPartiallyFullName }}@index');
     {!! str_pad("Route::get('/admin/".$resource."/create',", 60) !!}'{{ $controllerPartiallyFullName }}@create');
