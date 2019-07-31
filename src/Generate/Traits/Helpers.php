@@ -78,6 +78,29 @@ trait Helpers {
         })->keyBy('related_table');
     }
 
+    //TODO: try to refactor with belongsToManny method
+    public function setBelongsToRelation($belongsTo){
+        $this->relations['belongsTo'] = collect(explode(',', $belongsTo))->filter(function($belongsToRelation) {
+            return $this->checkRelationTable($belongsToRelation);
+        })->map(function($belongsTo) {
+            return [
+                'current_table' => $this->tableName,
+                'related_table' => $belongsTo,
+                'related_model' => ($belongsTo == 'roles') ? "Spatie\\Permission\\Models\\Role" : "App\\Models\\". Str::studly(Str::singular($belongsTo)),
+                'related_model_class' => ($belongsTo == 'roles') ? "Spatie\\Permission\\Models\\Role::class" : "App\\Models\\". Str::studly(Str::singular($belongsTo)).'::class',
+                'related_model_name' => Str::studly(Str::singular($belongsTo)),
+                'related_model_name_plural' => Str::studly($belongsTo),
+                'related_model_variable_name' => lcfirst(Str::singular(class_basename($belongsTo))),
+                'relation_table' => trim(collect([$this->tableName, $belongsTo])->sortBy(function($table) {
+                    return $table;
+                })->reduce(function($relationTable, $table) {
+                    return $relationTable.'_'.$table;
+                }), '_'),
+                'foreign_key' => Str::singular($this->tableName).'_id',
+                'related_key' => Str::singular($belongsTo).'_id',
+            ];
+        })->keyBy('related_table');
+    }
 
     /**
      * Determine if the content is already present in the file

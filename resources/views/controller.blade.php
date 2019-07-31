@@ -11,9 +11,14 @@ use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $mode
 use Brackets\AdminListing\Facades\AdminListing;
 use {{ $modelFullName }};
 @if (count($relations))
-@if (count($relations['belongsToMany']))
+@if (isset($relations['belongsToMany']) && count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
 use {{ $belongsToMany['related_model'] }};
+@endforeach
+@endif
+@if (isset($relations['belongsTo']) && count($relations['belongsTo']))
+@foreach($relations['belongsTo'] as $belongsTo)
+use {{ $belongsTo['related_model'] }};
 @endforeach
 @endif
 @endif
@@ -45,7 +50,7 @@ class {{ $controllerBaseName }} extends Controller
             ['{!! implode('\', \'', $columnsToQuery) !!}'],
 
             // set columns to searchIn
-            ['{!! implode('\', \'', $columnsToSearchIn) !!}']@if(in_array('created_by_admin_user_id', $columnsToQuery) || in_array('updated_by_admin_user_id', $columnsToQuery)),@endif
+            ['{!! implode('\', \'', $columnsToSearchIn) !!}']@if((in_array('created_by_admin_user_id', $columnsToQuery) || in_array('updated_by_admin_user_id', $columnsToQuery)) || (count($relations) && isset($relations['belongsTo']) && count($relations['belongsTo']))),@endif
 
 @if(in_array('created_by_admin_user_id', $columnsToQuery) || in_array('updated_by_admin_user_id', $columnsToQuery))
     @if(in_array('created_by_admin_user_id', $columnsToQuery) && in_array('updated_by_admin_user_id', $columnsToQuery))
@@ -62,13 +67,28 @@ class {{ $controllerBaseName }} extends Controller
             }
     @endif
 @endif()
-    );
+
+@if (count($relations) && isset($relations['belongsTo']) && count($relations['belongsTo']))
+            function ($query) use ($request) {
+                $query->with([@foreach($relations['belongsTo'] as $belongsTo)'{{ Illuminate\Support\Str::singular($belongsTo['related_table']) }}',@endforeach]);
+            }
+@endif()
+        );
 
         if ($request->ajax()) {
             return ['data' => $data];
         }
 
+@if (count($relations) && isset($relations['belongsTo']) && count($relations['belongsTo']))
+        return view('admin.{{ $modelDotNotation }}.index',[
+            'data' => $data,
+    @foreach($relations['belongsTo'] as $belongsTo)
+        '{{ $belongsTo['related_table'] }}' => {{ $belongsTo['related_model_name'] }}::all(),
+    @endforeach
+    ]);
+@else
         return view('admin.{{ $modelDotNotation }}.index', ['data' => $data]);
+@endif
 
     }
 
@@ -82,11 +102,19 @@ class {{ $controllerBaseName }} extends Controller
     {
         $this->authorize('admin.{{ $modelDotNotation }}.create');
 
-@if (count($relations) && count($relations['belongsToMany']))
+@if (count($relations))
         return view('admin.{{ $modelDotNotation }}.create',[
+@if(isset($relations['belongsToMany']) && count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
             '{{ $belongsToMany['related_table'] }}' => {{ $belongsToMany['related_model_name'] }}::all(),
 @endforeach
+@endif
+@if(isset($relations['belongsTo']) && count($relations['belongsTo']))
+    @foreach($relations['belongsTo'] as $belongsTo)
+        '{{ $belongsTo['related_table'] }}' => {{ $belongsTo['related_model_name'] }}::all(),
+    @endforeach
+@endif
+
         ]);
 @else
         return view('admin.{{ $modelDotNotation }}.create');
@@ -118,11 +146,18 @@ class {{ $controllerBaseName }} extends Controller
         ${{ $modelVariableName }} = {{ $modelBaseName }}::create($sanitized);
 
 @if (count($relations))
-@if (count($relations['belongsToMany']))
+@if (isset($relations['belongsToMany']) && count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
         // But we do have a {{ $belongsToMany['related_table'] }}, so we need to attach the {{ $belongsToMany['related_table'] }} to the {{ $modelVariableName }}
         ${{ $modelVariableName }}->{{ $belongsToMany['related_table'] }}()->sync(collect($request->input('{{ $belongsToMany['related_table'] }}', []))->map->id->toArray());
 @endforeach
+
+@endif
+@if (isset($relations['belongsTo']) && count($relations['belongsTo']))
+    @foreach($relations['belongsTo'] as $belongsTo)
+    // But we do have a {{ $belongsTo['related_table'] }}, so we need to attach the {{ $belongsTo['related_table'] }} to the {{ $modelVariableName }}
+        ${{ $modelVariableName }}->{{ $belongsTo['related_table'] }}()->sync(collect($request->input('{{ $belongsTo['related_table'] }}', []))->map->id->toArray());
+    @endforeach
 
 @endif
 @endif
@@ -159,7 +194,7 @@ class {{ $controllerBaseName }} extends Controller
         $this->authorize('admin.{{ $modelDotNotation }}.edit', ${{ $modelVariableName }});
 
 @if (count($relations))
-@if (count($relations['belongsToMany']))
+@if (isset($relations['belongsToMany']) && count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
         ${{ $modelVariableName }}->load('{{ $belongsToMany['related_table'] }}');
 @endforeach
@@ -169,12 +204,18 @@ class {{ $controllerBaseName }} extends Controller
         return view('admin.{{ $modelDotNotation }}.edit', [
             '{{ $modelVariableName }}' => ${{ $modelVariableName }},
 @if (count($relations))
-@if (count($relations['belongsToMany']))
+@if(isset($relations['belongsToMany']) && count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
             '{{ $belongsToMany['related_table'] }}' => {{ $belongsToMany['related_model_name'] }}::all(),
 @endforeach
 @endif
+@if(isset($relations['belongsTo']) && count($relations['belongsTo']))
+    @foreach($relations['belongsTo'] as $belongsTo)
+        '{{ $belongsTo['related_table'] }}' => {{ $belongsTo['related_model_name'] }}::all(),
+    @endforeach
 @endif
+@endif
+
         ]);
     }
 
@@ -197,16 +238,24 @@ class {{ $controllerBaseName }} extends Controller
         ${{ $modelVariableName }}->update($sanitized);
 
 @if (count($relations))
-@if (count($relations['belongsToMany']))
+@if (isset($relations['belongsToMany']) && count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
         // But we do have a {{ $belongsToMany['related_table'] }}, so we need to attach the {{ $belongsToMany['related_table'] }} to the {{ $modelVariableName }}
         if($request->has('{{ $belongsToMany['related_table'] }}')) {
             ${{ $modelVariableName }}->{{ $belongsToMany['related_table'] }}()->sync(collect($request->input('{{ $belongsToMany['related_table'] }}', []))->map->id->toArray());
         }
 @endforeach
+@endif
+@if (isset($relations['belongsTo']) && count($relations['belongsTo']))
+    @foreach($relations['belongsTo'] as $belongsTo)
+        // But we do have a {{ $belongsTo['related_table'] }}, so we need to attach the {{ $belongsTo['related_table'] }} to the {{ $modelVariableName }}
+        if($request->has('{{ $belongsTo['related_table'] }}')) {
+            ${{ $modelVariableName }}->{{ $belongsTo['related_table'] }}()->sync(collect($request->input('{{ $belongsTo['related_table'] }}', []))->map->id->toArray());
+        }
+    @endforeach
+@endif
+@endif
 
-@endif
-@endif
         if ($request->ajax()) {
             return ['redirect' => url('admin/{{ $resource }}'), 'message' => trans('brackets/admin-ui::admin.operation.succeeded')];
         }

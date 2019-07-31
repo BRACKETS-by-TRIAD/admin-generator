@@ -2,12 +2,21 @@
 @endphp namespace {{ $modelNameSpace }};
 @php
     $hasRoles = false;
-    if(count($relations) && count($relations['belongsToMany'])) {
+    if(count($relations) && isset($relations['belongsToMany']) && count($relations['belongsToMany'])) {
         $hasRoles = $relations['belongsToMany']->filter(function($belongsToMany) {
             return $belongsToMany['related_table'] == 'roles';
         })->count() > 0;
         $relations['belongsToMany'] = $relations['belongsToMany']->reject(function($belongsToMany) {
             return $belongsToMany['related_table'] == 'roles';
+        });
+    }
+
+    if(count($relations) && isset($relations['belongsTo']) && count($relations['belongsTo'])) {
+        $hasRoles = $relations['belongsTo']->filter(function($belongsTo) {
+            return $belongsTo['related_table'] == 'roles';
+        })->count() > 0;
+        $relations['belongsTo'] = $relations['belongsTo']->reject(function($belongsTo) {
+            return $belongsTo['related_table'] == 'roles';
         });
     }
 @endphp
@@ -73,6 +82,14 @@ class {{ $modelBaseName }} extends Model
     @if (!$timestamps)public $timestamps = false;
     @endif
 
+    @if(isset($relations['belongsTo']) && count($relations['belongsTo']))protected $with = [
+    @foreach($relations['belongsTo'] as $belongsTo)
+    "{{ Illuminate\Support\Str::singular(strtolower($belongsTo['related_model_name_plural'])) }}",
+    @endforeach
+
+    ];
+    @endif
+
     protected $appends = ['resource_url'];
 
     /* ************************ ACCESSOR ************************* */
@@ -83,7 +100,7 @@ class {{ $modelBaseName }} extends Model
 
     @if (count($relations))/* ************************ RELATIONS ************************ */
 
-    @if (count($relations['belongsToMany']))
+    @if (isset($relations['belongsToMany']) && count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)/**
     * Relation to {{ $belongsToMany['related_model_name_plural'] }}
     *
@@ -91,6 +108,19 @@ class {{ $modelBaseName }} extends Model
     */
     public function {{ $belongsToMany['related_table'] }}() {
         return $this->belongsToMany({{ $belongsToMany['related_model_class'] }}, '{{ $belongsToMany['relation_table'] }}', '{{ $belongsToMany['foreign_key'] }}', '{{ $belongsToMany['related_key'] }}');
+    }
+
+@endforeach
+    @endif
+
+    @if(isset($relations['belongsTo']) && count($relations['belongsTo']))
+@foreach($relations['belongsTo'] as $belongsTo)/**
+    * Relation to {{ $belongsTo['related_model_name'] }}
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    */
+    public function {{ Illuminate\Support\Str::singular($belongsTo['related_table']) }}() {
+        return $this->belongsTo({{ $belongsTo['related_model_name']. '::class' }});
     }
 
 @endforeach

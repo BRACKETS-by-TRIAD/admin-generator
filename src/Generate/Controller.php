@@ -56,6 +56,15 @@ class Controller extends ClassGenerator {
             $this->setBelongToManyRelation($belongsToMany);
         }
 
+
+        $belongsTo = $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+            return Str::endsWith($column['name'], '_id');
+        })->pluck('name')->map(function($columnName){
+            return Str::plural(Str::before($columnName, '_id'));
+        })->implode(', ');
+
+        $this->setBelongsToRelation($belongsTo);
+
         if ($this->generateClass($force)){
 
             $this->info('Generating '.$this->classFullName.' finished');

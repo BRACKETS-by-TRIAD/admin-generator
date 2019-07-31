@@ -43,10 +43,15 @@ class Update{{ $modelBaseName }} extends FormRequest
             @foreach($standardColumn as $column)'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverUpdateRules']) !!}],
             @endforeach
 @if (count($relations))
-    @if (count($relations['belongsToMany']))
+    @if (isset($relations['belongsToMany']) && count($relations['belongsToMany']))
 
             @foreach($relations['belongsToMany'] as $belongsToMany)'{{ $belongsToMany['related_table'] }}' => [{!! implode(', ', ['\'sometimes\'', '\'array\'']) !!}],
             @endforeach
+    @endif
+    @if (isset($relations['belongsTo']) && count($relations['belongsTo']))
+
+        @foreach($relations['belongsTo'] as $belongsTo)'{{ $belongsTo['related_table'] }}' => [{!! implode(', ', ['\'sometimes\'', '\'array\'']) !!}],
+        @endforeach
     @endif
 @endif
 
@@ -81,6 +86,12 @@ class Update{{ $modelBaseName }} extends FormRequest
 
             @foreach($relations['belongsToMany'] as $belongsToMany)'{{ $belongsToMany['related_table'] }}' => [{!! implode(', ', ['\'sometimes\'', '\'array\'']) !!}],
             @endforeach
+    @endif
+
+    @if (count($relations['belongsTo']))
+
+        @foreach($relations['belongsTo'] as $belongsTo)'{{ $belongsTo['related_table'] }}' => [{!! implode(', ', ['\'sometimes\'', '\'array\'']) !!}],
+        @endforeach
     @endif
 @endif
 

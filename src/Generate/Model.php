@@ -46,6 +46,14 @@ class Model extends ClassGenerator {
             $this->setBelongToManyRelation($belongsToMany);
         }
 
+        $belongsTo = $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+            return Str::endsWith($column['name'], '_id');
+        })->pluck('name')->map(function($columnName){
+            return Str::plural(Str::before($columnName, '_id'));
+        })->implode(', ');
+
+        $this->setBelongsToRelation($belongsTo);
+
         if ($this->generateClass($force)){
             $this->info('Generating '.$this->classFullName.' finished');
         }
@@ -74,11 +82,11 @@ class Model extends ClassGenerator {
                 return $column['type'] == "json";
             })->pluck('name'),
             'timestamps' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
-                return in_array($column['name'], ['created_at', 'updated_at']);
-            })->count() > 0,
+                    return in_array($column['name'], ['created_at', 'updated_at']);
+                })->count() > 0,
             'hasSoftDelete' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
-                return $column['name'] == "deleted_at";
-            })->count() > 0,
+                    return $column['name'] == "deleted_at";
+                })->count() > 0,
             'resource' => $this->resource,
 
             'relations' => $this->relations,
