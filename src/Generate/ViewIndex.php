@@ -166,7 +166,7 @@ class ViewIndex extends ViewGenerator {
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating index'],
             ['with-export', 'e', InputOption::VALUE_NONE, 'Generate an option to Export as Excel'],
-            ['without-bulk', 'b', InputOption::VALUE_NONE, 'Generate without bulk options'],
+            ['without-bulk', 'wb', InputOption::VALUE_NONE, 'Generate without bulk options'],
         ];
     }
 

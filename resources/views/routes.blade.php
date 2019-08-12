@@ -1,9 +1,6 @@
 
 /* Auto-generated admin routes */
 Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(function () {
-@if(!$withoutBulk)
-    {!! str_pad("Route::post('/admin/".$resource."/bulk-destroy',", 60) !!}'{{ $controllerPartiallyFullName }}@bulkDestroy')->name('admin/{{ $resource }}/bulk-destroy');
-@endif
     {!! str_pad("Route::get('/admin/".$resource."',", 60) !!}'{{ $controllerPartiallyFullName }}@index');
     {!! str_pad("Route::get('/admin/".$resource."/create',", 60) !!}'{{ $controllerPartiallyFullName }}@create');
     {!! str_pad("Route::post('/admin/".$resource."',", 60) !!}'{{ $controllerPartiallyFullName }}@store');
@@ -12,5 +9,8 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
     {!! str_pad("Route::delete('/admin/".$resource."/{".$modelVariableName."}',", 60) !!}'{{ $controllerPartiallyFullName }}@destroy')->name('admin/{{ $resource }}/destroy');
 @if($export)
     {!! str_pad("Route::get('/admin/".$resource."/export',", 60) !!}'{{ $controllerPartiallyFullName }}@export')->name('admin/{{ $resource }}/export');
+@endif
+@if(!$withoutBulk)
+    {!! str_pad("Route::post('/admin/".$resource."/bulk-destroy',", 60) !!}'{{ $controllerPartiallyFullName }}@bulkDestroy')->name('admin/{{ $resource }}/bulk-destroy');
 @endif
 });

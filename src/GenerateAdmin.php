@@ -153,7 +153,7 @@ class GenerateAdmin extends Command {
             ['seed', 's', InputOption::VALUE_NONE, 'Seeds the table with fake data'],
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating admin'],
             ['with-export', 'e', InputOption::VALUE_NONE, 'Generate an option to Export as Excel'],
-            ['without-bulk', 'b', InputOption::VALUE_NONE, 'Generate without bulk options'],
+            ['without-bulk', 'wb', InputOption::VALUE_NONE, 'Generate without bulk options'],
         ];
     }
 

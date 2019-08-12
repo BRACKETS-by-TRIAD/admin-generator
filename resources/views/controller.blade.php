@@ -23,6 +23,7 @@ use Maatwebsite\Excel\Facades\Excel;
 @endif
 @if(!$withoutBulk)
     use Illuminate\Support\Facades\DB;
+    use Carbon\Carbon;
 @endif
 @if(in_array('created_by_admin_user_id', $columnsToQuery) || in_array('updated_by_admin_user_id', $columnsToQuery))
 use Illuminate\Support\Facades\Auth;
@@ -253,6 +254,19 @@ class {{ $controllerBaseName }} extends Controller
     */
     public function bulkDestroy(Destroy{{ $modelBaseName }} $request) : Response
     {
+        ${{ $modelVariableName }} = new {{ $modelBaseName }}();
+
+        if(${{ $modelVariableName }}->hasGlobalScope('Illuminate\Database\Eloquent\SoftDeletingScope')){
+            collect($request->data['ids'])
+                ->chunk(1000)
+                ->each(function($bulkChunk){
+                    DB::table('{{ str_plural($modelVariableName) }}')->whereIn('id', $bulkChunk)
+                        ->update([
+                            'deleted_at' => Carbon::now()->format('Y-m-d H:i:s')
+                    ]);
+            });
+        }
+
         DB::transaction(function () use ($request){
             collect($request->data['ids'])
                 ->chunk(1000)
@@ -279,5 +293,4 @@ class {{ $controllerBaseName }} extends Controller
         return Excel::download(new {{ $exportBaseName }}, '{{ str_plural($modelVariableName) }}.xlsx');
     }
 @endif
-
 }

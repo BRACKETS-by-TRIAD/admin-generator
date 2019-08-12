@@ -125,7 +125,7 @@ class Controller extends ClassGenerator {
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating controller'],
             ['model-with-full-namespace', 'fnm', InputOption::VALUE_OPTIONAL, 'Specify model with full namespace'],
             ['with-export', 'e', InputOption::VALUE_NONE, 'Generate an option to Export as Excel'],
-            ['without-bulk', 'b', InputOption::VALUE_NONE, 'Generate without bulk options'],
+            ['without-bulk', 'wb', InputOption::VALUE_NONE, 'Generate without bulk options'],
         ];
     }
 

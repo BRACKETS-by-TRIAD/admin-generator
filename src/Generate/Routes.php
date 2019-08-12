@@ -80,7 +80,7 @@ class Routes extends FileAppender {
             ['controller-name', 'c', InputOption::VALUE_OPTIONAL, 'Specify custom controller name'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
             ['with-export', 'e', InputOption::VALUE_NONE, 'Generate an option to Export as Excel'],
-            ['without-bulk', 'b', InputOption::VALUE_NONE, 'Generate without bulk options'],
+            ['without-bulk', 'wb', InputOption::VALUE_NONE, 'Generate without bulk options'],
         ];
     }
 
