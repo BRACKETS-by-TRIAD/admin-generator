@@ -265,17 +265,17 @@ class {{ $controllerBaseName }} extends Controller
                             'deleted_at' => Carbon::now()->format('Y-m-d H:i:s')
                     ]);
             });
-        }
+        } else {
+            DB::transaction(function () use ($request){
+                collect($request->data['ids'])
+                    ->chunk(1000)
+                    ->each(function($bulkChunk){
+                        {{ $modelBaseName }}::whereIn('id', $bulkChunk)->delete();
 
-        DB::transaction(function () use ($request){
-            collect($request->data['ids'])
-                ->chunk(1000)
-                ->each(function($bulkChunk){
-                    {{ $modelBaseName }}::whereIn('id', $bulkChunk)->delete();
-
-                    // TODO your code goes here
+                        // TODO your code goes here
+                });
             });
-        });
+        }
 
         if ($request->ajax()) {
             return response(['message' => trans('brackets/admin-ui::admin.operation.succeeded')]);
