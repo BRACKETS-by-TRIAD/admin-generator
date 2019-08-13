@@ -65,7 +65,7 @@ class ViewForm extends ViewGenerator {
 
         //TODO check if exists
         //TODO make global for all generator
-        //TODO also with prefixz
+        //TODO also with prefix
         if(!empty($template = $this->option('template'))) {
             $this->create = 'templates.'.$template.'.create';
             $this->edit = 'templates.'.$template.'.edit';
@@ -172,6 +172,10 @@ class ViewForm extends ViewGenerator {
 		};
     }
 
+    protected function isUsedTwoColumnsLayout() : bool {
+        return in_array("published_at", array_column($this->readColumnsFromTable($this->tableName)->toArray(), 'name'));
+    }
+
     protected function buildForm() {
 
         return view('brackets/admin-generator::'.$this->form, [
@@ -225,7 +229,7 @@ class ViewForm extends ViewGenerator {
             'modelJSName' => $this->modelJSName,
             'modelLangFormat' => $this->modelLangFormat,
             'resource' => $this->resource,
-            'containsPublishAtColumn' =>  in_array("published_at", array_column($this->readColumnsFromTable($this->tableName)->toArray(), 'name')),
+            'isUsedTwoColumnsLayout' => $this->isUsedTwoColumnsLayout(),
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
             'hasTranslatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
@@ -247,7 +251,7 @@ class ViewForm extends ViewGenerator {
             'modelJSName' => $this->modelJSName,
             'modelLangFormat' => $this->modelLangFormat,
             'resource' => $this->resource,
-            'containsPublishAtColumn' =>  in_array("published_at", array_column($this->readColumnsFromTable($this->tableName)->toArray(), 'name')),
+            'isUsedTwoColumnsLayout' => $this->isUsedTwoColumnsLayout(),
 
             'modelTitle' => $this->readColumnsFromTable($this->tableName)->filter(function($column){
             	return in_array($column['name'], ['title', 'name', 'first_name', 'email']);

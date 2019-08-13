@@ -13,9 +13,9 @@
 @endphp
 
 use Illuminate\Database\Eloquent\Model;
-@if($fillable)@foreach($fillable as $f)
-@if($f == "created_by_admin_user_id")use Brackets\Craftable\Traits\CreatedByAdminUserTrait;
-@elseif($f == "updated_by_admin_user_id")use Brackets\Craftable\Traits\UpdatedByAdminUserTrait;
+@if($fillable)@foreach($fillable as $fillableColumn)
+@if($fillableColumn === "created_by_admin_user_id")use Brackets\Craftable\Traits\CreatedByAdminUserTrait;
+@elseif($fillableColumn === "updated_by_admin_user_id")use Brackets\Craftable\Traits\UpdatedByAdminUserTrait;
 @endif
 @endforeach
 @endif
@@ -34,9 +34,9 @@ class {{ $modelBaseName }} extends Model
 @endif
 @if($translatable->count() > 0)use HasTranslations;
 @endif
-@if($fillable)@foreach($fillable as $f)
-@if($f == "created_by_admin_user_id")use CreatedByAdminUserTrait;
-@elseif($f == "updated_by_admin_user_id")    use UpdatedByAdminUserTrait;
+@if($fillable)@foreach($fillable as $fillableColumn)
+@if($fillableColumn === "created_by_admin_user_id")use CreatedByAdminUserTrait;
+@elseif($fillableColumn === "updated_by_admin_user_id")    use UpdatedByAdminUserTrait;
 @endif
 @endforeach
 @endif

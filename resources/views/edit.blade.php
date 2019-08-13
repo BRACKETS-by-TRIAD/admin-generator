@@ -5,10 +5,9 @@
 {{'@'}}section('body')
 
     <div class="container-xl">
-        @if(!in_array("published_at", array_column($columns->toArray(), 'name')))
-
+@if(!$isUsedTwoColumnsLayout)
         <div class="card">
-        @endif
+@endif
 
             @if($hasTranslatable)<{{ $modelJSName }}-form
                 :action="'{{'{{'}} ${{ $modelVariableName }}->resource_url }}'"
@@ -24,8 +23,7 @@
 
                 <form class="form-horizontal form-edit" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action" novalidate>
 
-                    @if($containsPublishAtColumn)
-
+@if($isUsedTwoColumnsLayout)
                     <div class="row">
                         <div class="col">
                             <div class="card">
@@ -53,7 +51,7 @@
                     </div>
                     @endif
 
-                    @if(in_array("published_at", array_column($columns->toArray(), 'name')))<button type="submit" class="btn btn-primary fixed-cta-button button-save" :disabled="submiting">
+                    @if($isUsedTwoColumnsLayout)<button type="submit" class="btn btn-primary fixed-cta-button button-save" :disabled="submiting">
                         <i class="fa" :class="submiting ? 'fa-spinner' : 'fa-save'"></i>
                         @{{ trans('brackets/admin-ui::admin.btn.save') }}
                     </button>
@@ -62,7 +60,7 @@
                         <i class="fa" :class="submiting ? 'fa-spinner' : 'fa-check'"></i>
                         <span>@{{ trans('brackets/admin-ui::admin.btn.saved') }}</span>
                     </button>
-                     @else()
+                     @else
 
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary" :disabled="submiting">
@@ -76,7 +74,7 @@
 
         </{{ $modelJSName }}-form>
 
-    @if(!in_array("published_at", array_column($columns->toArray(), 'name')))
+    @if(!$isUsedTwoColumnsLayout)
     </div>
     @endif
 

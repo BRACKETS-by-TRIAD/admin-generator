@@ -6,7 +6,7 @@
 
     <div class="container-xl">
 
-        @if(!$containsPublishAtColumn)
+        @if(!$isUsedTwoColumnsLayout)
         <div class="card">
         @endif
 
@@ -16,7 +16,7 @@
             :send-empty-locales="false"@endif inline-template>
 
             <form class="form-horizontal form-create" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action" novalidate>
-                @if($containsPublishAtColumn)
+                @if($isUsedTwoColumnsLayout)
 
                 <div class="row">
                     <div class="col">
@@ -44,7 +44,7 @@
                     {{'@'}}include('admin.{{ $modelDotNotation }}.components.form-elements')
                 </div>
                 @endif
-                @if(in_array("published_at", array_column($columns->toArray(), 'name')))
+                @if($isUsedTwoColumnsLayout)
 
                 <button type="submit" class="btn btn-primary fixed-cta-button button-save" :disabled="submiting">
                     <i class="fa" :class="submiting ? 'fa-spinner' : 'fa-save'"></i>
@@ -54,7 +54,7 @@
                     <i class="fa" :class="submiting ? 'fa-spinner' : 'fa-check'"></i>
                     <span>@{{ trans('brackets/admin-ui::admin.btn.saved') }}</span>
                 </button>
-                @else()
+                @else
 
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary" :disabled="submiting">
@@ -70,8 +70,9 @@
 
         </div>
 
-    @if(!in_array("published_at", array_column($columns->toArray(), 'name')))
+    @if(!$isUsedTwoColumnsLayout)
     </div>
+
     @endif
 
 {{'@'}}endsection

@@ -1,5 +1,5 @@
 <div class="card">
-    <div class="card-header" style="height: 62px">
+    <div class="card-header">
         <i class="fa fa-check"></i>{{'{{'}} trans('brackets/admin-ui::admin.forms.publish') }}
     </div>
     <div class="card-block">
