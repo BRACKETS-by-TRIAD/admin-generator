@@ -114,6 +114,9 @@ class Controller extends ClassGenerator {
             // validation in store/update
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
             'relations' => $this->relations,
+            'hasSoftDelete' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                    return $column['name'] == "deleted_at";
+            })->count() > 0,
         ])->render();
     }
 
