@@ -60,12 +60,12 @@
                                 </tr>
 @if(!$withoutBulk)
                                 <tr v-show="(clickedBulkItemsCount > 0) || isClickedAll">
-                                    <td class="bg-primary d-table-cell text-center" colspan="{{count($columns) + 2 }}">
-                                        <span class="align-middle font-weight-light text-white">@{{ trans('brackets/admin-ui::admin.listing.selected_items') }} {{'@{{'}} clickedBulkItemsCount }}.  <a href="#" class="text-secondary" @click="onBulkItemsClickedAll('/admin/{{ $resource }}')" v-if="(clickedBulkItemsCount < pagination.state.total)"> <i class="fa" :class="bulkCheckingAllLoader ? 'fa-spinner' : ''"></i> @{{ trans('brackets/admin-ui::admin.listing.check_all_items') }} {{'@{{'}} pagination.state.total }}</a> | <a
-                                                    href="#" class="text-secondary" @click="onBulkItemsClickedAllUncheck()">@{{ trans('brackets/admin-ui::admin.listing.uncheck_all_items') }}</a>  </span>
+                                    <td class="bg-bulk-info d-table-cell text-center" colspan="{{count($columns) + 2 }}">
+                                        <span class="align-middle font-weight-light text-dark">@{{ trans('brackets/admin-ui::admin.listing.selected_items') }} {{'@{{'}} clickedBulkItemsCount }}.  <a href="#" class="text-primary" @click="onBulkItemsClickedAll('/admin/{{ $resource }}')" v-if="(clickedBulkItemsCount < pagination.state.total)"> <i class="fa" :class="bulkCheckingAllLoader ? 'fa-spinner' : ''"></i> @{{ trans('brackets/admin-ui::admin.listing.check_all_items') }} {{'@{{'}} pagination.state.total }}</a> <span class="text-primary">|</span> <a
+                                                    href="#" class="text-primary" @click="onBulkItemsClickedAllUncheck()">@{{ trans('brackets/admin-ui::admin.listing.uncheck_all_items') }}</a>  </span>
 
-                                            <span class="pull-right col-md-2 text-primary font-weight-light">
-                                            <button class="btn btn-secondary btn-sm" @click="bulkDelete('/admin/{{ $resource }}/bulk-destroy')"><i class="fa fa-trash-o text-secondary"></i> @{{ trans('brackets/admin-ui::admin.btn.delete') }}</button>
+                                        <span class="pull-right pr-2">
+                                            <button class="btn btn-sm btn-danger pr-3 pl-3" @click="bulkDelete('/admin/{{ $resource }}/bulk-destroy')">@{{ trans('brackets/admin-ui::admin.btn.delete') }}</button>
                                         </span>
 
                                     </td>
