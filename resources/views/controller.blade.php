@@ -197,13 +197,8 @@ class {{ $controllerBaseName }} extends Controller
      */
     public function update(Update{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
-@if($containsPublishedAtColumn)
         // Sanitize input
         $sanitized = $request->getSanitized();
-@else
-        // Sanitize input
-        $sanitized = $request->validated();
-@endif
 @if(in_array('updated_by_admin_user_id', $columnsToQuery))
         $sanitized['updated_by_admin_user_id'] = Auth::getUser()->id;
 @endif

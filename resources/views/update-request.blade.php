@@ -94,7 +94,7 @@ class Update{{ $modelBaseName }} extends FormRequest
     }
 @endif
 
-@if($containsPublishedAtColumn)
+
     /**
     * Modify input data
     *
@@ -104,6 +104,7 @@ class Update{{ $modelBaseName }} extends FormRequest
     {
         $sanitized = $this->validated();
 
+@if($containsPublishedAtColumn)
         if (isset($sanitized['publish_now']) && $sanitized['publish_now']==true) {
             $sanitized['published_at'] = Carbon::now();
         }
@@ -111,8 +112,11 @@ class Update{{ $modelBaseName }} extends FormRequest
         if (isset($sanitized['unpublish_now']) && $sanitized['unpublish_now']==true) {
             $sanitized['published_at'] = null;
         }
+@endif
+
+        //Add your code for manipulation with request data here
 
         return $sanitized;
     }
-@endif
+
 }
