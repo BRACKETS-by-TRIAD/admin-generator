@@ -170,6 +170,16 @@ class {{ $controllerBaseName }} extends Controller
     {
         $this->authorize('admin.{{ $modelDotNotation }}.edit', ${{ $modelVariableName }});
 
+@if(in_array('created_by_admin_user_id', $columnsToQuery) || in_array('updated_by_admin_user_id', $columnsToQuery))
+    @if(in_array('created_by_admin_user_id', $columnsToQuery) && in_array('updated_by_admin_user_id', $columnsToQuery))
+    ${{ $modelVariableName }}->load(['createdByAdminUser', 'updatedByAdminUser']);
+    @elseif(in_array('created_by_admin_user_id', $columnsToQuery))
+    ${{ $modelVariableName }}->load('createdByAdminUser');
+    @elseif(in_array('updated_by_admin_user_id', $columnsToQuery))
+    ${{ $modelVariableName }}->load('updatedByAdminUser');
+    @endif
+@endif()
+
 @if (count($relations))
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
@@ -200,7 +210,7 @@ class {{ $controllerBaseName }} extends Controller
     public function update(Update{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
         // Sanitize input
-        $sanitized = $request->validated();
+        $sanitized = $request->getSanitized();
 @if(in_array('updated_by_admin_user_id', $columnsToQuery))
         $sanitized['updated_by_admin_user_id'] = Auth::getUser()->id;
 @endif
@@ -220,7 +230,13 @@ class {{ $controllerBaseName }} extends Controller
 @endif
 @endif
         if ($request->ajax()) {
-            return ['redirect' => url('admin/{{ $resource }}'), 'message' => trans('brackets/admin-ui::admin.operation.succeeded')];
+            return [
+                'redirect' => url('admin/{{ $resource }}'),
+                'message' => trans('brackets/admin-ui::admin.operation.succeeded'),
+@if($containsPublishedAtColumn)
+                'object' => ${{ $modelVariableName }}
+@endif
+            ];
         }
 
         return redirect('admin/{{ $resource }}');

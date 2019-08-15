@@ -59,7 +59,8 @@ class UpdateRequest extends ClassGenerator {
             'modelVariableName' => $this->modelVariableName,
             'modelFullName' => $this->modelFullName,
             'tableName' => $this->tableName,
-
+            'containsPublishedAtColumn' => in_array("published_at", array_column($this->readColumnsFromTable($this->tableName)->toArray(), 'name')),
+            
             // validation in store/update
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
             'translatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {

@@ -123,6 +123,7 @@ class ViewIndex extends ViewGenerator {
             'modelLangFormat' => $this->modelLangFormat,
             'resource' => $this->resource,
             'export' => $this->export,
+            'containsPublishedAtColumn' => in_array("published_at", array_column($this->readColumnsFromTable($this->tableName)->toArray(), 'name')),
             'withoutBulk' => $this->withoutBulk,
 
             'columns' => $this->readColumnsFromTable($this->tableName)->reject(function($column) {

@@ -11,6 +11,9 @@
     }
 @endphp
 
+@if($containsPublishedAtColumn)
+use Carbon\Carbon;
+@endif
 @if($translatable->count() > 0)use Brackets\Translatable\TranslatableFormRequest;
 @else
 use Illuminate\Foundation\Http\FormRequest;
@@ -42,6 +45,7 @@ class Update{{ $modelBaseName }} extends FormRequest
         return [
             @foreach($standardColumn as $column)'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverUpdateRules']) !!}],
             @endforeach
+
 @if (count($relations))
     @if (count($relations['belongsToMany']))
 
@@ -83,8 +87,36 @@ class Update{{ $modelBaseName }} extends FormRequest
             @endforeach
     @endif
 @endif
-
+@if($containsPublishedAtColumn)'publish_now' => ['nullable', 'boolean'],
+            'unpublish_now' => ['nullable', 'boolean'],
+@endif
         ];
     }
 @endif
+
+
+    /**
+    * Modify input data
+    *
+    * @return array
+    */
+    public function getSanitized()
+    {
+        $sanitized = $this->validated();
+
+@if($containsPublishedAtColumn)
+        if (isset($sanitized['publish_now']) && $sanitized['publish_now']==true) {
+            $sanitized['published_at'] = Carbon::now();
+        }
+
+        if (isset($sanitized['unpublish_now']) && $sanitized['unpublish_now']==true) {
+            $sanitized['published_at'] = null;
+        }
+@endif
+
+        //Add your code for manipulation with request data here
+
+        return $sanitized;
+    }
+
 }

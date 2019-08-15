@@ -75,6 +75,7 @@ class Lang extends FileAppender {
             'titleSingular' => $this->titleSingular,
             'titlePlural' => $this->titlePlural,
             'export' => $this->export,
+            'containsPublishedAtColumn' => in_array("published_at", array_column($this->readColumnsFromTable($this->tableName)->toArray(), 'name')),
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName)->map(function ($column) {
                 $column['defaultTranslation'] = $this->valueWithoutId($column['name']);
