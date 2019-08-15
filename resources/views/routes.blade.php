@@ -10,4 +10,7 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
 @if($export)
     {!! str_pad("Route::get('/admin/".$resource."/export',", 60) !!}'{{ $controllerPartiallyFullName }}@export')->name('admin/{{ $resource }}/export');
 @endif
+@if(!$withoutBulk)
+    {!! str_pad("Route::post('/admin/".$resource."/bulk-destroy',", 60) !!}'{{ $controllerPartiallyFullName }}@bulkDestroy')->name('admin/{{ $resource }}/bulk-destroy');
+@endif
 });

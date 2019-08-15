@@ -21,6 +21,12 @@ use {{ $belongsToMany['related_model'] }};
 use App\Exports\{{$exportBaseName}};
 use Maatwebsite\Excel\Facades\Excel;
 @endif
+@if(!$withoutBulk)
+use Illuminate\Support\Facades\DB;
+@if(!$withoutBulk && $hasSoftDelete)
+use Carbon\Carbon;
+@endif
+@endif
 @if(in_array('created_by_admin_user_id', $columnsToQuery) || in_array('updated_by_admin_user_id', $columnsToQuery))
 use Illuminate\Support\Facades\Auth;
 @endif
@@ -38,7 +44,7 @@ class {{ $controllerBaseName }} extends Controller
     {
         // create and AdminListing instance for a specific model and
         $data = AdminListing::create({{ $modelBaseName }}::class)->processRequestAndGet(
-        // pass the request with params
+            // pass the request with params
             $request,
 
             // set columns to query
@@ -62,14 +68,20 @@ class {{ $controllerBaseName }} extends Controller
             }
     @endif
 @endif()
-    );
+        );
 
         if ($request->ajax()) {
+@if(!$withoutBulk)
+            if($request->has('bulk')){
+                return [
+                    'bulkItems' => $data->pluck('id')
+                ];
+            }
+@endif
             return ['data' => $data];
         }
 
         return view('admin.{{ $modelDotNotation }}.index', ['data' => $data]);
-
     }
 
     /**
@@ -248,6 +260,48 @@ class {{ $controllerBaseName }} extends Controller
 
         return redirect()->back();
     }
+
+    @if(!$withoutBulk)/**
+    * Remove the specified resources from storage.
+    *
+    * {{'@'}}param  Destroy{{ $modelBaseName }} $request
+    * @return Response|bool
+    * @throws \Exception
+    */
+    public function bulkDestroy(Destroy{{ $modelBaseName }} $request) : Response
+    {
+@if($hasSoftDelete)
+        DB::transaction(function () use ($request){
+            collect($request->data['ids'])
+                ->chunk(1000)
+                ->each(function($bulkChunk){
+                    DB::table('{{ str_plural($modelVariableName) }}')->whereIn('id', $bulkChunk)
+                        ->update([
+                            'deleted_at' => Carbon::now()->format('Y-m-d H:i:s')
+                    ]);
+
+                    // TODO your code goes here
+            });
+        });
+@else
+        DB::transaction(function () use ($request){
+            collect($request->data['ids'])
+                ->chunk(1000)
+                ->each(function($bulkChunk){
+                    {{ $modelBaseName }}::whereIn('id', $bulkChunk)->delete();
+
+                    // TODO your code goes here
+            });
+        });
+
+        if ($request->ajax()) {
+            return response(['message' => trans('brackets/admin-ui::admin.operation.succeeded')]);
+        }
+
+        return redirect()->back();
+    }
+@endif
+    @endif
 
     @if($export)/**
     * Export entities

@@ -13,7 +13,10 @@
         <{{ $modelJSName }}-form
             :action="'{{'{{'}} url('admin/{{ $resource }}') }}'"
             @if($hasTranslatable):locales="@{{ json_encode($locales) }}"
-            :send-empty-locales="false"@endif inline-template>
+            :send-empty-locales="false"@endif 
+            
+            v-cloak
+            inline-template>
 
             <form class="form-horizontal form-create" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action" novalidate>
                 @if($isUsedTwoColumnsLayout)
