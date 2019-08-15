@@ -8,6 +8,9 @@
 @if($export)
             'export' => 'Export',
 @endif
+@if($containsPublishedAtColumn)
+            'will_be_published' => '{{$modelBaseName}} will be published at',
+@endif
         ],
 
         'columns' => [

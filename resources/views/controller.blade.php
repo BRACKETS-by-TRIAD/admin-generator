@@ -197,8 +197,13 @@ class {{ $controllerBaseName }} extends Controller
      */
     public function update(Update{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
+@if($containsPublishedAtColumn)
+        // Sanitize input
+        $sanitized = $request->getSanitized();
+@else
         // Sanitize input
         $sanitized = $request->validated();
+@endif
 @if(in_array('updated_by_admin_user_id', $columnsToQuery))
         $sanitized['updated_by_admin_user_id'] = Auth::getUser()->id;
 @endif
@@ -218,7 +223,13 @@ class {{ $controllerBaseName }} extends Controller
 @endif
 @endif
         if ($request->ajax()) {
-            return ['redirect' => url('admin/{{ $resource }}'), 'message' => trans('brackets/admin-ui::admin.operation.succeeded')];
+            return [
+                'redirect' => url('admin/{{ $resource }}'),
+                'message' => trans('brackets/admin-ui::admin.operation.succeeded'),
+@if($containsPublishedAtColumn)
+                'object' => ${{ $modelVariableName }}
+@endif
+            ];
         }
 
         return redirect('admin/{{ $resource }}');

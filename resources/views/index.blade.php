@@ -7,6 +7,9 @@
     <{{ $modelJSName }}-listing
         :data="{{'{{'}} $data->toJson() }}"
         :url="'{{'{{'}} url('admin/{{ $resource }}') }}'"
+@if($containsPublishedAtColumn)
+        :trans="{{'{{'}} json_encode(trans('brackets/admin-ui::admin.dialogs')) }}"
+@endif
         inline-template>
 
         <div class="row">
@@ -46,7 +49,10 @@
                         <table class="table table-hover table-listing">
                             <thead>
                                 <tr>
-                                    @foreach($columns as $col)<th is='sortable' :column="'{{ $col['name'] }}'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</th>
+                                    @foreach($columns as $col)
+@if($col['name'] === 'published_at')<th is='sortable' class="text-center" :column="'{{ $col['name'] }}'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</th>
+@else<th is='sortable' :column="'{{ $col['name'] }}'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</th>
+@endif
                                     @endforeach
 
                                     <th></th>
@@ -74,6 +80,29 @@
                                             </user-detail-tooltip>
                                         </td>
                                     </div>
+@elseif($col['name'] === 'published_at')<td class="text-center text-nowrap">
+                                        <span v-if="item.published_at <= now">
+                                            {{'@{{'}} item.published_at | datetime('DD.MM.YYYY, HH:mm') }}
+                                        </span>
+                                            <span v-if="item.published_at > now">
+                                            <small>{{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.will_be_published') }}</small><br />
+                                            {{'@{{'}} item.published_at | datetime('DD.MM.YYYY, HH:mm') }}
+                                            <span class="cursor-pointer" @click="publishLater(item.resource_url, collection[index], 'publishLaterDialog')" title="@{{ trans('brackets/admin-ui::admin.operation.publish_later') }}" role="button"><i class="fa fa-calendar"></i></span>
+                                        </span>
+                                        <div v-if="!item.published_at">
+                                            <span class="btn btn-sm btn-info" @click="publishLater(item.resource_url, collection[index], 'publishLaterDialog')" title="@{{ trans('brackets/admin-ui::admin.operation.publish_later') }}" role="button"><i class="fa fa-calendar"></i>&nbsp;&nbsp;@{{ trans('brackets/admin-ui::admin.operation.publish_later') }}</span>
+                                        </div>
+                                        <div v-if="!item.published_at || item.published_at > now">
+                                            <form class="d-inline" @submit.prevent="publishNow(item.resource_url, collection[index], 'publishNowDialog')">
+                                                <button type="submit" class="btn btn-sm btn-success text-white" title="@{{ trans('brackets/admin-ui::admin.operation.publish_now') }}"><i class="fa fa-send"></i>&nbsp;&nbsp;@{{ trans('brackets/admin-ui::admin.operation.publish_now') }}</button>
+                                            </form>
+                                        </div>
+                                        <div v-if="item.published_at && item.published_at < now">
+                                            <form class="d-inline" @submit.prevent="unpublishNow(item.resource_url, collection[index])">
+                                                <button type="submit" class="btn btn-sm btn-danger" title="@{{ trans('brackets/admin-ui::admin.operation.unpublish_now') }}"><i class="fa fa-send"></i>&nbsp;&nbsp;@{{ trans('brackets/admin-ui::admin.operation.unpublish_now') }}</button>
+                                            </form>
+                                        </div>
+                                    </td>
                                     @else<td>{{'@{{'}} item.{{ $col['name'] }}{{ $col['filters'] }} }}</td>@endif
 
                                     @endforeach
