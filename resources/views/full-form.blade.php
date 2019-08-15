@@ -13,10 +13,12 @@
             :data="{{'{{'}} ${{ $modelVariableName }}->toJsonAllLocales() }}"
             :locales="@{{ json_encode($locales) }}"
             :send-empty-locales="false"
+            v-cloak
             inline-template>
             @else<{{ $modelJSName }}-form
             :action="'{{'{{'}} route('{{ $route }}', ['{{ $modelVariableName }}' => ${{ $modelVariableName }}]) }}'"
             :data="{{'{{'}} ${{ $modelVariableName }}->toJson() }}"
+            v-cloak
             inline-template>
             @endif
 
