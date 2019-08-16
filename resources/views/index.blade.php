@@ -47,10 +47,6 @@
                         <table class="table table-hover table-listing">
                             <thead>
                                 <tr>
-                                    @foreach($columns as $col)
-@if($col['name'] === 'published_at')<th is='sortable' class="text-center" :column="'{{ $col['name'] }}'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</th>
-@else<th is='sortable' :column="'{{ $col['name'] }}'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</th>
-@endif
 @if(!$withoutBulk)
                                     <th class="bulk-checkbox">
                                         <input class="form-check-input" id="enabled" type="checkbox" v-model="isClickedAll" v-validate="''" data-vv-name="enabled"  name="enabled_fake_element" @click="onBulkItemsClickedAllWithPagination()">
@@ -60,8 +56,12 @@
                                     </th>
 @endif
 
-                                    @foreach($columns as $col)<th is='sortable' :column="'{{ $col['name'] }}'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</th>
-                                    @endforeach
+@foreach($columns as $col)
+@if($col['name'] === 'published_at')
+                                    <th is='sortable' class="text-center" :column="'{{ $col['name'] }}'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</th>
+@else                                    <th is='sortable' :column="'{{ $col['name'] }}'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</th>
+@endif
+@endforeach
 
                                     <th></th>
                                 </tr>
