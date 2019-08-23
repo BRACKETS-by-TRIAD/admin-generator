@@ -1,15 +1,21 @@
 @php echo "<?php";
-@endphp namespace {{ $controllerNamespace }};
+@endphp
 
+
+namespace {{ $controllerNamespace }};
+
+@if($export)
+use App\Exports\{{$exportBaseName}};
+@endif
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};
-use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
-use Brackets\AdminListing\Facades\AdminListing;
 use {{ $modelFullName }};
+use Brackets\AdminListing\Facades\AdminListing;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 @if (count($relations))
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
@@ -17,18 +23,17 @@ use {{ $belongsToMany['related_model'] }};
 @endforeach
 @endif
 @endif
-@if($export)
-use App\Exports\{{$exportBaseName}};
-use Maatwebsite\Excel\Facades\Excel;
-@endif
 @if(!$withoutBulk)
-use Illuminate\Support\Facades\DB;
 @if(!$withoutBulk && $hasSoftDelete)
 use Carbon\Carbon;
 @endif
+use Illuminate\Support\Facades\DB;
 @endif
 @if(in_array('created_by_admin_user_id', $columnsToQuery) || in_array('updated_by_admin_user_id', $columnsToQuery))
 use Illuminate\Support\Facades\Auth;
+@endif
+@if($export)
+use Maatwebsite\Excel\Facades\Excel;
 @endif
 
 class {{ $controllerBaseName }} extends Controller
@@ -37,7 +42,7 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Display a listing of the resource.
      *
-     * {{'@'}}param  Index{{ $modelBaseName }} $request
+     * {{'@'}}param Index{{ $modelBaseName }} $request
      * {{'@'}}return Response|array
      */
     public function index(Index{{ $modelBaseName }} $request)
@@ -72,7 +77,7 @@ class {{ $controllerBaseName }} extends Controller
 
         if ($request->ajax()) {
 @if(!$withoutBulk)
-            if($request->has('bulk')){
+            if ($request->has('bulk')) {
                 return [
                     'bulkItems' => $data->pluck('id')
                 ];
@@ -87,8 +92,8 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * {{'@'}}return Response
      * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
+     * {{'@'}}return Response
      */
     public function create()
     {
@@ -108,7 +113,7 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * {{'@'}}param  Store{{ $modelBaseName }} $request
+     * {{'@'}}param Store{{ $modelBaseName }} $request
      * {{'@'}}return Response|array
      */
     public function store(Store{{ $modelBaseName }} $request)
@@ -148,9 +153,9 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Display the specified resource.
      *
-     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}return void
+     * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
+     * {{'@'}}return void
      */
     public function show({{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -162,9 +167,9 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}return Response
+     * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
+     * {{'@'}}return Response
      */
     public function edit({{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -203,8 +208,8 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * {{'@'}}param  Update{{ $modelBaseName }} $request
-     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
+     * {{'@'}}param Update{{ $modelBaseName }} $request
+     * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}return Response|array
      */
     public function update(Update{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
@@ -222,7 +227,7 @@ class {{ $controllerBaseName }} extends Controller
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
         // But we do have a {{ $belongsToMany['related_table'] }}, so we need to attach the {{ $belongsToMany['related_table'] }} to the {{ $modelVariableName }}
-        if($request->has('{{ $belongsToMany['related_table'] }}')) {
+        if ($request->has('{{ $belongsToMany['related_table'] }}')) {
             ${{ $modelVariableName }}->{{ $belongsToMany['related_table'] }}()->sync(collect($request->input('{{ $belongsToMany['related_table'] }}', []))->map->id->toArray());
         }
 @endforeach
@@ -245,10 +250,10 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * {{'@'}}param  Destroy{{ $modelBaseName }} $request
-     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}return Response|bool
+     * {{'@'}}param Destroy{{ $modelBaseName }} $request
+     * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}throws \Exception
+     * {{'@'}}return Response|bool
      */
     public function destroy(Destroy{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -262,36 +267,36 @@ class {{ $controllerBaseName }} extends Controller
     }
 
     @if(!$withoutBulk)/**
-    * Remove the specified resources from storage.
-    *
-    * {{'@'}}param  Destroy{{ $modelBaseName }} $request
-    * @return Response|bool
-    * @throws \Exception
-    */
+     * Remove the specified resources from storage.
+     *
+     * {{'@'}}param Destroy{{ $modelBaseName }} $request
+     * {{'@'}}throws \Exception
+     * {{'@'}}return Response|bool
+     */
     public function bulkDestroy(Destroy{{ $modelBaseName }} $request) : Response
     {
 @if($hasSoftDelete)
-        DB::transaction(function () use ($request){
+        DB::transaction(function () use ($request) {
             collect($request->data['ids'])
                 ->chunk(1000)
-                ->each(function($bulkChunk){
+                ->each(function ($bulkChunk) {
                     DB::table('{{ str_plural($modelVariableName) }}')->whereIn('id', $bulkChunk)
                         ->update([
                             'deleted_at' => Carbon::now()->format('Y-m-d H:i:s')
                     ]);
 
                     // TODO your code goes here
-            });
+                });
         });
 @else
-        DB::transaction(function () use ($request){
+        DB::transaction(function () use ($request) {
             collect($request->data['ids'])
                 ->chunk(1000)
-                ->each(function($bulkChunk){
+                ->each(function ($bulkChunk) {
                     {{ $modelBaseName }}::whereIn('id', $bulkChunk)->delete();
 
                     // TODO your code goes here
-            });
+                });
         });
 
         if ($request->ajax()) {
@@ -301,14 +306,14 @@ class {{ $controllerBaseName }} extends Controller
         return redirect()->back();
     }
 @endif
-    @endif
+@endif
+@if($export)
 
-    @if($export)/**
-    * Export entities
-    */
+    /**
+     * Export entities
+     */
     public function export()
     {
         return Excel::download(new {{ $exportBaseName }}, '{{ str_plural($modelVariableName) }}.xlsx');
     }
-@endif
-}
+@endif}
