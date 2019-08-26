@@ -1,5 +1,8 @@
 @php echo "<?php";
-@endphp namespace {{ $controllerNamespace }};
+@endphp
+
+
+namespace {{ $controllerNamespace }};
 @php
     $activation = $columns->search(function ($column, $key) {
             return $column['name'] === 'activated';
@@ -7,18 +10,20 @@
 @endphp
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};
-use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
-use Brackets\AdminListing\Facades\AdminListing;
-use {{ $modelFullName }};
-use Illuminate\Support\Facades\Config;
-@if($activation)use Brackets\AdminAuth\Services\ActivationService;
-use Brackets\AdminAuth\Activation\Facades\Activation;
+@if($activation)use Brackets\AdminAuth\Activation\Facades\Activation;
 @endif
+use {{ $modelFullName }};
+@if($activation)use Brackets\AdminAuth\Services\ActivationService;
+@endif
+use Brackets\AdminListing\Facades\AdminListing;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
+
 @if (count($relations))
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
@@ -54,7 +59,7 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Display a listing of the resource.
      *
-     * {{'@'}}param  Index{{ $modelBaseName }} $request
+     * {{'@'}}param Index{{ $modelBaseName }} $request
      * {{'@'}}return Response|array
      */
     public function index(Index{{ $modelBaseName }} $request)
@@ -76,21 +81,20 @@ class {{ $controllerBaseName }} extends Controller
         }
 
         return view('admin.{{ $modelDotNotation }}.index', ['data' => $data, 'activation' => Config::get('admin-auth.activation_enabled')]);
-
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * {{'@'}}return Response
      * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
+     * {{'@'}}return Response
      */
     public function create()
     {
         $this->authorize('admin.{{ $modelDotNotation }}.create');
 
 @if (count($relations))
-        return view('admin.{{ $modelDotNotation }}.create',[
+        return view('admin.{{ $modelDotNotation }}.create', [
             'activation' => Config::get('admin-auth.activation_enabled'),
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
@@ -110,7 +114,7 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * {{'@'}}param  Store{{ $modelBaseName }} $request
+     * {{'@'}}param Store{{ $modelBaseName }} $request
      * {{'@'}}return Response|array
      */
     public function store(Store{{ $modelBaseName }} $request)
@@ -140,9 +144,9 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Display the specified resource.
      *
-     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}return void
+     * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
+     * {{'@'}}return void
      */
     public function show({{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -154,9 +158,9 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}return Response
+     * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
+     * {{'@'}}return Response
      */
     public function edit({{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -190,8 +194,8 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * {{'@'}}param  Update{{ $modelBaseName }} $request
-     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
+     * {{'@'}}param Update{{ $modelBaseName }} $request
+     * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}return Response|array
      */
     public function update(Update{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
@@ -206,7 +210,7 @@ class {{ $controllerBaseName }} extends Controller
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
         // But we do have a {{ $belongsToMany['related_table'] }}, so we need to attach the {{ $belongsToMany['related_table'] }} to the {{ $modelVariableName }}
-        if($request->input('{{ $belongsToMany['related_table'] }}')) {
+        if ($request->input('{{ $belongsToMany['related_table'] }}')) {
             ${{ $modelVariableName }}->{{ $belongsToMany['related_table'] }}()->sync(collect($request->input('{{ $belongsToMany['related_table'] }}', []))->map->id->toArray());
         }
 @endforeach
@@ -223,10 +227,10 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * {{'@'}}param  Destroy{{ $modelBaseName }} $request
-     * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}return Response|bool
+     * {{'@'}}param Destroy{{ $modelBaseName }} $request
+     * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}throws \Exception
+     * {{'@'}}return Response|bool
      */
     public function destroy(Destroy{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -239,20 +243,20 @@ class {{ $controllerBaseName }} extends Controller
         return redirect()->back();
     }
 
-    @if($activation)/**
-    * Resend activation e-mail
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @param ActivationService $activationService
-    * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
-    * @return array|\Illuminate\Http\Response
-    */
+@if($activation)
+    /**
+     * Resend activation e-mail
+     *
+     * {{'@'}}param \Illuminate\Http\Request $request
+     * {{'@'}}param ActivationService $activationService
+     * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
+     * {{'@'}}return array|\Illuminate\Http\Response
+     */
     public function resendActivationEmail(Request $request, ActivationService $activationService, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
-        if(Config::get('admin-auth.activation_enabled')) {
-
+        if (Config::get('admin-auth.activation_enabled')) {
             $response = $activationService->handle(${{ $modelVariableName }});
-            if($response == Activation::ACTIVATION_LINK_SENT) {
+            if ($response == Activation::ACTIVATION_LINK_SENT) {
                 if ($request->ajax()) {
                     return ['message' => trans('brackets/admin-ui::admin.operation.succeeded')];
                 }
@@ -273,9 +277,10 @@ class {{ $controllerBaseName }} extends Controller
             return redirect()->back();
         }
     }
-    @endif
+@endif
+@if($export)
 
-    @if($export)/**
+   /**
     * Export entities
     */
     public function export()
@@ -283,5 +288,4 @@ class {{ $controllerBaseName }} extends Controller
         return Excel::download(new {{ $exportBaseName }}, '{{ str_plural($modelVariableName) }}.xlsx');
     }
 
-@endif
-}
+@endif}

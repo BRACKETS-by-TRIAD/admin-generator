@@ -8,15 +8,15 @@ use Illuminate\Support\Facades\DB;
 class {{ $className }} extends Migration
 {
     /**
-     * @var \Illuminate\Config\Repository|mixed
+     * {{'@'}}var \Illuminate\Config\Repository|mixed
      */
     protected $guardName;
     /**
-     * @var array
+     * {{'@'}}var array
      */
     protected $permissions;
     /**
-     * @var array
+     * {{'@'}}var array
      */
     protected $roles;
 
@@ -59,7 +59,7 @@ class {{ $className }} extends Migration
     /**
      * Run the migrations.
      *
-     * @return void
+     * {{'@'}}return void
      */
     public function up()
     {
@@ -85,8 +85,10 @@ class {{ $className }} extends Migration
                 if (!is_null($roleItem)) {
                     $roleId = $roleItem->id;
 
-                    $permissionItems = DB::table('permissions')->whereIn('name', $permissions)->where('guard_name',
-                        $role['guard_name'])->get();
+                    $permissionItems = DB::table('permissions')->whereIn('name', $permissions)->where(
+                        'guard_name',
+                        $role['guard_name']
+                    )->get();
                     foreach ($permissionItems as $permissionItem) {
                         $roleHasPermissionData = [
                             'permission_id' => $permissionItem->id,
@@ -106,7 +108,7 @@ class {{ $className }} extends Migration
     /**
      * Reverse the migrations.
      *
-     * @return void
+     * {{'@'}}return void
      */
     public function down()
     {

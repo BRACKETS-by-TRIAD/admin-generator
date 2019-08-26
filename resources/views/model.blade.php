@@ -1,5 +1,8 @@
 @php echo "<?php"
-@endphp namespace {{ $modelNameSpace }};
+@endphp
+
+
+namespace {{ $modelNameSpace }};
 @php
     $hasRoles = false;
     if(count($relations) && count($relations['belongsToMany'])) {
@@ -84,7 +87,8 @@ class {{ $modelBaseName }} extends Model
 
     /* ************************ ACCESSOR ************************* */
 
-    public function getResourceUrlAttribute() {
+    public function getResourceUrlAttribute()
+    {
         return url('/admin/{{$resource}}/'.$this->getKey());
     }
 

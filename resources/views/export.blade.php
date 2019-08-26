@@ -1,10 +1,13 @@
 @php echo "<?php";
-@endphp namespace {{ $exportNamespace }};
+@endphp
 
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithHeadings;
+
+namespace {{ $exportNamespace }};
+
 use {{ $modelFullName }};
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
 
 class {{ $classBaseName }} implements FromCollection, WithMapping, WithHeadings
 {
