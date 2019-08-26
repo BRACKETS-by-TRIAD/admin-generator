@@ -1,5 +1,8 @@
 @php echo "<?php"
-@endphp namespace App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }};
+@endphp
+
+
+namespace App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }};
 @php
     if($translatable->count() > 0) {
         $translatableColumns = $columns->filter(function($column) use ($translatable) {
@@ -26,7 +29,7 @@ class Store{{ $modelBaseName }} extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      *
-     * @return bool
+     * {{'@'}}return bool
      */
     public function authorize()
     {
@@ -36,7 +39,7 @@ class Store{{ $modelBaseName }} extends FormRequest
 @if($translatable->count() > 0)/**
      * Get the validation rules that apply to the requests untranslatable fields.
      *
-     * @return  array
+     * {{'@'}}return array
      */
     public function untranslatableRules() {
         return [
@@ -56,7 +59,7 @@ class Store{{ $modelBaseName }} extends FormRequest
     /**
      * Get the validation rules that apply to the requests translatable fields.
      *
-     * @return  array
+     * {{'@'}}return array
      */
     public function translatableRules($locale) {
         return [
@@ -65,16 +68,18 @@ class Store{{ $modelBaseName }} extends FormRequest
 
         ];
     }
-@else/**
+@else
+    /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * {{'@'}}return array
      */
     public function rules()
     {
         return [
-            @foreach($columns as $column)@if(!($column['name'] == "updated_by_admin_user_id" || $column['name'] == "created_by_admin_user_id" ))'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverStoreRules']) !!}],
-            @endif
+            @foreach($columns as $column)
+@if(!($column['name'] == "updated_by_admin_user_id" || $column['name'] == "created_by_admin_user_id" ))'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverStoreRules']) !!}],
+@endif
             @endforeach
 @if (count($relations))
     @if (count($relations['belongsToMany']))

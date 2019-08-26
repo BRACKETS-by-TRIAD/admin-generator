@@ -1,5 +1,8 @@
 @php echo "<?php"
-@endphp namespace App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }};
+@endphp
+
+
+namespace App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }};
 @php
     if($translatable->count() > 0) {
         $translatableColumns = $columns->filter(function($column) use ($translatable) {
@@ -29,7 +32,7 @@ class Update{{ $modelBaseName }} extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      *
-     * @return bool
+     * {{'@'}}return bool
      */
     public function authorize()
     {
@@ -39,7 +42,7 @@ class Update{{ $modelBaseName }} extends FormRequest
 @if($translatable->count() > 0)/**
      * Get the validation rules that apply to the requests untranslatable fields.
      *
-     * @return  array
+     * {{'@'}}return array
      */
     public function untranslatableRules() {
         return [
@@ -60,7 +63,7 @@ class Update{{ $modelBaseName }} extends FormRequest
     /**
      * Get the validation rules that apply to the requests translatable fields.
      *
-     * @return  array
+     * {{'@'}}return array
      */
     public function translatableRules($locale) {
         return [
@@ -69,16 +72,18 @@ class Update{{ $modelBaseName }} extends FormRequest
 
         ];
     }
-@else/**
+@else
+    /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * {{'@'}}return array
      */
     public function rules()
     {
         return [
-            @foreach($columns as $column)@if(!($column['name'] == "updated_by_admin_user_id" || $column['name'] == "created_by_admin_user_id" ))'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverUpdateRules']) !!}],
-            @endif
+            @foreach($columns as $column)
+@if(!($column['name'] == "updated_by_admin_user_id" || $column['name'] == "created_by_admin_user_id" ))'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverUpdateRules']) !!}],
+@endif
             @endforeach
 @if (count($relations))
     @if (count($relations['belongsToMany']))
@@ -90,26 +95,26 @@ class Update{{ $modelBaseName }} extends FormRequest
 @if($containsPublishedAtColumn)'publish_now' => ['nullable', 'boolean'],
             'unpublish_now' => ['nullable', 'boolean'],
 @endif
+
         ];
     }
 @endif
 
-
     /**
-    * Modify input data
-    *
-    * @return array
-    */
+     * Modify input data
+     *
+     * {{'@'}}return array
+     */
     public function getSanitized()
     {
         $sanitized = $this->validated();
 
 @if($containsPublishedAtColumn)
-        if (isset($sanitized['publish_now']) && $sanitized['publish_now']==true) {
+        if (isset($sanitized['publish_now']) && $sanitized['publish_now'] == true) {
             $sanitized['published_at'] = Carbon::now();
         }
 
-        if (isset($sanitized['unpublish_now']) && $sanitized['unpublish_now']==true) {
+        if (isset($sanitized['unpublish_now']) && $sanitized['unpublish_now'] == true) {
             $sanitized['published_at'] = null;
         }
 @endif
@@ -118,5 +123,4 @@ class Update{{ $modelBaseName }} extends FormRequest
 
         return $sanitized;
     }
-
 }

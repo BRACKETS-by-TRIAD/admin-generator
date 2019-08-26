@@ -1,5 +1,8 @@
 @php echo "<?php"
-@endphp namespace App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }};
+@endphp
+
+
+namespace App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }};
 @php
     if($translatable->count() > 0) {
         $translatableColumns = $columns->filter(function($column) use ($translatable) {
@@ -15,10 +18,10 @@
 @else
 use Illuminate\Foundation\Http\FormRequest;
 @endif
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 @if($translatable->count() > 0)class Update{{ $modelBaseName }} extends TranslatableFormRequest
 @else
@@ -28,7 +31,7 @@ class Update{{ $modelBaseName }} extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      *
-     * @return bool
+     * {{'@'}}return bool
      */
     public function authorize()
     {
@@ -38,7 +41,7 @@ class Update{{ $modelBaseName }} extends FormRequest
 @if($translatable->count() > 0)/**
      * Get the validation rules that apply to the requests untranslatable fields.
      *
-     * @return  array
+     * {{'@'}}return array
      */
     public function untranslatableRules() {
         return [
@@ -58,7 +61,7 @@ class Update{{ $modelBaseName }} extends FormRequest
     /**
      * Get the validation rules that apply to the requests translatable fields.
      *
-     * @return  array
+     * {{'@'}}return array
      */
     public function translatableRules($locale) {
         return [
@@ -67,10 +70,11 @@ class Update{{ $modelBaseName }} extends FormRequest
 
         ];
     }
-@else/**
+@else
+    /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * {{'@'}}return array
      */
     public function rules()
     {
@@ -92,7 +96,7 @@ class Update{{ $modelBaseName }} extends FormRequest
 
         ];
 
-        if(Config::get('admin-auth.activation_enabled')) {
+        if (Config::get('admin-auth.activation_enabled')) {
             $rules['activated'] = ['required', 'boolean'];
         }
 
@@ -103,19 +107,19 @@ class Update{{ $modelBaseName }} extends FormRequest
     /**
      * Modify input data
      *
-     * @return array
+     * {{'@'}}return array
      */
     public function getModifiedData()
     {
         $data = $this->only(collect($this->rules())->keys()->all());
         //TODO: is this ok?
-        if(!Config::get('admin-auth.activation_enabled')) {
+        if (!Config::get('admin-auth.activation_enabled')) {
             $data['activated'] = true;
         }
         if (array_key_exists('password', $data) && empty($data['password'])) {
             unset($data['password']);
         }
-        if(!empty($data['password'])) {
+        if (!empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         }
         return $data;

@@ -1,5 +1,8 @@
 @php echo "<?php"
-@endphp namespace App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }};
+@endphp
+
+
+namespace App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }};
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
@@ -9,7 +12,7 @@ class Index{{ $modelBaseName }} extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      *
-     * @return bool
+     * {{'@'}}return bool
      */
     public function authorize()
     {
@@ -19,7 +22,7 @@ class Index{{ $modelBaseName }} extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * {{'@'}}return array
      */
     public function rules()
     {
