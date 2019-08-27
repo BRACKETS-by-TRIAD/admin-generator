@@ -40,12 +40,23 @@ class ViewIndex extends ViewGenerator {
      */
     protected $export = false;
 
+    /**
+     * Index view has also bulk options
+     *
+     * @return mixed
+     */
+    protected $withoutBulk = false;
+
     public function handle()
     {
         $force = $this->option('force');
 
         if($this->option('with-export')){
             $this->export = true;
+        }
+
+        if($this->option('without-bulk')){
+            $this->withoutBulk = true;
         }
 
         //TODO check if exists
@@ -112,6 +123,8 @@ class ViewIndex extends ViewGenerator {
             'modelLangFormat' => $this->modelLangFormat,
             'resource' => $this->resource,
             'export' => $this->export,
+            'containsPublishedAtColumn' => in_array("published_at", array_column($this->readColumnsFromTable($this->tableName)->toArray(), 'name')),
+            'withoutBulk' => $this->withoutBulk,
 
             'columns' => $this->readColumnsFromTable($this->tableName)->reject(function($column) {
                     return ($column['type'] == 'text'
@@ -154,6 +167,7 @@ class ViewIndex extends ViewGenerator {
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Specify custom template'],
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating index'],
             ['with-export', 'e', InputOption::VALUE_NONE, 'Generate an option to Export as Excel'],
+            ['without-bulk', 'wb', InputOption::VALUE_NONE, 'Generate without bulk options'],
         ];
     }
 

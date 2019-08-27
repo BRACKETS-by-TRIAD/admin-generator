@@ -41,6 +41,13 @@ class ViewForm extends ViewGenerator {
     protected $form = 'form';
 
     /**
+     * Path for form right view
+     *
+     * @var string
+     */
+    protected $formRight = 'form-right';
+
+    /**
      * Path for js view
      *
      * @var string
@@ -63,6 +70,7 @@ class ViewForm extends ViewGenerator {
             $this->create = 'templates.'.$template.'.create';
             $this->edit = 'templates.'.$template.'.edit';
             $this->form = 'templates.'.$template.'.form';
+            $this->formRight = 'templates.'.$template.'form-right';
             $this->formJs = 'templates.'.$template.'.form-js';
         }
 
@@ -84,6 +92,24 @@ class ViewForm extends ViewGenerator {
             $this->files->put($viewPath, $this->buildForm());
 
             $this->info('Generating '.$viewPath.' finished');
+        }
+
+        if(in_array("published_at", array_column($this->getVisibleColumns($this->tableName, $this->modelVariableName)->toArray(), 'name'))){
+            $viewPath = resource_path('views/admin/'.$this->modelViewsDirectory.'/components/form-elements-right.blade.php');
+            if ($this->alreadyExists($viewPath) && !$force) {
+                $this->error('File '.$viewPath.' already exists!');
+            } else {
+                if ($this->alreadyExists($viewPath) && $force) {
+                    $this->warn('File '.$viewPath.' already exists! File will be deleted.');
+                    $this->files->delete($viewPath);
+                }
+
+                $this->makeDirectory($viewPath);
+
+                $this->files->put($viewPath, $this->buildFormRight());
+
+                $this->info('Generating '.$viewPath.' finished');
+            }
         }
 
         $viewPath = resource_path('views/admin/'.$this->modelViewsDirectory.'/create.blade.php');
@@ -146,6 +172,10 @@ class ViewForm extends ViewGenerator {
 		};
     }
 
+    protected function isUsedTwoColumnsLayout() : bool {
+        return in_array("published_at", array_column($this->readColumnsFromTable($this->tableName)->toArray(), 'name'));
+    }
+
     protected function buildForm() {
 
         return view('brackets/admin-generator::'.$this->form, [
@@ -166,6 +196,27 @@ class ViewForm extends ViewGenerator {
         ])->render();
     }
 
+    protected function buildFormRight() {
+
+        return view('brackets/admin-generator::'.$this->formRight, [
+            'modelBaseName' => $this->modelBaseName,
+            'modelRouteAndViewName' => $this->modelRouteAndViewName,
+            'modelPlural' => $this->modelPlural,
+            'modelDotNotation' => $this->modelDotNotation,
+            'modelLangFormat' => $this->modelLangFormat,
+            'modelVariableName' => $this->modelVariableName,
+
+            'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName)->sortBy(function($column) {
+                return !($column['type'] == "json");
+            }),
+            'hasTranslatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                    return $column['type'] == "json";
+                })->count() > 0,
+            'translatableTextarea' => ['perex', 'text', 'body'],
+            'relations' => $this->relations,
+        ])->render();
+    }
+
     protected function buildCreate() {
 
         return view('brackets/admin-generator::'.$this->create, [
@@ -178,6 +229,7 @@ class ViewForm extends ViewGenerator {
             'modelJSName' => $this->modelJSName,
             'modelLangFormat' => $this->modelLangFormat,
             'resource' => $this->resource,
+            'isUsedTwoColumnsLayout' => $this->isUsedTwoColumnsLayout(),
 
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
             'hasTranslatable' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
@@ -185,6 +237,7 @@ class ViewForm extends ViewGenerator {
             })->count() > 0,
         ])->render();
     }
+
 
     protected function buildEdit() {
 
@@ -198,6 +251,7 @@ class ViewForm extends ViewGenerator {
             'modelJSName' => $this->modelJSName,
             'modelLangFormat' => $this->modelLangFormat,
             'resource' => $this->resource,
+            'isUsedTwoColumnsLayout' => $this->isUsedTwoColumnsLayout(),
 
             'modelTitle' => $this->readColumnsFromTable($this->tableName)->filter(function($column){
             	return in_array($column['name'], ['title', 'name', 'first_name', 'email']);

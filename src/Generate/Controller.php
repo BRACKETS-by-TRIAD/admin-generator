@@ -36,12 +36,23 @@ class Controller extends ClassGenerator {
      */
     protected $export = false;
 
+    /**
+     * Controller has also bulk options method
+     *
+     * @return mixed
+     */
+    protected $withoutBulk = false;
+
     public function handle()
     {
         $force = $this->option('force');
 
         if($this->option('with-export')){
             $this->export = true;
+        }
+
+        if($this->option('without-bulk')){
+            $this->withoutBulk = true;
         }
         // TODO test the case, if someone passes a class_name outside Laravel's default App\Http\Controllers folder, if it's going to work
 
@@ -87,8 +98,10 @@ class Controller extends ClassGenerator {
             'modelDotNotation' => $this->modelDotNotation,
             'modelWithNamespaceFromDefault' => $this->modelWithNamespaceFromDefault,
             'export' => $this->export,
+            'withoutBulk' => $this->withoutBulk,
             'exportBaseName' => $this->exportBaseName,
             'resource' => $this->resource,
+            'containsPublishedAtColumn' => in_array("published_at", array_column($this->readColumnsFromTable($this->tableName)->toArray(), 'name')),
             // index
             'columnsToQuery' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "remember_token" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
@@ -102,6 +115,9 @@ class Controller extends ClassGenerator {
             // validation in store/update
             'columns' => $this->getVisibleColumns($this->tableName, $this->modelVariableName),
             'relations' => $this->relations,
+            'hasSoftDelete' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                    return $column['name'] == "deleted_at";
+            })->count() > 0,
         ])->render();
     }
 
@@ -113,6 +129,7 @@ class Controller extends ClassGenerator {
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating controller'],
             ['model-with-full-namespace', 'fnm', InputOption::VALUE_OPTIONAL, 'Specify model with full namespace'],
             ['with-export', 'e', InputOption::VALUE_NONE, 'Generate an option to Export as Excel'],
+            ['without-bulk', 'wb', InputOption::VALUE_NONE, 'Generate without bulk options'],
         ];
     }
 
