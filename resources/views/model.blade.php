@@ -31,8 +31,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class {{ $modelBaseName }} extends Model
 {
-    @if($hasSoftDelete)use SoftDeletes;
-    @endif
+@if($hasSoftDelete)
+    use SoftDeletes;
+@endif
 @if($hasRoles)use HasRoles;
 @endif
 @if($translatable->count() > 0)use HasTranslations;
@@ -43,11 +44,10 @@ class {{ $modelBaseName }} extends Model
 @endif
 @endforeach
 @endif
-
     @if (!is_null($tableName))protected $table = '{{ $tableName }}';
-    @endif
 
-    @if ($fillable)protected $fillable = [
+    @endif
+@if ($fillable)protected $fillable = [
     @foreach($fillable as $f)
     "{{ $f }}",
     @endforeach
@@ -70,8 +70,7 @@ class {{ $modelBaseName }} extends Model
 
     ];
     @endif
-
-    @if ($translatable->count() > 0)// these attributes are translatable
+@if ($translatable->count() > 0)// these attributes are translatable
     public $translatable = [
     @foreach($translatable as $translatableField)
     "{{ $translatableField }}",
@@ -79,8 +78,7 @@ class {{ $modelBaseName }} extends Model
 
     ];
     @endif
-
-    @if (!$timestamps)public $timestamps = false;
+@if (!$timestamps)public $timestamps = false;
     @endif
 
     protected $appends = ['resource_url'];
@@ -91,21 +89,18 @@ class {{ $modelBaseName }} extends Model
     {
         return url('/admin/{{$resource}}/'.$this->getKey());
     }
+@if (count($relations))
 
-    @if (count($relations))/* ************************ RELATIONS ************************ */
-
-    @if (count($relations['belongsToMany']))
+    /* ************************ RELATIONS ************************ */
+@if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)/**
     * Relation to {{ $belongsToMany['related_model_name_plural'] }}
     *
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    * {{'@'}}return \Illuminate\Database\Eloquent\Relations\BelongsToMany
     */
     public function {{ $belongsToMany['related_table'] }}() {
         return $this->belongsToMany({{ $belongsToMany['related_model_class'] }}, '{{ $belongsToMany['relation_table'] }}', '{{ $belongsToMany['foreign_key'] }}', '{{ $belongsToMany['related_key'] }}');
     }
-
 @endforeach
-    @endif
-    @endif
-
-}
+@endif
+@endif}

@@ -17,4 +17,3 @@ $factory->define({{ $modelFullName }}::class, function (Faker\Generator $faker) 
 
     ];
 });
-

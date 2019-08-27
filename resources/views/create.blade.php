@@ -12,9 +12,10 @@
 
         <{{ $modelJSName }}-form
             :action="'{{'{{'}} url('admin/{{ $resource }}') }}'"
-            @if($hasTranslatable):locales="@{{ json_encode($locales) }}"
-            :send-empty-locales="false"@endif 
-            
+@if($hasTranslatable)
+            :locales="@{{ json_encode($locales) }}"
+            :send-empty-locales="false"
+@endif
             v-cloak
             inline-template>
 
