@@ -62,7 +62,7 @@ class {{ $className }} extends Migration
      *
      * {{'@'}}return void
      */
-    public static function up(): void
+    public function up(): void
     {
         DB::transaction(function () {
             foreach ($this->permissions as $permission) {
