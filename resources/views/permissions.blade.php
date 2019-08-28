@@ -2,13 +2,14 @@
 @endphp
 
 
+use Illuminate\Config\Repository
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
 class {{ $className }} extends Migration
 {
     /**
-     * {{'@'}}var \Illuminate\Config\Repository|mixed
+     * {{'@'}}var Repository|mixed
      */
     protected $guardName;
     /**
@@ -61,7 +62,7 @@ class {{ $className }} extends Migration
      *
      * {{'@'}}return void
      */
-    public function up()
+    public static function up(): void
     {
         DB::transaction(function () {
             foreach ($this->permissions as $permission) {
@@ -110,7 +111,7 @@ class {{ $className }} extends Migration
      *
      * {{'@'}}return void
      */
-    public function down()
+    public function down(): void
     {
         DB::transaction(function () {
             foreach ($this->permissions as $permission) {

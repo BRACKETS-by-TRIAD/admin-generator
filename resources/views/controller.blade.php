@@ -7,6 +7,9 @@ namespace {{ $controllerNamespace }};
 @if($export)
 use App\Exports\{{$exportBaseName}};
 @endif
+@if(!$withoutBulk && $hasSoftDelete)
+use Carbon\Carbon;
+@endif
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelBaseName }};
@@ -14,6 +17,8 @@ use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelB
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};
 use {{ $modelFullName }};
 use Brackets\AdminListing\Facades\AdminListing;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 @if (count($relations))
@@ -24,9 +29,6 @@ use {{ $belongsToMany['related_model'] }};
 @endif
 @endif
 @if(!$withoutBulk)
-@if(!$withoutBulk && $hasSoftDelete)
-use Carbon\Carbon;
-@endif
 use Illuminate\Support\Facades\DB;
 @endif
 @if(in_array('created_by_admin_user_id', $columnsToQuery) || in_array('updated_by_admin_user_id', $columnsToQuery))
@@ -92,7 +94,7 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
+     * {{'@'}}throws AuthorizationException
      * {{'@'}}return Response
      */
     public function create()
@@ -154,7 +156,7 @@ class {{ $controllerBaseName }} extends Controller
      * Display the specified resource.
      *
      * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
+     * {{'@'}}throws AuthorizationException
      * {{'@'}}return void
      */
     public function show({{ $modelBaseName }} ${{ $modelVariableName }})
@@ -168,7 +170,7 @@ class {{ $controllerBaseName }} extends Controller
      * Show the form for editing the specified resource.
      *
      * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
+     * {{'@'}}throws AuthorizationException
      * {{'@'}}return Response
      */
     public function edit({{ $modelBaseName }} ${{ $modelVariableName }})
@@ -252,7 +254,7 @@ class {{ $controllerBaseName }} extends Controller
      *
      * {{'@'}}param Destroy{{ $modelBaseName }} $request
      * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}throws \Exception
+     * {{'@'}}throws Exception
      * {{'@'}}return Response|bool
      */
     public function destroy(Destroy{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
@@ -270,7 +272,7 @@ class {{ $controllerBaseName }} extends Controller
      * Remove the specified resources from storage.
      *
      * {{'@'}}param Destroy{{ $modelBaseName }} $request
-     * {{'@'}}throws \Exception
+     * {{'@'}}throws Exception
      * {{'@'}}return Response|bool
      */
     public function bulkDestroy(Destroy{{ $modelBaseName }} $request) : Response
@@ -299,11 +301,8 @@ class {{ $controllerBaseName }} extends Controller
                 });
         });
 
-        if ($request->ajax()) {
-            return response(['message' => trans('brackets/admin-ui::admin.operation.succeeded')]);
-        }
 
-        return redirect()->back();
+        return response(['message' => trans('brackets/admin-ui::admin.operation.succeeded')]);
     }
 @endif
 @endif
@@ -314,6 +313,6 @@ class {{ $controllerBaseName }} extends Controller
      */
     public function export()
     {
-        return Excel::download(new {{ $exportBaseName }}, '{{ str_plural($modelVariableName) }}.xlsx');
+        return Excel::download(app({{ $exportBaseName }}::class), '{{ str_plural($modelVariableName) }}.xlsx');
     }
 @endif}

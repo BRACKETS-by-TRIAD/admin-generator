@@ -20,6 +20,8 @@ use {{ $modelFullName }};
 @if($activation)use Brackets\AdminAuth\Services\ActivationService;
 @endif
 use Brackets\AdminListing\Facades\AdminListing;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
@@ -86,7 +88,7 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
+     * {{'@'}}throws AuthorizationException
      * {{'@'}}return Response
      */
     public function create()
@@ -145,7 +147,7 @@ class {{ $controllerBaseName }} extends Controller
      * Display the specified resource.
      *
      * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
+     * {{'@'}}throws AuthorizationException
      * {{'@'}}return void
      */
     public function show({{ $modelBaseName }} ${{ $modelVariableName }})
@@ -159,7 +161,7 @@ class {{ $controllerBaseName }} extends Controller
      * Show the form for editing the specified resource.
      *
      * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
+     * {{'@'}}throws AuthorizationException
      * {{'@'}}return Response
      */
     public function edit({{ $modelBaseName }} ${{ $modelVariableName }})
@@ -229,7 +231,7 @@ class {{ $controllerBaseName }} extends Controller
      *
      * {{'@'}}param Destroy{{ $modelBaseName }} $request
      * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}throws \Exception
+     * {{'@'}}throws Exception
      * {{'@'}}return Response|bool
      */
     public function destroy(Destroy{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
@@ -247,10 +249,10 @@ class {{ $controllerBaseName }} extends Controller
     /**
      * Resend activation e-mail
      *
-     * {{'@'}}param \Illuminate\Http\Request $request
+     * {{'@'}}param Request $request
      * {{'@'}}param ActivationService $activationService
      * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}return array|\Illuminate\Http\Response
+     * {{'@'}}return array|Response
      */
     public function resendActivationEmail(Request $request, ActivationService $activationService, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -285,7 +287,7 @@ class {{ $controllerBaseName }} extends Controller
     */
     public function export()
     {
-        return Excel::download(new {{ $exportBaseName }}, '{{ str_plural($modelVariableName) }}.xlsx');
+        return Excel::download(app({{ $exportBaseName }}::class), '{{ str_plural($modelVariableName) }}.xlsx');
     }
 
 @endif}

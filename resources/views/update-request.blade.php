@@ -110,11 +110,11 @@ class Update{{ $modelBaseName }} extends FormRequest
         $sanitized = $this->validated();
 
 @if($containsPublishedAtColumn)
-        if (isset($sanitized['publish_now']) && $sanitized['publish_now'] == true) {
+        if (isset($sanitized['publish_now']) && $sanitized['publish_now'] === true) {
             $sanitized['published_at'] = Carbon::now();
         }
 
-        if (isset($sanitized['unpublish_now']) && $sanitized['unpublish_now'] == true) {
+        if (isset($sanitized['unpublish_now']) && $sanitized['unpublish_now'] === true) {
             $sanitized['published_at'] = null;
         }
 @endif

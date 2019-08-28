@@ -28,7 +28,7 @@ class Store{{ $modelBaseName }} extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      *
-     * @return bool
+     * {{'@'}}return bool
      */
     public function authorize()
     {
@@ -38,7 +38,7 @@ class Store{{ $modelBaseName }} extends FormRequest
 @if($translatable->count() > 0)/**
      * Get the validation rules that apply to the requests untranslatable fields.
      *
-     * @return  array
+     * {{'@'}}return array
      */
     public function untranslatableRules() {
         return [
@@ -58,7 +58,7 @@ class Store{{ $modelBaseName }} extends FormRequest
     /**
      * Get the validation rules that apply to the requests translatable fields.
      *
-     * @return  array
+     * {{'@'}}return array
      */
     public function translatableRules($locale) {
         return [
@@ -70,7 +70,7 @@ class Store{{ $modelBaseName }} extends FormRequest
 @else/**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * {{'@'}}return array
      */
     public function rules()
     {
@@ -103,7 +103,7 @@ class Store{{ $modelBaseName }} extends FormRequest
     /**
      * Modify input data
      *
-     * @return array
+     * {{'@'}}return array
      */
     public function getModifiedData()
     {

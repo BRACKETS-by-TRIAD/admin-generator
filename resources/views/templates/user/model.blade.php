@@ -17,6 +17,7 @@ use Brackets\AdminAuth\Activation\Contracts\CanActivate as CanActivateContract;
 use Brackets\AdminAuth\Notifications\ResetPassword;
 @if($hasSoftDelete)use Illuminate\Database\Eloquent\SoftDeletes;
 @endif
+use Illuminate\Database\Eloquent\Relations\BelongsToMany
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 @if($hasRoles)use Spatie\Permission\Traits\HasRoles;
@@ -40,7 +41,7 @@ class {{ $modelBaseName }} extends Authenticatable implements CanActivateContrac
 
     @if ($fillable)protected $fillable = [
     @foreach($fillable as $f)
-    "{{ $f }}",
+    '{{ $f }}',
     @endforeach
 
     ];
@@ -48,7 +49,7 @@ class {{ $modelBaseName }} extends Authenticatable implements CanActivateContrac
 
     @if ($hidden)protected $hidden = [
     @foreach($hidden as $h)
-    "{{ $h }}",
+    '{{ $h }}',
     @endforeach
 
     ];
@@ -56,7 +57,7 @@ class {{ $modelBaseName }} extends Authenticatable implements CanActivateContrac
 
     @if ($dates)protected $dates = [
     @foreach($dates as $date)
-    "{{ $date }}",
+    '{{ $date }}',
     @endforeach
 
     ];
@@ -65,7 +66,7 @@ class {{ $modelBaseName }} extends Authenticatable implements CanActivateContrac
     @if ($translatable->count() > 0)// these attributes are translatable
     public $translatable = [
     @foreach($translatable as $translatableField)
-    "{{ $translatableField }}",
+    '{{ $translatableField }}',
     @endforeach
 
     ];
@@ -89,8 +90,8 @@ class {{ $modelBaseName }} extends Authenticatable implements CanActivateContrac
     /**
      * Send the password reset notification.
      *
-     * @param  string  $token
-     * @return void
+     * {{'@'}}param string $token
+     * {{'@'}}return void
      */
     public function sendPasswordResetNotification($token)
     {
@@ -103,7 +104,7 @@ class {{ $modelBaseName }} extends Authenticatable implements CanActivateContrac
 @foreach($relations['belongsToMany'] as $belongsToMany)/**
     * Relation to {{ $belongsToMany['related_model_name_plural'] }}
     *
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    * {{'@'}}return BelongsToMany
     */
     public function {{ $belongsToMany['related_table'] }}() {
         return $this->belongsToMany({{ $belongsToMany['related_model_class'] }}, '{{ $belongsToMany['relation_table'] }}', '{{ $belongsToMany['foreign_key'] }}', '{{ $belongsToMany['related_key'] }}');

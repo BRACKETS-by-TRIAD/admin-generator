@@ -7,14 +7,16 @@
 @endphp
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
 use Brackets\AdminListing\Facades\AdminListing;
+use Exception;
 use {{ $modelFullName }};
+use Illuminate\Auth\Access\AuthorizationException
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 @if($activation)use Brackets\AdminAuth\Services\ActivationService;
 use Brackets\AdminAuth\Activation\Facades\Activation;
@@ -66,7 +68,7 @@ class {{ $controllerBaseName }} extends Controller
      * Show the form for creating a new resource.
      *
      * {{'@'}}return Response
-     * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
+     * {{'@'}}throws AuthorizationException
      */
     public function create()
     {
@@ -121,7 +123,7 @@ class {{ $controllerBaseName }} extends Controller
      *
      * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}return void
-     * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
+     * {{'@'}}throws AuthorizationException
      */
     public function show({{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -135,7 +137,7 @@ class {{ $controllerBaseName }} extends Controller
      *
      * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}return Response
-     * {{'@'}}throws \Illuminate\Auth\Access\AuthorizationException
+     * {{'@'}}throws AuthorizationException
      */
     public function edit({{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -201,7 +203,7 @@ class {{ $controllerBaseName }} extends Controller
      * {{'@'}}param  Destroy{{ $modelBaseName }} $request
      * {{'@'}}param  {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}return Response|bool
-     * {{'@'}}throws \Exception
+     * {{'@'}}throws Exception
      */
     public function destroy(Destroy{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -217,9 +219,9 @@ class {{ $controllerBaseName }} extends Controller
     @if($activation)/**
     * Resend activation e-mail
     *
-    * @param  \Illuminate\Http\Request  $request
-    * @param  {{ $modelBaseName }} ${{ $modelVariableName }}
-    * @return array|\Illuminate\Http\Response
+    * {{'@'}}param Request $request
+    * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
+    * {{'@'}}return array|Response
     */
     public function resendActivationEmail(Request $request, ActivationService $activationService, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -254,7 +256,7 @@ class {{ $controllerBaseName }} extends Controller
     */
     public function export()
     {
-        return Excel::download(new {{ $exportBaseName }}, '{{ str_plural($modelVariableName) }}.xlsx');
+        return Excel::download(app({{ $exportBaseName }}::class), '{{ str_plural($modelVariableName) }}.xlsx');
     }
 @endif
 
