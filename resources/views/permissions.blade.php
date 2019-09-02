@@ -2,7 +2,8 @@
 @endphp
 
 
-use Illuminate\Config\Repository
+use Carbon\Carbon;
+use Illuminate\Config\Repository;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
@@ -42,8 +43,8 @@ class {{ $className }} extends Migration
             return [
                 'name' => $permission,
                 'guard_name' => $this->guardName,
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ];
         })->toArray();
 
@@ -70,7 +71,7 @@ class {{ $className }} extends Migration
                     'name' => $permission['name'],
                     'guard_name' => $permission['guard_name']
                 ])->first();
-                if (is_null($permissionItem)) {
+                if ($permissionItem === null) {
                     DB::table('permissions')->insert($permission);
                 }
             }
@@ -83,7 +84,7 @@ class {{ $className }} extends Migration
                     'name' => $role['name'],
                     'guard_name' => $role['guard_name']
                 ])->first();
-                if (!is_null($roleItem)) {
+                if ($roleItem !== null) {
                     $roleId = $roleItem->id;
 
                     $permissionItems = DB::table('permissions')->whereIn('name', $permissions)->where(
@@ -96,7 +97,7 @@ class {{ $className }} extends Migration
                             'role_id' => $roleId
                         ];
                         $roleHasPermissionItem = DB::table('role_has_permissions')->where($roleHasPermissionData)->first();
-                        if (is_null($roleHasPermissionItem)) {
+                        if ($roleHasPermissionItem === null) {
                             DB::table('role_has_permissions')->insert($roleHasPermissionData);
                         }
                     }
@@ -119,7 +120,7 @@ class {{ $className }} extends Migration
                     'name' => $permission['name'],
                     'guard_name' => $permission['guard_name']
                 ])->first();
-                if (!is_null($permissionItem)) {
+                if ($permissionItem !== null) {
                     DB::table('permissions')->where('id', $permissionItem->id)->delete();
                     DB::table('model_has_permissions')->where('permission_id', $permissionItem->id)->delete();
                 }

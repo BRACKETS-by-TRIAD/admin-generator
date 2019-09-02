@@ -19,7 +19,6 @@ use {{ $modelFullName }};
 use Brackets\AdminListing\Facades\AdminListing;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 @if (count($relations))
 @if (count($relations['belongsToMany']))

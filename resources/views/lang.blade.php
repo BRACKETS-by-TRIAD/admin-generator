@@ -14,14 +14,14 @@
         ],
 
         'columns' => [
-            'id' => "ID",
-            @foreach($columns as $col)'{{ $col['name'] }}' => "{{ $col['defaultTranslation'] }}",
+            'id' => 'ID',
+            @foreach($columns as $col)'{{ $col['name'] }}' => '{{ $col['defaultTranslation'] }}',
             @endforeach
 @if (count($relations))
     @if (count($relations['belongsToMany']))
 
             //Belongs to many relations
-            @foreach($relations['belongsToMany'] as $belongsToMany)'{{ lcfirst($belongsToMany['related_model_name_plural']) }}' => "{{ ucfirst(str_replace('_', ' ', $belongsToMany['related_model_name_plural'])) }}",
+            @foreach($relations['belongsToMany'] as $belongsToMany)'{{ lcfirst($belongsToMany['related_model_name_plural']) }}' => '{{ ucfirst(str_replace('_', ' ', $belongsToMany['related_model_name_plural'])) }}',
             @endforeach
     @endif
 @endif

@@ -58,7 +58,7 @@ class {{ $modelBaseName }} extends Model
     ];
     @endif
 
-    @if ($hidden)protected $hidden = [
+    @if ($hidden && count($hidden) > 0)protected $hidden = [
     @foreach($hidden as $h)
     '{{ $h }}',
     @endforeach
