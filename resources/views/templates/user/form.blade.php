@@ -12,7 +12,7 @@
             </select>
             <i class="localization-error" v-if="isFormLocalized && showLocalizedValidationError"></i>
             <span>|</span>
-            <a href="#" @click.prevent="hideLocalization">{{ trans('brackets/admin-ui::admin.forms.hide') }}</a>
+            <a href="#" @click.prevent="hideLocalization">@{{ trans('brackets/admin-ui::admin.forms.hide') }}</a>
         </small>
     </div>
 </div>
