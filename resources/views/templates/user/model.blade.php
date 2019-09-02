@@ -1,5 +1,8 @@
 @php echo "<?php"
-@endphp namespace {{ $modelNameSpace }};
+@endphp
+
+
+namespace {{ $modelNameSpace }};
 @php
     $hasRoles = false;
     if(count($relations) && count($relations['belongsToMany'])) {
@@ -12,17 +15,17 @@
     }
 @endphp
 
-use Brackets\AdminAuth\Activation\Traits\CanActivate;
 use Brackets\AdminAuth\Activation\Contracts\CanActivate as CanActivateContract;
+use Brackets\AdminAuth\Activation\Traits\CanActivate;
 use Brackets\AdminAuth\Notifications\ResetPassword;
+@if($translatable->count() > 0)use Brackets\Translatable\Traits\HasTranslations;
+@endif
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 @if($hasSoftDelete)use Illuminate\Database\Eloquent\SoftDeletes;
 @endif
-use Illuminate\Database\Eloquent\Relations\BelongsToMany
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 @if($hasRoles)use Spatie\Permission\Traits\HasRoles;
-@endif
-@if($translatable->count() > 0)use Brackets\Translatable\Traits\HasTranslations;
 @endif
 
 class {{ $modelBaseName }} extends Authenticatable implements CanActivateContract

@@ -3,15 +3,16 @@
 namespace Brackets\AdminGenerator\Tests\Feature\Classes;
 
 use Brackets\AdminGenerator\Tests\TestCase;
-use Illuminate\Support\Facades\File;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\File;
 
 class ModelNameTest extends TestCase
 {
     use DatabaseMigrations;
 
     /** @test */
-    function model_name_should_auto_generate_from_table_name(){
+    public function model_name_should_auto_generate_from_table_name(): void
+    {
         $filePath = base_path('app/Models/Category.php');
 
         $this->assertFileNotExists($filePath);
@@ -21,7 +22,9 @@ class ModelNameTest extends TestCase
         ]);
 
         $this->assertFileExists($filePath);
-        $this->assertStringStartsWith('<?php namespace App\Models;
+        $this->assertStringStartsWith('<?php
+
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,7 +32,8 @@ class Category extends Model', File::get($filePath));
     }
 
     /** @test */
-    function you_can_pass_custom_class_name_for_the_model(){
+    public function you_can_pass_custom_class_name_for_the_model(): void
+    {
         $filePath = base_path('app/Models/Billing/Category.php');
 
         $this->assertFileNotExists($filePath);
@@ -40,7 +44,9 @@ class Category extends Model', File::get($filePath));
         ]);
 
         $this->assertFileExists($filePath);
-        $this->assertStringStartsWith('<?php namespace App\Models\Billing;
+        $this->assertStringStartsWith('<?php
+
+namespace App\Models\Billing;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -48,7 +54,8 @@ class Category extends Model', File::get($filePath));
     }
 
     /** @test */
-    function class_name_can_be_outside_default_folder(){
+    public function class_name_can_be_outside_default_folder(): void
+    {
         $filePath = base_path('app/Billing/Category.php');
 
         $this->assertFileNotExists($filePath);
@@ -59,7 +66,9 @@ class Category extends Model', File::get($filePath));
         ]);
 
         $this->assertFileExists($filePath);
-        $this->assertStringStartsWith('<?php namespace App\Billing;
+        $this->assertStringStartsWith('<?php
+
+namespace App\Billing;
 
 use Illuminate\Database\Eloquent\Model;
 

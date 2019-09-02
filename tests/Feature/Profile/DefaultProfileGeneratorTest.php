@@ -3,15 +3,16 @@
 namespace Brackets\AdminGenerator\Tests\Feature\Users;
 
 use Brackets\AdminGenerator\Tests\UserTestCase;
-use Illuminate\Support\Facades\File;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\File;
 
 class DefaultProfileGeneratorTest extends UserTestCase
 {
     use DatabaseMigrations;
 
     /** @test */
-    function all_files_should_be_generated_under_default_namespace(){
+    public function all_files_should_be_generated_under_default_namespace(): void
+    {
         $filePathController = base_path('app/Http/Controllers/Admin/ProfileController.php');
         $filePathRoute = base_path('routes/web.php');
         $editPathProfile = resource_path('views/admin/profile/edit-profile.blade.php');
@@ -19,14 +20,14 @@ class DefaultProfileGeneratorTest extends UserTestCase
         $editPathPassword = resource_path('views/admin/profile/edit-password.blade.php');
         $formJsPathPassword = resource_path('js/admin/profile-edit-password/Form.js');
         $indexJsPathPassword = resource_path('js/admin/profile-edit-password/index.js');
-		$bootstrapJsPath = resource_path('js/admin/index.js');
+        $bootstrapJsPath = resource_path('js/admin/index.js');
 
         $this->assertFileNotExists($filePathController);
         $this->assertFileNotExists($editPathProfile);
         $this->assertFileNotExists($formJsPathProfile);
         $this->assertFileNotExists($editPathPassword);
         $this->assertFileNotExists($formJsPathPassword);
-		$this->assertFileNotExists($indexJsPathPassword);
+        $this->assertFileNotExists($indexJsPathPassword);
 
         $this->artisan('admin:generate:admin-user:profile', [
         ]);
@@ -36,12 +37,15 @@ class DefaultProfileGeneratorTest extends UserTestCase
         $this->assertFileExists($formJsPathProfile);
         $this->assertFileExists($editPathPassword);
         $this->assertFileExists($formJsPathPassword);
-		$this->assertFileExists($indexJsPathPassword);
+        $this->assertFileExists($indexJsPathPassword);
 
-        $this->assertStringStartsWith('<?php namespace App\Http\Controllers\Admin;
+        $this->assertStringStartsWith('<?php
+
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -56,7 +60,8 @@ Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\']
     Route::get(\'/admin/profile\',                                \'Admin\ProfileController@editProfile\');
     Route::post(\'/admin/profile\',                               \'Admin\ProfileController@updateProfile\');
     Route::get(\'/admin/password\',                               \'Admin\ProfileController@editPassword\');
-    Route::post(\'/admin/password\',                              \'Admin\ProfileController@updatePassword\');', File::get($filePathRoute));
+    Route::post(\'/admin/password\',                              \'Admin\ProfileController@updatePassword\');',
+            File::get($filePathRoute));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')
 
 @section(\'title\', trans(\'admin.admin-user.actions.edit_profile\'))
@@ -88,6 +93,6 @@ Vue.component(\'profile-edit-password-form\'', File::get($formJsPathPassword));
         $this->assertStringStartsWith("import './profile-edit-profile';
 import './profile-edit-password';", File::get($bootstrapJsPath));
 
-		$this->assertStringStartsWith("import './Form';\n", File::get($indexJsPathPassword));
+        $this->assertStringStartsWith("import './Form';\n", File::get($indexJsPathPassword));
     }
 }

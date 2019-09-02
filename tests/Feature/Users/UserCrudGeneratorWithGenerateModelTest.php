@@ -3,15 +3,16 @@
 namespace Brackets\AdminGenerator\Tests\Feature\Users;
 
 use Brackets\AdminGenerator\Tests\UserTestCase;
-use Illuminate\Support\Facades\File;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\File;
 
 class UserCrudGeneratorWithGenerateModelTest extends UserTestCase
 {
     use DatabaseMigrations;
 
     /** @test */
-    function user_model_name_should_auto_generate_from_table_name_if_required(){
+    public function user_model_name_should_auto_generate_from_table_name_if_required(): void
+    {
         $filePath = base_path('app/Models/User.php');
 
         $this->assertFileNotExists($filePath);
@@ -21,11 +22,14 @@ class UserCrudGeneratorWithGenerateModelTest extends UserTestCase
         ]);
 
         $this->assertFileExists($filePath);
-        $this->assertStringStartsWith('<?php namespace App\Models;
+        $this->assertStringStartsWith('<?php
 
-use Brackets\AdminAuth\Activation\Traits\CanActivate;
+namespace App\Models;
+
 use Brackets\AdminAuth\Activation\Contracts\CanActivate as CanActivateContract;
+use Brackets\AdminAuth\Activation\Traits\CanActivate;
 use Brackets\AdminAuth\Notifications\ResetPassword;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -35,7 +39,8 @@ class User extends Authenticatable implements CanActivateContract
     }
 
     /** @test */
-    function user_model_name_should_use_custom_name_if_required(){
+    public function user_model_name_should_use_custom_name_if_required(): void
+    {
         $filePath = base_path('app/Models/Auth/User.php');
 
         $this->assertFileNotExists($filePath);
@@ -46,11 +51,14 @@ class User extends Authenticatable implements CanActivateContract
         ]);
 
         $this->assertFileExists($filePath);
-        $this->assertStringStartsWith('<?php namespace App\Models\Auth;
+        $this->assertStringStartsWith('<?php
 
-use Brackets\AdminAuth\Activation\Traits\CanActivate;
+namespace App\Models\Auth;
+
 use Brackets\AdminAuth\Activation\Contracts\CanActivate as CanActivateContract;
+use Brackets\AdminAuth\Activation\Traits\CanActivate;
 use Brackets\AdminAuth\Notifications\ResetPassword;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -60,7 +68,8 @@ class User extends Authenticatable implements CanActivateContract
     }
 
     /** @test */
-    function user_model_name_should_use_custom_name_outside_default_folder_if_required(){
+    public function user_model_name_should_use_custom_name_outside_default_folder_if_required(): void
+    {
         $filePath = base_path('app/Auth/User.php');
 
         $this->assertFileNotExists($filePath);
@@ -71,11 +80,14 @@ class User extends Authenticatable implements CanActivateContract
         ]);
 
         $this->assertFileExists($filePath);
-        $this->assertStringStartsWith('<?php namespace App\Auth;
+        $this->assertStringStartsWith('<?php
 
-use Brackets\AdminAuth\Activation\Traits\CanActivate;
+namespace App\Auth;
+
 use Brackets\AdminAuth\Activation\Contracts\CanActivate as CanActivateContract;
+use Brackets\AdminAuth\Activation\Traits\CanActivate;
 use Brackets\AdminAuth\Notifications\ResetPassword;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;

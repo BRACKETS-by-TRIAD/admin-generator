@@ -1,5 +1,8 @@
 @php echo "<?php";
-@endphp namespace {{ $controllerNamespace }};
+@endphp
+
+
+namespace {{ $controllerNamespace }};
 @php
     $activation = $columns->search(function ($column, $key) {
             return $column['name'] === 'activated';
@@ -7,20 +10,13 @@
 @endphp
 
 use App\Http\Controllers\Controller;
+@if($export)use App\Exports\{{$exportBaseName}};
+@endif
+use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};
-use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
-use Brackets\AdminListing\Facades\AdminListing;
-use Exception;
 use {{ $modelFullName }};
-use Illuminate\Auth\Access\AuthorizationException
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Config;
-@if($activation)use Brackets\AdminAuth\Services\ActivationService;
-use Brackets\AdminAuth\Activation\Facades\Activation;
-@endif
 @if (count($relations))
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
@@ -28,9 +24,17 @@ use {{ $belongsToMany['related_model'] }};
 @endforeach
 @endif
 @endif
-@if($export)
-use App\Exports\{{$exportBaseName}};
-use Maatwebsite\Excel\Facades\Excel;
+@if($activation)use Brackets\AdminAuth\Activation\Facades\Activation;
+@endif
+@if($activation)use Brackets\AdminAuth\Services\ActivationService;
+@endif
+use Brackets\AdminListing\Facades\AdminListing;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
+@if($export)use Maatwebsite\Excel\Facades\Excel;
 @endif
 
 class {{ $controllerBaseName }} extends Controller

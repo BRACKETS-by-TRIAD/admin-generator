@@ -10,7 +10,8 @@ class WholeAdminGeneratorTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    function whole_admin_generator_produces_all_the_files(){
+    public function whole_admin_generator_produces_all_the_files(): void
+    {
         $modelPath = base_path('app/Models/Category.php');
         $controllerPath = base_path('app/Http/Controllers/Admin/CategoriesController.php');
         $indexRequestPath = base_path('app/Http/Requests/Admin/Category/IndexCategory.php');
@@ -25,8 +26,8 @@ class WholeAdminGeneratorTest extends TestCase
         $editPath = resource_path('views/admin/category/edit.blade.php');
         $formJsPath = resource_path('js/admin/category/Form.js');
         $factoryPath = base_path('database/factories/ModelFactory.php');
-		$indexJsPath = resource_path('js/admin/category/index.js');
-		$langPath = resource_path('lang/en/admin.php');
+        $indexJsPath = resource_path('js/admin/category/index.js');
+        $langPath = resource_path('lang/en/admin.php');
 
         $this->assertFileNotExists($controllerPath);
         $this->assertFileNotExists($indexRequestPath);
@@ -42,8 +43,8 @@ class WholeAdminGeneratorTest extends TestCase
         $this->assertFileNotExists($modelPath);
         $this->assertFileNotExists($routesPath);
         $this->assertFileNotExists($factoryPath);
-		$this->assertFileNotExists($indexJsPath);
-		$this->assertFileNotExists($langPath);
+        $this->assertFileNotExists($indexJsPath);
+        $this->assertFileNotExists($langPath);
 
         $this->artisan('admin:generate', [
             'table_name' => 'categories'
@@ -63,8 +64,8 @@ class WholeAdminGeneratorTest extends TestCase
         $this->assertFileExists($modelPath);
         $this->assertFileExists($routesPath);
         $this->assertFileExists($factoryPath);
-		$this->assertFileExists($indexJsPath);
-		$this->assertFileExists($langPath);
+        $this->assertFileExists($indexJsPath);
+        $this->assertFileExists($langPath);
     }
 
 }

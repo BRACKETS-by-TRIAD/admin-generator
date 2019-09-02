@@ -3,15 +3,16 @@
 namespace Brackets\AdminGenerator\Tests\Feature\Users;
 
 use Brackets\AdminGenerator\Tests\UserTestCase;
-use Illuminate\Support\Facades\File;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\File;
 
 class UserCrudGeneratorWithCustomControllerNameTest extends UserTestCase
 {
     use DatabaseMigrations;
 
     /** @test */
-    function user_controller_name_can_be_namespaced(){
+    public function user_controller_name_can_be_namespaced(): void
+    {
         $filePathController = base_path('app/Http/Controllers/Admin/Auth/UsersController.php');
         $filePathRoutes = base_path('routes/web.php');
 
@@ -22,19 +23,23 @@ class UserCrudGeneratorWithCustomControllerNameTest extends UserTestCase
         ]);
 
         $this->assertFileExists($filePathController);
-        $this->assertStringStartsWith('<?php namespace App\Http\Controllers\Admin\Auth;
+        $this->assertStringStartsWith('<?php
+
+namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Http\Requests\Admin\User\DestroyUser;
 use App\Http\Requests\Admin\User\IndexUser;
 use App\Http\Requests\Admin\User\StoreUser;
 use App\Http\Requests\Admin\User\UpdateUser;
-use App\Http\Requests\Admin\User\DestroyUser;
-use Brackets\AdminListing\Facades\AdminListing;
 use App\Models\User;
-use Illuminate\Support\Facades\Config;
 use Spatie\Permission\Models\Role;
+use Brackets\AdminListing\Facades\AdminListing;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
 
 class UsersController extends Controller', File::get($filePathController));
 
@@ -50,11 +55,13 @@ Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\']
     Route::get(\'/admin/users/{user}/edit\',                      \'Admin\Auth\UsersController@edit\')->name(\'admin/users/edit\');
     Route::post(\'/admin/users/{user}\',                          \'Admin\Auth\UsersController@update\')->name(\'admin/users/update\');
     Route::delete(\'/admin/users/{user}\',                        \'Admin\Auth\UsersController@destroy\')->name(\'admin/users/destroy\');
-    Route::get(\'/admin/users/{user}/resend-activation\',         \'Admin\Auth\UsersController@resendActivationEmail\')->name(\'admin/users/resendActivationEmail\');', File::get($filePathRoutes));
+    Route::get(\'/admin/users/{user}/resend-activation\',         \'Admin\Auth\UsersController@resendActivationEmail\')->name(\'admin/users/resendActivationEmail\');',
+            File::get($filePathRoutes));
     }
 
     /** @test */
-    function user_controller_name_can_be_outside_default_directory(){
+    public function user_controller_name_can_be_outside_default_directory(): void
+    {
         $filePath = base_path('app/Http/Controllers/Auth/UsersController.php');
 
         $this->assertFileNotExists($filePath);
@@ -64,19 +71,23 @@ Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\']
         ]);
 
         $this->assertFileExists($filePath);
-        $this->assertStringStartsWith('<?php namespace App\Http\Controllers\Auth;
+        $this->assertStringStartsWith('<?php
+
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Http\Requests\Admin\User\DestroyUser;
 use App\Http\Requests\Admin\User\IndexUser;
 use App\Http\Requests\Admin\User\StoreUser;
 use App\Http\Requests\Admin\User\UpdateUser;
-use App\Http\Requests\Admin\User\DestroyUser;
-use Brackets\AdminListing\Facades\AdminListing;
 use App\Models\User;
-use Illuminate\Support\Facades\Config;
 use Spatie\Permission\Models\Role;
+use Brackets\AdminListing\Facades\AdminListing;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
 
 class UsersController extends Controller', File::get($filePath));
     }

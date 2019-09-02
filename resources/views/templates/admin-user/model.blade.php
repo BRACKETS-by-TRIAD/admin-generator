@@ -17,7 +17,7 @@ use Brackets\AdminAuth\Activation\Contracts\CanActivate as CanActivateContract;
 use Brackets\AdminAuth\Notifications\ResetPassword;
 @if($hasSoftDelete)use Illuminate\Database\Eloquent\SoftDeletes;
 @endif
-use Illuminate\Database\Eloquent\Relations\BelongsToMany
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 @if($hasRoles)use Spatie\Permission\Traits\HasRoles;

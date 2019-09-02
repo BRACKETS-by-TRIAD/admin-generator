@@ -1,5 +1,8 @@
-@php echo "<?php"
-@endphp namespace App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }};
+@php echo "<?php";
+@endphp
+
+
+namespace App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }};
 @php
     if($translatable->count() > 0) {
         $translatableColumns = $columns->filter(function($column) use ($translatable) {
@@ -15,10 +18,10 @@
 @else
 use Illuminate\Foundation\Http\FormRequest;
 @endif
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 @if($translatable->count() > 0)class Update{{ $modelBaseName }} extends TranslatableFormRequest
 @else

@@ -3,15 +3,16 @@
 namespace Brackets\AdminGenerator\Tests\Feature\Users;
 
 use Brackets\AdminGenerator\Tests\UserTestCase;
-use Illuminate\Support\Facades\File;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\File;
 
 class ProfileGeneratorWithCustomModelNameTest extends UserTestCase
 {
     use DatabaseMigrations;
 
     /** @test */
-    function profile_controller_should_be_generated_with_custom_model(){
+    public function profile_controller_should_be_generated_with_custom_model(): void
+    {
         $filePath = base_path('app/Http/Controllers/Admin/Auth/ProfileController.php');
 
         $this->assertFileNotExists($filePath);
@@ -22,10 +23,13 @@ class ProfileGeneratorWithCustomModelNameTest extends UserTestCase
         ]);
 
         $this->assertFileExists($filePath);
-        $this->assertStringStartsWith('<?php namespace App\Http\Controllers\Admin\Auth;
+        $this->assertStringStartsWith('<?php
+
+namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 

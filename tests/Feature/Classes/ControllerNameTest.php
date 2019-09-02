@@ -3,15 +3,16 @@
 namespace Brackets\AdminGenerator\Tests\Feature\Classes;
 
 use Brackets\AdminGenerator\Tests\TestCase;
-use Illuminate\Support\Facades\File;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\File;
 
 class ControllerNameTest extends TestCase
 {
     use DatabaseMigrations;
 
     /** @test */
-    function controller_should_be_generated_underdefault_namespace(){
+    public function controller_should_be_generated_under_default_namespace(): void
+    {
         $filePath = base_path('app/Http/Controllers/Admin/CategoriesController.php');
 
         $this->assertFileNotExists($filePath);
@@ -21,23 +22,28 @@ class ControllerNameTest extends TestCase
         ]);
 
         $this->assertFileExists($filePath);
-        $this->assertStringStartsWith('<?php namespace App\Http\Controllers\Admin;
+        $this->assertStringStartsWith('<?php
+
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Http\Requests\Admin\Category\DestroyCategory;
 use App\Http\Requests\Admin\Category\IndexCategory;
 use App\Http\Requests\Admin\Category\StoreCategory;
 use App\Http\Requests\Admin\Category\UpdateCategory;
-use App\Http\Requests\Admin\Category\DestroyCategory;
-use Brackets\AdminListing\Facades\AdminListing;
 use App\Models\Category;
+use Brackets\AdminListing\Facades\AdminListing;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class CategoriesController extends Controller', File::get($filePath));
     }
 
     /** @test */
-    function controller_name_can_be_namespaced(){
+    public function controller_name_can_be_namespaced(): void
+    {
         $filePath = base_path('app/Http/Controllers/Admin/Billing/MyNameController.php');
 
         $this->assertFileNotExists($filePath);
@@ -48,23 +54,28 @@ class CategoriesController extends Controller', File::get($filePath));
         ]);
 
         $this->assertFileExists($filePath);
-        $this->assertStringStartsWith('<?php namespace App\Http\Controllers\Admin\Billing;
+        $this->assertStringStartsWith('<?php
+
+namespace App\Http\Controllers\Admin\Billing;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Http\Requests\Admin\Category\DestroyCategory;
 use App\Http\Requests\Admin\Category\IndexCategory;
 use App\Http\Requests\Admin\Category\StoreCategory;
 use App\Http\Requests\Admin\Category\UpdateCategory;
-use App\Http\Requests\Admin\Category\DestroyCategory;
-use Brackets\AdminListing\Facades\AdminListing;
 use App\Models\Category;
+use Brackets\AdminListing\Facades\AdminListing;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class MyNameController extends Controller', File::get($filePath));
     }
 
     /** @test */
-    function you_can_generate_controller_outside_default_directory(){
+    public function you_can_generate_controller_outside_default_directory(): void
+    {
         $filePath = base_path('app/Http/Controllers/Billing/CategoriesController.php');
 
         $this->assertFileNotExists($filePath);
@@ -75,24 +86,29 @@ class MyNameController extends Controller', File::get($filePath));
         ]);
 
         $this->assertFileExists($filePath);
-        $this->assertStringStartsWith('<?php namespace App\Http\Controllers\Billing;
+        $this->assertStringStartsWith('<?php
+
+namespace App\Http\Controllers\Billing;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Http\Requests\Admin\Category\DestroyCategory;
 use App\Http\Requests\Admin\Category\IndexCategory;
 use App\Http\Requests\Admin\Category\StoreCategory;
 use App\Http\Requests\Admin\Category\UpdateCategory;
-use App\Http\Requests\Admin\Category\DestroyCategory;
-use Brackets\AdminListing\Facades\AdminListing;
 use App\Models\Category;
+use Brackets\AdminListing\Facades\AdminListing;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class CategoriesController extends Controller', File::get($filePath));
     }
 
 
     /** @test */
-    function you_can_pass_a_model_class_name(){
+    public function you_can_pass_a_model_class_name(): void
+    {
         $filePath = base_path('app/Http/Controllers/Billing/CategoriesController.php');
 
         $this->assertFileNotExists($filePath);
@@ -104,17 +120,21 @@ class CategoriesController extends Controller', File::get($filePath));
         ]);
 
         $this->assertFileExists($filePath);
-        $this->assertStringStartsWith('<?php namespace App\Http\Controllers\Billing;
+        $this->assertStringStartsWith('<?php
+
+namespace App\Http\Controllers\Billing;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Http\Requests\Admin\Cat\DestroyCat;
 use App\Http\Requests\Admin\Cat\IndexCat;
 use App\Http\Requests\Admin\Cat\StoreCat;
 use App\Http\Requests\Admin\Cat\UpdateCat;
-use App\Http\Requests\Admin\Cat\DestroyCat;
-use Brackets\AdminListing\Facades\AdminListing;
 use App\Billing\Cat;
+use Brackets\AdminListing\Facades\AdminListing;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class CategoriesController extends Controller', File::get($filePath));
     }

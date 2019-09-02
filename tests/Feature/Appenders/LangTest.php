@@ -3,15 +3,16 @@
 namespace Brackets\AdminGenerator\Tests\Feature\Appenders;
 
 use Brackets\AdminGenerator\Tests\TestCase;
-use Illuminate\Support\Facades\File;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\File;
 
 class LangTest extends TestCase
 {
     use DatabaseMigrations;
 
     /** @test */
-    function auto_generated_lang_append(){
+    public function auto_generated_lang_append(): void
+    {
         $filePath = resource_path('lang/en/admin.php');
 
         $this->artisan('admin:generate:lang', [
@@ -31,8 +32,8 @@ return [
         ],
 
         \'columns\' => [
-            \'id\' => "ID",
-            \'title\' => "Title",
+            \'id\' => \'ID\',
+            \'title\' => \'Title\',
             
         ],
     ],
@@ -43,7 +44,8 @@ return [
 
 
     /** @test */
-    function namespaced_model_lang_append(){
+    public function namespaced_model_lang_append(): void
+    {
         $filePath = resource_path('lang/en/admin.php');
 
         $this->artisan('admin:generate:lang', [
@@ -64,8 +66,8 @@ return [
         ],
 
         \'columns\' => [
-            \'id\' => "ID",
-            \'title\' => "Title",
+            \'id\' => \'ID\',
+            \'title\' => \'Title\',
             
         ],
     ],
