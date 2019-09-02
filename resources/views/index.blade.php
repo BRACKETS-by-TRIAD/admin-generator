@@ -119,7 +119,7 @@
                                             <span class="cursor-pointer" @click="publishLater(item.resource_url, collection[index], 'publishLaterDialog')" title="@{{ trans('brackets/admin-ui::admin.operation.publish_later') }}" role="button"><i class="fa fa-calendar"></i></span>
                                         </span>
                                         <div v-if="!item.published_at">
-                                            <span class="btn btn-sm btn-info" @click="publishLater(item.resource_url, collection[index], 'publishLaterDialog')" title="@{{ trans('brackets/admin-ui::admin.operation.publish_later') }}" role="button"><i class="fa fa-calendar"></i>&nbsp;&nbsp;@{{ trans('brackets/admin-ui::admin.operation.publish_later') }}</span>
+                                            <span class="btn btn-sm btn-info text-white mb-1" @click="publishLater(item.resource_url, collection[index], 'publishLaterDialog')" title="@{{ trans('brackets/admin-ui::admin.operation.publish_later') }}" role="button"><i class="fa fa-calendar"></i>&nbsp;&nbsp;@{{ trans('brackets/admin-ui::admin.operation.publish_later') }}</span>
                                         </div>
                                         <div v-if="!item.published_at || item.published_at > now">
                                             <form class="d-inline" @submit.prevent="publishNow(item.resource_url, collection[index], 'publishNowDialog')">
