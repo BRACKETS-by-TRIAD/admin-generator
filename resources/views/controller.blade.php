@@ -300,11 +300,10 @@ class {{ $controllerBaseName }} extends Controller
                     // TODO your code goes here
                 });
         });
-
+@endif
 
         return response(['message' => trans('brackets/admin-ui::admin.operation.succeeded')]);
     }
-@endif
 @endif
 @if($export)
 
