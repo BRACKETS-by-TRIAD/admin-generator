@@ -112,7 +112,6 @@ class Store{{ $modelBaseName }} extends FormRequest
     public function getModifiedData(): array
     {
         $data = $this->only(collect($this->rules())->keys()->all());
-        //TODO: is this ok?
         if (!Config::get('admin-auth.activation_enabled')) {
             $data['activated'] = true;
         }

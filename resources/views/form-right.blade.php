@@ -5,7 +5,7 @@
     <div class="card-block">
 
         <div class="form-group row align-items-center" :class="{'has-danger': errors.has('published_at'), 'has-success': this.fields.published_at && this.fields.published_at.valid }">
-            <label for="published_at" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-2' : 'col-md-4'">{{'{{'}} trans('admin.{{ $modelVariableName }}.columns.published_at') }}</label>
+            <label for="published_at" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-2' : 'col-md-4'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.published_at') }}</label>
             <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
                 <div class="input-group input-group--custom">
                     <div class="input-group-addon"><i class="fa fa-calendar"></i></div>

@@ -7,7 +7,7 @@
     });
 @endphp
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define({{ $modelFullName }}::class, function (Faker\Generator $faker) {
+$factory->define({{ $modelFullName }}::class, static function (Faker\Generator $faker) {
     return [
         @foreach($standardColumn as $col)'{{ $col['name'] }}' => {!! $col['faker'] !!},
         @endforeach
