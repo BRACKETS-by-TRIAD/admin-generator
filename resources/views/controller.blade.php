@@ -278,10 +278,10 @@ class {{ $controllerBaseName }} extends Controller
     public function bulkDestroy(Destroy{{ $modelBaseName }} $request) : Response
     {
 @if($hasSoftDelete)
-        DB::transaction(function () use ($request) {
+        DB::transaction(static function () use ($request) {
             collect($request->data['ids'])
                 ->chunk(1000)
-                ->each(function ($bulkChunk) {
+                ->each(static function ($bulkChunk) {
                     DB::table('{{ str_plural($modelVariableName) }}')->whereIn('id', $bulkChunk)
                         ->update([
                             'deleted_at' => Carbon::now()->format('Y-m-d H:i:s')
@@ -291,10 +291,10 @@ class {{ $controllerBaseName }} extends Controller
                 });
         });
 @else
-        DB::transaction(function () use ($request) {
+        DB::transaction(static function () use ($request) {
             collect($request->data['ids'])
                 ->chunk(1000)
-                ->each(function ($bulkChunk) {
+                ->each(static function ($bulkChunk) {
                     {{ $modelBaseName }}::whereIn('id', $bulkChunk)->delete();
 
                     // TODO your code goes here

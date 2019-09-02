@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
 @endif
 @if($hasSoftDelete)use Illuminate\Database\Eloquent\SoftDeletes;
 @endif
-@if (count($relations['belongsToMany']))
+@if (isset($relations['belongsToMany']) && count($relations['belongsToMany']))
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 @endif
 @if($hasRoles)use Spatie\Permission\Traits\HasRoles;

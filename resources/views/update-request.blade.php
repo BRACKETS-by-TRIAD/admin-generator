@@ -105,7 +105,7 @@ class Update{{ $modelBaseName }} extends FormRequest
      *
      * {{'@'}}return array
      */
-    public function getSanitized()
+    public function getSanitized(): array
     {
         $sanitized = $this->validated();
 
