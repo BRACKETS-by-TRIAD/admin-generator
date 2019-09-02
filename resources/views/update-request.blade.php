@@ -4,7 +4,7 @@
 
 namespace App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }};
 @php
-    if($translatable->count() > 0) {
+    if ($translatable->count() > 0) {
         $translatableColumns = $columns->filter(function($column) use ($translatable) {
             return in_array($column['name'], $translatable->toArray());
         });

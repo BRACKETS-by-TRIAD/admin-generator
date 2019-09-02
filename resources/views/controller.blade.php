@@ -7,9 +7,6 @@ namespace {{ $controllerNamespace }};
 @if($export)
 use App\Exports\{{$exportBaseName}};
 @endif
-@if(!$withoutBulk && $hasSoftDelete)
-use Carbon\Carbon;
-@endif
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelBaseName }};
@@ -17,6 +14,9 @@ use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelB
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};
 use {{ $modelFullName }};
 use Brackets\AdminListing\Facades\AdminListing;
+@if(!$withoutBulk && $hasSoftDelete)
+use Carbon\Carbon;
+@endif
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Response;
