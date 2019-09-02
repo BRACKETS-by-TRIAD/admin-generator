@@ -33,8 +33,9 @@ use Illuminate\Support\Facades\DB;
 @if(in_array('created_by_admin_user_id', $columnsToQuery) || in_array('updated_by_admin_user_id', $columnsToQuery))
 use Illuminate\Support\Facades\Auth;
 @endif
-@if($export)
-use Maatwebsite\Excel\Facades\Excel;
+@if($export)use Maatwebsite\Excel\Facades\Excel;
+@endif
+@if($export)use Symfony\Component\HttpFoundation\BinaryFileResponse;
 @endif
 
 class {{ $controllerBaseName }} extends Controller
@@ -308,8 +309,10 @@ class {{ $controllerBaseName }} extends Controller
 
     /**
      * Export entities
+     *
+     * {{'@'}}return BinaryFileResponse|null
      */
-    public function export()
+    public function export(): ?BinaryFileResponse
     {
         return Excel::download(app({{ $exportBaseName }}::class), '{{ str_plural($modelVariableName) }}.xlsx');
     }

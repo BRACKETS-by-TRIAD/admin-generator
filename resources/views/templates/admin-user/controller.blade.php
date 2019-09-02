@@ -9,9 +9,9 @@ namespace {{ $controllerNamespace }};
         }) !== false;
 @endphp
 
-use App\Http\Controllers\Controller;
 @if($export)use App\Exports\{{$exportBaseName}};
 @endif
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
@@ -35,6 +35,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 @if($export)use Maatwebsite\Excel\Facades\Excel;
+@endif
+@if($export)use Symfony\Component\HttpFoundation\BinaryFileResponse;
 @endif
 
 class {{ $controllerBaseName }} extends Controller
@@ -281,12 +283,13 @@ class {{ $controllerBaseName }} extends Controller
 @endif
 @if($export)
 
-   /**
-    * Export entities
-    */
-    public function export()
+    /**
+     * Export entities
+     *
+     * {{'@'}}return BinaryFileResponse|null
+     */
+    public function export(): ?BinaryFileResponse
     {
         return Excel::download(app({{ $exportBaseName }}::class), '{{ str_plural($modelVariableName) }}.xlsx');
     }
-
 @endif}

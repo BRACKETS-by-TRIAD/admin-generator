@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller
 {
@@ -65,6 +66,7 @@ class ProfileController extends Controller
      * Update the specified resource in storage.
      *
      * {{'@'}}param Request $request
+     * {{'@'}}throws ValidationException
      * {{'@'}}return Response|array
      */
     public function updateProfile(Request $request)
@@ -121,6 +123,7 @@ class ProfileController extends Controller
      * Update the specified resource in storage.
      *
      * {{'@'}}param Request $request
+     * {{'@'}}throws ValidationException
      * {{'@'}}return Response|array
      */
     public function updatePassword(Request $request)
