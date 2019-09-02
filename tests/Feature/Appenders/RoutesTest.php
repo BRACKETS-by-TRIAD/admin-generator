@@ -24,7 +24,7 @@ class RoutesTest extends TestCase
 
 
 /* Auto-generated admin routes */
-Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(function () {
+Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(static function () {
     Route::get(\'/admin/categories\',                             \'Admin\CategoriesController@index\');
     Route::get(\'/admin/categories/create\',                      \'Admin\CategoriesController@create\');
     Route::post(\'/admin/categories\',                            \'Admin\CategoriesController@store\');
@@ -51,7 +51,7 @@ Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\']
 
 
 /* Auto-generated admin routes */
-Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(function () {
+Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(static function () {
     Route::get(\'/admin/billing-categ-ories\',                    \'Admin\Billing\CategOryController@index\');
     Route::get(\'/admin/billing-categ-ories/create\',             \'Admin\Billing\CategOryController@create\');
     Route::post(\'/admin/billing-categ-ories\',                   \'Admin\Billing\CategOryController@store\');

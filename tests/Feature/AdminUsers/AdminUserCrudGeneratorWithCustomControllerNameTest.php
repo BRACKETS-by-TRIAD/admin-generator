@@ -50,7 +50,7 @@ class AdminUsersController extends Controller', File::get($filePathController));
 
 
 /* Auto-generated admin routes */
-Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(function () {
+Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(static function () {
     Route::get(\'/admin/admin-users\',                            \'Admin\Auth\AdminUsersController@index\');
     Route::get(\'/admin/admin-users/create\',                     \'Admin\Auth\AdminUsersController@create\');
     Route::post(\'/admin/admin-users\',                           \'Admin\Auth\AdminUsersController@store\');

@@ -48,6 +48,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller
 {', File::get($filePathController));
@@ -56,7 +57,7 @@ class ProfileController extends Controller
 
 
 /* Auto-generated profile routes */
-Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(function () {
+Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(static function () {
     Route::get(\'/admin/profile\',                                \'Admin\ProfileController@editProfile\');
     Route::post(\'/admin/profile\',                               \'Admin\ProfileController@updateProfile\');
     Route::get(\'/admin/password\',                               \'Admin\ProfileController@editPassword\');
