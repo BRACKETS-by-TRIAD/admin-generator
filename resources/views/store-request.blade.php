@@ -41,7 +41,7 @@ class Store{{ $modelBaseName }} extends FormRequest
      *
      * {{'@'}}return array
      */
-    public function untranslatableRules() {
+    public function untranslatableRules(): array {
         return [
             @foreach($standardColumn as $column)'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverStoreRules']) !!}],
             @endforeach
@@ -61,7 +61,7 @@ class Store{{ $modelBaseName }} extends FormRequest
      *
      * {{'@'}}return array
      */
-    public function translatableRules($locale) {
+    public function translatableRules($locale): array {
         return [
             @foreach($translatableColumns as $column)'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverStoreRules']) !!}],
             @endforeach
@@ -74,7 +74,7 @@ class Store{{ $modelBaseName }} extends FormRequest
      *
      * {{'@'}}return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             @foreach($columns as $column)

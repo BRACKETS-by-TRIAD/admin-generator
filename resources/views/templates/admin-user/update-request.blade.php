@@ -43,7 +43,7 @@ class Update{{ $modelBaseName }} extends FormRequest
      *
      * {{'@'}}return array
      */
-    public function untranslatableRules() {
+    public function untranslatableRules(): array {
         return [
             @foreach($standardColumn as $column)'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverUpdateRules']) !!}],
             @endforeach
@@ -63,7 +63,7 @@ class Update{{ $modelBaseName }} extends FormRequest
      *
      * {{'@'}}return array
      */
-    public function translatableRules($locale) {
+    public function translatableRules($locale): array {
         return [
             @foreach($translatableColumns as $column)'{{ $column['name'] }}' => [{!! implode(', ', (array) $column['serverUpdateRules']) !!}],
             @endforeach
@@ -76,7 +76,7 @@ class Update{{ $modelBaseName }} extends FormRequest
      *
      * {{'@'}}return array
      */
-    public function rules()
+    public function rules(): array
     {
 @php
     $columns = collect($columns)->reject(function($column) {
@@ -109,7 +109,7 @@ class Update{{ $modelBaseName }} extends FormRequest
      *
      * {{'@'}}return array
      */
-    public function getModifiedData()
+    public function getModifiedData(): array
     {
         $data = $this->only(collect($this->rules())->keys()->all());
         //TODO: is this ok?
