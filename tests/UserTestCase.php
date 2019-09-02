@@ -12,7 +12,7 @@ abstract class UserTestCase extends Orchestra
 {
     use RefreshDatabase;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

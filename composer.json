@@ -40,8 +40,8 @@
     ],
     "require": {
         "php": "^7.1",
-        "illuminate/support": "5.5.*|5.6.*|5.7.*",
-        "illuminate/console": "5.5.*|5.6.*|5.7.*",
+        "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*",
+        "illuminate/console": "5.5.*|5.6.*|5.7.*|5.8.*",
         "doctrine/dbal": "^2.6.0"
     },
     "require-dev": {
@@ -67,7 +67,7 @@
             ]
         },
         "branch-alias": {
-            "dev-master": "3.1-dev"
+            "dev-laravel-58": "3.1-dev"
         }
     }
 }
