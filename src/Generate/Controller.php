@@ -2,6 +2,7 @@
 
 use Brackets\AdminGenerator\Generate\Traits\FileManipulations;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Symfony\Component\Console\Input\InputOption;
 
 class Controller extends ClassGenerator {
@@ -71,7 +72,7 @@ class Controller extends ClassGenerator {
 
             $this->info('Generating '.$this->classFullName.' finished');
 
-            $icon = array_random(['icon-graduation', 'icon-puzzle', 'icon-compass', 'icon-drop', 'icon-globe', 'icon-ghost', 'icon-book-open', 'icon-flag', 'icon-star', 'icon-umbrella', 'icon-energy', 'icon-plane', 'icon-magnet', 'icon-diamond']);
+            $icon = Arr::random(['icon-graduation', 'icon-puzzle', 'icon-compass', 'icon-drop', 'icon-globe', 'icon-ghost', 'icon-book-open', 'icon-flag', 'icon-star', 'icon-umbrella', 'icon-energy', 'icon-plane', 'icon-magnet', 'icon-diamond']);
             if ($this->strReplaceInFile(
                 resource_path('views/admin/layout/sidebar.blade.php'),
                 '|url\(\'admin\/'.$this->resource.'\'\)|',
