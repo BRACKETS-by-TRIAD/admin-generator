@@ -49,7 +49,7 @@ Vue.component(\'category-form\', {
         $this->assertFileExists($formPath);
         $this->assertFileExists($formJsPath);
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')', File::get($formPath));
-        $this->assertContains(':action="\'{{ route(\'admin/profile/edit-password\', [\'category\' => $category]) }}\'"',
+        $this->assertStringContainsString(':action="\'{{ route(\'admin/profile/edit-password\', [\'category\' => $category]) }}\'"',
             File::get($formPath));
         $this->assertStringStartsWith('import AppForm from \'../app-components/Form/AppForm\';
 
