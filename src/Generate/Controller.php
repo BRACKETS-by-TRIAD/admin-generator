@@ -113,7 +113,6 @@ class Controller extends ClassGenerator {
                     return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "remember_token" || $column['name'] == "slug" || $column['name'] == "deleted_at");
                 }
                 return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "remember_token" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
-
             })->pluck('name')->toArray(),
             'columnsToSearchIn' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return ($column['type'] == 'json' || $column['type'] == 'text' || $column['type'] == 'string' || $column['name'] == "id") && !($column['name'] == "password" || $column['name'] == "remember_token");
