@@ -105,6 +105,13 @@ class Controller extends ClassGenerator {
             'containsPublishedAtColumn' => in_array("published_at", array_column($this->readColumnsFromTable($this->tableName)->toArray(), 'name')),
             // index
             'columnsToQuery' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
+                if($this->readColumnsFromTable($this->tableName)->contains('name', 'created_by_admin_user_id')){
+                    return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "remember_token" || $column['name'] == "slug" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
+                } else if($this->readColumnsFromTable($this->tableName)->contains('name', 'updated_by_admin_user_id')) {
+                    return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "remember_token" || $column['name'] == "slug" || $column['name'] == "created_at" ||  $column['name'] == "deleted_at");
+                } else if($this->readColumnsFromTable($this->tableName)->contains('name', 'created_by_admin_user_id') && $this->readColumnsFromTable($this->tableName)->contains('name', 'updated_by_admin_user_id')) {
+                    return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "remember_token" || $column['name'] == "slug" || $column['name'] == "deleted_at");
+                }
                 return !($column['type'] == 'text' || $column['name'] == "password" || $column['name'] == "remember_token" || $column['name'] == "slug" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at");
             })->pluck('name')->toArray(),
             'columnsToSearchIn' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
