@@ -36,6 +36,9 @@ class {{ $className }} extends Migration
             'admin.{{ $modelDotNotation }}.show',
             'admin.{{ $modelDotNotation }}.edit',
             'admin.{{ $modelDotNotation }}.delete',
+@if(!$withoutBulk)
+            'admin.{{ $modelDotNotation }}.bulk-delete',
+@endif
         ]);
 
         //Add New permissions

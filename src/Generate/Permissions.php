@@ -19,6 +19,13 @@ class Permissions extends ClassGenerator {
     protected $description = 'Generate permissions migration';
 
     /**
+     * Permissions has also bulk options
+     *
+     * @return mixed
+     */
+    protected $withoutBulk = false;
+
+    /**
      * Execute the console command.
      *
      * @return mixed
@@ -26,6 +33,10 @@ class Permissions extends ClassGenerator {
     public function handle()
     {
         $force = $this->option('force');
+
+        if($this->option('without-bulk')){
+            $this->withoutBulk = true;
+        }
 
         if ($this->generateClass($force)){
             $this->info('Generating permissions for '.$this->modelBaseName.' finished');
@@ -75,6 +86,7 @@ class Permissions extends ClassGenerator {
             'modelBaseName' => $this->modelBaseName,
             'modelDotNotation' => $this->modelDotNotation,
             'className' => $this->generateClassNameFromTable($this->tableName),
+            'withoutBulk' => $this->withoutBulk,
         ])->render();
     }
 
@@ -82,6 +94,7 @@ class Permissions extends ClassGenerator {
         return [
             ['model-name', 'm', InputOption::VALUE_OPTIONAL, 'Generates a code for the given model'],
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating request'],
+            ['without-bulk', 'wb', InputOption::VALUE_NONE, 'Generate without bulk options'],
         ];
     }
 

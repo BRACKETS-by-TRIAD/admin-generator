@@ -8,6 +8,9 @@ namespace {{ $controllerNamespace }};
 use App\Exports\{{$exportBaseName}};
 @endif
 use App\Http\Controllers\Controller;
+@if(!$withoutBulk)
+use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\BulkDestroyPost;
+@endif
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
@@ -276,11 +279,11 @@ class {{ $controllerBaseName }} extends Controller
     @if(!$withoutBulk)/**
      * Remove the specified resources from storage.
      *
-     * {{'@'}}param Destroy{{ $modelBaseName }} $request
+     * {{'@'}}param BulkDestroy{{ $modelBaseName }} $request
      * {{'@'}}throws Exception
      * {{'@'}}return Response|bool
      */
-    public function bulkDestroy(Destroy{{ $modelBaseName }} $request) : Response
+    public function bulkDestroy(BulkDestroy{{ $modelBaseName }} $request) : Response
     {
 @if($hasSoftDelete)
         DB::transaction(static function () use ($request) {

@@ -89,6 +89,14 @@ class GenerateAdmin extends Command {
             '--force' => $force,
         ]);
 
+        if(!$withoutBulkOptions) {
+            $this->call('admin:generate:request:bulk-destroy', [
+                'table_name' => $tableNameArgument,
+                '--model-name' => $modelOption,
+                '--force' => $force,
+            ]);
+        }
+
         $this->call('admin:generate:routes', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,
@@ -129,6 +137,7 @@ class GenerateAdmin extends Command {
                 'table_name' => $tableNameArgument,
                 '--model-name' => $modelOption,
                 '--force' => $force,
+                '--without-bulk' => $withoutBulkOptions,
             ]);
 
             if ($this->option('no-interaction') || $this->confirm('Do you want to attach generated permissions to the default role now?', true)) {
