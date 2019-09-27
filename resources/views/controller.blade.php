@@ -9,7 +9,7 @@ use App\Exports\{{$exportBaseName}};
 @endif
 use App\Http\Controllers\Controller;
 @if(!$withoutBulk)
-use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\BulkDestroyPost;
+use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\BulkDestroy{{ $modelBaseName }};
 @endif
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelBaseName }};
