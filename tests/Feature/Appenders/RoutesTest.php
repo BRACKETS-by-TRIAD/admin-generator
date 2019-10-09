@@ -25,13 +25,18 @@ class RoutesTest extends TestCase
 
 /* Auto-generated admin routes */
 Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(static function () {
-    Route::get(\'/admin/categories\',                             \'Admin\CategoriesController@index\');
-    Route::get(\'/admin/categories/create\',                      \'Admin\CategoriesController@create\');
-    Route::post(\'/admin/categories\',                            \'Admin\CategoriesController@store\');
-    Route::get(\'/admin/categories/{category}/edit\',             \'Admin\CategoriesController@edit\')->name(\'admin/categories/edit\');
-    Route::post(\'/admin/categories/bulk-destroy\',               \'Admin\CategoriesController@bulkDestroy\')->name(\'admin/categories/bulk-destroy\');
-    Route::post(\'/admin/categories/{category}\',                 \'Admin\CategoriesController@update\')->name(\'admin/categories/update\');
-    Route::delete(\'/admin/categories/{category}\',               \'Admin\CategoriesController@destroy\')->name(\'admin/categories/destroy\');',
+    Route::prefix(\'admin\')->namespace(\'Admin\')->name(\'admin/\')->group(static function() {
+        Route::prefix(\'categories\')->name(\'categories/\')->group(static function() {
+            Route::get(\'/\',                                             \'CategoriesController@index\')->name(\'index\');
+            Route::get(\'/create\',                                       \'CategoriesController@create\')->name(\'create\');
+            Route::post(\'/\',                                            \'CategoriesController@store\')->name(\'store\');
+            Route::get(\'/{category}/edit\',                              \'CategoriesController@edit\')->name(\'edit\');
+            Route::post(\'/bulk-destroy\',                                \'CategoriesController@bulkDestroy\')->name(\'bulk-destroy\');
+            Route::post(\'/{category}\',                                  \'CategoriesController@update\')->name(\'update\');
+            Route::delete(\'/{category}\',                                \'CategoriesController@destroy\')->name(\'destroy\');
+        });
+    });
+});',
             File::get($filePath));
     }
 
@@ -52,13 +57,18 @@ Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\']
 
 /* Auto-generated admin routes */
 Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(static function () {
-    Route::get(\'/admin/billing-categ-ories\',                    \'Admin\Billing\CategOryController@index\');
-    Route::get(\'/admin/billing-categ-ories/create\',             \'Admin\Billing\CategOryController@create\');
-    Route::post(\'/admin/billing-categ-ories\',                   \'Admin\Billing\CategOryController@store\');
-    Route::get(\'/admin/billing-categ-ories/{categOry}/edit\',    \'Admin\Billing\CategOryController@edit\')->name(\'admin/billing-categ-ories/edit\');
-    Route::post(\'/admin/billing-categ-ories/bulk-destroy\',      \'Admin\Billing\CategOryController@bulkDestroy\')->name(\'admin/billing-categ-ories/bulk-destroy\');
-    Route::post(\'/admin/billing-categ-ories/{categOry}\',        \'Admin\Billing\CategOryController@update\')->name(\'admin/billing-categ-ories/update\');
-    Route::delete(\'/admin/billing-categ-ories/{categOry}\',      \'Admin\Billing\CategOryController@destroy\')->name(\'admin/billing-categ-ories/destroy\');',
+    Route::prefix(\'admin\')->namespace(\'Admin\')->name(\'admin/\')->group(static function() {
+        Route::prefix(\'billing-categ-ories\')->name(\'billing-categ-ories/\')->group(static function() {
+            Route::get(\'/\',                                             \'Billing\CategOryController@index\')->name(\'index\');
+            Route::get(\'/create\',                                       \'Billing\CategOryController@create\')->name(\'create\');
+            Route::post(\'/\',                                            \'Billing\CategOryController@store\')->name(\'store\');
+            Route::get(\'/{categOry}/edit\',                              \'Billing\CategOryController@edit\')->name(\'edit\');
+            Route::post(\'/bulk-destroy\',                                \'Billing\CategOryController@bulkDestroy\')->name(\'bulk-destroy\');
+            Route::post(\'/{categOry}\',                                  \'Billing\CategOryController@update\')->name(\'update\');
+            Route::delete(\'/{categOry}\',                                \'Billing\CategOryController@destroy\')->name(\'destroy\');
+        });
+    });
+});',
             File::get($filePath));
     }
 }

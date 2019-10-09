@@ -56,12 +56,17 @@ class ProfileController extends Controller
 
 
 
-/* Auto-generated profile routes */
+/* Auto-generated admin routes */
 Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(static function () {
-    Route::get(\'/admin/profile\',                                \'Admin\ProfileController@editProfile\');
-    Route::post(\'/admin/profile\',                               \'Admin\ProfileController@updateProfile\');
-    Route::get(\'/admin/password\',                               \'Admin\ProfileController@editPassword\');
-    Route::post(\'/admin/password\',                              \'Admin\ProfileController@updatePassword\');',
+    Route::prefix(\'admin\')->namespace(\'Admin\')->name(\'admin/\')->group(static function() {
+        Route::prefix(\'admin-users\')->name(\'admin-users/\')->group(static function() {
+            Route::get(\'/profile\',                                      \'ProfileController@editProfile\')->name(\'edit-profile\');
+            Route::post(\'/profile\',                                     \'ProfileController@updateProfile\')->name(\'update-profile\');
+            Route::get(\'/password\',                                     \'ProfileController@editPassword\')->name(\'edit-password\');
+            Route::post(\'/password\',                                    \'ProfileController@updatePassword\')->name(\'update-password\');
+        });
+    });
+});',
             File::get($filePathRoute));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')
 

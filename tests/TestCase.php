@@ -14,7 +14,6 @@ abstract class TestCase extends Orchestra
     public function setUp(): void
     {
         parent::setUp();
-
         $this->setUpDatabase($this->app);
     }
 
@@ -49,9 +48,9 @@ abstract class TestCase extends Orchestra
                 'driver' => 'pgsql',
                 'host' => 'testing',
                 'port' => '5432',
-                'database' => 'homestead',
-                'username' => 'homestead',
-                'password' => 'secret',
+                'database' => env('DB_DATABASE'),
+                'username' => env('DB_USERNAME'),
+                'password' => env('DB_PASSWORD'),
                 'charset' => 'utf8',
                 'prefix' => '',
                 'schema' => 'public',

@@ -125,13 +125,18 @@ class DestroyAdminUser extends FormRequest
 
 /* Auto-generated admin routes */
 Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(static function () {
-    Route::get(\'/admin/admin-users\',                            \'Admin\AdminUsersController@index\');
-    Route::get(\'/admin/admin-users/create\',                     \'Admin\AdminUsersController@create\');
-    Route::post(\'/admin/admin-users\',                           \'Admin\AdminUsersController@store\');
-    Route::get(\'/admin/admin-users/{adminUser}/edit\',           \'Admin\AdminUsersController@edit\')->name(\'admin/admin-users/edit\');
-    Route::post(\'/admin/admin-users/{adminUser}\',               \'Admin\AdminUsersController@update\')->name(\'admin/admin-users/update\');
-    Route::delete(\'/admin/admin-users/{adminUser}\',             \'Admin\AdminUsersController@destroy\')->name(\'admin/admin-users/destroy\');
-    Route::get(\'/admin/admin-users/{adminUser}/resend-activation\',\'Admin\AdminUsersController@resendActivationEmail\')->name(\'admin/admin-users/resendActivationEmail\');',
+    Route::prefix(\'admin\')->namespace(\'Admin\')->name(\'admin/\')->group(static function() {
+        Route::prefix(\'admin-users\')->name(\'admin-users/\')->group(static function() {
+            Route::get(\'/\',                                             \'AdminUsersController@index\')->name(\'index\');
+            Route::get(\'/create\',                                       \'AdminUsersController@create\')->name(\'create\');
+            Route::post(\'/\',                                            \'AdminUsersController@store\')->name(\'store\');
+            Route::get(\'/{adminUser}/edit\',                             \'AdminUsersController@edit\')->name(\'edit\');
+            Route::post(\'/{adminUser}\',                                 \'AdminUsersController@update\')->name(\'update\');
+            Route::delete(\'/{adminUser}\',                               \'AdminUsersController@destroy\')->name(\'destroy\');
+            Route::get(\'/{adminUser}/resend-activation\',                \'AdminUsersController@resendActivationEmail\')->name(\'resendActivationEmail\');
+        });
+    });
+});',
             File::get($routesPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')', File::get($indexPath));
         $this->assertStringStartsWith('import AppListing from \'../app-components/Listing/AppListing\';
