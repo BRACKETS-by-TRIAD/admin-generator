@@ -72,9 +72,14 @@ use Brackets\AdminAuth\Services\ActivationService;
 use Brackets\AdminListing\Facades\AdminListing;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Config;
+use Illuminate\View\View;
 
 class AdminUsersController extends Controller', File::get($controllerPath));
         $this->assertStringStartsWith('<?php
