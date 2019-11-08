@@ -19,7 +19,7 @@
             v-cloak
             inline-template>
 
-            <form class="form-horizontal form-create" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action" novalidate>
+            <form class="form-horizontal form-create" method="post" {{'@'}}submit.prevent="onSubmit" :action="action" novalidate>
                 @if($isUsedTwoColumnsLayout)
 
                 <div class="row">

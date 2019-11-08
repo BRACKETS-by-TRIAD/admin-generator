@@ -22,7 +22,7 @@
             inline-template>
             @endif
 
-                <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="this.action">
+                <form class="form-horizontal" method="post" {{'@'}}submit.prevent="onSubmit" :action="action">
 
                     <div class="card-header">
                         <i class="fa fa-plus"></i> {{'{{'}} trans('admin.{{ $modelLangFormat }}.actions.edit', ['name' => ${{ $modelVariableName }}->{{$modelTitle}}]) }}
