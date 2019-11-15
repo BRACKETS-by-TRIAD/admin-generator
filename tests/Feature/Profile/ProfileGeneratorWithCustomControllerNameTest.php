@@ -28,11 +28,14 @@ class ProfileGeneratorWithCustomControllerNameTest extends UserTestCase
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class ProfileController extends Controller
 {', File::get($filePathController));
@@ -40,12 +43,17 @@ class ProfileController extends Controller
 
 
 
-/* Auto-generated profile routes */
+/* Auto-generated admin routes */
 Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(static function () {
-    Route::get(\'/admin/profile\',                                \'Admin\Auth\ProfileController@editProfile\');
-    Route::post(\'/admin/profile\',                               \'Admin\Auth\ProfileController@updateProfile\');
-    Route::get(\'/admin/password\',                               \'Admin\Auth\ProfileController@editPassword\');
-    Route::post(\'/admin/password\',                              \'Admin\Auth\ProfileController@updatePassword\');',
+    Route::prefix(\'admin\')->namespace(\'Admin\')->name(\'admin/\')->group(static function() {
+        Route::prefix(\'admin-users\')->name(\'admin-users/\')->group(static function() {
+            Route::get(\'/profile\',                                      \'Auth\ProfileController@editProfile\')->name(\'edit-profile\');
+            Route::post(\'/profile\',                                     \'Auth\ProfileController@updateProfile\')->name(\'update-profile\');
+            Route::get(\'/password\',                                     \'Auth\ProfileController@editPassword\')->name(\'edit-password\');
+            Route::post(\'/password\',                                    \'Auth\ProfileController@updatePassword\')->name(\'update-password\');
+        });
+    });
+});',
             File::get($filePathRoute));
     }
 
@@ -66,11 +74,14 @@ Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\']
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class ProfileController extends Controller
 {', File::get($filePath));

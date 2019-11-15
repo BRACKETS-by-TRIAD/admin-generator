@@ -7,7 +7,7 @@ namespace App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }};
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
-class Destroy{{ $modelBaseName }} extends FormRequest
+class BulkDestroy{{ $modelBaseName }} extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,7 +16,7 @@ class Destroy{{ $modelBaseName }} extends FormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('admin.{{ $modelDotNotation }}.delete', $this->{{ $modelVariableName }});
+        return Gate::allows('admin.{{ $modelDotNotation }}.bulk-delete');
     }
 
     /**
@@ -26,6 +26,8 @@ class Destroy{{ $modelBaseName }} extends FormRequest
      */
     public function rules(): array
     {
-        return [];
+        return [
+            'ids.*' => 'integer'
+        ];
     }
 }

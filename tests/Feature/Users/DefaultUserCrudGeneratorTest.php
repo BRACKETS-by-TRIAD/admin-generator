@@ -69,9 +69,14 @@ use Spatie\Permission\Models\Role;
 use Brackets\AdminListing\Facades\AdminListing;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Config;
+use Illuminate\View\View;
 
 class UsersController extends Controller', File::get($controllerPath));
         $this->assertStringStartsWith('<?php
@@ -122,13 +127,18 @@ class DestroyUser extends FormRequest
 
 /* Auto-generated admin routes */
 Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(static function () {
-    Route::get(\'/admin/users\',                                  \'Admin\UsersController@index\');
-    Route::get(\'/admin/users/create\',                           \'Admin\UsersController@create\');
-    Route::post(\'/admin/users\',                                 \'Admin\UsersController@store\');
-    Route::get(\'/admin/users/{user}/edit\',                      \'Admin\UsersController@edit\')->name(\'admin/users/edit\');
-    Route::post(\'/admin/users/{user}\',                          \'Admin\UsersController@update\')->name(\'admin/users/update\');
-    Route::delete(\'/admin/users/{user}\',                        \'Admin\UsersController@destroy\')->name(\'admin/users/destroy\');
-    Route::get(\'/admin/users/{user}/resend-activation\',         \'Admin\UsersController@resendActivationEmail\')->name(\'admin/users/resendActivationEmail\');',
+    Route::prefix(\'admin\')->namespace(\'Admin\')->name(\'admin/\')->group(static function() {
+        Route::prefix(\'users\')->name(\'users/\')->group(static function() {
+            Route::get(\'/\',                                             \'UsersController@index\')->name(\'index\');
+            Route::get(\'/create\',                                       \'UsersController@create\')->name(\'create\');
+            Route::post(\'/\',                                            \'UsersController@store\')->name(\'store\');
+            Route::get(\'/{user}/edit\',                                  \'UsersController@edit\')->name(\'edit\');
+            Route::post(\'/{user}\',                                      \'UsersController@update\')->name(\'update\');
+            Route::delete(\'/{user}\',                                    \'UsersController@destroy\')->name(\'destroy\');
+            Route::get(\'/{user}/resend-activation\',                     \'UsersController@resendActivationEmail\')->name(\'resendActivationEmail\');
+        });
+    });
+});',
             File::get($routesPath));
         $this->assertStringStartsWith('@extends(\'brackets/admin-ui::admin.layout.default\')', File::get($indexPath));
         $this->assertStringStartsWith('import AppListing from \'../app-components/Listing/AppListing\';

@@ -1,14 +1,18 @@
 
 /* Auto-generated admin routes */
 Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
-    {!! str_pad("Route::get('/admin/".$resource."',", 60) !!}'{{ $controllerPartiallyFullName }}@index');
-    {!! str_pad("Route::get('/admin/".$resource."/create',", 60) !!}'{{ $controllerPartiallyFullName }}@create');
-    {!! str_pad("Route::post('/admin/".$resource."',", 60) !!}'{{ $controllerPartiallyFullName }}@store');
-    {!! str_pad("Route::get('/admin/".$resource."/{".$modelVariableName."}/edit',", 60) !!}'{{ $controllerPartiallyFullName }}@edit')->name('admin/{{ $resource }}/edit');
-    {!! str_pad("Route::post('/admin/".$resource."/{".$modelVariableName."}',", 60) !!}'{{ $controllerPartiallyFullName }}@update')->name('admin/{{ $resource }}/update');
-    {!! str_pad("Route::delete('/admin/".$resource."/{".$modelVariableName."}',", 60) !!}'{{ $controllerPartiallyFullName }}@destroy')->name('admin/{{ $resource }}/destroy');
+    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function() {
+        Route::prefix('{{ $resource }}')->name('{{ $resource }}/')->group(static function() {
+            {!! str_pad("Route::get('/',", 60) !!}'{{ $controllerPartiallyFullName }}@index')->name('index');
+            {!! str_pad("Route::get('/create',", 60) !!}'{{ $controllerPartiallyFullName }}@create')->name('create');
+            {!! str_pad("Route::post('/',", 60) !!}'{{ $controllerPartiallyFullName }}@store')->name('store');
+            {!! str_pad("Route::get('/{".$modelVariableName."}/edit',", 60) !!}'{{ $controllerPartiallyFullName }}@edit')->name('edit');
+            {!! str_pad("Route::post('/{".$modelVariableName."}',", 60) !!}'{{ $controllerPartiallyFullName }}@update')->name('update');
+            {!! str_pad("Route::delete('/{".$modelVariableName."}',", 60) !!}'{{ $controllerPartiallyFullName }}@destroy')->name('destroy');
 @if($export)
-    {!! str_pad("Route::get('/admin/".$resource."/export',", 60) !!}'{{ $controllerPartiallyFullName }}@export')->name('admin/{{ $resource }}/export');
+            {!! str_pad("Route::get('/export',", 60) !!}'{{ $controllerPartiallyFullName }}@export')->name('export');
 @endif
-    {!! str_pad("Route::get('/admin/".$resource."/{".$modelVariableName."}/resend-activation',", 60) !!}'{{ $controllerPartiallyFullName }}@resendActivationEmail')->name('admin/{{ $resource }}/resendActivationEmail');
+            {!! str_pad("Route::get('/{".$modelVariableName."}/resend-activation',", 60) !!}'{{ $controllerPartiallyFullName }}@resendActivationEmail')->name('resendActivationEmail');
+        });
+    });
 });

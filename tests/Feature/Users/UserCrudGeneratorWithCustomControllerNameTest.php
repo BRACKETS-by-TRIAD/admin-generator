@@ -37,9 +37,14 @@ use Spatie\Permission\Models\Role;
 use Brackets\AdminListing\Facades\AdminListing;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Config;
+use Illuminate\View\View;
 
 class UsersController extends Controller', File::get($filePathController));
 
@@ -49,13 +54,18 @@ class UsersController extends Controller', File::get($filePathController));
 
 /* Auto-generated admin routes */
 Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(static function () {
-    Route::get(\'/admin/users\',                                  \'Admin\Auth\UsersController@index\');
-    Route::get(\'/admin/users/create\',                           \'Admin\Auth\UsersController@create\');
-    Route::post(\'/admin/users\',                                 \'Admin\Auth\UsersController@store\');
-    Route::get(\'/admin/users/{user}/edit\',                      \'Admin\Auth\UsersController@edit\')->name(\'admin/users/edit\');
-    Route::post(\'/admin/users/{user}\',                          \'Admin\Auth\UsersController@update\')->name(\'admin/users/update\');
-    Route::delete(\'/admin/users/{user}\',                        \'Admin\Auth\UsersController@destroy\')->name(\'admin/users/destroy\');
-    Route::get(\'/admin/users/{user}/resend-activation\',         \'Admin\Auth\UsersController@resendActivationEmail\')->name(\'admin/users/resendActivationEmail\');',
+    Route::prefix(\'admin\')->namespace(\'Admin\')->name(\'admin/\')->group(static function() {
+        Route::prefix(\'users\')->name(\'users/\')->group(static function() {
+            Route::get(\'/\',                                             \'Auth\UsersController@index\')->name(\'index\');
+            Route::get(\'/create\',                                       \'Auth\UsersController@create\')->name(\'create\');
+            Route::post(\'/\',                                            \'Auth\UsersController@store\')->name(\'store\');
+            Route::get(\'/{user}/edit\',                                  \'Auth\UsersController@edit\')->name(\'edit\');
+            Route::post(\'/{user}\',                                      \'Auth\UsersController@update\')->name(\'update\');
+            Route::delete(\'/{user}\',                                    \'Auth\UsersController@destroy\')->name(\'destroy\');
+            Route::get(\'/{user}/resend-activation\',                     \'Auth\UsersController@resendActivationEmail\')->name(\'resendActivationEmail\');
+        });
+    });
+});',
             File::get($filePathRoutes));
     }
 
@@ -85,9 +95,14 @@ use Spatie\Permission\Models\Role;
 use Brackets\AdminListing\Facades\AdminListing;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Config;
+use Illuminate\View\View;
 
 class UsersController extends Controller', File::get($filePath));
     }

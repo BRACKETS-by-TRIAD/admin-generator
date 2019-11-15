@@ -5,11 +5,14 @@
 namespace {{ $controllerNamespace }};
 
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
@@ -46,7 +49,7 @@ class ProfileController extends Controller
      * Show the form for editing logged user profile.
      *
      * {{'@'}}param Request $request
-     * {{'@'}}return Response
+     * {{'@'}}return Factory|View
      */
     public function editProfile(Request $request)
     {
@@ -67,7 +70,7 @@ class ProfileController extends Controller
      *
      * {{'@'}}param Request $request
      * {{'@'}}throws ValidationException
-     * {{'@'}}return Response|array
+     * {{'@'}}return array|RedirectResponse|Redirector
      */
     public function updateProfile(Request $request)
     {
@@ -102,7 +105,7 @@ class ProfileController extends Controller
      * Show the form for editing the specified resource.
      *
      * {{'@'}}param Request $request
-     * {{'@'}}return Response
+     * {{'@'}}return Factory|View
      */
     public function editPassword(Request $request)
     {
@@ -124,7 +127,7 @@ class ProfileController extends Controller
      *
      * {{'@'}}param Request $request
      * {{'@'}}throws ValidationException
-     * {{'@'}}return Response|array
+     * {{'@'}}return array|RedirectResponse|Redirector
      */
     public function updatePassword(Request $request)
     {

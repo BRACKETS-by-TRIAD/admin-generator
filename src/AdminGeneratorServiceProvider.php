@@ -27,6 +27,7 @@ class AdminGeneratorServiceProvider extends ServiceProvider
             Generate\StoreRequest::class,
             Generate\UpdateRequest::class,
             Generate\DestroyRequest::class,
+            Generate\BulkDestroyRequest::class,
             Generate\Lang::class,
             Generate\Permissions::class,
             Generate\Export::class,

@@ -1,8 +1,12 @@
 
-/* Auto-generated profile routes */
+/* Auto-generated admin routes */
 Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
-    {!! str_pad("Route::get('/admin/profile',", 60) !!}'{{ $controllerPartiallyFullName }}@editProfile');
-    {!! str_pad("Route::post('/admin/profile',", 60) !!}'{{ $controllerPartiallyFullName }}@updateProfile');
-    {!! str_pad("Route::get('/admin/password',", 60) !!}'{{ $controllerPartiallyFullName }}@editPassword');
-    {!! str_pad("Route::post('/admin/password',", 60) !!}'{{ $controllerPartiallyFullName }}@updatePassword');
+    Route::prefix('admin')->namespace('Admin')->name('admin/')->group(static function() {
+        Route::prefix('{{ $resource }}')->name('{{ $resource }}/')->group(static function() {
+            {!! str_pad("Route::get('/profile',", 60) !!}'{{ $controllerPartiallyFullName }}@editProfile')->name('edit-profile');
+            {!! str_pad("Route::post('/profile',", 60) !!}'{{ $controllerPartiallyFullName }}@updateProfile')->name('update-profile');
+            {!! str_pad("Route::get('/password',", 60) !!}'{{ $controllerPartiallyFullName }}@editPassword')->name('edit-password');
+            {!! str_pad("Route::post('/password',", 60) !!}'{{ $controllerPartiallyFullName }}@updatePassword')->name('update-password');
+        });
+    });
 });

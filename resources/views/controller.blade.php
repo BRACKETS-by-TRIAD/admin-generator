@@ -8,6 +8,9 @@ namespace {{ $controllerNamespace }};
 use App\Exports\{{$exportBaseName}};
 @endif
 use App\Http\Controllers\Controller;
+@if(!$withoutBulk)
+use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\BulkDestroy{{ $modelBaseName }};
+@endif
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
@@ -19,7 +22,11 @@ use Carbon\Carbon;
 @endif
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 @if (count($relations))
 @if (count($relations['belongsToMany']))
 @foreach($relations['belongsToMany'] as $belongsToMany)
@@ -37,6 +44,7 @@ use Illuminate\Support\Facades\Auth;
 @endif
 @if($export)use Symfony\Component\HttpFoundation\BinaryFileResponse;
 @endif
+use Illuminate\View\View;
 
 class {{ $controllerBaseName }} extends Controller
 {
@@ -45,7 +53,7 @@ class {{ $controllerBaseName }} extends Controller
      * Display a listing of the resource.
      *
      * {{'@'}}param Index{{ $modelBaseName }} $request
-     * {{'@'}}return Response|array
+     * {{'@'}}return array|Factory|View
      */
     public function index(Index{{ $modelBaseName }} $request)
     {
@@ -95,7 +103,7 @@ class {{ $controllerBaseName }} extends Controller
      * Show the form for creating a new resource.
      *
      * {{'@'}}throws AuthorizationException
-     * {{'@'}}return Response
+     * {{'@'}}return Factory|View
      */
     public function create()
     {
@@ -116,12 +124,12 @@ class {{ $controllerBaseName }} extends Controller
      * Store a newly created resource in storage.
      *
      * {{'@'}}param Store{{ $modelBaseName }} $request
-     * {{'@'}}return Response|array
+     * {{'@'}}return array|RedirectResponse|Redirector
      */
     public function store(Store{{ $modelBaseName }} $request)
     {
         // Sanitize input
-        $sanitized = $request->validated();
+        $sanitized = $request->getSanitized();
 @if(in_array('created_by_admin_user_id', $columnsToQuery) || in_array('updated_by_admin_user_id', $columnsToQuery))
     @if(in_array('created_by_admin_user_id', $columnsToQuery) && in_array('updated_by_admin_user_id', $columnsToQuery))
     $sanitized['created_by_admin_user_id'] = Auth::getUser()->id;
@@ -171,7 +179,7 @@ class {{ $controllerBaseName }} extends Controller
      *
      * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}throws AuthorizationException
-     * {{'@'}}return Response
+     * {{'@'}}return Factory|View
      */
     public function edit({{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -212,7 +220,7 @@ class {{ $controllerBaseName }} extends Controller
      *
      * {{'@'}}param Update{{ $modelBaseName }} $request
      * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}return Response|array
+     * {{'@'}}return array|RedirectResponse|Redirector
      */
     public function update(Update{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -255,7 +263,7 @@ class {{ $controllerBaseName }} extends Controller
      * {{'@'}}param Destroy{{ $modelBaseName }} $request
      * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}throws Exception
-     * {{'@'}}return Response|bool
+     * {{'@'}}return ResponseFactory|RedirectResponse|Response
      */
     public function destroy(Destroy{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -271,11 +279,11 @@ class {{ $controllerBaseName }} extends Controller
     @if(!$withoutBulk)/**
      * Remove the specified resources from storage.
      *
-     * {{'@'}}param Destroy{{ $modelBaseName }} $request
+     * {{'@'}}param BulkDestroy{{ $modelBaseName }} $request
      * {{'@'}}throws Exception
      * {{'@'}}return Response|bool
      */
-    public function bulkDestroy(Destroy{{ $modelBaseName }} $request) : Response
+    public function bulkDestroy(BulkDestroy{{ $modelBaseName }} $request) : Response
     {
 @if($hasSoftDelete)
         DB::transaction(static function () use ($request) {

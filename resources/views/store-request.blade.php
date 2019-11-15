@@ -31,7 +31,7 @@ class Store{{ $modelBaseName }} extends FormRequest
      *
      * {{'@'}}return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return Gate::allows('admin.{{ $modelDotNotation }}.create');
     }
@@ -92,4 +92,18 @@ class Store{{ $modelBaseName }} extends FormRequest
         ];
     }
 @endif
+
+    /**
+    * Modify input data
+    *
+    * {{'@'}}return array
+    */
+    public function getSanitized(): array
+    {
+        $sanitized = $this->validated();
+
+        //Add your code for manipulation with request data here
+
+        return $sanitized;
+    }
 }

@@ -31,9 +31,14 @@ use {{ $belongsToMany['related_model'] }};
 use Brackets\AdminListing\Facades\AdminListing;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Config;
+use Illuminate\View\View;
 @if($export)use Maatwebsite\Excel\Facades\Excel;
 @endif
 @if($export)use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -63,7 +68,7 @@ class {{ $controllerBaseName }} extends Controller
      * Display a listing of the resource.
      *
      * {{'@'}}param Index{{ $modelBaseName }} $request
-     * {{'@'}}return Response|array
+     * {{'@'}}return Factory|View
      */
     public function index(Index{{ $modelBaseName }} $request)
     {
@@ -90,7 +95,7 @@ class {{ $controllerBaseName }} extends Controller
      * Show the form for creating a new resource.
      *
      * {{'@'}}throws AuthorizationException
-     * {{'@'}}return Response
+     * {{'@'}}return Factory|View
      */
     public function create()
     {
@@ -118,7 +123,7 @@ class {{ $controllerBaseName }} extends Controller
      * Store a newly created resource in storage.
      *
      * {{'@'}}param Store{{ $modelBaseName }} $request
-     * {{'@'}}return Response|array
+     * {{'@'}}return array|RedirectResponse|Redirector
      */
     public function store(Store{{ $modelBaseName }} $request)
     {
@@ -163,7 +168,7 @@ class {{ $controllerBaseName }} extends Controller
      *
      * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}throws AuthorizationException
-     * {{'@'}}return Response
+     * {{'@'}}return Factory|View
      */
     public function edit({{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -199,7 +204,7 @@ class {{ $controllerBaseName }} extends Controller
      *
      * {{'@'}}param Update{{ $modelBaseName }} $request
      * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}return Response|array
+     * {{'@'}}return array|RedirectResponse|Redirector
      */
     public function update(Update{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -233,7 +238,7 @@ class {{ $controllerBaseName }} extends Controller
      * {{'@'}}param Destroy{{ $modelBaseName }} $request
      * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
      * {{'@'}}throws Exception
-     * {{'@'}}return Response|bool
+     * {{'@'}}return ResponseFactory|RedirectResponse|Response
      */
     public function destroy(Destroy{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
@@ -253,7 +258,7 @@ class {{ $controllerBaseName }} extends Controller
      * {{'@'}}param Request $request
      * {{'@'}}param ActivationService $activationService
      * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
-     * {{'@'}}return array|Response
+     * {{'@'}}return array|RedirectResponse
      */
     public function resendActivationEmail(Request $request, ActivationService $activationService, {{ $modelBaseName }} ${{ $modelVariableName }})
     {
