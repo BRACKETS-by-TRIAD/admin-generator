@@ -71,6 +71,11 @@
 
                                     <td>
                                         <div class="row no-gutters">
+                                            {{'@'}}can('admin.admin-user.impersonal-login')
+                                            <div class="col-auto">
+                                                <button class="btn btn-sm btn-success" v-show="item.activated" @click="impersonalLogin(item.resource_url + '/impersonal-login', item)" title="Impersonal login" role="button"><i class="fa fa-user-o"></i></button>
+                                            </div>
+                                            {{'@'}}endcan
                                             <div class="col-auto">
                                                 <button class="btn btn-sm btn-warning" v-show="!item.activated" @click="resendActivation(item.resource_url + '/resend-activation')" title="Resend activation" role="button"><i class="fa fa-envelope-o"></i></button>
                                             </div>

@@ -109,6 +109,11 @@ class GenerateAdminUser extends Command {
             '--model-name' => $modelOption,
         ]);
 
+        $this->call('admin:generate:request:impersonal-login', [
+            'table_name' => $tableNameArgument,
+            '--model-name' => $modelOption,
+        ]);
+
         $this->call('admin:generate:routes', [
             'table_name' => $tableNameArgument,
             '--model-name' => $modelOption,

@@ -13,6 +13,7 @@ namespace {{ $controllerNamespace }};
 @endif
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Destroy{{ $modelBaseName }};
+use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\ImpersonalLogin{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Index{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Store{{ $modelBaseName }};
 use App\Http\Requests\Admin\{{ $modelWithNamespaceFromDefault }}\Update{{ $modelBaseName }};
@@ -30,6 +31,7 @@ use {{ $belongsToMany['related_model'] }};
 @endif
 use Brackets\AdminListing\Facades\AdminListing;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
@@ -286,6 +288,20 @@ class {{ $controllerBaseName }} extends Controller
         }
     }
 @endif
+
+    /**
+     * {{'@'}}param ImpersonalLogin{{ $modelBaseName }} $request
+     * {{'@'}}param {{ $modelBaseName }} ${{ $modelVariableName }}
+     * {{'@'}}return RedirectResponse
+     * @throws AuthorizationException
+     */
+    public function impersonalLogin(ImpersonalLogin{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }}) {
+        $this->authorize('admin.{{ $modelDotNotation }}.impersonal-login', ${{ $modelVariableName }});
+
+        Auth::login(${{ $modelVariableName }});
+        return redirect()->back();
+    }
+
 @if($export)
 
     /**
