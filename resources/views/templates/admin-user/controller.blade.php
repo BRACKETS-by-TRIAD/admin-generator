@@ -296,8 +296,6 @@ class {{ $controllerBaseName }} extends Controller
      * @throws AuthorizationException
      */
     public function impersonalLogin(ImpersonalLogin{{ $modelBaseName }} $request, {{ $modelBaseName }} ${{ $modelVariableName }}) {
-        $this->authorize('admin.{{ $modelDotNotation }}.impersonal-login', ${{ $modelVariableName }});
-
         Auth::login(${{ $modelVariableName }});
         return redirect()->back();
     }
