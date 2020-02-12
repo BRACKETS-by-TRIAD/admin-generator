@@ -58,8 +58,8 @@ class Model extends ClassGenerator {
             'modelBaseName' => $this->classBaseName,
             'modelNameSpace' => $this->classNamespace,
 
-            // if table name differs from model name, then we need to specify the table name
-            'tableName' => ($this->classBaseName !== Str::studly(Str::singular($this->tableName))) ? $this->tableName : null,
+            // if table name differs from the snake case plural form of the classname, then we need to specify the table name
+            'tableName' => ($this->tableName !== Str::snake(Str::plural($this->classBaseName))) ? $this->tableName : null,
 
             'dates' => $this->readColumnsFromTable($this->tableName)->filter(function($column) {
                 return $column['type'] == "datetime" || $column['type'] == "date";
