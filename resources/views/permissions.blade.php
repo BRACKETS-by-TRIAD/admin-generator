@@ -68,14 +68,22 @@ class {{ $className }} extends Migration
      */
     public function up(): void
     {
-        DB::transaction(function () {
+        $tableNames = config('permission.table_names', [
+            'roles' => 'roles',
+            'permissions' => 'permissions',
+            'model_has_permissions' => 'model_has_permissions',
+            'model_has_roles' => 'model_has_roles',
+            'role_has_permissions' => 'role_has_permissions',
+        ]);
+
+        DB::transaction(function () use($tableNames) {
             foreach ($this->permissions as $permission) {
-                $permissionItem = DB::table('permissions')->where([
+                $permissionItem = DB::table($tableNames['permissions'])->where([
                     'name' => $permission['name'],
                     'guard_name' => $permission['guard_name']
                 ])->first();
                 if ($permissionItem === null) {
-                    DB::table('permissions')->insert($permission);
+                    DB::table($tableNames['permissions'])->insert($permission);
                 }
             }
 
@@ -83,14 +91,14 @@ class {{ $className }} extends Migration
                 $permissions = $role['permissions'];
                 unset($role['permissions']);
 
-                $roleItem = DB::table('roles')->where([
+                $roleItem = DB::table($tableNames['roles'])->where([
                     'name' => $role['name'],
                     'guard_name' => $role['guard_name']
                 ])->first();
                 if ($roleItem !== null) {
                     $roleId = $roleItem->id;
 
-                    $permissionItems = DB::table('permissions')->whereIn('name', $permissions)->where(
+                    $permissionItems = DB::table($tableNames['permissions'])->whereIn('name', $permissions)->where(
                         'guard_name',
                         $role['guard_name']
                     )->get();
@@ -99,9 +107,9 @@ class {{ $className }} extends Migration
                             'permission_id' => $permissionItem->id,
                             'role_id' => $roleId
                         ];
-                        $roleHasPermissionItem = DB::table('role_has_permissions')->where($roleHasPermissionData)->first();
+                        $roleHasPermissionItem = DB::table($tableNames['role_has_permissions'])->where($roleHasPermissionData)->first();
                         if ($roleHasPermissionItem === null) {
-                            DB::table('role_has_permissions')->insert($roleHasPermissionData);
+                            DB::table($tableNames['role_has_permissions'])->insert($roleHasPermissionData);
                         }
                     }
                 }
@@ -117,15 +125,23 @@ class {{ $className }} extends Migration
      */
     public function down(): void
     {
-        DB::transaction(function () {
+        $tableNames = config('permission.table_names', [
+            'roles' => 'roles',
+            'permissions' => 'permissions',
+            'model_has_permissions' => 'model_has_permissions',
+            'model_has_roles' => 'model_has_roles',
+            'role_has_permissions' => 'role_has_permissions',
+        ]);
+        
+        DB::transaction(function () use ($tableNames){
             foreach ($this->permissions as $permission) {
-                $permissionItem = DB::table('permissions')->where([
+                $permissionItem = DB::table($tableNames['permissions'])->where([
                     'name' => $permission['name'],
                     'guard_name' => $permission['guard_name']
                 ])->first();
                 if ($permissionItem !== null) {
-                    DB::table('permissions')->where('id', $permissionItem->id)->delete();
-                    DB::table('model_has_permissions')->where('permission_id', $permissionItem->id)->delete();
+                    DB::table($tableNames['permissions'])->where('id', $permissionItem->id)->delete();
+                    DB::table($tableNames['model_has_permissions'])->where('permission_id', $permissionItem->id)->delete();
                 }
             }
         });
