@@ -1,6 +1,6 @@
 {
     "name": "brackets/admin-generator",
-    "description": "Laravel 5 CRUD generator for brackets/craftable",
+    "description": "Laravel 7 CRUD generator for brackets/craftable",
     "keywords": [
         "generator",
         "make",
@@ -16,30 +16,30 @@
         {
             "name": "Pavol Perdík",
             "email": "pavol.perdik@brackets.sk",
-            "homepage": "https://www.brackets.sk/en",
+            "homepage": "https://www.brackets.sk",
             "role": "Developer"
         },
         {
             "name": "David Běhal",
             "email": "david.behal@brackets.sk",
-            "homepage": "https://www.brackets.sk/en",
+            "homepage": "https://www.brackets.sk",
             "role": "Developer"
         },
         {
             "name": "Matej Minár",
             "email": "matej.minar@brackets.sk",
-            "homepage": "https://www.brackets.sk/en",
+            "homepage": "https://www.brackets.sk",
             "role": "Developer"
         },
         {
             "name": "Dušan Subally",
             "email": "dusan.subally@triad.sk",
-            "homepage": "https://www.brackets.sk/en",
+            "homepage": "https://www.brackets.sk",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.2.5",
         "illuminate/support": "~6.0",
         "illuminate/console": "~6.0",
         "doctrine/dbal": "^2.6.0",
