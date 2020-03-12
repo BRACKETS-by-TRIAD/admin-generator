@@ -57,6 +57,7 @@ namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\DestroyUser;
+use App\Http\Requests\Admin\User\ImpersonalLoginUser;
 use App\Http\Requests\Admin\User\IndexUser;
 use App\Http\Requests\Admin\User\StoreUser;
 use App\Http\Requests\Admin\User\UpdateUser;
@@ -66,6 +67,7 @@ use Brackets\AdminAuth\Activation\Facades\Activation;
 use Brackets\AdminAuth\Services\ActivationService;
 use Brackets\AdminListing\Facades\AdminListing;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
@@ -112,6 +114,7 @@ Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\']
             Route::get(\'/\',                                             \'Auth\UsersController@index\')->name(\'index\');
             Route::get(\'/create\',                                       \'Auth\UsersController@create\')->name(\'create\');
             Route::post(\'/\',                                            \'Auth\UsersController@store\')->name(\'store\');
+            Route::get(\'/{user}/impersonal-login\',                      \'Auth\UsersController@impersonalLogin\')->name(\'impersonal-login\');
             Route::get(\'/{user}/edit\',                                  \'Auth\UsersController@edit\')->name(\'edit\');
             Route::post(\'/{user}\',                                      \'Auth\UsersController@update\')->name(\'update\');
             Route::delete(\'/{user}\',                                    \'Auth\UsersController@destroy\')->name(\'destroy\');
