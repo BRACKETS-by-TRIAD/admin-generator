@@ -36,6 +36,12 @@
             "email": "dusan.subally@triad.sk",
             "homepage": "https://www.brackets.sk",
             "role": "Developer"
+        },
+        {
+            "name": "Richard Dominik",
+            "email": "richard.dominik@brackets.sk",
+            "homepage": "https://www.brackets.sk",
+            "role": "Developer"
         }
     ],
     "require": {
