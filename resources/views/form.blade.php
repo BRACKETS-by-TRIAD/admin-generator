@@ -64,11 +64,20 @@
         <div v-if="errors.has('{{ $col['name'] }}')" class="form-control-feedback form-text" v-cloak>{{'@{{'}} errors.first('{{ $col['name'] }}') }}</div>
     </div>
 </div>
-@elseif($col['type'] == 'text')<div class="form-group row align-items-center" :class="{'has-danger': errors.has('{{ $col['name'] }}'), 'has-success': fields.{{ $col['name'] }} && fields.{{ $col['name'] }}.valid }">
+@elseif($col['type'] == 'text' && in_array($col['name'], $wysiwygTextColumnNames))<div class="form-group row align-items-center" :class="{'has-danger': errors.has('{{ $col['name'] }}'), 'has-success': fields.{{ $col['name'] }} && fields.{{ $col['name'] }}.valid }">
     <label for="{{ $col['name'] }}" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</label>
         <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
         <div>
             <wysiwyg v-model="form.{{ $col['name'] }}" v-validate="'{{ implode('|', $col['frontendRules']) }}'" id="{{ $col['name'] }}" name="{{ $col['name'] }}" :config="mediaWysiwygConfig"></wysiwyg>
+        </div>
+        <div v-if="errors.has('{{ $col['name'] }}')" class="form-control-feedback form-text" v-cloak>{{'@{{'}} errors.first('{{ $col['name'] }}') }}</div>
+    </div>
+</div>
+@elseif($col['type'] == 'text')<div class="form-group row align-items-center" :class="{'has-danger': errors.has('{{ $col['name'] }}'), 'has-success': fields.{{ $col['name'] }} && fields.{{ $col['name'] }}.valid }">
+    <label for="{{ $col['name'] }}" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</label>
+    <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
+        <div>
+            <textarea class="form-control" v-model="form.{{ $col['name'] }}" v-validate="'{{ implode('|', $col['frontendRules']) }}'" id="{{ $col['name'] }}" name="{{ $col['name'] }}"></textarea>
         </div>
         <div v-if="errors.has('{{ $col['name'] }}')" class="form-control-feedback form-text" v-cloak>{{'@{{'}} errors.first('{{ $col['name'] }}') }}</div>
     </div>

@@ -192,6 +192,7 @@ class ViewForm extends ViewGenerator {
                 return $column['type'] == "json";
             })->count() > 0,
             'translatableTextarea' => ['perex', 'text', 'body'],
+            'wysiwygTextColumnNames' => ['text', 'body', 'description'],
             'relations' => $this->relations,
         ])->render();
     }
