@@ -1,4 +1,6 @@
-<?php namespace Brackets\AdminGenerator;
+<?php
+
+namespace Brackets\AdminGenerator;
 
 use Brackets\AdminGenerator\Generate\Traits\FileManipulations;
 use Illuminate\Console\Command;
@@ -92,18 +94,19 @@ class GenerateAdminProfile extends Command
             resource_path('views/admin/layout/profile-dropdown.blade.php'),
             '|url\(\'admin\/profile\'\)|',
             '{{-- Do not delete me :) I\'m used for auto-generation menu items --}}',
-            '<a href="{{ url(\'admin/profile\') }}" class="dropdown-item"><i class="fa fa-user"></i> Profile</a>
-    {{-- Do not delete me :) I\'m used for auto-generation menu items --}}');
+            '<a href="{{ url(\'admin/profile\') }}" class="dropdown-item"><i class="fa fa-user"></i>  {{ trans(\'brackets/admin-auth::admin.profile_dropdown.profile\') }}</a>
+    {{-- Do not delete me :) I\'m used for auto-generation menu items --}}'
+        );
 
         $this->strReplaceInFile(
             resource_path('views/admin/layout/profile-dropdown.blade.php'),
             '|url\(\'admin\/password\'\)|',
             '{{-- Do not delete me :) I\'m used for auto-generation menu items --}}',
-            '<a href="{{ url(\'admin/password\') }}" class="dropdown-item"><i class="fa fa-key"></i> Password</a>
-    {{-- Do not delete me :) I\'m used for auto-generation menu items --}}');
+            '<a href="{{ url(\'admin/password\') }}" class="dropdown-item"><i class="fa fa-key"></i>  {{ trans(\'brackets/admin-auth::admin.profile_dropdown.password\') }}</a>
+    {{-- Do not delete me :) I\'m used for auto-generation menu items --}}'
+        );
 
         $this->info('Generating whole admin "My Profile" finished');
-
     }
 
     protected function getArguments()
@@ -121,5 +124,4 @@ class GenerateAdminProfile extends Command
             ['force', 'f', InputOption::VALUE_NONE, 'Force will delete files before regenerating admin profile'],
         ];
     }
-
 }
