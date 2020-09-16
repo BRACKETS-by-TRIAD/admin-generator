@@ -16,7 +16,7 @@ class ProfileGeneratorWithCustomControllerNameTest extends UserTestCase
         $filePathController = base_path('app/Http/Controllers/Admin/Auth/ProfileController.php');
         $filePathRoute = base_path('routes/web.php');
 
-        $this->assertFileNotExists($filePathController);
+        $this->assertFileDoesNotExist($filePathController);
 
         $this->artisan('admin:generate:admin-user:profile', [
             '--controller-name' => 'Auth\\ProfileController',
@@ -60,7 +60,7 @@ Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\']
     {
         $filePath = base_path('app/Http/Controllers/Auth/ProfileController.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:admin-user:profile', [
             '--controller-name' => 'App\\Http\\Controllers\\Auth\\ProfileController',

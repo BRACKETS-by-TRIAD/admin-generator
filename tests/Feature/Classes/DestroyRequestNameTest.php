@@ -15,7 +15,7 @@ class DestroyRequestNameTest extends TestCase
     {
         $filePath = base_path('app/Http/Requests/Admin/Category/DestroyCategory.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:request:destroy', [
             'table_name' => 'categories'
@@ -37,7 +37,7 @@ class DestroyCategory extends FormRequest', File::get($filePath));
     {
         $filePath = base_path('app/Http/Requests/Admin/Billing/Cat/DestroyCat.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:request:destroy', [
             'table_name' => 'categories',

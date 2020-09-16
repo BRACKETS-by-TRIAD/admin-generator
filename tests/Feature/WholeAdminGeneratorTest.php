@@ -29,22 +29,22 @@ class WholeAdminGeneratorTest extends TestCase
         $indexJsPath = resource_path('js/admin/category/index.js');
         $langPath = resource_path('lang/en/admin.php');
 
-        $this->assertFileNotExists($controllerPath);
-        $this->assertFileNotExists($indexRequestPath);
-        $this->assertFileNotExists($storePath);
-        $this->assertFileNotExists($updatePath);
-        $this->assertFileNotExists($destroyPath);
-        $this->assertFileNotExists($indexPath);
-        $this->assertFileNotExists($listingJsPath);
-        $this->assertFileNotExists($elementsPath);
-        $this->assertFileNotExists($createPath);
-        $this->assertFileNotExists($editPath);
-        $this->assertFileNotExists($formJsPath);
-        $this->assertFileNotExists($modelPath);
-        $this->assertFileNotExists($routesPath);
-        $this->assertFileNotExists($factoryPath);
-        $this->assertFileNotExists($indexJsPath);
-        $this->assertFileNotExists($langPath);
+        $this->assertFileDoesNotExist($controllerPath);
+        $this->assertFileDoesNotExist($indexRequestPath);
+        $this->assertFileDoesNotExist($storePath);
+        $this->assertFileDoesNotExist($updatePath);
+        $this->assertFileDoesNotExist($destroyPath);
+        $this->assertFileDoesNotExist($indexPath);
+        $this->assertFileDoesNotExist($listingJsPath);
+        $this->assertFileDoesNotExist($elementsPath);
+        $this->assertFileDoesNotExist($createPath);
+        $this->assertFileDoesNotExist($editPath);
+        $this->assertFileDoesNotExist($formJsPath);
+        $this->assertFileDoesNotExist($modelPath);
+        $this->assertFileDoesNotExist($routesPath);
+        $this->assertFileDoesNotExist($factoryPath);
+        $this->assertFileDoesNotExist($indexJsPath);
+        $this->assertFileDoesNotExist($langPath);
 
         $this->artisan('admin:generate', [
             'table_name' => 'categories'

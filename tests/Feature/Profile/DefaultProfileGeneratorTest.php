@@ -22,12 +22,12 @@ class DefaultProfileGeneratorTest extends UserTestCase
         $indexJsPathPassword = resource_path('js/admin/profile-edit-password/index.js');
         $bootstrapJsPath = resource_path('js/admin/index.js');
 
-        $this->assertFileNotExists($filePathController);
-        $this->assertFileNotExists($editPathProfile);
-        $this->assertFileNotExists($formJsPathProfile);
-        $this->assertFileNotExists($editPathPassword);
-        $this->assertFileNotExists($formJsPathPassword);
-        $this->assertFileNotExists($indexJsPathPassword);
+        $this->assertFileDoesNotExist($filePathController);
+        $this->assertFileDoesNotExist($editPathProfile);
+        $this->assertFileDoesNotExist($formJsPathProfile);
+        $this->assertFileDoesNotExist($editPathPassword);
+        $this->assertFileDoesNotExist($formJsPathPassword);
+        $this->assertFileDoesNotExist($indexJsPathPassword);
 
         $this->artisan('admin:generate:admin-user:profile', [
         ]);

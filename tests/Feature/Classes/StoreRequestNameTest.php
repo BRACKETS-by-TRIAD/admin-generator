@@ -15,7 +15,7 @@ class StoreRequestNameTest extends TestCase
     {
         $filePath = base_path('app/Http/Requests/Admin/Category/StoreCategory.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:request:store', [
             'table_name' => 'categories'
@@ -38,7 +38,7 @@ class StoreCategory extends FormRequest', File::get($filePath));
     {
         $filePath = base_path('app/Http/Requests/Admin/Billing/Cat/StoreCat.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:request:store', [
             'table_name' => 'categories',
@@ -62,7 +62,7 @@ class StoreCat extends FormRequest', File::get($filePath));
     {
         $filePath = base_path('app/Http/Requests/Admin/Cat/StoreCat.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:request:store', [
             'table_name' => 'categories',

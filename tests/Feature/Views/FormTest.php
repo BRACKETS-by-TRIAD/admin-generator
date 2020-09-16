@@ -20,12 +20,12 @@ class FormTest extends TestCase
         $indexJsPath = resource_path('js/admin/category/index.js');
         $bootstrapJsPath = resource_path('js/admin/index.js');
 
-        $this->assertFileNotExists($elementsPath);
-        $this->assertFileNotExists($createPath);
-        $this->assertFileNotExists($editPath);
-        $this->assertFileNotExists($formJsPath);
-        $this->assertFileNotExists($indexJsPath);
-        $this->assertFileNotExists($bootstrapJsPath);
+        $this->assertFileDoesNotExist($elementsPath);
+        $this->assertFileDoesNotExist($createPath);
+        $this->assertFileDoesNotExist($editPath);
+        $this->assertFileDoesNotExist($formJsPath);
+        $this->assertFileDoesNotExist($indexJsPath);
+        $this->assertFileDoesNotExist($bootstrapJsPath);
 
 
         $this->artisan('admin:generate:form', [
@@ -59,12 +59,12 @@ Vue.component(\'category-form\', {
         $indexJsPath = resource_path('js/admin/billing-my-article/index.js');
         $bootstrapJsPath = resource_path('js/admin/index.js');
 
-        $this->assertFileNotExists($elementsPath);
-        $this->assertFileNotExists($createPath);
-        $this->assertFileNotExists($editPath);
-        $this->assertFileNotExists($formJsPath);
-        $this->assertFileNotExists($indexJsPath);
-        $this->assertFileNotExists($bootstrapJsPath);
+        $this->assertFileDoesNotExist($elementsPath);
+        $this->assertFileDoesNotExist($createPath);
+        $this->assertFileDoesNotExist($editPath);
+        $this->assertFileDoesNotExist($formJsPath);
+        $this->assertFileDoesNotExist($indexJsPath);
+        $this->assertFileDoesNotExist($bootstrapJsPath);
 
         $this->artisan('admin:generate:form', [
             'table_name' => 'categories',

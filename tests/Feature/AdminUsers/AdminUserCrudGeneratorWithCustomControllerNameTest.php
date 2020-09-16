@@ -16,7 +16,7 @@ class AdminUserCrudGeneratorWithCustomControllerNameTest extends UserTestCase
         $filePathController = base_path('app/Http/Controllers/Admin/Auth/AdminUsersController.php');
         $filePathRoutes = base_path('routes/web.php');
 
-        $this->assertFileNotExists($filePathController);
+        $this->assertFileDoesNotExist($filePathController);
 
         $this->artisan('admin:generate:admin-user', [
             '--controller-name' => 'Auth\\AdminUsersController',
@@ -79,7 +79,7 @@ Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\']
     {
         $filePath = base_path('app/Http/Controllers/Auth/AdminUsersController.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:admin-user', [
             '--controller-name' => 'App\\Http\\Controllers\\Auth\\AdminUsersController',
