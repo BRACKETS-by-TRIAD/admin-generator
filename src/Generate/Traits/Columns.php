@@ -42,7 +42,7 @@ trait Columns {
                 return $column['name'] == "deleted_at";
             })->count() > 0);
         return $columns->filter(function($column) {
-            return !($column['name'] == "id" || $column['name'] == "created_at" || $column['name'] == "updated_at" || $column['name'] == "deleted_at" || $column['name'] == "remember_token");
+            return !in_array($column['name'],  ["id", "created_at", "updated_at", "deleted_at", "remember_token", "last_login_at"]);
         })->map(function($column) use ($tableName, $hasSoftDelete, $modelVariableName){
             $serverStoreRules = collect([]);
             $serverUpdateRules = collect([]);
