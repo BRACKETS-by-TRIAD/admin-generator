@@ -105,7 +105,7 @@ class UpdateUser extends FormRequest
 
 /* Auto-generated admin routes */
 Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(static function () {
-    Route::prefix(\'admin\')->namespace(\'Admin\')->name(\'admin/\')->group(static function() {
+    Route::prefix(\'admin\')->namespace(\'App\Http\Controllers\Admin\')->name(\'admin/\')->group(static function() {
         Route::prefix(\'users\')->name(\'users/\')->group(static function() {
             Route::get(\'/\',                                             \'Auth\UsersController@index\')->name(\'index\');
             Route::get(\'/create\',                                       \'Auth\UsersController@create\')->name(\'create\');
