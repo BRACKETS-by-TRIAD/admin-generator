@@ -5,7 +5,7 @@ Admin Generator is a package that helps you quickly scaffold your typical CRUD a
 Example of an administration interface generated with this package:
 ![Craftable administration area example](https://docs.getcraftable.com/assets/posts-crud.png "Craftable administration area example")
 
-This packages is part of [Craftable](https://github.com/BRACKETS-by-TRIAD/craftable) (`brackets/craftable`) - an administration starter kit for Laravel 5. You should definitely have a look :)
+This packages is part of [Craftable](https://github.com/BRACKETS-by-TRIAD/craftable) (`brackets/craftable`) - an administration starter kit for Laravel 8. You should definitely have a look :)
 
 
 ## Documentation
