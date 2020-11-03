@@ -15,7 +15,7 @@ class UpdateRequestNameTest extends TestCase
     {
         $filePath = base_path('app/Http/Requests/Admin/Category/UpdateCategory.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:request:update', [
             'table_name' => 'categories'
@@ -38,7 +38,7 @@ class UpdateCategory extends FormRequest', File::get($filePath));
     {
         $filePath = base_path('app/Http/Requests/Admin/Billing/Cat/UpdateCat.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:request:update', [
             'table_name' => 'categories',

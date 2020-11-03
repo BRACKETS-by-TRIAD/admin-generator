@@ -15,7 +15,7 @@ class UserCrudGeneratorWithGenerateModelTest extends UserTestCase
     {
         $filePath = base_path('app/Models/User.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:user', [
             '--generate-model' => true
@@ -43,7 +43,7 @@ class User extends Authenticatable implements CanActivateContract
     {
         $filePath = base_path('app/Models/Auth/User.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:user', [
             '--model-name' => 'Auth\\User',
@@ -72,7 +72,7 @@ class User extends Authenticatable implements CanActivateContract
     {
         $filePath = base_path('app/Auth/User.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:user', [
             '--model-name' => 'App\\Auth\\User',

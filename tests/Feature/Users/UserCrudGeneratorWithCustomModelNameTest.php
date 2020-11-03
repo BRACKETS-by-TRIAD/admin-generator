@@ -25,15 +25,15 @@ class UserCrudGeneratorWithCustomModelNameTest extends UserTestCase
         $formJsPath = resource_path('js/admin/user/Form.js');
         $factoryPath = base_path('database/factories/ModelFactory.php');
 
-        $this->assertFileNotExists($controllerPath);
-        $this->assertFileNotExists($storePath);
-        $this->assertFileNotExists($updatePath);
-        $this->assertFileNotExists($indexPath);
-        $this->assertFileNotExists($indexJsPath);
-        $this->assertFileNotExists($elementsPath);
-        $this->assertFileNotExists($createPath);
-        $this->assertFileNotExists($editPath);
-        $this->assertFileNotExists($formJsPath);
+        $this->assertFileDoesNotExist($controllerPath);
+        $this->assertFileDoesNotExist($storePath);
+        $this->assertFileDoesNotExist($updatePath);
+        $this->assertFileDoesNotExist($indexPath);
+        $this->assertFileDoesNotExist($indexJsPath);
+        $this->assertFileDoesNotExist($elementsPath);
+        $this->assertFileDoesNotExist($createPath);
+        $this->assertFileDoesNotExist($editPath);
+        $this->assertFileDoesNotExist($formJsPath);
 
 
         $this->artisan('admin:generate:user', [
@@ -105,7 +105,7 @@ class UpdateUser extends FormRequest
 
 /* Auto-generated admin routes */
 Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(static function () {
-    Route::prefix(\'admin\')->namespace(\'Admin\')->name(\'admin/\')->group(static function() {
+    Route::prefix(\'admin\')->namespace(\'App\Http\Controllers\Admin\')->name(\'admin/\')->group(static function() {
         Route::prefix(\'users\')->name(\'users/\')->group(static function() {
             Route::get(\'/\',                                             \'Auth\UsersController@index\')->name(\'index\');
             Route::get(\'/create\',                                       \'Auth\UsersController@create\')->name(\'create\');

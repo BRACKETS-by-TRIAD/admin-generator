@@ -16,8 +16,8 @@ class FullFormTest extends TestCase
         $formPath = resource_path('views/admin/category/form.blade.php');
         $formJsPath = resource_path('js/admin/category/Form.js');
 
-        $this->assertFileNotExists($formPath);
-        $this->assertFileNotExists($formJsPath);
+        $this->assertFileDoesNotExist($formPath);
+        $this->assertFileDoesNotExist($formJsPath);
 
         $this->artisan('admin:generate:full-form', [
             'table_name' => 'categories'
@@ -38,8 +38,8 @@ Vue.component(\'category-form\', {
         $formPath = resource_path('views/admin/profile/edit-password.blade.php');
         $formJsPath = resource_path('js/admin/profile-edit-password/Form.js');
 
-        $this->assertFileNotExists($formPath);
-        $this->assertFileNotExists($formJsPath);
+        $this->assertFileDoesNotExist($formPath);
+        $this->assertFileDoesNotExist($formJsPath);
 
         $this->artisan('admin:generate:full-form', [
             'table_name' => 'categories',

@@ -16,7 +16,7 @@ class UserCrudGeneratorWithCustomControllerNameTest extends UserTestCase
         $filePathController = base_path('app/Http/Controllers/Admin/Auth/UsersController.php');
         $filePathRoutes = base_path('routes/web.php');
 
-        $this->assertFileNotExists($filePathController);
+        $this->assertFileDoesNotExist($filePathController);
 
         $this->artisan('admin:generate:user', [
             '--controller-name' => 'Auth\\UsersController',
@@ -54,7 +54,7 @@ class UsersController extends Controller', File::get($filePathController));
 
 /* Auto-generated admin routes */
 Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(static function () {
-    Route::prefix(\'admin\')->namespace(\'Admin\')->name(\'admin/\')->group(static function() {
+    Route::prefix(\'admin\')->namespace(\'App\Http\Controllers\Admin\')->name(\'admin/\')->group(static function() {
         Route::prefix(\'users\')->name(\'users/\')->group(static function() {
             Route::get(\'/\',                                             \'Auth\UsersController@index\')->name(\'index\');
             Route::get(\'/create\',                                       \'Auth\UsersController@create\')->name(\'create\');
@@ -74,7 +74,7 @@ Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\']
     {
         $filePath = base_path('app/Http/Controllers/Auth/UsersController.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:user', [
             '--controller-name' => 'App\\Http\\Controllers\\Auth\\UsersController',

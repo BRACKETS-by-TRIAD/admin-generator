@@ -18,9 +18,9 @@ class IndexTest extends TestCase
         $indexJsPath = resource_path('js/admin/category/index.js');
         $bootstrapJsPath = resource_path('js/admin/index.js');
 
-        $this->assertFileNotExists($indexPath);
-        $this->assertFileNotExists($listingJsPath);
-        $this->assertFileNotExists($indexJsPath);
+        $this->assertFileDoesNotExist($indexPath);
+        $this->assertFileDoesNotExist($listingJsPath);
+        $this->assertFileDoesNotExist($indexJsPath);
 
         $this->artisan('admin:generate:index', [
             'table_name' => 'categories'
@@ -47,9 +47,9 @@ Vue.component(\'category-listing\', {
         $indexJsPath = resource_path('js/admin/billing-my-article/index.js');
         $bootstrapJsPath = resource_path('js/admin/index.js');
 
-        $this->assertFileNotExists($indexPath);
-        $this->assertFileNotExists($listingJsPath);
-        $this->assertFileNotExists($indexJsPath);
+        $this->assertFileDoesNotExist($indexPath);
+        $this->assertFileDoesNotExist($listingJsPath);
+        $this->assertFileDoesNotExist($indexJsPath);
 
 
         $this->artisan('admin:generate:index', [

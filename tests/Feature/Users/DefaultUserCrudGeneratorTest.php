@@ -28,18 +28,18 @@ class DefaultUserCrudGeneratorTest extends UserTestCase
         $formJsPath = resource_path('js/admin/user/Form.js');
         $factoryPath = base_path('database/factories/ModelFactory.php');
 
-        $this->assertFileNotExists($controllerPath);
-        $this->assertFileNotExists($indexRequestPath);
-        $this->assertFileNotExists($storePath);
-        $this->assertFileNotExists($updatePath);
-        $this->assertFileNotExists($destroyPath);
-        $this->assertFileNotExists($indexPath);
-        $this->assertFileNotExists($listingJsPath);
-        $this->assertFileNotExists($elementsPath);
-        $this->assertFileNotExists($createPath);
-        $this->assertFileNotExists($editPath);
-        $this->assertFileNotExists($formJsPath);
-        $this->assertFileNotExists($indexJsPath);
+        $this->assertFileDoesNotExist($controllerPath);
+        $this->assertFileDoesNotExist($indexRequestPath);
+        $this->assertFileDoesNotExist($storePath);
+        $this->assertFileDoesNotExist($updatePath);
+        $this->assertFileDoesNotExist($destroyPath);
+        $this->assertFileDoesNotExist($indexPath);
+        $this->assertFileDoesNotExist($listingJsPath);
+        $this->assertFileDoesNotExist($elementsPath);
+        $this->assertFileDoesNotExist($createPath);
+        $this->assertFileDoesNotExist($editPath);
+        $this->assertFileDoesNotExist($formJsPath);
+        $this->assertFileDoesNotExist($indexJsPath);
 
         $this->artisan('admin:generate:user');
 
@@ -127,7 +127,7 @@ class DestroyUser extends FormRequest
 
 /* Auto-generated admin routes */
 Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(static function () {
-    Route::prefix(\'admin\')->namespace(\'Admin\')->name(\'admin/\')->group(static function() {
+    Route::prefix(\'admin\')->namespace(\'App\Http\Controllers\Admin\')->name(\'admin/\')->group(static function() {
         Route::prefix(\'users\')->name(\'users/\')->group(static function() {
             Route::get(\'/\',                                             \'UsersController@index\')->name(\'index\');
             Route::get(\'/create\',                                       \'UsersController@create\')->name(\'create\');

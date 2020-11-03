@@ -15,7 +15,7 @@ class ModelNameTest extends TestCase
     {
         $filePath = base_path('app/Models/Category.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:model', [
             'table_name' => 'categories'
@@ -36,7 +36,7 @@ class Category extends Model', File::get($filePath));
     {
         $filePath = base_path('app/Models/Billing/Category.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:model', [
             'table_name' => 'categories',
@@ -58,7 +58,7 @@ class Category extends Model', File::get($filePath));
     {
         $filePath = base_path('app/Billing/Category.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:model', [
             'table_name' => 'categories',

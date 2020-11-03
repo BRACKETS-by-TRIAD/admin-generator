@@ -15,7 +15,7 @@ class ControllerNameTest extends TestCase
     {
         $filePath = base_path('app/Http/Controllers/Admin/CategoriesController.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:controller', [
             'table_name' => 'categories'
@@ -52,7 +52,7 @@ class CategoriesController extends Controller', File::get($filePath));
     {
         $filePath = base_path('app/Http/Controllers/Admin/Billing/MyNameController.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:controller', [
             'table_name' => 'categories',
@@ -90,7 +90,7 @@ class MyNameController extends Controller', File::get($filePath));
     {
         $filePath = base_path('app/Http/Controllers/Billing/CategoriesController.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:controller', [
             'table_name' => 'categories',
@@ -129,7 +129,7 @@ class CategoriesController extends Controller', File::get($filePath));
     {
         $filePath = base_path('app/Http/Controllers/Billing/CategoriesController.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:controller', [
             'table_name' => 'categories',

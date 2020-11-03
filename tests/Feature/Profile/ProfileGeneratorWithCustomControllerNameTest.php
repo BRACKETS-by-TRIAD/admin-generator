@@ -16,7 +16,7 @@ class ProfileGeneratorWithCustomControllerNameTest extends UserTestCase
         $filePathController = base_path('app/Http/Controllers/Admin/Auth/ProfileController.php');
         $filePathRoute = base_path('routes/web.php');
 
-        $this->assertFileNotExists($filePathController);
+        $this->assertFileDoesNotExist($filePathController);
 
         $this->artisan('admin:generate:admin-user:profile', [
             '--controller-name' => 'Auth\\ProfileController',
@@ -45,7 +45,7 @@ class ProfileController extends Controller
 
 /* Auto-generated admin routes */
 Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(static function () {
-    Route::prefix(\'admin\')->namespace(\'Admin\')->name(\'admin/\')->group(static function() {
+    Route::prefix(\'admin\')->namespace(\'App\Http\Controllers\Admin\')->name(\'admin/\')->group(static function() {
         Route::get(\'/profile\',                                      \'Auth\ProfileController@editProfile\')->name(\'edit-profile\');
         Route::post(\'/profile\',                                     \'Auth\ProfileController@updateProfile\')->name(\'update-profile\');
         Route::get(\'/password\',                                     \'Auth\ProfileController@editPassword\')->name(\'edit-password\');
@@ -60,7 +60,7 @@ Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\']
     {
         $filePath = base_path('app/Http/Controllers/Auth/ProfileController.php');
 
-        $this->assertFileNotExists($filePath);
+        $this->assertFileDoesNotExist($filePath);
 
         $this->artisan('admin:generate:admin-user:profile', [
             '--controller-name' => 'App\\Http\\Controllers\\Auth\\ProfileController',

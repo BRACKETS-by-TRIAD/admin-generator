@@ -22,12 +22,12 @@ class DefaultProfileGeneratorTest extends UserTestCase
         $indexJsPathPassword = resource_path('js/admin/profile-edit-password/index.js');
         $bootstrapJsPath = resource_path('js/admin/index.js');
 
-        $this->assertFileNotExists($filePathController);
-        $this->assertFileNotExists($editPathProfile);
-        $this->assertFileNotExists($formJsPathProfile);
-        $this->assertFileNotExists($editPathPassword);
-        $this->assertFileNotExists($formJsPathPassword);
-        $this->assertFileNotExists($indexJsPathPassword);
+        $this->assertFileDoesNotExist($filePathController);
+        $this->assertFileDoesNotExist($editPathProfile);
+        $this->assertFileDoesNotExist($formJsPathProfile);
+        $this->assertFileDoesNotExist($editPathPassword);
+        $this->assertFileDoesNotExist($formJsPathPassword);
+        $this->assertFileDoesNotExist($indexJsPathPassword);
 
         $this->artisan('admin:generate:admin-user:profile', [
         ]);
@@ -61,7 +61,7 @@ class ProfileController extends Controller
 
 /* Auto-generated admin routes */
 Route::middleware([\'auth:\' . config(\'admin-auth.defaults.guard\'), \'admin\'])->group(static function () {
-    Route::prefix(\'admin\')->namespace(\'Admin\')->name(\'admin/\')->group(static function() {
+    Route::prefix(\'admin\')->namespace(\'App\Http\Controllers\Admin\')->name(\'admin/\')->group(static function() {
         Route::get(\'/profile\',                                      \'ProfileController@editProfile\')->name(\'edit-profile\');
         Route::post(\'/profile\',                                     \'ProfileController@updateProfile\')->name(\'update-profile\');
         Route::get(\'/password\',                                     \'ProfileController@editPassword\')->name(\'edit-password\');
