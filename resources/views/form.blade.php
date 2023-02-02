@@ -93,7 +93,7 @@
     </div>
 </div>
 @elseif($col['type'] == 'json')<div class="row">
-    @@foreach($locales as $locale)
+    {{'@'}}foreach($locales as $locale)
         <div class="col-md" v-show="shouldShowLangGroup('@{{ $locale }}')" v-cloak>
             <div class="form-group row align-items-center" :class="{'has-danger': errors.has('{{ $col['name'] }}_@{{ $locale }}'), 'has-success': fields.{{ $col['name'] }}_@{{ $locale }} && fields.{{ $col['name'] }}_@{{ $locale }}.valid }">
                 <label for="{{ $col['name'] }}_@{{ $locale }}" class="col-md-2 col-form-label text-md-right">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</label>
@@ -106,7 +106,7 @@
                 </div>
             </div>
         </div>
-    @@endforeach
+    {{'@'}}endforeach
 </div>
 @elseif(!in_array($col['name'], ['published_at']))<div class="form-group row align-items-center" :class="{'has-danger': errors.has('{{ $col['name'] }}'), 'has-success': fields.{{ $col['name'] }} && fields.{{ $col['name'] }}.valid }">
     <label for="{{ $col['name'] }}" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{'{{'}} trans('admin.{{ $modelLangFormat }}.columns.{{ $col['name'] }}') }}</label>
